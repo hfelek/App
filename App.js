@@ -53,7 +53,7 @@ App = () => {
   return (
     <NavigationContainer >
       <Tab.Navigator screenOptions={({route}) => ({
-        tabBarIcon: ({color}) => screenOptions(route, "#00ffff")
+        tabBarIcon: ({color}) => screenOptions(route, color)
       })} initialRouteName ="Connection" >
         <Tab.Screen name="Connection" component={ConnectionScreen} options={styles.tabScreenOptions} />
         <Tab.Screen name="Device" component={DeviceScreen} options={styles.tabScreenOptions}  />
@@ -76,8 +76,18 @@ const styles =StyleSheet.create({
           fontWeight: 'normal',
         },
         headerTitleAlign: 'center',
-        tabBarInactiveTintColor: "yellow",
+        tabBarInactiveTintColor: "#cccccc",
         tabBarActiveTintColor: "#000000",
+        tabBarActiveBackgroundColor​: 'red',
+        // pressColor:'gray',
+        // // style : {
+        // //     backgroundColor:"d9f4ff" ,
+        // // }, 
+        // transitionSpec: {
+        //     open: config,
+        //     close: config,
+        //   },
+
       },
 })
 // function LogoTitle() {
@@ -88,3 +98,15 @@ const styles =StyleSheet.create({
 //       />
 //     );
 //   }<
+
+const config = {
+    animation: 'spring',
+    config: {
+      stiffness: 1000,
+      damping: 500,
+      mass: 3,
+      overshootClamping: true,
+      restDisplacementThreshold: 0.01,
+      restSpeedThreshold: 0.01,
+    },
+  };
