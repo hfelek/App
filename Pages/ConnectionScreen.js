@@ -24,6 +24,7 @@ ConnectionScreen = () =>{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
     // marginTop: StatusBar.currentHeight || 0,
     marginTop:  0,
   },
