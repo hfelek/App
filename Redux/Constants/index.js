@@ -1,0 +1,1 @@
+export const VALUE_CHANGE = 'VALUE_CHANGE'

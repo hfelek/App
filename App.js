@@ -18,6 +18,7 @@ import {
     Modal,
     TouchableHighlight, Platform, TextInput, FlatList,
 } from 'react-native';
+import ActionBarImage from './Src/EliarIconImage.js';
 // function DeviceScreen() {
 //   return (
 //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -27,7 +28,7 @@ import {
 // }
 
 //Screen Names and Logos Settings
-const screenOptions = (route, color) => {
+const screenOptions = ({route, color}) => {
   let iconName;
 
   switch (route.name) {
@@ -53,7 +54,7 @@ App = () => {
   return (
     <NavigationContainer >
       <Tab.Navigator screenOptions={({route}) => ({
-        tabBarIcon: ({color}) => screenOptions(route, color)
+        tabBarIcon: ({color}) => screenOptions({route, color})
       })} initialRouteName ="Connection" >
         <Tab.Screen name="Connection" component={ConnectionScreen} options={styles.tabScreenOptions} />
         <Tab.Screen name="Device" component={DeviceScreen} options={styles.tabScreenOptions}  />
@@ -70,15 +71,21 @@ const styles =StyleSheet.create({
     tabScreenOptions : {
         headerStyle: {
           backgroundColor: '#000000',
+          height: 50,
+          
         },
+        headerRight: (props) => <ActionBarImage {...props} />,
         headerTintColor: 'rgba(255,255,255,0.84)',
         headerTitleStyle: {
-          fontWeight: 'normal',
+        fontWeight: 'normal',
+
         },
         headerTitleAlign: 'center',
-        tabBarInactiveTintColor: "#cccccc",
-        tabBarActiveTintColor: "#000000",
-        tabBarActiveBackgroundColor​: 'red',
+        tabBarInactiveTintColor: "#777777",
+        tabBarActiveTintColor: "#000000", //Only Works for Ios
+        tabBarActiveBackgroundColor : '#d9f4ff',
+        backgroundColor:'#d9f4ff',
+
         // pressColor:'gray',
         // // style : {
         // //     backgroundColor:"d9f4ff" ,
