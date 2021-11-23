@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState,useEffect  } from 'react';
 import { SafeAreaView,TouchableOpacity, View, FlatList, StyleSheet, Text, StatusBar } from 'react-native';
 import axios from 'axios';
 
@@ -14,22 +14,27 @@ const LocalFixed = (a,num) => {
 }
 
 ConnectionScreen = () =>{
-  const [dummy,setDummy]= useState("no values yet")
-  
+  const [dummy,setDummy]= useState(0)
+  const IP = 'http://192.168.18.151/?getSensorValues'
   const Item = ({title}) => (
     <View style={styles.item}>
       <Text style= {styles.title}>{title[0]}</Text> 
       <Text style= {styles.title}>{LocalFixed(title[1],3)}</Text> 
     </View>
   );
+  const [time, setTime] = useState(Date.now());
 
-
-  
+  useEffect(() => {
+    const interval = setInterval(() => makeRequest(), 3000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   async function makeRequest() {
     try {
-      const response = await axios.get('http://192.168.18.151/?getSensorValues');
-      alert("You Got Response");
+      const response = await axios.get(IP);
+      //alert("You Got Response");
       setDummy( response.data)
 
     } catch (error) {
@@ -37,19 +42,18 @@ ConnectionScreen = () =>{
     }
   }
 
-
-
   const renderItem = ({item}) => (
     <Item title = {item}/>
   );
+
     return (
       <SafeAreaView style={styles.container}>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.button}
         onPress={makeRequest}
       >
         <Text>Press Here</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
         <FlatList
           data={Object.entries(dummy)}
           renderItem={renderItem}
