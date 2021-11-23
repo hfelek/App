@@ -3,13 +3,23 @@ import { useState } from 'react';
 import { SafeAreaView,TouchableOpacity, View, FlatList, StyleSheet, Text, StatusBar } from 'react-native';
 import axios from 'axios';
 
+const LocalFixed = (a,num) => {
+  try{
+    return a.toFixed(num)
+  }
+  catch(error){
+    return a
+  }
+
+}
 
 ConnectionScreen = () =>{
   const [dummy,setDummy]= useState("no values yet")
   
   const Item = ({title}) => (
     <View style={styles.item}>
-      <Text style= {styles.title}>{title[0]+ "            "  +(title[1]).toFixed(3)} </Text> 
+      <Text style= {styles.title}>{title[0]}</Text> 
+      <Text style= {styles.title}>{LocalFixed(title[1],3)}</Text> 
     </View>
   );
 
@@ -56,9 +66,11 @@ const styles = StyleSheet.create({
     marginTop:  0,
   },
   item: {
+    flexDirection:"row",
     backgroundColor: '#ffffff',
     padding: 20,
-    marginVertical: 8,
+    justifyContent:"space-between",
+    marginVertical: 1,
     marginHorizontal: 16,
   },
   title: {
