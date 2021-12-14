@@ -1,0 +1,45 @@
+[
+    {
+        "Tag": "Identification"
+
+    },
+    {
+        "Tag": "Diagnostics"
+
+    },
+    {
+        "Tag": "Measured Values"
+
+    },
+    {
+        "Tag": "System Units"
+
+    },
+    {
+        "Tag": "Conductivity"
+
+    },
+    {
+        "Tag": "Concentration"
+
+    },
+    {
+        "Tag": "Output1"
+
+    },
+    {
+        "Tag": "Output2"
+
+    },
+    {
+        "Tag": "Display"
+
+    },
+    {
+        "Tag": "Communication"
+    },
+    {
+        "Tag": "System"
+
+    }
+]

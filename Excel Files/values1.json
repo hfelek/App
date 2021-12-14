@@ -1,0 +1,1002 @@
+[
+    {
+        "Tag": "Identification",
+        "Designation": "Application Tag",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Identification",
+        "Designation": "Device Name",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Identification",
+        "Designation": "Device ID1",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Identification",
+        "Designation": "Device ID2",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Identification",
+        "Designation": "Device ID3",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Identification",
+        "Designation": "Vendor Name",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Identification",
+        "Designation": "Vendor ID1",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Identification",
+        "Designation": "Vendor ID2",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Identification",
+        "Designation": "Device Serial No.",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Identification",
+        "Designation": "Hardware Version",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Identification",
+        "Designation": "Firmware Version",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Identification",
+        "Designation": "Order Code\ne.g.ICT200-DOW-M6",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Identification",
+        "Designation": "Device Type",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Identification",
+        "Designation": "User Role",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Diagnostics",
+        "Designation": "Actual Diagnostics\ne.g. C485 (= SIMULATION ACT.)",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Diagnostics",
+        "Designation": "Last Diagnostics\ne.g. S962 (= OUT OF RANGE)",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Diagnostics",
+        "Designation": "Simulation Proc. Var.",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Diagnostics",
+        "Designation": "Sim.Proc.Var.Value Conductivity Unit selection list from Unit Conductivity",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Diagnostics",
+        "Designation": "Sim.Proc.Var.Value Concentration Unit selection list from Unit Concentration",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Diagnostics",
+        "Designation": "Sim.Proc.Var.Value Temperature Unit selection list from Unit Temperature",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Measured Values",
+        "Designation": "Conductivity\nCurrent conductivity measured value",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Measured Values",
+        "Designation": "Concentration\nCurrent concentration measured value",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Measured Values",
+        "Designation": "Temperature\nCurrent temperature measured value",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "System Units",
+        "Designation": "Unit Conductivity",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "System Units",
+        "Designation": "Unit Concentration",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "System Units",
+        "Designation": "Unit Concentration",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "System Units",
+        "Designation": "Unit Concentration",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "System Units",
+        "Designation": "Unit Temperature",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Range",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Temperature Compensation",
+        "Mobile Application": "Null",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Temperature Compensation",
+        "Mobile Application": "Null",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Temperature Compensation",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Temperature Compensation",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Temperature Coefficient",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Temperature Coefficient",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Temperature Coefficient",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Temperature Coefficient",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Temperature Coefficient",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Temperature Coefficient",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Temperature Coefficient",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Temperature Coefficient",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Temperature Coefficient",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Temperature Coefficient",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Temperature Coefficient",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Temperature Coefficient",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Reference Temperature",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Reference Temperature",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Cell Constant",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Mounting Factor",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Zero Point",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Zero Point",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Zero Point",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Zero Point",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Zero Point",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Zero Point",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Conductivity",
+        "Designation": "Filter Count Constant",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Concentration",
+        "Designation": "Measurement Type",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Concentration",
+        "Designation": "Measurement Range",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Concentration",
+        "Designation": "Measurement Range",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Concentration",
+        "Designation": "Measurement Range",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Concentration",
+        "Designation": "Measurement Range",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Concentration",
+        "Designation": "Measurement Range",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Concentration",
+        "Designation": "Measurement Range",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Concentration",
+        "Designation": "Measurement Range",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Concentration",
+        "Designation": "Measurement Range",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Concentration",
+        "Designation": "Measurement Range",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Concentration",
+        "Designation": "Measurement Range",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Concentration",
+        "Designation": "Measurement Range",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Concentration",
+        "Designation": "Measurement Range",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "Output Type",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "Current Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "Current Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "Current Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "Current Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "Current Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "Current Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "Current Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "Switch Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "Switch Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "Switch Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "Switch Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "Switch Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "Switch Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "Switch Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "Switch Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 1",
+        "Designation": "IO-Link",
+        "Mobile Application": "Null",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Output Type",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Current Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Current Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Current Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Current Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Current Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Current Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Current Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Switch Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Switch Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Switch Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Switch Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Switch Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Switch Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Switch Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Switch Output",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Digital Input",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Digital Input",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Digital Input",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Output 2",
+        "Designation": "Digital Input",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Display",
+        "Designation": "Backlight",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Communication",
+        "Designation": "Communication Type",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Communication",
+        "Designation": "Bluetooth",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Communication",
+        "Designation": "Bluetooth",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Communication",
+        "Designation": "Bluetooth",
+        "Mobile Application": "r",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Communication",
+        "Designation": "WiFi",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Communication",
+        "Designation": "WiFi",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Communication",
+        "Designation": "WiFi",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Communication",
+        "Designation": "WiFi",
+        "Mobile Application": "w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Communication",
+        "Designation": "WiFi",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Communication",
+        "Designation": "WiFi",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Communication",
+        "Designation": "WiFi",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "Communication",
+        "Designation": "WiFi",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "System",
+        "Designation": "Language",
+        "Mobile Application": "r/w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "System",
+        "Designation": "Set Access Code",
+        "Mobile Application": "w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "System",
+        "Designation": "Access Code",
+        "Mobile Application": "w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "System",
+        "Designation": "Auto-Calibrate",
+        "Mobile Application": "w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "System",
+        "Designation": "Device reset",
+        "Mobile Application": "w",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    },
+    {
+        "Tag": "System",
+        "Designation": "User Role ?",
+        "Mobile Application": "Null",
+        "Show": true,
+        "SettingsScreen": null,
+        "Values": null
+    }
+]
