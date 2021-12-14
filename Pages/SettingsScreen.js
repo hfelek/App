@@ -15,8 +15,7 @@ import Paramsfiltered from '../Pages/Objects/Paramsfiltered.json';
 const uniqueTags = [...new Set(ICTParams.map(item => item.Tag))];
 const a = Object.assign({}, uniqueTags);
 
-
-var filtered = Paramsfiltered.filter(row=>row.Tag=="Identification");
+var filtered = Paramsfiltered.filter(row => row.Tag == 'Identification');
 
 const demoConnection = [
   {title: 'Prop1', id: 'id1'},
@@ -31,53 +30,51 @@ const demoConnection = [
 // }
 // console.log(returnVal("Identification"));
 const Item = ({title}) => (
-
   <View style={styles.item}>
-    <Icon name= {Paramsfiltered.find(row=>row["Tag"] == title).Icon} size={20} color="#000" />
- 
-    <Text style={styles.title}>{"   " + title}</Text>
+    <Icon
+      name={Paramsfiltered.find(row => row['Tag'] == title).Icon}
+      size={20}
+      color="#000"
+    />
 
+    <Text style={styles.title}>{'   ' + title}</Text>
   </View>
 );
 
 SettingsScreen = () => {
-  Paramsfiltered.T
-  console.log(JSON.stringify(a,null,4))
-  const renderItem = ({ item }) => (
-    <Item title={item.Tag} />
-  );
+  Paramsfiltered.T;
+  console.log(JSON.stringify(a, null, 4));
+  const renderItem = ({item}) => <Item title={item.Tag} />;
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={Paramsfiltered}
         renderItem={renderItem}
-        keyExtractor={item =>item.Tag}
+        keyExtractor={item => item.Tag}
       />
     </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    width: '100%',
-    padding: 0,
+    flex: 1, // 
+    // width: '110%',
+    // padding: 0,
     // marginTop: StatusBar.currentHeight || 0,
-    paddingTop: 0,
+    // paddingTop: 0,
   },
   item: {
     backgroundColor: '#FFFFFF',
-    padding: 16,
+    padding: 12,
     marginVertical: 0,
-    marginHorizontal: 16,
+    marginHorizontal: 0,
     flexDirection: 'row',
-    borderColor: '#FFF',
-    borderWidth: 1
-    
+    borderBottomColor:'black',
+    borderBottomWidth:StyleSheet.hairlineWidth
   },
   title: {
     fontSize: 15,
     color: 'black',
-    
   },
 });
 
