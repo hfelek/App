@@ -8,6 +8,7 @@ import {
   StatusBar,
   Settings,
   VirtualizedList,
+  TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ICTParams from '../Pages/Objects/ICTParams.json';
@@ -30,16 +31,23 @@ const demoConnection = [
 // }
 // console.log(returnVal("Identification"));
 const Item = ({title}) => (
-  <View style={styles.item}>
+
+  // <View style={styles.item}>
+  <TouchableOpacity style={styles.button} onPress={onPressSettingPage(title)}>   
     <Icon
       name={Paramsfiltered.find(row => row['Tag'] == title).Icon}
       size={20}
       color="#000"
     />
 
-    <Text style={styles.title}>{'   ' + title}</Text>
-  </View>
+    <Text style={styles.title}>{"     " + title}</Text>
+  </TouchableOpacity>
+  //  </View>
+ 
+  
 );
+
+<Text>Press Here</Text>
 
 SettingsScreen = () => {
   Paramsfiltered.T;
@@ -56,21 +64,33 @@ SettingsScreen = () => {
   );
 };
 const styles = StyleSheet.create({
+  button: {
+    backgroundColor: "#ffffff",
+    padding: 0,
+    marginVertical:0,
+    flexDirection: 'row',
+    borderBottomColor:'black',
+    borderBottomWidth:StyleSheet.hairlineWidth,
+    padding: 12,
+    marginHorizontal: 0,
+
+  },
   container: {
-    flex: 1, // 
-    // width: '110%',
-    // padding: 0,
+    flex: 1,
+    justifyContent: "center", // 
+    padding: 0,
     // marginTop: StatusBar.currentHeight || 0,
-    // paddingTop: 0,
+    paddingTop: 0,
   },
   item: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#ffffff',
     padding: 12,
     marginVertical: 0,
     marginHorizontal: 0,
     flexDirection: 'row',
     borderBottomColor:'black',
-    borderBottomWidth:StyleSheet.hairlineWidth
+    borderBottomWidth:StyleSheet.hairlineWidth,
+    justifyContent:'center'
   },
   title: {
     fontSize: 15,
