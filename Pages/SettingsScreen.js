@@ -9,11 +9,14 @@ import {
   Settings,
   VirtualizedList,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import ICTParams from '../Pages/Objects/ICTParams.json';
 import Paramsfiltered from '../Pages/Objects/Paramsfiltered.json';
 const uniqueTags = [...new Set(ICTParams.map(item => item.Tag))];
 const a = Object.assign({}, uniqueTags);
 
+
+var filtered = Paramsfiltered.filter(row=>row.Tag=="Identification");
 
 const demoConnection = [
   {title: 'Prop1', id: 'id1'},
@@ -22,16 +25,23 @@ const demoConnection = [
   {title: 'Prop4', id: 'id4'},
 ];
 
+// function returnVal ({abc}) {
+//   var filtered = Paramsfiltered.filter(row=>row.Tag ==abc["Tag"]);
+//   return filtered;
+// }
+// console.log(returnVal("Identification"));
 const Item = ({title}) => (
+
   <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
+    <Icon name= {Paramsfiltered.find(row=>row["Tag"] == title).Icon} size={20} color="#000" />
+ 
+    <Text style={styles.title}>{"   " + title}</Text>
+
   </View>
 );
 
-
-
-
 SettingsScreen = () => {
+  Paramsfiltered.T
   console.log(JSON.stringify(a,null,4))
   const renderItem = ({ item }) => (
     <Item title={item.Tag} />
@@ -50,19 +60,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    padding: 1,
+    padding: 0,
     // marginTop: StatusBar.currentHeight || 0,
     paddingTop: 0,
   },
   item: {
     backgroundColor: '#FFFFFF',
     padding: 16,
-    marginVertical: 8,
+    marginVertical: 0,
     marginHorizontal: 16,
+    flexDirection: 'row',
+    borderColor: '#FFF',
+    borderWidth: 1
+    
   },
   title: {
-    fontSize: 12,
+    fontSize: 15,
     color: 'black',
+    
   },
 });
 

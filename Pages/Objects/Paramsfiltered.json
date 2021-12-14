@@ -1,45 +1,47 @@
 [
     {
-        "Tag": "Identification"
+        "Tag": "Identification",
+        "Icon": "create-outline"
 
     },
     {
-        "Tag": "Diagnostics"
-
+        "Tag": "Diagnostics",
+		"Icon": "md-pulse-outline"  
     },
     {
-        "Tag": "Measured Values"
-
+        "Tag": "Measured Values",
+		"Icon": "md-information"
     },
     {
-        "Tag": "System Units"
-
+        "Tag": "System Units",
+		"Icon": "md-grid-outline"
     },
     {
-        "Tag": "Conductivity"
-
+        "Tag": "Conductivity",
+		"Icon": "md-git-network-outline"
     },
     {
-        "Tag": "Concentration"
-
+        "Tag": "Concentration",
+		"Icon": "md-flask"
     },
     {
-        "Tag": "Output1"
-
+        "Tag": "Output1",
+		"Icon": "md-play-outline"
     },
     {
-        "Tag": "Output2"
-
+        "Tag": "Output2",
+		"Icon": "md-play-forward-outline"
     },
     {
-        "Tag": "Display"
-
+        "Tag": "Display",
+		"Icon": "md-easel-outline"
     },
     {
-        "Tag": "Communication"
+        "Tag": "Communication",
+		"Icon": "md-radio"
     },
     {
-        "Tag": "System"
-
+        "Tag": "System",
+		"Icon": "md-hammer-sharp"
     }
 ]
