@@ -4,7 +4,8 @@
         "Icon": "create-outline",
         "menu": [
             {
-                "Tag": "Apllication Tag"
+                "Tag": "Apllication Tag",
+                "Access": "R/W"
             },
             {
                 "Tag": "Device Name"
