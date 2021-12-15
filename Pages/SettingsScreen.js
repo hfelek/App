@@ -72,8 +72,7 @@ SettingsScreen = ({ navigation }) => {
     </SafeAreaView>)
   const renderItem = ({ item }) => { 
   
-    return(  // <View style={styles.item}>
-    // onPress={onPressSettingPage(title)
+    return( 
   
     <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(item.Tag, { msg: "I came From Screen1" })}  >
       <Icon
@@ -95,7 +94,7 @@ SettingsScreen = ({ navigation }) => {
 
   return (
     // <NavigationContainer>
-    <StackSettings.Navigator initialRouteName="SettingsMainScreen" screenOptions={{ headerShown: true }}>
+    <StackSettings.Navigator initialRouteName="SettingsMainScreen" screenOptions={{headerShown:false},{paddingTop:0}}>
       <StackSettings.Screen name='SettingsMain' component={SettingsMainScreen} />
       <StackSettings.Screen name='Identification' component={IdentificationScreen} />
       <StackSettings.Screen name='Diagnostics' component={DiagnosticsScreen} />
@@ -120,6 +119,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomColor: 'black',
     borderBottomWidth: StyleSheet.hairlineWidth,
+    // borderBottomEndRadius:-5,
     padding: 12,
     marginHorizontal: 0,
 
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   },
   item: {
     backgroundColor: '#ffffff',
-    padding: 12,
+    padding: 0,
     marginVertical: 0,
     marginHorizontal: 0,
     flexDirection: 'row',

@@ -7,28 +7,22 @@ import DeviceScreen from './Pages/DeviceScreen.js';
 import SettingsScreen from './Pages/SettingsScreen.js';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {
-    Text,
-    View,
-    StyleSheet,
-    SafeAreaView,
-    Button,
-    ScrollView,
-    Alert,
-    ActivityIndicator,
-    Modal,
-    TouchableHighlight, Platform, TextInput, FlatList,
+  Text,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  Button,
+  ScrollView,
+  Alert,
+  ActivityIndicator,
+  Modal,
+  TouchableHighlight, Platform, TextInput, FlatList, StatusBar,
 } from 'react-native';
 import ActionBarImage from './Src/EliarIconImage.js';
-// function DeviceScreen() {
-//   return (
-//     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//       <Text>Device!</Text>
-//     </View>
-//   );
-// }
+
 
 //Screen Names and Logos Settings
-const screenOptions = ({route, color}) => {
+const screenOptions = ({ route, color }) => {
   let iconName;
 
   switch (route.name) {
@@ -52,19 +46,19 @@ const Tab = createBottomTabNavigator();
 
 App = () => {
   return (
+
     <NavigationContainer >
-        {/* <Tab.Navigator screenOptions={({route}) => ({
+      {/* <Tab.Navigator screenOptions={({route}) => ({
         tabBarIcon: ({color}) => screenOptions({route, color})  */}
 
 
 
-      
-      <Tab.Navigator screenOptions={  ({route}) => ({
-        tabBarIcon: ({color}) => screenOptions({route, color})
-      })} initialRouteName ="Connection" >
+      <Tab.Navigator screenOptions={ ({ route }) => ({
+        tabBarIcon: ({ color }) => screenOptions({ route, color })
+      })} initialRouteName="Connection" >
         <Tab.Screen name="Connection" component={ConnectionScreen} options={styles.tabScreenOptions} />
-        <Tab.Screen name="Device" component={DeviceScreen} options={styles.tabScreenOptions}  />
-        <Tab.Screen name="Settings" component={SettingsScreen} options={styles.tabScreenOptions}  />
+        <Tab.Screen name="Device" component={DeviceScreen} options={styles.tabScreenOptions} />
+        <Tab.Screen name="Settings" component={SettingsScreen} options={styles.tabScreenOptions} />
 
       </Tab.Navigator>
     </NavigationContainer>
@@ -73,53 +67,36 @@ App = () => {
 export default App;
 
 /////Tab Header Settings 
-const styles =StyleSheet.create({
-    tabScreenOptions : {
-        headerStyle: {
-          backgroundColor: '#000000',
-          height: 50,
-          
-        },
-        headerRight: (props) => <ActionBarImage {...props} />,
-        headerTintColor: 'rgba(255,255,255,0.84)',
-        headerTitleStyle: {
-        fontWeight: 'normal',
+const styles = StyleSheet.create({
+  tabScreenOptions: {
+    headerStyle: {
+      backgroundColor: '#000000',
+      height: 50,
 
-        },
-        headerTitleAlign: 'center',
-        tabBarInactiveTintColor: "#777777",
-        tabBarActiveTintColor: "#000000", //Only Works for Ios
-        tabBarActiveBackgroundColor : '#d9f4ff',
-        backgroundColor:'#d9f4ff',
+    },
+    headerRight: (props) => <ActionBarImage {...props} />,
+    headerTintColor: 'rgba(255,255,255,0.84)',
+    headerTitleStyle: {
+      fontWeight: 'normal',
 
-        // pressColor:'gray',
-        // // style : {
-        // //     backgroundColor:"d9f4ff" ,
-        // // }, 
-        // transitionSpec: {
-        //     open: config,
-        //     close: config,
-        //   },
+    },
+    headerTitleAlign: 'center',
+    tabBarInactiveTintColor: "#777777",
+    tabBarActiveTintColor: "#000000", //Only Works for Ios
+    tabBarActiveBackgroundColor: '#d9f4ff',
+    backgroundColor: '#d9f4ff',
 
-      },
+  },
 })
-// function LogoTitle() {
-//     return (
-//       <Image
-//         style={{ width: 50, height: 50 }}
-//         source={require('./Media/eliar.png')}
-//       />
-//     );
-//   }<
 
 const config = {
-    animation: 'spring',
-    config: {
-      stiffness: 1000,
-      damping: 500,
-      mass: 3,
-      overshootClamping: true,
-      restDisplacementThreshold: 0.01,
-      restSpeedThreshold: 0.01,
-    },
-  };
+  animation: 'spring',
+  config: {
+    stiffness: 1000,
+    damping: 500,
+    mass: 3,
+    overshootClamping: true,
+    restDisplacementThreshold: 0.01,
+    restSpeedThreshold: 0.01,
+  },
+};
