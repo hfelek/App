@@ -53,7 +53,13 @@ const Tab = createBottomTabNavigator();
 App = () => {
   return (
     <NavigationContainer >
-      <Tab.Navigator screenOptions={({route}) => ({
+        {/* <Tab.Navigator screenOptions={({route}) => ({
+        tabBarIcon: ({color}) => screenOptions({route, color})  */}
+
+
+
+      
+      <Tab.Navigator screenOptions={  ({route}) => ({
         tabBarIcon: ({color}) => screenOptions({route, color})
       })} initialRouteName ="Connection" >
         <Tab.Screen name="Connection" component={ConnectionScreen} options={styles.tabScreenOptions} />
