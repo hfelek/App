@@ -4,44 +4,70 @@
         "Icon": "create-outline",
         "menu": [
             {
-                "Tag": "Apllication Tag",
-                "Access": "R/W"
+                "Tag": "Application Tag",
+                "Access": "R/W",
+                "Value": "EliarBLE"
             },
             {
-                "Tag": "Device Name"
+                "Tag": "Device Name",
+                "Access": "R",
+                "Value": "10"
             },
             {
-                "Tag": "Device ID1"
+                "Tag": "Device ID1",
+                "Access": "R",
+                "Value": "10"
+                
             },
             {
-                "Tag": "DeviceID2"
+                "Tag": "Device ID2",
+                "Access": "R",
+                "Value": "10"
             },
             {
-                "Tag": "Device3"
+                "Tag": "Device ID3",
+                "Access": "R",
+                "Value": "10"
             },
             {
-                "Tag": "Vendor Name"
+                "Tag": "Vendor Name",
+                "Access": "R",
+                "Value": "10"
             },
             {
-                "Tag": "Vendor ID1"
+                "Tag": "Vendor ID1",
+                "Access": "R",
+                "Value": "10"
             },
             {
-                "Tag": "Device Serial No"
+                "Tag": "Device Serial No",
+                "Access": "R",
+                "Value": "10"
             },
             {
-                "Tag": "Hardware Version"
+                "Tag": "Hardware Version",
+                "Access": "R",
+                "Value": "10"
             },
             {
-                "Tag": "Firmware Version"
+                "Tag": "Firmware Version",
+                "Access": "R",
+                "Value": "10"
             },
             {
-                "Tag": "Order Code"
+                "Tag": "Order Code",
+                "Access": "R",
+                "Value": "10"
             },
             {
-                "Tag": "Device Type"
+                "Tag": "Device Type",
+                "Access": "R",
+                "Value": "10"
             },
             {
-                "Tag": "User Role"
+                "Tag": "User Role",
+                "Access": "R",
+                "Value": "10"
             }
         ]
     },
