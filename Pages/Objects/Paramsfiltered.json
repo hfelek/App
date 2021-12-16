@@ -76,57 +76,128 @@
         "Icon": "md-pulse-outline",
         "menu": [
             {
-                "Tag": "Apllication Tag"
+                "Tag": "Actual Diagnostics",
+                "Access": "R",
+                "Value": "EliarBLE"
             },
             {
-                "Tag": "Device Name"
+                "Tag": "Last Diagnostics",
+                "Access": "R",
+                "Value": "10"
             },
             {
-                "Tag": "Device ID1"
+                "Tag": "Simulation Process Variable",
+                "Access": "R",
+                "Value": "10"
+                
             },
             {
-                "Tag": "DeviceID2"
+                "Tag": "Simulation Process Variable Value Conducticity",
+                "Access": "R",
+                "Value": "10"
             },
             {
-                "Tag": "Device3"
+                "Tag": "Simulation Process Variable Value Concentration",
+                "Access": "R",
+                "Value": "10"
             },
             {
-                "Tag": "Vendor Name"
-            },
-            {
-                "Tag": "Vendor ID1"
-            },
-            {
-                "Tag": "Device Serial No"
-            },
-            {
-                "Tag": "Hardware Version"
-            },
-            {
-                "Tag": "Firmware Version"
-            },
-            {
-                "Tag": "Order Code"
-            },
-            {
-                "Tag": "Device Type"
-            },
-            {
-                "Tag": "User Role"
+                "Tag": "Simulation Process Variable Value Temperature",
+                "Access": "R",
+                "Value": "10"
             }
         ]
     },
     {
         "Tag": "Measured Values",
-        "Icon": "md-information"
+        "Icon": "md-information",
+        "menu": [
+            {
+                "Tag": "Conductivity",
+                "Access": "R",
+                "Value": "EliarBLE"
+            },
+            {
+                "Tag": "Concentration",
+                "Access": "R",
+                "Value": "10"
+            },
+            {
+                "Tag": "Temperature",
+                "Access": "R",
+                "Value": "10"
+                
+            }
+        ]
     },
     {
         "Tag": "System Units",
-        "Icon": "md-grid-outline"
+        "Icon": "md-grid-outline",
+        "menu": [
+            {
+                "Tag": "Unit Conductivity",
+                "Access": "R",
+                "Value": "EliarBLE"
+            },
+            {
+                "Tag": "Unit Concentration",
+                "Access": "R",
+                "Value": "10"
+            },
+            {
+                "Tag": "Unit Temperature",
+                "Access": "R",
+                "Value": "10"
+                
+            }
+        ]
     },
     {
         "Tag": "Conductivity",
-        "Icon": "md-git-network-outline"
+        "Icon": "md-git-network-outline",
+        "menu": [
+            {
+                "Tag": "Range",
+                "Access": "R",
+                "Value": "EliarBLE"
+            },
+            {
+                "Tag": "Tempererature Compensation",
+                "Access": "R",
+                "Value": "10"
+            },
+            {
+                "Tag": "Temperature Coefficient",
+                "Access": "R",
+                "Value": "10"
+                
+            },
+            {
+                "Tag": "Reference Temperature",
+                "Access": "R",
+                "Value": "10"
+            },
+            {
+                "Tag": "Cell Constant",
+                "Access": "R",
+                "Value": "10"
+            },
+            {
+                "Tag": "Mounting Error",
+                "Access": "R",
+                "Value": "10"
+            },
+            {
+                "Tag": "Zero Point",
+                "Access": "R",
+                "Value": "10"
+            },
+            {
+                "Tag": "Filter Count Constan",
+                "Access": "R",
+                "Value": "10"
+            }
+        ]
     },
     {
         "Tag": "Concentration",
