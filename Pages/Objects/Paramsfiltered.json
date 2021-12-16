@@ -201,26 +201,143 @@
     },
     {
         "Tag": "Concentration",
-        "Icon": "md-flask"
+        "Icon": "md-flask",
+        "menu": [
+            {
+                "Tag": "Measurement Type",
+                "Access": "R",
+                "Value": "EliarBLE"
+            },
+            {
+                "Tag": "Measurement Range",
+                "Access": "R",
+                "Value": "10"
+            }
+        ]
     },
     {
         "Tag": "Output1",
-        "Icon": "md-play-outline"
+        "Icon": "md-play-outline",
+        "menu": [
+            {
+                "Tag": "Output Type",
+                "Access": "R",
+                "Value": "EliarBLE"
+            },
+            {
+                "Tag": "Current Output",
+                "Access": "R",
+                "Value": "10"
+            },
+            {
+                "Tag": "Switch Output",
+                "Access": "R",
+                "Value": "10"
+                
+            },
+            {
+                "Tag": "IO-Link",
+                "Access": "R",
+                "Value": "10"
+            }
+        ]
     },
     {
         "Tag": "Output2",
-        "Icon": "md-play-forward-outline"
+        "Icon": "md-play-forward-outline",
+        "menu": [
+            {
+                "Tag": "Output Type",
+                "Access": "R",
+                "Value": "EliarBLE"
+            },
+            {
+                "Tag": "Current Output",
+                "Access": "R",
+                "Value": "10"
+            },
+            {
+                "Tag": "Switch Output",
+                "Access": "R",
+                "Value": "10"
+                
+            },
+            {
+                "Tag": "Digital Input",
+                "Access": "R",
+                "Value": "10"
+            }
+        ]
     },
     {
         "Tag": "Display",
-        "Icon": "md-easel-outline"
+        "Icon": "md-easel-outline",
+        "menu": [
+            {
+                "Tag": "Backlight",
+                "Access": "R",
+                "Value": "EliarBLE"
+            }
+        ]
     },
     {
         "Tag": "Communication",
-        "Icon": "md-radio"
+        "Icon": "md-radio",
+        "menu": [
+            {
+                "Tag": "Communication Type",
+                "Access": "R",
+                "Value": "EliarBLE"
+            },
+            {
+                "Tag": "Bluetooth",
+                "Access": "R",
+                "Value": "10"
+            },
+            {
+                "Tag": "WiFi",
+                "Access": "R",
+                "Value": "10"
+                
+            }
+        ]
+        
     },
     {
         "Tag": "System",
-        "Icon": "md-hammer-sharp"
+        "Icon": "md-hammer-sharp",
+        "menu": [
+            {
+                "Tag": "Language",
+                "Access": "R",
+                "Value": "EliarBLE"
+            },
+            {
+                "Tag": "Set Access Code",
+                "Access": "R",
+                "Value": "10"
+            },
+            {
+                "Tag": "Access Code",
+                "Access": "R",
+                "Value": "10"
+                
+            },
+            {
+                "Tag": "Auto-Calibrate",
+                "Access": "R",
+                "Value": "10"
+            },
+            {
+                "Tag": "Device Reset",
+                "Access": "R",
+                "Value": "10"
+            },
+            {
+                "Tag": "User Role",
+                "Access": "R",
+                "Value": "10"
+            }
+        ]
     }
 ]
