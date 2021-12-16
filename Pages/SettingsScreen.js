@@ -16,7 +16,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import ICTParams from '../Pages/Objects/ICTParams.json';
 import Paramsfiltered from '../Pages/Objects/Paramsfiltered.json';
 import onPressSettings from './Objects/SettingsPage/OnPressSettingsPage'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackRouter } from 'react-navigation';
 import { useNavigation } from '@react-navigation/native';
@@ -59,7 +58,7 @@ const demoConnection = [
   { title: 'Prop4', id: 'id4' },
 ];
 
-SettingsScreen = ({ navigation }) => {
+SettingsScreen = ({ navigation,route }) => {
   const SettingsMainScreen = ({ navigation }) => (
 
     <SafeAreaView style={styles.container}>
@@ -94,7 +93,7 @@ SettingsScreen = ({ navigation }) => {
 
   return (
     // <NavigationContainer>
-    <StackSettings.Navigator initialRouteName="SettingsMainScreen" screenOptions={{headerShown:false},{paddingTop:0}}>
+    <StackSettings.Navigator initialRouteName="SettingsMain" screenOptions={{headerShown:false}}>
       <StackSettings.Screen name='SettingsMain' component={SettingsMainScreen} />
       <StackSettings.Screen name='Identification' component={IdentificationScreen} />
       <StackSettings.Screen name='Diagnostics' component={DiagnosticsScreen} />
