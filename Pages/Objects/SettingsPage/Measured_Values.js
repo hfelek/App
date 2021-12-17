@@ -4,7 +4,6 @@ import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
 import Values from '../Paramsfiltered.json';
-import store from '../store';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
 
@@ -43,13 +42,12 @@ const MeasuredValuesScreen = ({ route, navigation }) => {
 
 
 
-  console.log(JSON.stringify(MeasuredValuesParams));
-  console.log(JSON.stringify(MenuParams))
+  // console.log(JSON.stringify(MeasuredValuesParams));
+  // console.log(JSON.stringify(MenuParams));
 
   const MeasuredValuesMainScreen = ({ navigation }) => (
 
     <SafeAreaView style={styles.container}>
-      <Text></Text>
       <FlatList
         data={MenuParams}
         renderItem={renderItem}
@@ -59,14 +57,9 @@ const MeasuredValuesScreen = ({ route, navigation }) => {
   )
 
   const ConductivityScreen = () => {
-    console.log(Values);
-    console.log("Values")
+
     filtered = Values.filter(row => row.Tag == 'Measured Values Main');
-    console.log(filtered);
-    console.log("filtered")
-    console.log(filtered[0].menu)
     filteredAT = filtered[0].menu.filter(row => row.Tag == 'Conductivity');
-    console.log(filteredAT[0].Value);
     const [text, setText] = React.useState(filteredAT[0].Value);
    
     return (
@@ -86,7 +79,7 @@ const MeasuredValuesScreen = ({ route, navigation }) => {
         <LenghtChecker lenght={32} />
 
                 <Button
-          onPress={() => {console.log(typeof(store) + typeof(text))}}
+          onPress={() => {console.log( typeof(text))}}
           title="Learn More"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
@@ -96,9 +89,6 @@ const MeasuredValuesScreen = ({ route, navigation }) => {
       </View>
     );
   };
-  console.log("Buraya")
-  console.log(store[0].Tag)
-  console.log("Buraya")
   const renderItem = ({ item }) => (
     Item(item.Tag, item.Value)
   );

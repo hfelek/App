@@ -88,7 +88,8 @@
             {
                 "Tag": "Simulation Process Variable",
                 "Access": "R",
-                "Value": "10"
+                "Value": "Enabled",
+                "Assignable Values": ["Enabled","Disabled"]
                 
             },
             {
