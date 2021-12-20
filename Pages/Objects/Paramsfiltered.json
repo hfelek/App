@@ -17,7 +17,6 @@
                 "Tag": "Device ID1",
                 "Access": "R",
                 "Value": "10"
-                
             },
             {
                 "Tag": "Device ID2",
@@ -89,8 +88,10 @@
                 "Tag": "Simulation Process Variable",
                 "Access": "R",
                 "Value": "Enabled",
-                "Assignable Values": ["Enabled","Disabled"]
-                
+                "Assignable Values": [
+                    "Enabled",
+                    "Disabled"
+                ]
             },
             {
                 "Tag": "Simulation Process Variable Value Conducticity",
@@ -127,7 +128,6 @@
                 "Tag": "Temperature",
                 "Access": "R",
                 "Value": "10"
-                
             }
         ]
     },
@@ -138,18 +138,62 @@
             {
                 "Tag": "Unit Conductivity",
                 "Access": "R",
-                "Value": "EliarBLE"
+                "Value": "μS/cm",
+                "PossibleValues": [
+                    {
+                        "Tag": "μS/cm"
+                    },
+                    {
+                        "Tag": "mS/cm"
+                    },
+                    {
+                        "Tag": " S/m"
+                    }
+                ]
             },
             {
                 "Tag": "Unit Concentration",
                 "Access": "R",
-                "Value": "10"
+                "Value": "NaCl",
+                "PossibleValues": [
+                    {
+                        "Tag": "NaCl"
+                    },
+                    {
+                        "Tag": "NaOH"
+                    },
+                    {
+                        "Tag": "Na2SO4"
+                    }
+                ],
+                "SubSelectedValue": "g/kg",
+                "NaCl": [
+                    "g/kg",
+                    "wt%=1",
+                    "Baume=2"
+                ],
+                "NaOH": [
+                    "g/kg",
+                    "wt%=1",
+                    "Baume=2"
+                ],
+                "Na2SO4": [
+                    "g/kg",
+                    "wt%=1"
+                ]
             },
             {
                 "Tag": "Unit Temperature",
                 "Access": "R",
-                "Value": "10"
-                
+                "Value": "10",
+                "PossibleValues": [
+                    {
+                        "Tag": "°C"
+                    },
+                    {
+                        "Tag": "°F"
+                    }
+                ]
             }
         ]
     },
@@ -160,23 +204,78 @@
             {
                 "Tag": "Range",
                 "Access": "R",
-                "Value": "EliarBLE"
+                "Value": "2000 uS/cm",
+                "PossibleValues": [
+                    {
+                        "Tag": "2000 uS/cm"
+                    },
+                    {
+                        "Tag": "20 mS/cm"
+                    },
+                    {
+                        "Tag": "200 mS/cm"
+                    },
+                    {
+                        "Tag": "500 mS/cm"
+                    },
+                    {
+                        "Tag": "1000 mS/cm"
+                    },
+                    {
+                        "Tag": "2000 mS/cm"
+                    }
+                ]
             },
             {
-                "Tag": "Tempererature Compensation",
+                "Tag": "Temperature Compensation",
                 "Access": "R",
-                "Value": "10"
+                "Value": "Linear",
+                "PossibleValues": [
+                    {
+                        "Tag": "Linear"
+                    },
+                    {
+                        "Tag": "Non-Linear"
+                    }
+                ]
             },
             {
                 "Tag": "Temperature Coefficient",
                 "Access": "R",
-                "Value": "10"
-                
+                "Value": "10.0",
+                "PossibleValues": [
+                    {
+                        "Tag": "0.0"
+                    },
+                    {
+                        "Tag": "1.8"
+                    },
+                    {
+                        "Tag": "10.0"
+                    },
+                    {
+                        "Tag": "1.9"
+                    },
+                    {
+                        "Tag": "20.0"
+                    },
+                    {
+                        "Tag": "2.0"
+                    }
+                ]
             },
             {
                 "Tag": "Reference Temperature",
                 "Access": "R",
-                "Value": "10"
+                "Value": "10",
+                "PossibleValues": [
+                    {
+                        "Tag": "0.0"
+                    },
+                    {
+                        "Tag": "1.8"
+                    }
+                ]
             },
             {
                 "Tag": "Cell Constant",
@@ -184,19 +283,43 @@
                 "Value": "10"
             },
             {
-                "Tag": "Mounting Error",
+                "Tag": "Mounting Factor",
                 "Access": "R",
-                "Value": "10"
+                "Value": "10",
+                "PossibleValues": [
+                    {
+                        "Tag": "0.9"
+                    },
+                    {
+                        "Tag": "1.1"
+                    }
+                ]
             },
             {
                 "Tag": "Zero Point",
                 "Access": "R",
-                "Value": "10"
+                "Value": "Step1",
+                "PossibleValues": [
+                    {
+                        "Tag": "Step1"
+                    },
+                    {
+                        "Tag": "Step2"
+                    }
+                ]
             },
             {
-                "Tag": "Filter Count Constan",
+                "Tag": "Filter Count Constant",
                 "Access": "R",
-                "Value": "10"
+                "Value": "25",
+                "PossibleValues": [
+                    {
+                        "Tag": "0"
+                    },
+                    {
+                        "Tag": "100"
+                    }
+                ]
             }
         ]
     },
@@ -223,18 +346,69 @@
             {
                 "Tag": "Output Type",
                 "Access": "R",
-                "Value": "EliarBLE"
+                "Value": "IO-Link",
+                "PossibleValues": [
+                    {
+                        "Tag": "Current"
+                    },
+                    {
+                        "Tag": "Switch"
+                    },
+                    {
+                        "Tag": "IO-Link"
+                    },
+                    {
+                        "Tag": "Off"
+                    }
+                ]
             },
             {
                 "Tag": "Current Output",
                 "Access": "R",
-                "Value": "10"
+                "Value": "10",
+                "menu": [
+                    {
+                        "Tag": "Conduction Start Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit":"100"
+                    },
+                    {
+                        "Tag": "Conduction End Value",
+                        "Access": "R",
+                        "Value": "10",
+                        "Limit":"100"
+                    },
+                    {
+                        "Tag": "Concentration Start Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit":"100"
+                    },
+                    {
+                        "Tag": "Concentration End Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit":"100"
+                    },
+                    {
+                        "Tag": "Temperature Start Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit":"100"
+                    },
+                    {
+                        "Tag": "Temperature End Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit":"100"
+                    }
+                ]
             },
             {
                 "Tag": "Switch Output",
                 "Access": "R",
                 "Value": "10"
-                
             },
             {
                 "Tag": "IO-Link",
@@ -261,7 +435,6 @@
                 "Tag": "Switch Output",
                 "Access": "R",
                 "Value": "10"
-                
             },
             {
                 "Tag": "Digital Input",
@@ -299,10 +472,8 @@
                 "Tag": "WiFi",
                 "Access": "R",
                 "Value": "10"
-                
             }
         ]
-        
     },
     {
         "Tag": "System",
@@ -322,7 +493,6 @@
                 "Tag": "Access Code",
                 "Access": "R",
                 "Value": "10"
-                
             },
             {
                 "Tag": "Auto-Calibrate",
