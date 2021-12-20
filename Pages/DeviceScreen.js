@@ -22,7 +22,7 @@ DeviceScreen = () => {
     <View style={styles.itemTab} >
       <Text style={styles.titleTab}>{item.Tag}</Text>
         <View style={[styles.titleTabButton]}>
-          <Text style={{backgroundColor:""}}>Touch Here</Text>
+          <Text >Touch Here</Text>
         </View>
     </View>
   );

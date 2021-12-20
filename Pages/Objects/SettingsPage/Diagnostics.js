@@ -17,46 +17,44 @@ const ReadableComponents = ["Last Diagnostics", "Actual Diagnostics"]
 var filtered;
 var filteredAT;
 
-
-
-const DiagnosticsScreen = ({ route, navigation }) => {
-
-  function Item(title, value) {
-    if (TextComponents.includes(title)) {
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Simulation Process Variable', { Tag: title, Value: value })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>)
-
-
-    }
-    else if (SwitchComponents.includes(title)) {
-    var switchValues = (Values.filter(row => row.Tag == 'Diagnostics'))[0].menu.filter(row => row.Tag == title)[0]["Assignable Values"];
-    console.log((Values.filter(row => row.Tag == 'Diagnostics'))[0].menu.filter(row => row.Tag == title)[0]["Assignable Values"])
+function Item(title, value, navigation) {
+  if (TextComponents.includes(title)) {
     return (
-      <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switchable Components', { Tag: title, Value: value, SwitchableValues: switchValues})}>
+      <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Simulation Process Variable', { Tag: title, Value: value })}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.value}>{value}</Text>
       </TouchableOpacity>)
-    }
 
-    else if (ReadableComponents.includes(title)) {
-      return (
-        <View style={styles.item}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </View>
-
-      )
-
-
-    }
-    else {
-      return
-    }
 
   }
+  else if (SwitchComponents.includes(title)) {
+  var switchValues = (Values.filter(row => row.Tag == 'Diagnostics'))[0].menu.filter(row => row.Tag == title)[0]["Assignable Values"];
+  console.log((Values.filter(row => row.Tag == 'Diagnostics'))[0].menu.filter(row => row.Tag == title)[0]["Assignable Values"])
+  return (
+    <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switchable Components', { Tag: title, Value: value, SwitchableValues: switchValues})}>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.value}>{value}</Text>
+    </TouchableOpacity>)
+  }
+
+  else if (ReadableComponents.includes(title)) {
+    return (
+      <View style={styles.item}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.value}>{value}</Text>
+      </View>
+
+    )
+  }
+  else {
+    return
+  }
+
+}
+
+const DiagnosticsScreen = ({ route, navigation }) => {
+
+
   const DiagnosticsMainScreen = ({ navigation }) => (
 
     <SafeAreaView style={styles.container}>
@@ -70,16 +68,18 @@ const DiagnosticsScreen = ({ route, navigation }) => {
   const SwitchVariableScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
     const { Value } = route.params;
+    navigation.setOptions({title:Tag})
     const { SwitchableValues } = route.params;
     const initialValue= Value; 
     const [valueScreen, setValueScreen] = useState(initialValue);
- 
+    console.log(valueScreen)
     function ItemSwitch(item,selectedValue){
       console.log("Buraya Geldim")
+      // initialValue=selectedValue;
+      // Buraya İlk Seçimle Sonrasında Seçimin Değişmesiyle Fark Oluşunca Title'a Farklı Renk Verilebilir.
       var equals = item==selectedValue
-      
       return (
-        <TouchableHighlight style={styles.itemButton} onPress={setValueScreen("Enabled")}>
+        <TouchableHighlight style={styles.itemButton} onPress={setValueScreen(item)}>
           <Text>{item + valueScreen}</Text>
         </TouchableHighlight>
       
@@ -105,13 +105,17 @@ const DiagnosticsScreen = ({ route, navigation }) => {
 
 
   const SimulationProcessVariableScreen = ({ route, navigation }) => {
+    
+
     const { Tag } = route.params;
     const { Value } = route.params;
+    navigation.setOptions({title:Tag})
     filtered = Values.filter(row => row.Tag == 'Diagnostics');
     filteredAT = filtered[0].menu.filter(row => row.Tag == Tag);
     const [text, setText] = React.useState(Value);
-
     return (
+     
+
       <View>
         <TextInput
           label="Set Your Simulation Process Variable"
@@ -139,7 +143,7 @@ const DiagnosticsScreen = ({ route, navigation }) => {
     );
   };
   const renderItem = ({ item }) => (
-    Item(item.Tag, item.Value)
+    Item(item.Tag, item.Value, navigation)
   );
     
   return (

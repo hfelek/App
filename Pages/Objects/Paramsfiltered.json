@@ -368,52 +368,143 @@
                 "Value": "10",
                 "menu": [
                     {
+                        "Tag": "Output-Assign",
+                        "Access": "R/W",
+                        "Value": "Off",
+                        "PossibleValues": [
+                            {
+                                "Tag": "Off"
+                            },
+                            {
+                                "Tag": "Conductivity"
+                            },
+                            {
+                                "Tag": "Concentration"
+                            },
+                            {
+                                "Tag": "Temperature"
+                            }
+                            
+                        ]
+                    },
+                    {
                         "Tag": "Conduction Start Value",
                         "Access": "R/W",
                         "Value": "15",
-                        "Limit":"100"
+                        "Limit": "100"
                     },
                     {
                         "Tag": "Conduction End Value",
                         "Access": "R",
                         "Value": "10",
-                        "Limit":"100"
+                        "Limit": "100"
                     },
                     {
                         "Tag": "Concentration Start Value",
                         "Access": "R/W",
                         "Value": "15",
-                        "Limit":"100"
+                        "Limit": "100"
                     },
                     {
                         "Tag": "Concentration End Value",
                         "Access": "R/W",
                         "Value": "15",
-                        "Limit":"100"
+                        "Limit": "100"
                     },
                     {
                         "Tag": "Temperature Start Value",
                         "Access": "R/W",
                         "Value": "15",
-                        "Limit":"100"
+                        "Limit": "100"
                     },
                     {
                         "Tag": "Temperature End Value",
                         "Access": "R/W",
                         "Value": "15",
-                        "Limit":"100"
+                        "Limit": "100"
                     }
                 ]
             },
             {
                 "Tag": "Switch Output",
                 "Access": "R",
-                "Value": "10"
+                "Value": "10",
+                "menu": [
+                    {
+                        "Tag": "Switch Function",
+                        "Access": "R/W",
+                        "Value": "Alarm",
+                        "PossibleValues": [
+                            {
+                                "Tag": "Alarm"
+                            },
+                            {
+                                "Tag": "Off"
+                            },
+                            {
+                                "Tag": "On"
+                            },
+                            {
+                                "Tag": "Limit Conductivity"
+                            },
+                            {
+                                "Tag": "Limit Concentration"
+                            },
+                            {
+                                "Tag": "Limit Temperature"
+                            },
+                            {
+                                "Tag": "Window Conductivity"
+                            },
+                            {
+                                "Tag": "Window Concentration"
+                            },
+                            {
+                                "Tag": "Window Temperature"
+                            }
+                        ]
+                    },
+                    {
+                        "Tag": "Conduction On Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Conduction Off Value",
+                        "Access": "R",
+                        "Value": "10",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration On Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration Off Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature On Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature Off Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    }
+                ]
             },
             {
                 "Tag": "IO-Link",
-                "Access": "R",
-                "Value": "10"
+                "Access": "R"
             }
         ]
     },

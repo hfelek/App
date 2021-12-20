@@ -15,18 +15,17 @@ var filtered = Values.filter(row => row.Tag == 'Measured Values');
 var filteredAT = filtered.filter(row => row.Tag == 'Conductivity');
 
 
-
 const MeasuredValuesScreen = ({ route, navigation }) => {
 
   function Item(title, value) {
     switch (title) {
-      case 'Conductivity':
-        return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Conductivity')}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.value}>{value}</Text>
-          </TouchableOpacity>
-        )
+      // case 'Conductivity':
+      //   return (
+      //     <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Conductivity')}>
+      //       <Text style={styles.title}>{title}</Text>
+      //       <Text style={styles.value}>{value}</Text>
+      //     </TouchableOpacity>
+      //   )
       default:
         return (
           <View style={styles.item}>
@@ -96,7 +95,7 @@ const MeasuredValuesScreen = ({ route, navigation }) => {
   return (
     <StackMeasuredValues.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
       <StackMeasuredValues.Screen name='Measured Values Main' component={MeasuredValuesMainScreen} options={{headerTitle:'Measured Values'}} />
-      <StackMeasuredValues.Screen name='Conductivity' component={ConductivityScreen} />
+      {/* <StackMeasuredValues.Screen name='Conductivity' component={ConductivityScreen} /> */}
     </StackMeasuredValues.Navigator>
 
   );

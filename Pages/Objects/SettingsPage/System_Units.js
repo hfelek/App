@@ -6,6 +6,8 @@ import { TextInput } from 'react-native-paper';
 import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import { createIconSetFromFontello } from 'react-native-vector-icons';
 
 let SystemUnitsParams = Paramsfiltered.find(SystemUnitsParams => SystemUnitsParams.Tag === "System Units");
 let MenuParams = SystemUnitsParams.menu;
@@ -23,6 +25,20 @@ const SystemUnitsScreen = ({ route, navigation }) => {
       case 'Unit Conductivity':
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Unit Conductivity')}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Unit Concentration':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Unit Concentration')}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Unit Temperature':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Unit Temperature')}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
@@ -57,45 +73,69 @@ const SystemUnitsScreen = ({ route, navigation }) => {
   )
 
   const UnitConductivityScreen = () => {
-    filtered = Values.filter(row => row.Tag == 'System Units');
-    filteredAT = filtered[0].menu.filter(row => row.Tag == 'Unit Conductivity');
-    const [text, setText] = React.useState(filteredAT[0].Value);
-   
+    const valSystemUnits = Values.filter(row => row.Tag == 'System Units');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Unit Conductivity');
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    console.log(possibleValues)
+    console.log(typeof(possibleValues))
     return (
-      <View>
-        <TextInput
-          label="Set Your Unit Conductivity"
-          value={text}
-          selectionColor='#000'
-          underlineColor='#000'
-          activeOutlineColor='#000'
-          outlineColor='#000'
-          // activeUnderlineColor='#000'
-          error={false}
-          right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
-          onChangeText={text => setText(text)}
-        />
-        <LenghtChecker lenght={32} />
-
-                <Button
-          onPress={() => {console.log(typeof(text))}}
-          title="Learn More"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
-        {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
-        
-      </View>
+      <SafeAreaView style={styles.container}>
+      <FlatList
+        data={possibleValues}
+        renderItem={renderItem1}
+        keyExtractor={item => item.Tag}
+      />
+    </SafeAreaView>
     );
   };
+  const UnitConcentrationScreen = () => {
+    const valSystemUnits = Values.filter(row => row.Tag == 'System Units');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Unit Concentration');
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    console.log(possibleValues)
+    console.log(typeof(possibleValues))
+    return (
+      <SafeAreaView style={styles.container}>
+      <FlatList
+        data={possibleValues}
+        renderItem={renderItem1}
+        keyExtractor={item => item.Tag}
+      />
+    </SafeAreaView>
+    );
+  };
+  const UnitTemperatureScreen = () => {
+    const valSystemUnits = Values.filter(row => row.Tag == 'System Units');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Unit Temperature');
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    console.log(possibleValues)
+    console.log(typeof(possibleValues))
+    return (
+      <SafeAreaView style={styles.container}>
+      <FlatList
+        data={possibleValues}
+        renderItem={renderItem1}
+        keyExtractor={item => item.Tag}
+      />
+    </SafeAreaView>
+    );
+  };
+  const renderItem1 = ({ item }) => (
+    Item(item.Tag)
+  );
   const renderItem = ({ item }) => (
     Item(item.Tag, item.Value)
   );
 
   return (
     <StackSystemUnits.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-      <StackSystemUnits.Screen name='System Units Main' component={SystemUnitsMainScreen} options={{headerTitle:"System Units"}} />
+      <StackSystemUnits.Screen name='System Units Main' component={SystemUnitsMainScreen} options={{ headerTitle: "System Units" }} />
       <StackSystemUnits.Screen name='Unit Conductivity' component={UnitConductivityScreen} />
+      <StackSystemUnits.Screen name='Unit Concentration' component={UnitConcentrationScreen} />
+      <StackSystemUnits.Screen name='Unit Temperature' component={UnitTemperatureScreen} />
     </StackSystemUnits.Navigator>
 
   );
