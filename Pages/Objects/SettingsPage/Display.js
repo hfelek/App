@@ -37,10 +37,6 @@ const DisplayScreen = ({ route, navigation }) => {
     };
   }
 
- 
-
-  // console.log(JSON.stringify(DisplayParams));
-  // console.log(JSON.stringify(MenuParams));
 
   const DisplayMainScreen = ({ navigation }) => (
 

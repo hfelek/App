@@ -26,6 +26,184 @@ const Output2Screen = ({ route, navigation }) => {
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
+      case 'Current Output':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output')}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Conduction Start Value':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Conduction End Value':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Concentration Start Value':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Concentration End Value':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Digital Input':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Digital Input', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Output-Assign':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Temperature Start Value':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Temperature End Value':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Switch Function':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Conduction On Value':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Conduction Off Value':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Concentration On Value':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Concentration Off Value':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Temperature On Value':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Temperature Off Value':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'D-IN Polarity LOW':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Digital Input Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'D-In Polarity':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Digital Input Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'D-In Function':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Digital Input Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'D-In Polarity HIGH':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Digital Input Settings', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
       default:
         return (
           <View style={styles.item}>
@@ -36,8 +214,10 @@ const Output2Screen = ({ route, navigation }) => {
         )
     };
   }
-
-
+  /// Bu Case Functionı Sonrasında Daha Basit Bir Yapıya Çevrilecek
+  const renderItem1 = ({ item }) => (
+    Item(item.Tag, item.Value)
+  );
   // console.log(JSON.stringify(Output2Params));
   // console.log(JSON.stringify(MenuParams));
 
@@ -51,38 +231,73 @@ const Output2Screen = ({ route, navigation }) => {
       />
     </SafeAreaView>
   )
+  const DigitalInputScreen = () => {
+    const valSystemUnits = Values.filter(row => row.Tag == 'Output2');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Digital Input');
+    const possibleValues = val[0].menu;
 
-  const SwitchOutputScreen = () => {
-
-    filtered = Values.filter(row => row.Tag == 'Output2');
-    filteredAT = filtered[0].menu.filter(row => row.Tag == 'Switch Output');
-    const [text, setText] = React.useState(filteredAT[0].Value);
-   
+    console.log(possibleValues)
+    console.log(typeof (possibleValues))
     return (
-      <View>
-        <TextInput
-          label="Set Your Switch Output"
-          value={text}
-          selectionColor='#000'
-          underlineColor='#000'
-          activeOutlineColor='#000'
-          outlineColor='#000'
-          // activeUnderlineColor='#000'
-          error={false}
-          right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
-          onChangeText={text => setText(text)}
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItem1}
+          keyExtractor={item => item.Tag}
         />
-        <LenghtChecker lenght={32} />
+      </SafeAreaView>
+    );
+  };
+  const CurrentOutputScreen = () => {
+    const valSystemUnits = Values.filter(row => row.Tag == 'Output2');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Current Output');
+    const possibleValues = val[0].menu;
 
-                <Button
-          onPress={() => {console.log(typeof(text))}}
-          title="Learn More"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
+    console.log(possibleValues)
+    console.log(typeof (possibleValues))
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItem1}
+          keyExtractor={item => item.Tag}
         />
-        {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
-        
-      </View>
+      </SafeAreaView>
+    );
+  };
+  const CurrentOutputSettingsScreen = ({ route, navigation }) => {
+    const { Tag } = route.params
+    navigation.setOptions({ title: Tag })
+    return (
+      <Text>{Tag}</Text>)
+  };
+  const SwitchOutputSettingsScreen = ({ route, navigation }) => {
+    const { Tag } = route.params
+    navigation.setOptions({ title: Tag })
+    return (
+      <Text>{Tag}</Text>)
+  };
+  const DigitalInputSettingsScreen = ({ route, navigation }) => {
+    const { Tag } = route.params
+    navigation.setOptions({ title: Tag })
+    return (
+      <Text>{Tag}</Text>)
+  };
+  const SwitchOutputScreen = () => {
+    const valSystemUnits = Values.filter(row => row.Tag == 'Output2');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Switch Output');
+    const possibleValues = val[0].menu;
+
+    console.log(possibleValues)
+    console.log(typeof (possibleValues))
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItem1}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
     );
   };
   const renderItem = ({ item }) => (
@@ -91,8 +306,13 @@ const Output2Screen = ({ route, navigation }) => {
 
   return (
     <StackOutput2.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-      <StackOutput2.Screen name='Output2 Main' component={Output2MainScreen} options={{headerTitle:"Output 1"}} />
+      <StackOutput2.Screen name='Output2 Main' component={Output2MainScreen} options={{ headerTitle: "Output 2" }} />
       <StackOutput2.Screen name='Switch Output' component={SwitchOutputScreen} />
+      <StackOutput2.Screen name='Current Output' component={CurrentOutputScreen} />
+      <StackOutput2.Screen name='Current Output Settings' component={CurrentOutputSettingsScreen} />
+      <StackOutput2.Screen name='Switch Output Settings' component={SwitchOutputSettingsScreen} />
+      <StackOutput2.Screen name='Digital Input' component={DigitalInputScreen} />
+      <StackOutput2.Screen name='Digital Input Settings' component={DigitalInputSettingsScreen} />
     </StackOutput2.Navigator>
 
   );

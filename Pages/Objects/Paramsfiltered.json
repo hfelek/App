@@ -185,7 +185,7 @@
             {
                 "Tag": "Unit Temperature",
                 "Access": "R",
-                "Value": "10",
+                "Value": "°C",
                 "PossibleValues": [
                     {
                         "Tag": "°C"
@@ -384,7 +384,6 @@
                             {
                                 "Tag": "Temperature"
                             }
-                            
                         ]
                     },
                     {
@@ -515,22 +514,224 @@
             {
                 "Tag": "Output Type",
                 "Access": "R",
-                "Value": "EliarBLE"
+                "Value": "Digital Input",
+                "PossibleValues": [
+                    {
+                        "Tag": "Current"
+                    },
+                    {
+                        "Tag": "Switch"
+                    },
+                    {
+                        "Tag": "Digital Input"
+                    },
+                    {
+                        "Tag": "Off"
+                    }
+                ]
             },
             {
                 "Tag": "Current Output",
                 "Access": "R",
-                "Value": "10"
+                "Value": "10",
+                "menu": [
+                    {
+                        "Tag": "Output-Assign",
+                        "Access": "R/W",
+                        "Value": "Off",
+                        "PossibleValues": [
+                            {
+                                "Tag": "Off"
+                            },
+                            {
+                                "Tag": "Conductivity"
+                            },
+                            {
+                                "Tag": "Concentration"
+                            },
+                            {
+                                "Tag": "Temperature"
+                            }
+                        ]
+                    },
+                    {
+                        "Tag": "Conduction Start Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Conduction End Value",
+                        "Access": "R",
+                        "Value": "10",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration Start Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration End Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature Start Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature End Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    }
+                ]
             },
             {
                 "Tag": "Switch Output",
                 "Access": "R",
-                "Value": "10"
+                "Value": "10",
+                "menu": [
+                    {
+                        "Tag": "Switch Function",
+                        "Access": "R/W",
+                        "Value": "Alarm",
+                        "PossibleValues": [
+                            {
+                                "Tag": "Alarm"
+                            },
+                            {
+                                "Tag": "Off"
+                            },
+                            {
+                                "Tag": "On"
+                            },
+                            {
+                                "Tag": "Limit Conductivity"
+                            },
+                            {
+                                "Tag": "Limit Concentration"
+                            },
+                            {
+                                "Tag": "Limit Temperature"
+                            },
+                            {
+                                "Tag": "Window Conductivity"
+                            },
+                            {
+                                "Tag": "Window Concentration"
+                            },
+                            {
+                                "Tag": "Window Temperature"
+                            }
+                        ]
+                    },
+                    {
+                        "Tag": "Conduction On Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Conduction Off Value",
+                        "Access": "R",
+                        "Value": "10",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration On Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration Off Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature On Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature Off Value",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    }
+                ]
             },
             {
                 "Tag": "Digital Input",
                 "Access": "R",
-                "Value": "10"
+                "menu": [
+                    {
+                        "Tag": "D-In Polarity",
+                        "Access": "R",
+                        "Value": "Low",
+                        "PossibleValues": [
+                            {
+                                "Tag": "Low"
+                            },
+                            {
+                                "Tag": "High"
+                            }
+                        ]
+                    },
+                    {
+                        "Tag": "D-In Function",
+                        "Access": "R",
+                        "Value": "Off",
+                        "PossibleValues": [
+                            {
+                                "Tag": "Measurement Assignment Chemical"
+                            },
+                            {
+                                "Tag": "Off"
+                            }
+                        ]
+                    },
+                    {
+                        "Tag": "D-In Polarity HIGH",
+                        "Access": "R",
+                        "Value": "10",
+                        "PossibleValues": [
+                            {
+                                "Tag": "NaOH"
+                            },
+                            {
+                                "Tag": "NaCl"
+                            },
+                            {
+                                "Tag": "Na2SO4"
+                            }
+                        ]
+                    },
+                    {
+                        "Tag": "D-IN Polarity LOW",
+                        "Access": "R",
+                        "Value": "NaCl",
+                        "PossibleValues": [
+                            {
+                                "Tag": "NaOH"
+                            },
+                            {
+                                "Tag": "NaCl"
+                            },
+                            {
+                                "Tag": "Na2SO4"
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     },
@@ -541,7 +742,7 @@
             {
                 "Tag": "Backlight",
                 "Access": "R",
-                "Value": "EliarBLE"
+                "Value": "On"
             }
         ]
     },
@@ -552,17 +753,134 @@
             {
                 "Tag": "Communication Type",
                 "Access": "R",
-                "Value": "EliarBLE"
+                "Value": "Off",
+                "PossibleValues": [
+                    {
+                        "Tag": "Off"
+                    },
+                    {
+                        "Tag": "BLE"
+                    },
+                    {
+                        "Tag": "WiFi"
+                    }
+                ]
             },
             {
                 "Tag": "Bluetooth",
                 "Access": "R",
-                "Value": "10"
+                "menu": [
+                    {
+                        "Tag": "Bluetooth Function",
+                        "Access": "R/W",
+                        "Value": "On",
+                        "PossibleValues": [
+                            {
+                                "Tag": "Off"
+                            },
+                            {
+                                "Tag": "On"
+                            }
+                        ]
+                    },
+                    {
+                        "Tag": "Bluetooth Tx Power Level",
+                        "Access": "R",
+                        "Value": "1",
+                        "PossibleValues": [
+                            {
+                                "Tag": "0"
+                            },
+                            {
+                                "Tag": "4"
+                            }
+                        ]
+                    },
+                    {
+                        "Tag": "Bluetooth Connection Status",
+                        "Access": "R/W",
+                        "Value": "On",
+                        "PossibleValues": [
+                            {
+                                "Tag": "Off"
+                            },
+                            {
+                                "Tag": "On"
+                            }
+                        ]
+                    }
+                ]
             },
             {
                 "Tag": "WiFi",
                 "Access": "R",
-                "Value": "10"
+                "menu": [
+                    {
+                        "Tag": "WiFi Function",
+                        "Access": "R/W",
+                        "Value": "On",
+                        "PossibleValues": [
+                            {
+                                "Tag": "Off"
+                            },
+                            {
+                                "Tag": "On"
+                            }
+                        ]
+                    },
+                    {
+                        "Tag": "WiFi Mode",
+                        "Access": "R/W",
+                        "Value": "AP",
+                        "PossibleValues": [
+                            {
+                                "Tag": "AP"
+                            },
+                            {
+                                "Tag": "STA"
+                            }
+                        ]
+                    },
+                    {
+                        "Tag": "SSID",
+                        "Access": "R/W",
+                        "Value": "On"
+                    },
+                    {
+                        "Tag": "Password",
+                        "Access": "W"
+                    },
+                    {
+                        "Tag": "Configure IPv4",
+                        "Access": "R/W",
+                        "Value": "Manual",
+                        "PossibleValues": [
+                            {
+                                "Tag": "Manual"
+                            },
+                            {
+                                "Tag": "DHCP"
+                            }
+                        ]
+                    },
+                    {
+                        "Tag": "IP Address",
+                        "Access": "R/W",
+                        "Value": "15"
+                    },
+                    {
+                        "Tag": "Subnet Address",
+                        "Access": "R/W",
+                        "Value": "15"
+                    },
+                    {
+                        "Tag": "Router",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    }
+
+                ]
             }
         ]
     },
@@ -573,32 +891,37 @@
             {
                 "Tag": "Language",
                 "Access": "R",
-                "Value": "EliarBLE"
+                "Value": "English",
+                "PossibleValues":[{"Tag":"English"},{"Tag":"Türkçe"}]
             },
             {
                 "Tag": "Set Access Code",
-                "Access": "R",
-                "Value": "10"
+                "Access": "W"
             },
             {
                 "Tag": "Access Code",
-                "Access": "R",
-                "Value": "10"
+                "Access": "W"
             },
             {
                 "Tag": "Auto-Calibrate",
-                "Access": "R",
-                "Value": "10"
+                "Access": "W"
             },
             {
                 "Tag": "Device Reset",
                 "Access": "R",
-                "Value": "10"
+                "PossibleValues":[
+                    {"Tag":"Cancel"},
+                    {"Tag":"Device Restore Factory"},
+                    {"Tag":"Device Auto Calibration"},
+                    {"Tag":"Parameters Restore"},
+                    {"Tag":"Wifi Parameters Restore"},
+                    {"Tag":"Restart"}
+                    
+                ]
             },
             {
                 "Tag": "User Role",
-                "Access": "R",
-                "Value": "10"
+                "Access": "R"
             }
         ]
     }

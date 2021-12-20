@@ -26,6 +26,98 @@ const CommunicationScreen = ({ route, navigation }) => {
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
+      case 'WiFi':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi')}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Communication Type':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Communication', { Tag: title })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Bluetooth Function':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Bluetooth Settings Screen', { Tag: title })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Bluetooth Tx Power Level':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Bluetooth Settings Screen', { Tag: title })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Bluetooth Connection Status':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Bluetooth Settings Screen', { Tag: title })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'WiFi Function':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Settings Screen', { Tag: title })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'WiFi Mode':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Settings Screen', { Tag: title })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'SSID':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Settings Screen', { Tag: title })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Password':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Settings Screen', { Tag: title })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Configure IPv4':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Settings Screen', { Tag: title })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'IP Address':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Settings Screen', { Tag: title })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Router':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Settings Screen', { Tag: title })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Subnet Address':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Settings Screen', { Tag: title })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+
       default:
         return (
           <View style={styles.item}>
@@ -54,47 +146,70 @@ const CommunicationScreen = ({ route, navigation }) => {
     </SafeAreaView>
   )
 
-  const BluetoothScreen = () => {
-    filtered = Values.filter(row => row.Tag == 'Communication');
-    filteredAT = filtered[0].menu.filter(row => row.Tag == 'Bluetooth');
-    const [text, setText] = React.useState(filteredAT[0].Value);
-   
+  const BluetoothScreen = ({ navigation }) => {
+    const valSystemUnits = Values.filter(row => row.Tag == 'Communication');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Bluetooth');
+    const possibleValues = val[0].menu;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    console.log(possibleValues)
+    console.log(typeof (possibleValues))
     return (
-      <View>
-        <TextInput
-          label="Set Your Bluetooth"
-          value={text}
-          selectionColor='#000'
-          underlineColor='#000'
-          activeOutlineColor='#000'
-          outlineColor='#000'
-          // activeUnderlineColor='#000'
-          error={false}
-          right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
-          onChangeText={text => setText(text)}
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItem1}
+          keyExtractor={item => item.Tag}
         />
-        <LenghtChecker lenght={32} />
-
-                <Button
-          onPress={() => {console.log(typeof(text))}}
-          title="Learn More"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
-        {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
-        
-      </View>
+      </SafeAreaView>
     );
   };
+  const BluetoothSettingsScreen = ({ route, navigation }) => {
+    const { Tag } = route.params
+    navigation.setOptions({ title: Tag })
+    return (
+      <Text>{Tag}</Text>)
+  };
+  const WiFiSettingsScreen = ({ route, navigation }) => {
+    const { Tag } = route.params
+    navigation.setOptions({ title: Tag })
+    return (
+      <Text>{Tag}</Text>)
+  };
+  const CommunicationTypeScreen = ({ route, naviagtion }) => {
 
+  };
+  const WifiScreen = ({ navigation }) => {
+    const valSystemUnits = Values.filter(row => row.Tag == 'Communication');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'WiFi');
+    const possibleValues = val[0].menu;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    console.log(possibleValues)
+    console.log(typeof (possibleValues))
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItem1}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
+    );
+  };
   const renderItem = ({ item }) => (
     Item(item.Tag, item.Value)
+  );
+  const renderItem1 = ({ item }) => (
+    Item(item.Tag)
   );
 
   return (
     <StackCommunication.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-      <StackCommunication.Screen name='Communication Main' component={CommunicationMainScreen} options={{headerTitle:"Communication"}} />
+      <StackCommunication.Screen name='Communication Main' component={CommunicationMainScreen} options={{ headerTitle: "Communication" }} />
       <StackCommunication.Screen name='Bluetooth' component={BluetoothScreen} />
+      <StackCommunication.Screen name='WiFi' component={WifiScreen} />
+      <StackCommunication.Screen name='Communication Type' component={CommunicationTypeScreen} />
+      <StackCommunication.Screen name='Bluetooth Settings Screen' component={BluetoothSettingsScreen} />
+      <StackCommunication.Screen name='WiFi Settings Screen' component={WiFiSettingsScreen} />
     </StackCommunication.Navigator>
 
   );
