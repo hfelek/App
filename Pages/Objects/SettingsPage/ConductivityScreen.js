@@ -27,6 +27,48 @@ const ConductivityScreen = ({ route, navigation }) => {
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
+      case 'Temperature Compensation':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Temperature Compensation')}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Temperature Coefficient':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Temperature Coefficient')}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Reference Temperature':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Reference Temperature')}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Mounting Factor':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Mounting Factor')}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Zero Point':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Zero Point')}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Filter Count Constant':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Filter Count Constant')}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
       default:
         return (
           <View style={styles.item}>
@@ -37,13 +79,6 @@ const ConductivityScreen = ({ route, navigation }) => {
         )
     };
   }
-
-
-
-
-
-  // console.log(JSON.stringify(ConductivityParams));
-  // console.log(JSON.stringify(MenuParams));
 
   const ConductivityMainScreen = ({ navigation }) => (
 
@@ -57,45 +92,144 @@ const ConductivityScreen = ({ route, navigation }) => {
   )
 
   const RangeScreen = () => {
-    filtered = Values.filter(row => row.Tag == 'Conductivity');
-    filteredAT = filtered[0].menu.filter(row => row.Tag == 'Range');
-    const [text, setText] = React.useState(filteredAT[0].Value);
-   
+    const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Range');
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    console.log(possibleValues)
+    console.log(typeof (possibleValues))
     return (
-      <View>
-        <TextInput
-          label="Set Your Range"
-          value={text}
-          selectionColor='#000'
-          underlineColor='#000'
-          activeOutlineColor='#000'
-          outlineColor='#000'
-          // activeUnderlineColor='#000'
-          error={false}
-          right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
-          onChangeText={text => setText(text)}
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItem1}
+          keyExtractor={item => item.Tag}
         />
-        <LenghtChecker lenght={32} />
-
-                <Button
-          onPress={() => {console.log(typeof(text))}}
-          title="Learn More"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
-        {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
-        
-      </View>
+      </SafeAreaView>
     );
   };
+  const MountingFactorScreen = () => {
+    const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Mounting Factor');
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    console.log(possibleValues)
+    console.log(typeof (possibleValues))
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItem1}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
+    );
+  };
+  const TemperatureCoefficientScreen = () => {
+    const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Temperature Coefficient');
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    console.log(possibleValues)
+    console.log(typeof (possibleValues))
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItem1}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
+    );
+  };
+  const TemperatureCompensationScreen = () => {
+    const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Temperature Compensation');
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    console.log(possibleValues)
+    console.log(typeof (possibleValues))
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItem1}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
+    );
+  };
+  const ReferenceTemperatureScreen = () => {
+    const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Reference Temperature');
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    console.log(possibleValues)
+    console.log(typeof (possibleValues))
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItem1}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
+    );
+  };
+
+  const FilterCountConstantScreen = () => {
+    const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Filter Count Constant');
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    console.log(possibleValues)
+    console.log(typeof (possibleValues))
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItem1}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
+    );
+  };
+  const ZeroPointScreeen = () => {
+    const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Zero Point');
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    console.log(possibleValues)
+    console.log(typeof (possibleValues))
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItem1}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
+    );
+  };
+
   const renderItem = ({ item }) => (
     Item(item.Tag, item.Value)
   );
-
+  const renderItem1 = ({ item }) => (
+    Item(item.Tag)
+  );
   return (
     <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-      <StackConductivity.Screen name='Conductivity Main' component={ConductivityMainScreen} options={{headerTitle:"Conductivity"}} />
+      <StackConductivity.Screen name='Conductivity Main' component={ConductivityMainScreen} options={{ headerTitle: "Conductivity" }} />
       <StackConductivity.Screen name='Range' component={RangeScreen} />
+      <StackConductivity.Screen name='Temperature Compensation' component={TemperatureCompensationScreen} />
+      <StackConductivity.Screen name='Temperature Coefficient' component={TemperatureCoefficientScreen} />
+      <StackConductivity.Screen name='Reference Temperature' component={ReferenceTemperatureScreen} />
+      <StackConductivity.Screen name='Mounting Factor' component={MountingFactorScreen} />
+      <StackConductivity.Screen name='Zero Point' component={ZeroPointScreeen} />
+      <StackConductivity.Screen name='Filter Count Constant' component={FilterCountConstantScreen} />
+
+
     </StackConductivity.Navigator>
 
   );
