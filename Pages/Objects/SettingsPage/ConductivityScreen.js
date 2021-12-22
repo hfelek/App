@@ -6,6 +6,12 @@ import { TextInput } from 'react-native-paper';
 import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { Slider } from "@miblanchard/react-native-slider";
+import ScrollViewNativeComponent from 'react-native/Libraries/Components/ScrollView/ScrollViewNativeComponent';
+import { or } from 'react-native-reanimated';
+// import Slider from '@react-native-community/slider';
+//import MultiSlider from 'react-native-multi-slider';
 
 let ConductivityParams = Paramsfiltered.find(ConductivityParams => ConductivityParams.Tag === "Conductivity");
 let MenuParams = ConductivityParams.menu;
@@ -79,6 +85,29 @@ const ConductivityScreen = ({ route, navigation }) => {
         )
     };
   }
+  const CheckButtoned = (selectedValue, sentValue) => {
+    if (selectedValue === sentValue) {
+      return (
+
+        <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+          <Text>{sentValue}</Text>
+          <Icon
+            name="checkmark-outline"
+            size={20}
+            color="#f54"
+          />
+        </View>
+      )
+    }
+    else {
+      return (
+        <View style={{ flexDirection: "row" }}>
+          <Text>{sentValue}</Text>
+        </View>
+      )
+    }
+  }
+
 
   const ConductivityMainScreen = ({ navigation }) => (
 
@@ -91,38 +120,98 @@ const ConductivityScreen = ({ route, navigation }) => {
     </SafeAreaView>
   )
 
-  const RangeScreen = () => {
+  const RangeScreen = ({ route, navigation }) => {
     const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Range');
     const possibleValues = val[0].PossibleValues;
     const [selection, setSelection] = React.useState(val[0].Value);
-    console.log(possibleValues)
-    console.log(typeof (possibleValues))
+    function ItemSelectable(title) {
+
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
+          {CheckButtoned(selection, title)}
+        </TouchableOpacity>
+      )
+    }
+    const renderItemSelectable = ({ item }) => (
+      ItemSelectable(item.Tag)
+    );
+    if (selection != val[0].Value) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+      });
+    }
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
           data={possibleValues}
-          renderItem={renderItem1}
+          renderItem={renderItemSelectable}
           keyExtractor={item => item.Tag}
         />
       </SafeAreaView>
     );
   };
-  const MountingFactorScreen = () => {
+  const MountingFactorScreen = ({route,navigation}) => {
     const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
-    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Mounting Factor');
-    const possibleValues = val[0].PossibleValues;
-    const [selection, setSelection] = React.useState(val[0].Value);
-    console.log(possibleValues)
-    console.log(typeof (possibleValues))
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Mounting Factor')[0];
+    const possibleValues = val.PossibleValues;
+    const initalMFValue=val.Value;
+    const limitsMF = [possibleValues.RangeLower,possibleValues.RangeUpper]
+    const [mountingFactor, setMountingFactor] = React.useState(initalMFValue);
+    function callBackSlider () {
+      if((initalMFValue!=mountingFactor)){
+     
+        navigation.setOptions({
+          headerRight: () => (
+          <TouchableOpacity >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+          ),
+        });
+      }
+      else{
+        navigation.setOptions({
+          headerRight: () => (
+            <></>
+          ),
+        });
+      }
+    
+    }
+    
+    
+
     return (
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          data={possibleValues}
-          renderItem={renderItem1}
-          keyExtractor={item => item.Tag}
+
+      <View style={styles.containerSlider}>
+       
+        <Slider
+          value={mountingFactor}
+          onValueChange={value => setMountingFactor(value[0].toFixed(3))}
+          minimumValue={limitsMF[0]}
+          maximumValue={limitsMF[1]}
+          onSlidingComplete={() => callBackSlider()}
         />
-      </SafeAreaView>
+        <Text style={{alignContent:"center"}}>Mounting Factor Value : {mountingFactor}</Text>
+        </View>
+   
+
+
     );
   };
   const TemperatureCoefficientScreen = () => {
@@ -142,56 +231,159 @@ const ConductivityScreen = ({ route, navigation }) => {
       </SafeAreaView>
     );
   };
-  const TemperatureCompensationScreen = () => {
+  const TemperatureCompensationScreen = ({ route, navigation }) => {
     const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Temperature Compensation');
     const possibleValues = val[0].PossibleValues;
     const [selection, setSelection] = React.useState(val[0].Value);
-    console.log(possibleValues)
-    console.log(typeof (possibleValues))
+    function ItemSelectable(title) {
+
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
+          {CheckButtoned(selection, title)}
+        </TouchableOpacity>
+      )
+    }
+    const renderItemSelectable = ({ item }) => (
+      ItemSelectable(item.Tag)
+    );
+    if (selection != val[0].Value) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+      });
+    }
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
           data={possibleValues}
-          renderItem={renderItem1}
+          renderItem={renderItemSelectable}
           keyExtractor={item => item.Tag}
         />
       </SafeAreaView>
     );
   };
-  const ReferenceTemperatureScreen = () => {
+  const ReferenceTemperatureScreen = ({ route, navigation }) => {
     const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Reference Temperature');
     const possibleValues = val[0].PossibleValues;
-    const [selection, setSelection] = React.useState(val[0].Value);
-    console.log(possibleValues)
-    console.log(typeof (possibleValues))
+    const initialValC=possibleValues.filter(row => row.Tag == '°C')[0].Value
+    const initialValF=possibleValues.filter(row => row.Tag == '°F')[0].Value
+
+    const [temperatureC, setTemperatureC] = React.useState(initialValC);
+    const [temperatureF, setTemperatureF] = React.useState(initialValF);
+    const limitsF = [possibleValues.filter(row => row.Tag == '°F')[0].RangeLower,possibleValues.filter(row => row.Tag == '°F')[0].RangeUpper]
+    const limitsC = [possibleValues.filter(row => row.Tag == '°C')[0].RangeLower,possibleValues.filter(row => row.Tag == '°C')[0].RangeUpper]
+    function callBackSlider () {
+    if((temperatureF!=initialValF) ||(temperatureC!=initialValC)){
+      console.log({temperatureF,initialValF,temperatureC,initialValC})
+      navigation.setOptions({
+        headerRight: () => (
+        <TouchableOpacity >
+          <View style={styles.buttonBar}>
+            <Text>Save</Text>
+          </View>
+        </TouchableOpacity>
+        ),
+      });
+    }
+    else{
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+      });
+    }
+  }
     return (
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          data={possibleValues}
-          renderItem={renderItem1}
-          keyExtractor={item => item.Tag}
+
+      <View style={styles.containerSlider}>
+       
+        <Slider
+          value={temperatureC}
+          onValueChange={value => setTemperatureC(value[0].toFixed(1))}
+          minimumValue={limitsC[0]}
+          maximumValue={limitsC[1]}
+          onSlidingComplete={() => callBackSlider()}
         />
-      </SafeAreaView>
+        <Text style={{alignContent:"center"}}>°C Value : {temperatureC}</Text>
+        <Slider
+          value={temperatureF}
+          onValueChange={value => setTemperatureF(value[0].toFixed(1))}
+          minimumValue={limitsF[0]}
+          maximumValue={limitsF[1]}
+          onSlidingComplete={() => callBackSlider()}
+        />
+        <Text style={{alignContent:"center"}}>°F Value  : {temperatureF}</Text>
+      
+        </View>
+   
+
+
     );
+
+
+
+
   };
 
-  const FilterCountConstantScreen = () => {
+  const FilterCountConstantScreen = ({route,navigation}) => {
     const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
-    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Filter Count Constant');
-    const possibleValues = val[0].PossibleValues;
-    const [selection, setSelection] = React.useState(val[0].Value);
-    console.log(possibleValues)
-    console.log(typeof (possibleValues))
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Filter Count Constant')[0];
+    const possibleValues = val.PossibleValues;
+    const initalFCCValue=val.Value;
+    const limitsFFC = [possibleValues.RangeLower,possibleValues.RangeUpper]
+    const [filterCC, setFilterCC] = React.useState(initalFCCValue);
+    function callBackSlider () {
+      if((initalFCCValue!=filterCC)){
+     
+        navigation.setOptions({
+          headerRight: () => (
+          <TouchableOpacity >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+          ),
+        });
+      }
+      else{
+        navigation.setOptions({
+          headerRight: () => (
+            <></>
+          ),
+        });
+      }
+    
+    }
     return (
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          data={possibleValues}
-          renderItem={renderItem1}
-          keyExtractor={item => item.Tag}
+
+      <View style={styles.containerSlider}>
+       
+        <Slider
+          value={filterCC}
+          onValueChange={value => setFilterCC(value[0].toFixed(0))}
+          minimumValue={limitsFFC[0]}
+          maximumValue={limitsFFC[1]}
+          onSlidingComplete={() => callBackSlider()}
         />
-      </SafeAreaView>
+        <Text style={{alignContent:"center"}}>Filter Count Constant: {filterCC}</Text>
+        </View>
+   
+
+
     );
   };
   const ZeroPointScreeen = () => {
@@ -218,6 +410,7 @@ const ConductivityScreen = ({ route, navigation }) => {
   const renderItem1 = ({ item }) => (
     Item(item.Tag)
   );
+
   return (
     <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
       <StackConductivity.Screen name='Conductivity Main' component={ConductivityMainScreen} options={{ headerTitle: "Conductivity" }} />
@@ -258,6 +451,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'black',
   },
+  buttonBar: {
+    alignItems: "center",
+    backgroundColor: "#9A348E",
+    padding: 8,
+    marginRight: 3,
+    borderRadius: 10,
+  },
   value: {
     fontSize: 12,
     color: 'gray',
@@ -276,5 +476,91 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 25,
     textAlign: 'center'
-  }
+  },
+  containerSlider: {
+    flex:1,
+    marginLeft: 30,
+    marginRight: 30,
+    alignItems: 'stretch',
+    justifyContent: "flex-start",
+  },
 });
+
+// const customStyles8 = StyleSheet.create({
+//   container: {
+//     height: 30,
+//   },
+//   thumb: {
+//     backgroundColor: '#31a4db',
+//     borderRadius: 10 / 2,
+//     height: 10,
+//     shadowColor: '#31a4db',
+//     shadowOffset: {
+//       width: 0,
+//       height: 0,
+//     },
+//     shadowOpacity: 1,
+//     shadowRadius: 2,
+//     width: 10,
+//   },
+//   track: {
+//     backgroundColor: '#303030',
+//     height: 2,
+//   },
+// });
+
+// const SliderContainer = (props: {
+//   caption: string;
+//   children: React.ReactElement;
+//   sliderValue?: Array<number>;
+//   trackMarks?: Array<number>;
+// }) => {
+//   const {caption, sliderValue, trackMarks} = props;
+//   const [value, setValue] = React.useState(
+//       sliderValue ? sliderValue : DEFAULT_VALUE,
+//   );
+//   let renderTrackMarkComponent: React.ReactNode;
+
+//   if (trackMarks?.length && (!Array.isArray(value) || value?.length === 1)) {
+//       renderTrackMarkComponent = (index: number) => {
+//           const currentMarkValue = trackMarks[index];
+//           const currentSliderValue =
+//               value || (Array.isArray(value) && value[0]) || 0;
+//           const style =
+//               currentMarkValue > Math.max(currentSliderValue)
+//                   ? trackMarkStyles.activeMark
+//                   : trackMarkStyles.inactiveMark;
+//           return <View style={style} />;
+//       };
+//   }
+
+//   const renderChildren = () => {
+//       return React.Children.map(
+//           props.children,
+//           (child: React.ReactElement) => {
+//               if (!!child && child.type === Slider) {
+//                   return React.cloneElement(child, {
+//                       onValueChange: setValue,
+//                       renderTrackMarkComponent,
+//                       trackMarks,
+//                       value,
+//                   });
+//               }
+
+//               return child;
+//           },
+//       );
+//   };
+
+//   return (
+//       <View style={styles.sliderContainer}>
+//           <View style={styles.titleContainer}>
+//               <Text>{caption}</Text>
+//               <Text>{Array.isArray(value) ? value.join(' - ') : value}</Text>
+//           </View>
+//           {renderChildren()}
+//       </View>
+//   );
+// };
+
+// const DEFAULT_VALUE = 0.2;

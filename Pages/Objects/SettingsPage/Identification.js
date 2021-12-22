@@ -77,7 +77,7 @@ const IdentificationScreen = ({ route, navigation }) => {
 
                 <Button
           onPress={() => {console.log( typeof(text))}}
-          title="Learn More"
+          title="Save"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
         />

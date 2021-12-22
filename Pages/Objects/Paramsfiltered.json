@@ -89,8 +89,8 @@
                 "Access": "R",
                 "Value": "Enabled",
                 "Assignable Values": [
-                    "Enabled",
-                    "Disabled"
+                    {"Tag":"Enabled"},
+                    {"Tag":"Disabled"}
                 ]
             },
             {
@@ -267,13 +267,13 @@
             {
                 "Tag": "Reference Temperature",
                 "Access": "R",
-                "Value": "10",
+                "Value": "0.0",
                 "PossibleValues": [
                     {
-                        "Tag": "0.0"
+                        "Tag": "°C" , "Value":25.0 , "RangeUpper":30.0, "RangeLower":15.0 
                     },
                     {
-                        "Tag": "1.8"
+                        "Tag": "°F" , "Value":77.0 , "RangeUpper":86.0, "RangeLower":59.0 
                     }
                 ]
             },
@@ -284,16 +284,10 @@
             },
             {
                 "Tag": "Mounting Factor",
-                "Access": "R",
-                "Value": "10",
-                "PossibleValues": [
-                    {
-                        "Tag": "0.9"
-                    },
-                    {
-                        "Tag": "1.1"
-                    }
-                ]
+                "Access": "R/W",
+                "Value":1.0 , 
+                "PossibleValues": {"RangeUpper":1.1, "RangeLower":0.9 }
+                
             },
             {
                 "Tag": "Zero Point",
@@ -310,16 +304,10 @@
             },
             {
                 "Tag": "Filter Count Constant",
-                "Access": "R",
-                "Value": "25",
-                "PossibleValues": [
-                    {
-                        "Tag": "0"
-                    },
-                    {
-                        "Tag": "100"
-                    }
-                ]
+                "Access": "R/W",
+                "Value":20 , 
+                "PossibleValues": {"RangeUpper":100, "RangeLower":0 }
+                
             }
         ]
     },
@@ -742,7 +730,15 @@
             {
                 "Tag": "Backlight",
                 "Access": "R",
-                "Value": "On"
+                "Value": "On",
+                "PossibleValues":[
+                    {
+                        "Tag": "Off"
+                    },
+                    {
+                        "Tag": "BLE"
+                    }
+                ]
             }
         ]
     },

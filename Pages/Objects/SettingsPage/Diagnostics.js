@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect } from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -6,7 +6,7 @@ import { TextInput } from 'react-native-paper';
 import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import { TouchableHighlight } from 'react-native-gesture-handler';
-
+import Icon from 'react-native-vector-icons/Ionicons';
 
 let DiagnosticsParams = Paramsfiltered.find(DiagnosticsParams => DiagnosticsParams.Tag === "Diagnostics");
 let MenuParams = DiagnosticsParams.menu;
@@ -29,7 +29,6 @@ function Item(title, value, navigation) {
   }
   else if (SwitchComponents.includes(title)) {
   var switchValues = (Values.filter(row => row.Tag == 'Diagnostics'))[0].menu.filter(row => row.Tag == title)[0]["Assignable Values"];
-  console.log((Values.filter(row => row.Tag == 'Diagnostics'))[0].menu.filter(row => row.Tag == title)[0]["Assignable Values"])
   return (
     <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switchable Components', { Tag: title, Value: value, SwitchableValues: switchValues})}>
       <Text style={styles.title}>{title}</Text>
@@ -65,45 +64,77 @@ const DiagnosticsScreen = ({ route, navigation }) => {
       />
     </SafeAreaView>
   )
+  const CheckButtoned=(selectedValue, sentValue )=> {
+    if(selectedValue===sentValue){
+      return(
+
+          <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+            <Text>{sentValue}</Text>
+            <Icon
+              name="checkmark-outline"
+              size={20}
+              color="#f54"
+            />
+          </View>
+        )
+    }
+    else{
+      return(
+        <View style={{ flexDirection: "row" }}>
+          <Text>{sentValue}</Text>
+        </View>
+      )
+    }
+  }
+
+  //---------------------------------------------------------------
+  
+  
+  
   const SwitchVariableScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
     const { Value } = route.params;
-    navigation.setOptions({title:Tag})
-    const { SwitchableValues } = route.params;
-    const initialValue= Value; 
-    const [valueScreen, setValueScreen] = useState(initialValue);
-    console.log(valueScreen)
-    function ItemSwitch(item,selectedValue){
-      console.log("Buraya Geldim")
-      // initialValue=selectedValue;
-      // Buraya İlk Seçimle Sonrasında Seçimin Değişmesiyle Fark Oluşunca Title'a Farklı Renk Verilebilir.
-      var equals = item==selectedValue
-      return (
-        <TouchableHighlight style={styles.itemButton} onPress={setValueScreen(item)}>
-          <Text>{item + valueScreen}</Text>
-        </TouchableHighlight>
-      
-      
-      )
+    const {SwitchableValues} =route.params;
+    const [text, setText] = React.useState(Value);
+    const renderItemSelectable = ({ item })=>{
+      return(
+      <TouchableOpacity style={styles.itemButton} onPress={() => {setText(item.Tag)}} >
+      {CheckButtoned(text,item.Tag)} 
+      {/* <Text>{text + "Enabled"}</Text> */}
+      </TouchableOpacity>)
     }
+    if(text!=Value){
+      navigation.setOptions({
+        headerRight: () => (
+        <TouchableOpacity >
+          <View style={styles.buttonBar}>
+            <Text>Save</Text>
+          </View>
+        </TouchableOpacity>
+        ),
+      });
+    }
+    else{
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+      });
+    }
+    return (
+      <View>
 
-    const renderItemSwitch = ({ item  }) => (
-      ItemSwitch(item, valueScreen));
+        <FlatList
+        data={SwitchableValues}
+        renderItem={renderItemSelectable}
+        keyExtractor={item => item.Tag}
+      />
 
-    return(
-    <SafeAreaView style={styles.container}>
-    <FlatList
-    data={SwitchableValues}
-    renderItem={renderItemSwitch}
+      </View>
+    );
+  };
 
-    />
-    </SafeAreaView>
-    
-    
-      )
-  }
-
-
+// ------------------------------------------
   const SimulationProcessVariableScreen = ({ route, navigation }) => {
     
 
@@ -129,13 +160,14 @@ const DiagnosticsScreen = ({ route, navigation }) => {
           right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
           onChangeText={text => setText(text)}
         />
-        <LenghtChecker lenght={32} />
+         <Text>Text Here. Lenght --{'>'} {32} </Text> 
+         {/* <Text>Enter a unique name for the measuring point to identify the device within the plant. Lenght --{'>'} {lenght} </Text>  */}
 
         <Button
           onPress={() => { console.log(typeof (text)) }}
-          title="Learn More"
+          title="Save"
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"
+          accessibilityLabel="Save Configuration"
         />
         {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
 
@@ -175,10 +207,21 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
 
   },
+  buttonBar: {
+    alignItems: "center",
+    backgroundColor: "#9A348E",
+    padding: 8,
+    marginRight:3,
+    borderRadius: 10,
+
+    
+    
+  },
   title: {
     fontSize: 15,
     color: 'black',
   },
+ 
   value: {
     fontSize: 12,
     color: 'gray',

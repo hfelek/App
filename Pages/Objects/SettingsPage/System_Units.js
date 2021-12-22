@@ -2,12 +2,13 @@ import React from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
-import { TextInput } from 'react-native-paper';
+import { TextInput, Title } from 'react-native-paper';
 import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 let SystemUnitsParams = Paramsfiltered.find(SystemUnitsParams => SystemUnitsParams.Tag === "System Units");
 let MenuParams = SystemUnitsParams.menu;
@@ -53,6 +54,28 @@ const SystemUnitsScreen = ({ route, navigation }) => {
         )
     };
   }
+  const CheckButtoned=(selectedValue, sentValue )=> {
+    if(selectedValue===sentValue){
+      return(
+
+          <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+            <Text>{sentValue}</Text>
+            <Icon
+              name="checkmark-outline"
+              size={20}
+              color="#f54"
+            />
+          </View>
+        )
+    }
+    else{
+      return(
+        <View style={{ flexDirection: "row" }}>
+          <Text>{sentValue}</Text>
+        </View>
+      )
+    }
+  }
 
 
 
@@ -72,52 +95,142 @@ const SystemUnitsScreen = ({ route, navigation }) => {
     </SafeAreaView>
   )
 
-  const UnitConductivityScreen = () => {
+  const UnitConductivityScreen = ({route,navigation}) => {
     const valSystemUnits = Values.filter(row => row.Tag == 'System Units');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Unit Conductivity');
     const possibleValues = val[0].PossibleValues;
     const [selection, setSelection] = React.useState(val[0].Value);
-    console.log(possibleValues)
-    console.log(typeof(possibleValues))
+
+    const renderItemSelectable = ({ item }) => (
+      ItemSelectable(item.Tag)
+    );
+    function ItemSelectable(title) {
+    
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => {setSelection(title)}}>
+          {CheckButtoned(selection,title)} 
+        </TouchableOpacity>
+      )
+  }
+  if(selection!=val[0].Value){
+    navigation.setOptions({
+      headerRight: () => (
+      <TouchableOpacity >
+        <View style={styles.buttonBar}>
+          <Text>Save</Text>
+        </View>
+      </TouchableOpacity>
+      ),
+    });
+  }
+  else{
+    navigation.setOptions({
+      headerRight: () => (
+        <></>
+      ),
+    });
+  }
+
+
     return (
       <SafeAreaView style={styles.container}>
       <FlatList
         data={possibleValues}
-        renderItem={renderItem1}
+        renderItem={renderItemSelectable}
         keyExtractor={item => item.Tag}
       />
     </SafeAreaView>
     );
   };
-  const UnitConcentrationScreen = () => {
+  const UnitConcentrationScreen = ({route,navigation}) => {
     const valSystemUnits = Values.filter(row => row.Tag == 'System Units');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Unit Concentration');
     const possibleValues = val[0].PossibleValues;
     const [selection, setSelection] = React.useState(val[0].Value);
-    console.log(possibleValues)
-    console.log(typeof(possibleValues))
+
+    const renderItemSelectable = ({ item }) => (
+      ItemSelectable(item.Tag)
+    );
+    function ItemSelectable(title) {
+    
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => {setSelection(title)}}>
+          {CheckButtoned(selection,title)} 
+        </TouchableOpacity>
+      )
+  }
+  if(selection!=val[0].Value){
+    navigation.setOptions({
+      headerRight: () => (
+      <TouchableOpacity >
+        <View style={styles.buttonBar}>
+          <Text>Save</Text>
+        </View>
+      </TouchableOpacity>
+      ),
+    });
+  }
+  else{
+    navigation.setOptions({
+      headerRight: () => (
+        <></>
+      ),
+    });
+  }
+
+
     return (
       <SafeAreaView style={styles.container}>
       <FlatList
         data={possibleValues}
-        renderItem={renderItem1}
+        renderItem={renderItemSelectable}
         keyExtractor={item => item.Tag}
       />
     </SafeAreaView>
     );
   };
-  const UnitTemperatureScreen = () => {
+  const UnitTemperatureScreen = ({route,navigation}) => {
     const valSystemUnits = Values.filter(row => row.Tag == 'System Units');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Unit Temperature');
     const possibleValues = val[0].PossibleValues;
     const [selection, setSelection] = React.useState(val[0].Value);
-    console.log(possibleValues)
-    console.log(typeof(possibleValues))
+
+    const renderItemSelectable = ({ item }) => (
+      ItemSelectable(item.Tag)
+    );
+    function ItemSelectable(title) {
+    
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => {setSelection(title)}}>
+          {CheckButtoned(selection,title)} 
+        </TouchableOpacity>
+      )
+  }
+  if(selection!=val[0].Value){
+    navigation.setOptions({
+      headerRight: () => (
+      <TouchableOpacity >
+        <View style={styles.buttonBar}>
+          <Text>Save</Text>
+        </View>
+      </TouchableOpacity>
+      ),
+    });
+  }
+  else{
+    navigation.setOptions({
+      headerRight: () => (
+        <></>
+      ),
+    });
+  }
+
+
     return (
       <SafeAreaView style={styles.container}>
       <FlatList
         data={possibleValues}
-        renderItem={renderItem1}
+        renderItem={renderItemSelectable}
         keyExtractor={item => item.Tag}
       />
     </SafeAreaView>
@@ -167,6 +280,16 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 12,
     color: 'gray',
+  },
+  buttonBar: {
+    alignItems: "center",
+    backgroundColor: "#9A348E",
+    padding: 8,
+    marginRight:3,
+    borderRadius: 10,
+
+    
+    
   },
   itemButton: {
     backgroundColor: '#ffffff',

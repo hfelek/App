@@ -1,10 +1,11 @@
 import React from 'react'
-import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity,TouchableHighlight } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
 import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
+import Icon from 'react-native-vector-icons/Ionicons';
 import react from 'react';
 
 let DisplayParams = Paramsfiltered.find(DisplayParams => DisplayParams.Tag === "Display");
@@ -21,7 +22,7 @@ const DisplayScreen = ({ route, navigation }) => {
     switch (title) {
       case 'Backlight':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Backlight')}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Backlight', { Tag: title, Value: value })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
@@ -36,7 +37,46 @@ const DisplayScreen = ({ route, navigation }) => {
         )
     };
   }
+  const CheckButtoned=(selectedValue, sentValue )=> {
+    if(selectedValue===sentValue){
+      return(
 
+          <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+            <Text>{sentValue}</Text>
+            <Icon
+              name="checkmark-outline"
+              size={20}
+              color="#f54"
+            />
+          </View>
+        )
+    }
+    else{
+      return(
+        <View style={{ flexDirection: "row" }}>
+          <Text>{sentValue}</Text>
+        </View>
+      )
+    }
+  }
+  const ChangedButton = (initialValue,newValue,navigation)=>{
+    if(initialValue===newValue){
+      return(
+        <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+        <Text>Value Not Changed</Text>
+      </View>
+        )
+    }
+    else{
+      return(
+        <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+          <Text>Value Changed</Text>
+        </View>
+      )
+    }
+  }
+
+  
 
   const DisplayMainScreen = ({ navigation }) => (
 
@@ -49,35 +89,38 @@ const DisplayScreen = ({ route, navigation }) => {
     </SafeAreaView>
   )
 
-  const BacklightScreen = () => {
-    filtered = Values.filter(row => row.Tag == 'Display');
-    filteredAT = filtered[0].menu.filter(row => row.Tag == 'Backlight');
-    const [text, setText] = React.useState(filteredAT[0].Value);
-   
+  const BacklightScreen = ({ route, navigation }) => {
+    const { Tag } = route.params;
+    const { Value } = route.params;
+    const [text, setText] = React.useState(Value);
+    if(text!=Value){
+      navigation.setOptions({
+        headerRight: () => (
+        <TouchableHighlight >
+          <View style={styles.buttonBar}>
+            <Text>Save</Text>
+          </View>
+        </TouchableHighlight>
+        ),
+      });
+    }
+    else{
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+      });
+    }
     return (
       <View>
-        <TextInput
-          label="Set Your Backlight"
-          value={text}
-          selectionColor='#000'
-          underlineColor='#000'
-          activeOutlineColor='#000'
-          outlineColor='#000'
-          // activeUnderlineColor='#000'
-          error={false}
-          right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
-          onChangeText={text => setText(text)}
-        />
-        <LenghtChecker lenght={32} />
+        <TouchableOpacity style={styles.itemButton} onPress={() => setText("On")} >
+          {CheckButtoned(text,"On")}
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.itemButton} onPress={() => setText("Off")} >
+          {CheckButtoned(text,"Off")}
+        </TouchableOpacity>
+        {ChangedButton(Value,text,navigation)}
 
-                <Button
-          onPress={() => {console.log( typeof(text))}}
-          title="Learn More"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
-        {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
-        
       </View>
     );
   };
@@ -87,7 +130,7 @@ const DisplayScreen = ({ route, navigation }) => {
 
   return (
     <StackDisplay.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-      <StackDisplay.Screen name='Display Main' component={DisplayMainScreen} options={{headerTitle:"Display"}} />
+      <StackDisplay.Screen name='Display Main' component={DisplayMainScreen} options={{ headerTitle: "Display" }} />
       <StackDisplay.Screen name='Backlight' component={BacklightScreen} />
     </StackDisplay.Navigator>
 
@@ -103,6 +146,16 @@ const styles = StyleSheet.create({
     padding: 0,
     // marginTop: StatusBar.currentHeight || 0,
     paddingTop: 0,
+  },
+  buttonBar: {
+    alignItems: "center",
+    backgroundColor: "#9A348E",
+    padding: 8,
+    marginRight:3,
+    borderRadius: 10,
+
+    
+    
   },
   item: {
     backgroundColor: '#ffffff',
