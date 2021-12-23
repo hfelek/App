@@ -226,10 +226,10 @@
             {
                 "Tag": "Range",
                 "Access": "R",
-                "Value": "2000 uS/cm",
+                "Value": "20 mS/cm",
                 "PossibleValues": [
                     {
-                        "Tag": "2000 uS/cm"
+                        "Tag": "2000 µS/cm"
                     },
                     {
                         "Tag": "20 mS/cm"
@@ -251,7 +251,19 @@
             {
                 "Tag": "Temperature Compensation",
                 "Access": "R/W",
-                "Value": "Linear",
+                "Value": "Non-Linear",
+                "Menu": [
+                    {
+                        "Tag": "Linear"
+                    },
+                    {
+                        "Tag": "Non-Linear"
+                    }
+                ]
+            },
+            {
+                "Tag": "Temperature Coefficient",
+                "Access": "R/W",
                 "Menu": [
                     {
                         "Tag": "Linear",
@@ -269,84 +281,65 @@
                         "Value": [
                             {
                                 "Tag": "T1",
-                                "Value": 0.0,
+                                "Value": "0.0",
                                 "RangeUpper": 130.0,
                                 "RangeLower": -10.0
                             },
                             {
                                 "Tag": "T2",
-                                "Value": 10.0,
+                                "Value": "10.0",
                                 "RangeUpper": 130.0,
                                 "RangeLower": -10.0
                             },
                             {
                                 "Tag": "T3",
-                                "Value": 20.0,
+                                "Value": "20.0",
                                 "RangeUpper": 130.0,
                                 "RangeLower": -10.0
                             },
                             {
                                 "Tag": "T4",
-                                "Value": 50.0,
+                                "Value": "50.0",
                                 "RangeUpper": 130.0,
                                 "RangeLower": -10.0
                             },
                             {
                                 "Tag": "T5",
-                                "Value": 60.0,
+                                "Value": "60.0",
                                 "RangeUpper": 130.0,
                                 "RangeLower": -10.0
                             },
                             {
                                 "Tag": "C1",
-                                "Value": 1.8,
+                                "Value": "1.8",
                                 "RangeUpper": 5.4,
                                 "RangeLower": 0.0
                             },
                             {
                                 "Tag": "C2",
-                                "Value": 1.9,
-                                "RangeUpper": 5.4,
+                                "Value": "1.9",
+                                "RangeUpper": "54",
                                 "RangeLower": 0.0
                             },
                             {
                                 "Tag": "C3",
-                                "Value": 2.0,
+                                "Value": "2.0",
                                 "RangeUpper": 5.4,
                                 "RangeLower": 0.0
                             },
                             {
                                 "Tag": "C4",
-                                "Value": 2.1,
+                                "Value": "2.1",
                                 "RangeUpper": 5.4,
                                 "RangeLower": 0.0
                             },
                             {
                                 "Tag": "C5",
-                                "Value": 2.2,
+                                "Value": "2.2",
                                 "RangeUpper": 5.4,
                                 "RangeLower": 0.0
                             }
                         ]
-                    }
-                ]
-            },
-            {
-                "Tag": "Temperature Coefficient",
-                "Access": "R/W",
-                "Menu": [
-                    {
-                        "Tag": "Chemical",
-                        "Value": 20
-                    },
-                    {
-                        "Tag": "Linear",
-                        "Value": 2.2,
-                        "RangeUpper": 40,
-                        "RangeLower": 0.5
-                    },
-                    {
-                        "Tag": "Non-Linear"
                     }
                 ]
             },
@@ -385,14 +378,49 @@
             },
             {
                 "Tag": "Zero Point",
-                "Access": "R",
-                "Value": "Step1",
-                "PossibleValues": [
+                "Access": "R/W",
+                "Menu": [
                     {
-                        "Tag": "Step1"
+                        "Tag": "2000 µS/cm",
+                        "Value": "0.0",
+                        "RangeUpper": "100.0",
+                        "RangeLower": "-100.0",
+                        "Stepsize": "1"
                     },
                     {
-                        "Tag": "Step2"
+                        "Tag": "20 mS/cm",
+                        "Value": "0.0",
+                        "RangeUpper": "1",
+                        "RangeLower": "-1",
+                        "Stepsize": "0.01"
+                    },
+                    {
+                        "Tag": "200 mS/cm",
+                        "Value": "0.0",
+                        "RangeUpper": "10.0",
+                        "RangeLower": "-10.0",
+                        "Stepsize": "0.10"
+                    },
+                    {
+                        "Tag": "500 mS/cm",
+                        "Value": "0.0",
+                        "RangeUpper": "25.0",
+                        "RangeLower": "-25.0",
+                        "Stepsize": "0.25"
+                    },
+                    {
+                        "Tag": "1000 mS/cm",
+                        "Value": "0.0",
+                        "RangeUpper": "50.0",
+                        "RangeLower": "-50.0",
+                        "Stepsize": "0.5"
+                    },
+                    {
+                        "Tag": "2000 mS/cm",
+                        "Value": "0.0",
+                        "RangeUpper": "100.0",
+                        "RangeLower": "-100.0",
+                        "Stepsize": "0.1"
                     }
                 ]
             },
