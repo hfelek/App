@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Slider } from "@miblanchard/react-native-slider";
 import ScrollViewNativeComponent from 'react-native/Libraries/Components/ScrollView/ScrollViewNativeComponent';
 import { or } from 'react-native-reanimated';
+import { RectButton } from 'react-native-gesture-handler';
 // import Slider from '@react-native-community/slider';
 //import MultiSlider from 'react-native-multi-slider';
 
@@ -215,26 +216,15 @@ const ConductivityScreen = ({ route, navigation }) => {
     );
   };
   const TemperatureCoefficientScreen = () => {
-    const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
-    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Temperature Coefficient');
-    const possibleValues = val[0].PossibleValues;
-    const [selection, setSelection] = React.useState(val[0].Value);
-    console.log(possibleValues)
-    console.log(typeof (possibleValues))
-    return (
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          data={possibleValues}
-          renderItem={renderItem1}
-          keyExtractor={item => item.Tag}
-        />
-      </SafeAreaView>
-    );
+      return(
+        <Text>Hello</Text>
+      )
   };
   const TemperatureCompensationScreen = ({ route, navigation }) => {
     const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Temperature Compensation');
-    const possibleValues = val[0].PossibleValues;
+    
+    const possibleValues = val[0].Menu;
     const [selection, setSelection] = React.useState(val[0].Value);
     function ItemSelectable(title) {
 

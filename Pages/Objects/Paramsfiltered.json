@@ -89,8 +89,12 @@
                 "Access": "R",
                 "Value": "Enabled",
                 "Assignable Values": [
-                    {"Tag":"Enabled"},
-                    {"Tag":"Disabled"}
+                    {
+                        "Tag": "Enabled"
+                    },
+                    {
+                        "Tag": "Disabled"
+                    }
                 ]
             },
             {
@@ -154,7 +158,7 @@
             {
                 "Tag": "Unit Concentration",
                 "Access": "R",
-                "Value": "NaCl",
+                "Value": "Na2SO4",
                 "PossibleValues": [
                     {
                         "Tag": "NaCl"
@@ -167,20 +171,38 @@
                     }
                 ],
                 "SubSelectedValue": "g/kg",
-                "NaCl": [
-                    "g/kg",
-                    "wt%=1",
-                    "Baume=2"
-                ],
-                "NaOH": [
-                    "g/kg",
-                    "wt%=1",
-                    "Baume=2"
-                ],
-                "Na2SO4": [
-                    "g/kg",
-                    "wt%=1"
-                ]
+                "SubList": {
+                    "NaCl": [
+                        {
+                            "Tag": "g/kg"
+                        },
+                        {
+                            "Tag": "wt%"
+                        },
+                        {
+                            "Tag": "Baume"
+                        }
+                    ],
+                    "NaOH": [
+                        {
+                            "Tag": "g/kg"
+                        },
+                        {
+                            "Tag": "wt%"
+                        },
+                        {
+                            "Tag": "Baume"
+                        }
+                    ],
+                    "Na2SO4": [
+                        {
+                            "Tag": "g/kg"
+                        },
+                        {
+                            "Tag": "wt%"
+                        }
+                    ]
+                }
             },
             {
                 "Tag": "Unit Temperature",
@@ -228,39 +250,103 @@
             },
             {
                 "Tag": "Temperature Compensation",
-                "Access": "R",
+                "Access": "R/W",
                 "Value": "Linear",
-                "PossibleValues": [
+                "Menu": [
                     {
-                        "Tag": "Linear"
+                        "Tag": "Linear",
+                        "Value": [
+                            {
+                                "Tag": "Linear Coefficient",
+                                "Value": 2.2,
+                                "RangeUpper": 40,
+                                "RangeLower": 0.5
+                            }
+                        ]
                     },
                     {
-                        "Tag": "Non-Linear"
+                        "Tag": "Non-Linear",
+                        "Value": [
+                            {
+                                "Tag": "T1",
+                                "Value": 0.0,
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
+                                "Tag": "T2",
+                                "Value": 10.0,
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
+                                "Tag": "T3",
+                                "Value": 20.0,
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
+                                "Tag": "T4",
+                                "Value": 50.0,
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
+                                "Tag": "T5",
+                                "Value": 60.0,
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
+                                "Tag": "C1",
+                                "Value": 1.8,
+                                "RangeUpper": 5.4,
+                                "RangeLower": 0.0
+                            },
+                            {
+                                "Tag": "C2",
+                                "Value": 1.9,
+                                "RangeUpper": 5.4,
+                                "RangeLower": 0.0
+                            },
+                            {
+                                "Tag": "C3",
+                                "Value": 2.0,
+                                "RangeUpper": 5.4,
+                                "RangeLower": 0.0
+                            },
+                            {
+                                "Tag": "C4",
+                                "Value": 2.1,
+                                "RangeUpper": 5.4,
+                                "RangeLower": 0.0
+                            },
+                            {
+                                "Tag": "C5",
+                                "Value": 2.2,
+                                "RangeUpper": 5.4,
+                                "RangeLower": 0.0
+                            }
+                        ]
                     }
                 ]
             },
             {
                 "Tag": "Temperature Coefficient",
-                "Access": "R",
-                "Value": "10.0",
-                "PossibleValues": [
+                "Access": "R/W",
+                "Menu": [
                     {
-                        "Tag": "0.0"
+                        "Tag": "Chemical",
+                        "Value": 20
                     },
                     {
-                        "Tag": "1.8"
+                        "Tag": "Linear",
+                        "Value": 2.2,
+                        "RangeUpper": 40,
+                        "RangeLower": 0.5
                     },
                     {
-                        "Tag": "10.0"
-                    },
-                    {
-                        "Tag": "1.9"
-                    },
-                    {
-                        "Tag": "20.0"
-                    },
-                    {
-                        "Tag": "2.0"
+                        "Tag": "Non-Linear"
                     }
                 ]
             },
@@ -270,10 +356,16 @@
                 "Value": "0.0",
                 "PossibleValues": [
                     {
-                        "Tag": "°C" , "Value":25.0 , "RangeUpper":30.0, "RangeLower":15.0 
+                        "Tag": "°C",
+                        "Value": 25.0,
+                        "RangeUpper": 30.0,
+                        "RangeLower": 15.0
                     },
                     {
-                        "Tag": "°F" , "Value":77.0 , "RangeUpper":86.0, "RangeLower":59.0 
+                        "Tag": "°F",
+                        "Value": 77.0,
+                        "RangeUpper": 86.0,
+                        "RangeLower": 59.0
                     }
                 ]
             },
@@ -285,9 +377,11 @@
             {
                 "Tag": "Mounting Factor",
                 "Access": "R/W",
-                "Value":1.0 , 
-                "PossibleValues": {"RangeUpper":1.1, "RangeLower":0.9 }
-                
+                "Value": 1.0,
+                "PossibleValues": {
+                    "RangeUpper": 1.1,
+                    "RangeLower": 0.9
+                }
             },
             {
                 "Tag": "Zero Point",
@@ -305,9 +399,11 @@
             {
                 "Tag": "Filter Count Constant",
                 "Access": "R/W",
-                "Value":20 , 
-                "PossibleValues": {"RangeUpper":100, "RangeLower":0 }
-                
+                "Value": 20,
+                "PossibleValues": {
+                    "RangeUpper": 100,
+                    "RangeLower": 0
+                }
             }
         ]
     },
@@ -731,7 +827,7 @@
                 "Tag": "Backlight",
                 "Access": "R",
                 "Value": "On",
-                "PossibleValues":[
+                "PossibleValues": [
                     {
                         "Tag": "Off"
                     },
@@ -875,7 +971,6 @@
                         "Value": "15",
                         "Limit": "100"
                     }
-
                 ]
             }
         ]
@@ -888,7 +983,14 @@
                 "Tag": "Language",
                 "Access": "R",
                 "Value": "English",
-                "PossibleValues":[{"Tag":"English"},{"Tag":"Türkçe"}]
+                "PossibleValues": [
+                    {
+                        "Tag": "English"
+                    },
+                    {
+                        "Tag": "Türkçe"
+                    }
+                ]
             },
             {
                 "Tag": "Set Access Code",
@@ -905,14 +1007,25 @@
             {
                 "Tag": "Device Reset",
                 "Access": "R",
-                "PossibleValues":[
-                    {"Tag":"Cancel"},
-                    {"Tag":"Device Restore Factory"},
-                    {"Tag":"Device Auto Calibration"},
-                    {"Tag":"Parameters Restore"},
-                    {"Tag":"Wifi Parameters Restore"},
-                    {"Tag":"Restart"}
-                    
+                "PossibleValues": [
+                    {
+                        "Tag": "Cancel"
+                    },
+                    {
+                        "Tag": "Device Restore Factory"
+                    },
+                    {
+                        "Tag": "Device Auto Calibration"
+                    },
+                    {
+                        "Tag": "Parameters Restore"
+                    },
+                    {
+                        "Tag": "Wifi Parameters Restore"
+                    },
+                    {
+                        "Tag": "Restart"
+                    }
                 ]
             },
             {

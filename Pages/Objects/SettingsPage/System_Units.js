@@ -54,22 +54,22 @@ const SystemUnitsScreen = ({ route, navigation }) => {
         )
     };
   }
-  const CheckButtoned=(selectedValue, sentValue )=> {
-    if(selectedValue===sentValue){
-      return(
+  const CheckButtoned = (selectedValue, sentValue) => {
+    if (selectedValue === sentValue) {
+      return (
 
-          <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-            <Text>{sentValue}</Text>
-            <Icon
-              name="checkmark-outline"
-              size={20}
-              color="#f54"
-            />
-          </View>
-        )
+        <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+          <Text>{sentValue}</Text>
+          <Icon
+            name="checkmark-outline"
+            size={20}
+            color="#f54"
+          />
+        </View>
+      )
     }
-    else{
-      return(
+    else {
+      return (
         <View style={{ flexDirection: "row" }}>
           <Text>{sentValue}</Text>
         </View>
@@ -95,7 +95,7 @@ const SystemUnitsScreen = ({ route, navigation }) => {
     </SafeAreaView>
   )
 
-  const UnitConductivityScreen = ({route,navigation}) => {
+  const UnitConductivityScreen = ({ route, navigation }) => {
     const valSystemUnits = Values.filter(row => row.Tag == 'System Units');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Unit Conductivity');
     const possibleValues = val[0].PossibleValues;
@@ -105,91 +105,135 @@ const SystemUnitsScreen = ({ route, navigation }) => {
       ItemSelectable(item.Tag)
     );
     function ItemSelectable(title) {
-    
+
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => {setSelection(title)}}>
-          {CheckButtoned(selection,title)} 
+        <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
+          {CheckButtoned(selection, title)}
         </TouchableOpacity>
       )
-  }
-  if(selection!=val[0].Value){
-    navigation.setOptions({
-      headerRight: () => (
-      <TouchableOpacity >
-        <View style={styles.buttonBar}>
-          <Text>Save</Text>
-        </View>
-      </TouchableOpacity>
-      ),
-    });
-  }
-  else{
-    navigation.setOptions({
-      headerRight: () => (
-        <></>
-      ),
-    });
-  }
+    }
+    React.useEffect(() => {
+    if (selection != val[0].Value) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+      });
+    }
+  },)
 
 
     return (
       <SafeAreaView style={styles.container}>
-      <FlatList
-        data={possibleValues}
-        renderItem={renderItemSelectable}
-        keyExtractor={item => item.Tag}
-      />
-    </SafeAreaView>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItemSelectable}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
     );
   };
-  const UnitConcentrationScreen = ({route,navigation}) => {
+  const UnitConcentrationScreen = ({ route, navigation }) => {
     const valSystemUnits = Values.filter(row => row.Tag == 'System Units');
-    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Unit Concentration');
-    const possibleValues = val[0].PossibleValues;
-    const [selection, setSelection] = React.useState(val[0].Value);
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Unit Concentration')[0];
+    const possibleValues = val.PossibleValues;
+    const [selection, setSelection] = React.useState(val.Value);
+    const subValueToRender = val.SubSelectedValue;
+    const [subSelection, setSubSelection] = React.useState(subValueToRender);
+    const subSelectionList = val["SubList"];
+    ///////////BURADA BİR BUG VAR... İLK DEĞERE TEKRAR TIKLAYINCA, SUBVALUE DEĞİŞMİYOR 
+    
+    React.useEffect(() => {
+      if(selection != val.Value){
+      setSubSelection(null)
+      console.log("subSelection:") 
+      console.log(subSelection)  
+      
+    }
+    }, [selection]);
+
+    // const subList = subSelectionList["NaCl"];
 
     const renderItemSelectable = ({ item }) => (
       ItemSelectable(item.Tag)
     );
     function ItemSelectable(title) {
-    
+
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => {setSelection(title)}}>
-          {CheckButtoned(selection,title)} 
+        <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title),setSubSelection(null)}}>
+          {CheckButtoned(selection, title)}
         </TouchableOpacity>
       )
-  }
-  if(selection!=val[0].Value){
-    navigation.setOptions({
-      headerRight: () => (
-      <TouchableOpacity >
-        <View style={styles.buttonBar}>
-          <Text>Save</Text>
-        </View>
-      </TouchableOpacity>
-      ),
-    });
-  }
-  else{
-    navigation.setOptions({
-      headerRight: () => (
-        <></>
-      ),
-    });
-  }
+    }
+    const SubRenderItemSelectable = ({ item }) => (
+      SubItemSelectable(item.Tag)
+    );
+    function SubItemSelectable(title) {
 
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => { setSubSelection(title) }} >
+          {CheckButtoned(subSelection, title)}
+        </TouchableOpacity>
+      )
+    }
+
+    React.useEffect(() => {
+      if ((selection != val.Value || subSelection !=subValueToRender) && (subSelection!=null)) {
+        navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity >
+              <View style={styles.buttonBar}>
+                <Text>Save</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        });
+      }
+      else {
+        navigation.setOptions({
+          headerRight: () => (
+            <></>
+          ),
+        });
+      }
+
+    },);
 
     return (
-      <SafeAreaView style={styles.container}>
-      <FlatList
-        data={possibleValues}
-        renderItem={renderItemSelectable}
-        keyExtractor={item => item.Tag}
-      />
-    </SafeAreaView>
+      <SafeAreaView style={{
+
+        justifyContent: "flex-start", // 
+        padding: 0,
+        // marginTop: StatusBar.currentHeight || 0,
+        paddingTop: 5,
+      }}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItemSelectable}
+          keyExtractor={item => item.Tag}
+        />
+        <Text style={styles.myText}>{selection}</Text>
+        <FlatList
+          data={subSelectionList[selection]}
+          renderItem={SubRenderItemSelectable}
+          keyExtractor={item => item.Tag}
+        />
+
+      </SafeAreaView>
     );
   };
-  const UnitTemperatureScreen = ({route,navigation}) => {
+  const UnitTemperatureScreen = ({ route, navigation }) => {
     const valSystemUnits = Values.filter(row => row.Tag == 'System Units');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Unit Temperature');
     const possibleValues = val[0].PossibleValues;
@@ -199,41 +243,42 @@ const SystemUnitsScreen = ({ route, navigation }) => {
       ItemSelectable(item.Tag)
     );
     function ItemSelectable(title) {
-    
+
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => {setSelection(title)}}>
-          {CheckButtoned(selection,title)} 
+        <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
+          {CheckButtoned(selection, title)}
         </TouchableOpacity>
       )
-  }
-  if(selection!=val[0].Value){
-    navigation.setOptions({
-      headerRight: () => (
-      <TouchableOpacity >
-        <View style={styles.buttonBar}>
-          <Text>Save</Text>
-        </View>
-      </TouchableOpacity>
-      ),
-    });
-  }
-  else{
-    navigation.setOptions({
-      headerRight: () => (
-        <></>
-      ),
-    });
-  }
-
+    }
+    React.useEffect(() => {
+    if (selection != val[0].Value) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+      });
+    }
+  },)
 
     return (
       <SafeAreaView style={styles.container}>
-      <FlatList
-        data={possibleValues}
-        renderItem={renderItemSelectable}
-        keyExtractor={item => item.Tag}
-      />
-    </SafeAreaView>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItemSelectable}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
     );
   };
   const renderItem1 = ({ item }) => (
@@ -285,11 +330,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
-    marginRight:3,
+    marginRight: 3,
     borderRadius: 10,
 
-    
-    
+
+
   },
   itemButton: {
     backgroundColor: '#ffffff',
