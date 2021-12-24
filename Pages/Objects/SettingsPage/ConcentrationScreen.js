@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -93,6 +93,8 @@ const ConcentrationScreen = ({ route, navigation }) => {
     const renderItemSelectable = ({ item }) => (
       ItemSelectable(item.Tag)
     );
+    useEffect(() => {
+
     if (selection != val[0].Value) {
       navigation.setOptions({
         headerRight: () => (
@@ -111,6 +113,7 @@ const ConcentrationScreen = ({ route, navigation }) => {
         ),
       });
     }
+  });
     return (
       <SafeAreaView style={styles.container}>
         <FlatList

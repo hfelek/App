@@ -15,7 +15,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
 import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
-import react from 'react';
+import react, { useEffect } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 let SystemParams = Paramsfiltered.find(
@@ -235,7 +235,10 @@ const SystemScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
     const { Value } = route.params;
     const [text, setText] = React.useState('');
+    useEffect(() => {
+
     navigation.setOptions({ title: Tag });
+    });
     return (
       <View>
         <TextInput
@@ -261,7 +264,7 @@ const SystemScreen = ({ route, navigation }) => {
           onPress={() => {
             console.log(typeof text);
           }}
-          title="Learn More"
+          title="Save"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
         />
@@ -286,6 +289,8 @@ const SystemScreen = ({ route, navigation }) => {
     const renderItemSelectable = ({ item }) => (
       ItemSelectable(item.Tag)
     );
+    useEffect(() => {
+    
     if (selection != subTitle[0].Value) {
       navigation.setOptions({
         headerRight: () => (
@@ -303,7 +308,8 @@ const SystemScreen = ({ route, navigation }) => {
           <></>
         ),
       });
-    }
+    }});
+
     return (
       <SafeAreaView style={styles.container}>
         <FlatList

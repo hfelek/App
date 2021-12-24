@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity,TouchableHighlight } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -93,6 +93,9 @@ const DisplayScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
     const { Value } = route.params;
     const [text, setText] = React.useState(Value);
+    
+    useEffect(() => {
+    
     if(text!=Value){
       navigation.setOptions({
         headerRight: () => (
@@ -111,6 +114,7 @@ const DisplayScreen = ({ route, navigation }) => {
         ),
       });
     }
+  });
     return (
       <View>
         <TouchableOpacity style={styles.itemButton} onPress={() => setText("On")} >

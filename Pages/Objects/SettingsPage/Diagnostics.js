@@ -95,6 +95,10 @@ const DiagnosticsScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
     const { Value } = route.params;
     const {SwitchableValues} =route.params;
+    useEffect(() => {
+      navigation.setOptions({title:Tag})
+    });
+
     const [text, setText] = React.useState(Value);
     const renderItemSelectable = ({ item })=>{
       return(
@@ -103,6 +107,8 @@ const DiagnosticsScreen = ({ route, navigation }) => {
       {/* <Text>{text + "Enabled"}</Text> */}
       </TouchableOpacity>)
     }
+    useEffect(() => {
+ 
     if(text!=Value){
       navigation.setOptions({
         headerRight: () => (
@@ -121,6 +127,7 @@ const DiagnosticsScreen = ({ route, navigation }) => {
         ),
       });
     }
+  });
     return (
       <View>
 
@@ -140,7 +147,9 @@ const DiagnosticsScreen = ({ route, navigation }) => {
 
     const { Tag } = route.params;
     const { Value } = route.params;
-    navigation.setOptions({title:Tag})
+    useEffect(() => {
+      navigation.setOptions({title:Tag})
+    });
     filtered = Values.filter(row => row.Tag == 'Diagnostics');
     filteredAT = filtered[0].menu.filter(row => row.Tag == Tag);
     const [text, setText] = React.useState(Value);
@@ -149,7 +158,7 @@ const DiagnosticsScreen = ({ route, navigation }) => {
 
       <View>
         <TextInput
-          label="Set Your Simulation Process Variable"
+          label={"Set " + Tag}
           value={text}
           selectionColor='#000'
           underlineColor='#000'
@@ -160,7 +169,7 @@ const DiagnosticsScreen = ({ route, navigation }) => {
           right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
           onChangeText={text => setText(text)}
         />
-         <Text>Text Here. Lenght --{'>'} {32} </Text> 
+         {/* <Text>Text Here. Lenght --{'>'} {32} </Text>  */}
          {/* <Text>Enter a unique name for the measuring point to identify the device within the plant. Lenght --{'>'} {lenght} </Text>  */}
 
         <Button

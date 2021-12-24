@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -289,6 +289,8 @@ const Output1Screen = ({ route, navigation }) => {
     const renderItemSelectable = ({ item }) => (
       ItemSelectable(item.Tag)
     );
+    useEffect(() => {
+
     if (selection != val[0].Value) {
       navigation.setOptions({
         headerRight: () => (
@@ -307,6 +309,7 @@ const Output1Screen = ({ route, navigation }) => {
         ),
       });
     }
+  });
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -335,6 +338,8 @@ const Output1Screen = ({ route, navigation }) => {
     const renderItemSelectable = ({ item }) => (
       ItemSelectable(item.Tag)
     );
+    useEffect(() => {
+  
     if (selection != val[0].Value) {
       navigation.setOptions({
         headerRight: () => (
@@ -353,6 +358,7 @@ const Output1Screen = ({ route, navigation }) => {
         ),
       });
     }
+  });
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -381,6 +387,8 @@ const Output1Screen = ({ route, navigation }) => {
     const renderItemSelectable = ({ item }) => (
       ItemSelectable(item.Tag)
     );
+    useEffect(() => {
+  
     if (selection != val[0].Value) {
       navigation.setOptions({
         headerRight: () => (
@@ -399,6 +407,7 @@ const Output1Screen = ({ route, navigation }) => {
         ),
       });
     }
+  });
     return (
       <SafeAreaView style={styles.container}>
         <FlatList

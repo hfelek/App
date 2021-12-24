@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity, ScrollView } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -137,6 +137,8 @@ const ConductivityScreen = ({ route, navigation }) => {
     const renderItemSelectable = ({ item }) => (
       ItemSelectable(item.Tag)
     );
+    useEffect(() => {
+    
     if (selection != val[0].Value) {
       navigation.setOptions({
         headerRight: () => (
@@ -155,6 +157,7 @@ const ConductivityScreen = ({ route, navigation }) => {
         ),
       });
     }
+  });
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -165,6 +168,7 @@ const ConductivityScreen = ({ route, navigation }) => {
       </SafeAreaView>
     );
   };
+
   const MountingFactorScreen = ({ route, navigation }) => {
     const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Mounting Factor')[0];
@@ -173,6 +177,8 @@ const ConductivityScreen = ({ route, navigation }) => {
     const limitsMF = [possibleValues.RangeLower, possibleValues.RangeUpper]
     const [mountingFactor, setMountingFactor] = React.useState(initalMFValue);
     function callBackSlider() {
+      // useEffect(() => {
+      
       if ((initalMFValue != mountingFactor)) {
 
         navigation.setOptions({
@@ -192,7 +198,7 @@ const ConductivityScreen = ({ route, navigation }) => {
           ),
         });
       }
-
+    // });
     }
 
 
@@ -375,6 +381,8 @@ const ConductivityScreen = ({ route, navigation }) => {
     const renderItemSelectable = ({ item }) => (
       ItemSelectable(item.Tag)
     );
+    useEffect(() => {
+    
     if (selection != val[0].Value) {
       navigation.setOptions({
         headerRight: () => (
@@ -393,6 +401,7 @@ const ConductivityScreen = ({ route, navigation }) => {
         ),
       });
     }
+  });
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -415,6 +424,7 @@ const ConductivityScreen = ({ route, navigation }) => {
     const limitsF = [possibleValues.filter(row => row.Tag == '°F')[0].RangeLower, possibleValues.filter(row => row.Tag == '°F')[0].RangeUpper]
     const limitsC = [possibleValues.filter(row => row.Tag == '°C')[0].RangeLower, possibleValues.filter(row => row.Tag == '°C')[0].RangeUpper]
     function callBackSlider() {
+        
       if ((temperatureF != initialValF) || (temperatureC != initialValC)) {
         console.log({ temperatureF, initialValF, temperatureC, initialValC })
         navigation.setOptions({
@@ -434,7 +444,8 @@ const ConductivityScreen = ({ route, navigation }) => {
           ),
         });
       }
-    }
+    
+}
     return (
 
       <View style={styles.containerSlider}>
@@ -475,6 +486,7 @@ const ConductivityScreen = ({ route, navigation }) => {
     const limitsFFC = [possibleValues.RangeLower, possibleValues.RangeUpper]
     const [filterCC, setFilterCC] = React.useState(initalFCCValue);
     function callBackSlider() {
+      // useEffect(() =>{
       if ((initalFCCValue != filterCC)) {
 
         navigation.setOptions({
@@ -494,6 +506,7 @@ const ConductivityScreen = ({ route, navigation }) => {
           ),
         });
       }
+    // });
 
     }
     return (
@@ -525,6 +538,8 @@ const ConductivityScreen = ({ route, navigation }) => {
     console.log(Number(itemToBeRenderedInitial.Stepsize))
     
     function callBackSlider() {
+      // useEffect(() => {
+
       if ((selection != Number(itemToBeRenderedInitial.Value))) {
         navigation.setOptions({
           headerRight: () => (
@@ -543,6 +558,7 @@ const ConductivityScreen = ({ route, navigation }) => {
           ),
         });
       }
+    // });
     }
     return (
       <View style={styles.containerSlider}>
