@@ -6,6 +6,7 @@ import { TextInput } from 'react-native-paper';
 import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 let Output2Params = Paramsfiltered.find(Output2Params => Output2Params.Tag === "Output2");
 let MenuParams = Output2Params.menu;
@@ -16,6 +17,74 @@ var filteredAT = filtered.filter(row => row.Tag == 'Switch Output');
 
 
 const Output2Screen = ({ route, navigation }) => {
+  const CheckButtoned = (selectedValue, sentValue) => {
+    if (selectedValue === sentValue) {
+      return (
+
+        <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+          <Text>{sentValue}</Text>
+          <Icon
+            name="checkmark-outline"
+            size={20}
+            color="#f54"
+          />
+        </View>
+      )
+    }
+    else {
+      return (
+        <View style={{ flexDirection: "row" }}>
+          <Text>{sentValue}</Text>
+        </View>
+      )
+    }
+  }
+  const OutputTypeScreen = ({ route, navigation}) =>{
+    const {Tag} = route.params
+    const valSystemUnits = Values.filter(row => row.Tag == 'Output2');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == Tag);
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    function ItemSelectable(title) {
+
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
+          {CheckButtoned(selection, title)}
+        </TouchableOpacity>
+      )
+    }
+    const renderItemSelectable = ({ item }) => (
+      ItemSelectable(item.Tag)
+    );
+    if (selection != val[0].Value) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+      });
+    }
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItemSelectable}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
+    );
+  };
+
 
   function Item(title, value) {
     switch (title) {
@@ -33,6 +102,15 @@ const Output2Screen = ({ route, navigation }) => {
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
+        case 'Output Type':
+          return (
+            <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Output Type', {
+              Tag: title,
+            })}>
+              <Text style={styles.title}>{title}</Text>
+              <Text style={styles.value}>{value}</Text>
+            </TouchableOpacity>
+          )
       case 'Conduction Start Value':
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
@@ -80,6 +158,15 @@ const Output2Screen = ({ route, navigation }) => {
         )
       case 'Output-Assign':
         return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Output-Assign', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
+      case 'Output-Assign':
+        return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
             Tag: title,
           })}>
@@ -107,7 +194,7 @@ const Output2Screen = ({ route, navigation }) => {
         )
       case 'Switch Function':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Function', {
             Tag: title,
           })}>
             <Text style={styles.title}>{title}</Text>
@@ -267,21 +354,223 @@ const Output2Screen = ({ route, navigation }) => {
   };
   const CurrentOutputSettingsScreen = ({ route, navigation }) => {
     const { Tag } = route.params
-    navigation.setOptions({ title: Tag })
+    const filtered = Values.filter(row => row.Tag == 'Output2')[0].menu;
+    const filteredSub = filtered.filter(row => row.Tag == 'Current Output')[0].menu;
+    const filteredAT = filteredSub.filter(row => row.Tag == Tag);
+    const [text, setText] = React.useState(filteredAT[0].Value);
+    console.log(route)
+    console.log("route")
+
     return (
-      <Text>{Tag}</Text>)
+      <View>
+        <TextInput
+          label={"Set " + Tag}
+          value={text}
+          selectionColor='#000'
+          underlineColor='#000'
+          activeOutlineColor='#000'
+          outlineColor='#000'
+          // activeUnderlineColor='#000'
+          error={false}
+          right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
+          onChangeText={text => setText(text)}
+        />
+        {/* <LenghtChecker lenght={32} /> */}
+
+        <Button
+          onPress={() => { console.log(typeof (text)) }}
+          title="Save"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
+        />
+        {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
+
+      </View>
+    );
+  }
+  const SwitchFunctionScreen = ({ route, navigation }) => {
+    const { Tag } = route.params
+    console.log("route")
+    console.log(route)
+    console.log("navigation")
+    console.log(navigation)
+    
+
+    const valSystemUnits = Values.filter(row => row.Tag == 'Output2')[0].menu;
+    const subTitle = valSystemUnits.filter(row => row.Tag == 'Switch Output');
+    const val = subTitle[0].menu.filter(row => row.Tag == Tag);
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    function ItemSelectable(title) {
+
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
+          {CheckButtoned(selection, title)}
+        </TouchableOpacity>
+      )
+    }
+    const renderItemSelectable = ({ item }) => (
+      ItemSelectable(item.Tag)
+    );
+    if (selection != val[0].Value) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+      });
+    }
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItemSelectable}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
+    );
+  };
+  const OutputAssignScreen = ({ route, navigation }) => {
+    const { Tag } = route.params
+    const valSystemUnits = Values.filter(row => row.Tag == 'Output2')[0].menu;
+    const subTitle = valSystemUnits.filter(row => row.Tag == 'Current Output');
+    const val = subTitle[0].menu.filter(row => row.Tag == Tag);
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    function ItemSelectable(title) {
+
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
+          {CheckButtoned(selection, title)}
+        </TouchableOpacity>
+      )
+    }
+    const renderItemSelectable = ({ item }) => (
+      ItemSelectable(item.Tag)
+    );
+    if (selection != val[0].Value) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+      });
+    }
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItemSelectable}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
+    );
   };
   const SwitchOutputSettingsScreen = ({ route, navigation }) => {
     const { Tag } = route.params
-    navigation.setOptions({ title: Tag })
+    const filtered = Values.filter(row => row.Tag == 'Output2')[0].menu;
+    const filteredSub = filtered.filter(row => row.Tag == 'Switch Output')[0].menu;
+    const filteredAT = filteredSub.filter(row => row.Tag == Tag);
+    const [text, setText] = React.useState(filteredAT[0].Value);
+
     return (
-      <Text>{Tag}</Text>)
-  };
-  const DigitalInputSettingsScreen = ({ route, navigation }) => {
+      <View>
+        <TextInput
+          label={"Set " + Tag}
+          value={text}
+          selectionColor='#000'
+          underlineColor='#000'
+          activeOutlineColor='#000'
+          outlineColor='#000'
+          // activeUnderlineColor='#000'
+          error={false}
+          right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
+          onChangeText={text => setText(text)}
+        />
+        {/* <LenghtChecker lenght={32} /> */}
+
+        <Button
+          onPress={() => { console.log(typeof (text)) }}
+          title="Save"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
+        />
+        {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
+
+      </View>
+    );
+  }
+  const DigitalInputSettingsScreen = ({ route, navigation }) =>{
     const { Tag } = route.params
-    navigation.setOptions({ title: Tag })
+    console.log("route")
+    console.log(route)
+    console.log("navigation")
+    console.log(navigation)
+    
+
+    const valSystemUnits = Values.filter(row => row.Tag == 'Output2')[0].menu;
+    const subTitle = valSystemUnits.filter(row => row.Tag == 'Digital Input');
+    const val = subTitle[0].menu.filter(row => row.Tag == Tag);
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    function ItemSelectable(title) {
+
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
+          {CheckButtoned(selection, title)}
+        </TouchableOpacity>
+      )
+    }
+    const renderItemSelectable = ({ item }) => (
+      ItemSelectable(item.Tag)
+    );
+    if (selection != val[0].Value) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+      });
+    }
     return (
-      <Text>{Tag}</Text>)
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItemSelectable}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
+    );
   };
   const SwitchOutputScreen = () => {
     const valSystemUnits = Values.filter(row => row.Tag == 'Output2');
@@ -313,6 +602,10 @@ const Output2Screen = ({ route, navigation }) => {
       <StackOutput2.Screen name='Switch Output Settings' component={SwitchOutputSettingsScreen} />
       <StackOutput2.Screen name='Digital Input' component={DigitalInputScreen} />
       <StackOutput2.Screen name='Digital Input Settings' component={DigitalInputSettingsScreen} />
+      <StackOutput2.Screen name='Switch Function' component={SwitchFunctionScreen} />
+      <StackOutput2.Screen name='Output-Assign' component={OutputAssignScreen} />
+      <StackOutput2.Screen name='Output Type' component={OutputTypeScreen} />
+
     </StackOutput2.Navigator>
 
   );
@@ -344,6 +637,13 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 12,
     color: 'gray',
+  },
+  buttonBar: {
+    alignItems: "center",
+    backgroundColor: "#9A348E",
+    padding: 8,
+    marginRight: 3,
+    borderRadius: 10,
   },
   itemButton: {
     backgroundColor: '#ffffff',

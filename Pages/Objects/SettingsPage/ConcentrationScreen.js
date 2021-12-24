@@ -6,6 +6,7 @@ import { TextInput } from 'react-native-paper';
 import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 let ConcentrationParams = Paramsfiltered.find(ConcentrationParams => ConcentrationParams.Tag === "Concentration");
 let MenuParams = ConcentrationParams.menu;
@@ -16,6 +17,28 @@ var filteredAT = filtered.filter(row => row.Tag == 'Measurement Type');
 
 
 const ConcentrationScreen = ({ route, navigation }) => {
+  const CheckButtoned = (selectedValue, sentValue) => {
+    if (selectedValue === sentValue) {
+      return (
+
+        <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+          <Text>{sentValue}</Text>
+          <Icon
+            name="checkmark-outline"
+            size={20}
+            color="#f54"
+          />
+        </View>
+      )
+    }
+    else {
+      return (
+        <View style={{ flexDirection: "row" }}>
+          <Text>{sentValue}</Text>
+        </View>
+      )
+    }
+  }
 
   function Item(title, value) {
     switch (title) {
@@ -54,36 +77,48 @@ const ConcentrationScreen = ({ route, navigation }) => {
     </SafeAreaView>
   )
 
-  const MeasurementTypeScreen = () => {
-    filtered = Values.filter(row => row.Tag == 'Concentration');
-    filteredAT = filtered[0].menu.filter(row => row.Tag == 'Measurement Type');
-    const [text, setText] = React.useState(filteredAT[0].Value);
-   
-    return (
-      <View>
-        <TextInput
-          label="Set Your Measurement Type"
-          value={text}
-          selectionColor='#000'
-          underlineColor='#000'
-          activeOutlineColor='#000'
-          outlineColor='#000'
-          // activeUnderlineColor='#000'
-          error={false}
-          right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
-          onChangeText={text => setText(text)}
-        />
-        <LenghtChecker lenght={32} />
+  const MeasurementTypeScreen = ({route,navigation}) => {
+    const valSystemUnits = Values.filter(row => row.Tag == 'Concentration');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Measurement Type');
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    function ItemSelectable(title) {
 
-                <Button
-          onPress={() => {console.log(typeof(text))}}
-          title="Learn More"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
+          {CheckButtoned(selection, title)}
+        </TouchableOpacity>
+      )
+    }
+    const renderItemSelectable = ({ item }) => (
+      ItemSelectable(item.Tag)
+    );
+    if (selection != val[0].Value) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+      });
+    }
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItemSelectable}
+          keyExtractor={item => item.Tag}
         />
-        {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
-        
-      </View>
+      </SafeAreaView>
     );
   };
   const renderItem = ({ item }) => (
@@ -140,6 +175,12 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 25,
     textAlign: 'center'
+  },  buttonBar: {
+    alignItems: "center",
+    backgroundColor: "#9A348E",
+    padding: 8,
+    marginRight: 3,
+    borderRadius: 10,
   }
 });
 

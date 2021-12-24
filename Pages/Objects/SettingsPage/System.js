@@ -16,6 +16,7 @@ import { TextInput } from 'react-native-paper';
 import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 let SystemParams = Paramsfiltered.find(
   SystemParams => SystemParams.Tag === 'System',
@@ -37,7 +38,28 @@ const SystemScreen = ({ route, navigation }) => {
       },
       { text: 'Yes', onPress: () => console.log( object+ " confirmed.") },
     ]);
-
+    const CheckButtoned = (selectedValue, sentValue) => {
+      if (selectedValue === sentValue) {
+        return (
+  
+          <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+            <Text>{sentValue}</Text>
+            <Icon
+              name="checkmark-outline"
+              size={20}
+              color="#f54"
+            />
+          </View>
+        )
+      }
+      else {
+        return (
+          <View style={{ flexDirection: "row" }}>
+            <Text>{sentValue}</Text>
+          </View>
+        )
+      }
+    }
 
 
   function Item(title, value) {
@@ -233,7 +255,7 @@ const SystemScreen = ({ route, navigation }) => {
           }
           onChangeText={text => setText(text)}
         />
-        <LenghtChecker lenght={32} />
+        {/* <LenghtChecker lenght={32} /> */}
 
         <Button
           onPress={() => {
@@ -249,9 +271,48 @@ const SystemScreen = ({ route, navigation }) => {
   };
   const LanguageScreen = ({ route, navigation }) => {
     const { Tag } = route.params
-    navigation.setOptions({ title: Tag })
+    const valSystemUnits = Values.filter(row => row.Tag == 'System')[0].menu;
+    const subTitle = valSystemUnits.filter(row => row.Tag == 'Language');
+    const possibleValues = subTitle[0].PossibleValues;
+    const [selection, setSelection] = React.useState(subTitle[0].Value);
+    function ItemSelectable(title) {
+
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
+          {CheckButtoned(selection, title)}
+        </TouchableOpacity>
+      )
+    }
+    const renderItemSelectable = ({ item }) => (
+      ItemSelectable(item.Tag)
+    );
+    if (selection != subTitle[0].Value) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+      });
+    }
     return (
-      <Text>{Tag}</Text>)
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItemSelectable}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
+    );
   };
   const DeviceResetScreen = () => {
     const valSystemUnits = Values.filter(row => row.Tag == 'System');
@@ -319,6 +380,13 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
     borderBottomWidth: StyleSheet.hairlineWidth,
     justifyContent: 'center',
+  },
+  buttonBar: {
+    alignItems: "center",
+    backgroundColor: "#9A348E",
+    padding: 8,
+    marginRight: 3,
+    borderRadius: 10,
   },
   myText: {
     color: 'black',

@@ -442,12 +442,28 @@
             {
                 "Tag": "Measurement Type",
                 "Access": "R",
-                "Value": "EliarBLE"
+                "Value": "NaCl",
+                "PossibleValues":[
+                    {
+                        "Tag": "NaCl"
+                    },
+                    {
+                        "Tag": "NaOH"
+                    },
+                    {
+                        "Tag": "Na2SO4"
+                    },
+                    {
+                        "Tag": "No Function"
+                    }
+                ]
             },
             {
                 "Tag": "Measurement Range",
                 "Access": "R",
-                "Value": "10"
+                "Menu":[
+
+                ]
             }
         ]
     },
@@ -477,12 +493,11 @@
             {
                 "Tag": "Current Output",
                 "Access": "R",
-                "Value": "10",
                 "menu": [
                     {
                         "Tag": "Output-Assign",
                         "Access": "R/W",
-                        "Value": "Off",
+                        "Value": "Conductivity",
                         "PossibleValues": [
                             {
                                 "Tag": "Off"
@@ -814,7 +829,7 @@
                     {
                         "Tag": "D-In Polarity HIGH",
                         "Access": "R",
-                        "Value": "10",
+                        "Value": "NaOH",
                         "PossibleValues": [
                             {
                                 "Tag": "NaOH"
