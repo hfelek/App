@@ -1,9 +1,7 @@
-[
-    {
+[{
         "Tag": "Identification",
         "Icon": "create-outline",
-        "menu": [
-            {
+        "menu": [{
                 "Tag": "Application Tag",
                 "Access": "R/W",
                 "Value": "EliarBLE"
@@ -73,8 +71,7 @@
     {
         "Tag": "Diagnostics",
         "Icon": "md-pulse-outline",
-        "menu": [
-            {
+        "menu": [{
                 "Tag": "Actual Diagnostics",
                 "Access": "R",
                 "Value": "EliarBLE"
@@ -88,8 +85,7 @@
                 "Tag": "Simulation Process Variable",
                 "Access": "R",
                 "Value": "Enabled",
-                "Assignable Values": [
-                    {
+                "Assignable Values": [{
                         "Tag": "Enabled"
                     },
                     {
@@ -117,8 +113,7 @@
     {
         "Tag": "Measured Values",
         "Icon": "md-information",
-        "menu": [
-            {
+        "menu": [{
                 "Tag": "Conductivity",
                 "Access": "R",
                 "Value": "EliarBLE"
@@ -138,13 +133,11 @@
     {
         "Tag": "System Units",
         "Icon": "md-grid-outline",
-        "menu": [
-            {
+        "menu": [{
                 "Tag": "Unit Conductivity",
                 "Access": "R",
                 "Value": "μS/cm",
-                "PossibleValues": [
-                    {
+                "PossibleValues": [{
                         "Tag": "μS/cm"
                     },
                     {
@@ -159,8 +152,7 @@
                 "Tag": "Unit Concentration",
                 "Access": "R",
                 "Value": "Na2SO4",
-                "PossibleValues": [
-                    {
+                "PossibleValues": [{
                         "Tag": "NaCl"
                     },
                     {
@@ -172,8 +164,7 @@
                 ],
                 "SubSelectedValue": "g/kg",
                 "SubList": {
-                    "NaCl": [
-                        {
+                    "NaCl": [{
                             "Tag": "g/kg"
                         },
                         {
@@ -183,8 +174,7 @@
                             "Tag": "Baume"
                         }
                     ],
-                    "NaOH": [
-                        {
+                    "NaOH": [{
                             "Tag": "g/kg"
                         },
                         {
@@ -194,8 +184,7 @@
                             "Tag": "Baume"
                         }
                     ],
-                    "Na2SO4": [
-                        {
+                    "Na2SO4": [{
                             "Tag": "g/kg"
                         },
                         {
@@ -208,8 +197,7 @@
                 "Tag": "Unit Temperature",
                 "Access": "R",
                 "Value": "°C",
-                "PossibleValues": [
-                    {
+                "PossibleValues": [{
                         "Tag": "°C"
                     },
                     {
@@ -222,13 +210,11 @@
     {
         "Tag": "Conductivity",
         "Icon": "md-git-network-outline",
-        "menu": [
-            {
+        "menu": [{
                 "Tag": "Range",
                 "Access": "R",
                 "Value": "20 mS/cm",
-                "PossibleValues": [
-                    {
+                "PossibleValues": [{
                         "Tag": "2000 µS/cm"
                     },
                     {
@@ -252,8 +238,7 @@
                 "Tag": "Temperature Compensation",
                 "Access": "R/W",
                 "Value": "Non-Linear",
-                "Menu": [
-                    {
+                "Menu": [{
                         "Tag": "Linear"
                     },
                     {
@@ -264,22 +249,18 @@
             {
                 "Tag": "Temperature Coefficient",
                 "Access": "R/W",
-                "Menu": [
-                    {
+                "Menu": [{
                         "Tag": "Linear",
-                        "Value": [
-                            {
-                                "Tag": "Linear Coefficient",
-                                "Value": 2.2,
-                                "RangeUpper": 40,
-                                "RangeLower": 0.5
-                            }
-                        ]
+                        "Value": [{
+                            "Tag": "Linear Coefficient",
+                            "Value": 2.2,
+                            "RangeUpper": 40,
+                            "RangeLower": 0.5
+                        }]
                     },
                     {
                         "Tag": "Non-Linear",
-                        "Value": [
-                            {
+                        "Value": [{
                                 "Tag": "T1",
                                 "Value": "0.0",
                                 "RangeUpper": 130.0,
@@ -347,8 +328,7 @@
                 "Tag": "Reference Temperature",
                 "Access": "R",
                 "Value": "0.0",
-                "PossibleValues": [
-                    {
+                "PossibleValues": [{
                         "Tag": "°C",
                         "Value": 25.0,
                         "RangeUpper": 30.0,
@@ -379,8 +359,7 @@
             {
                 "Tag": "Zero Point",
                 "Access": "R/W",
-                "Menu": [
-                    {
+                "Menu": [{
                         "Tag": "2000 µS/cm",
                         "Value": "0.0",
                         "RangeUpper": "100.0",
@@ -438,13 +417,11 @@
     {
         "Tag": "Concentration",
         "Icon": "md-flask",
-        "menu": [
-            {
+        "menu": [{
                 "Tag": "Measurement Type",
                 "Access": "R",
                 "Value": "NaCl",
-                "PossibleValues":[
-                    {
+                "PossibleValues": [{
                         "Tag": "NaCl"
                     },
                     {
@@ -461,22 +438,24 @@
             {
                 "Tag": "Measurement Range",
                 "Access": "R",
-                "Menu":[
+                "Value": "NaOH Low",
+                "Menu": [{
+                    "Tag": "NaOH High"
 
-                ]
+                }, {
+                    "Tag": "NaOH Low"
+                }]
             }
         ]
     },
     {
         "Tag": "Output1",
         "Icon": "md-play-outline",
-        "menu": [
-            {
+        "menu": [{
                 "Tag": "Output Type",
                 "Access": "R",
                 "Value": "IO-Link",
-                "PossibleValues": [
-                    {
+                "PossibleValues": [{
                         "Tag": "Current"
                     },
                     {
@@ -493,13 +472,11 @@
             {
                 "Tag": "Current Output",
                 "Access": "R",
-                "menu": [
-                    {
+                "menu": [{
                         "Tag": "Output-Assign",
                         "Access": "R/W",
                         "Value": "Conductivity",
-                        "PossibleValues": [
-                            {
+                        "PossibleValues": [{
                                 "Tag": "Off"
                             },
                             {
@@ -555,13 +532,11 @@
                 "Tag": "Switch Output",
                 "Access": "R",
                 "Value": "10",
-                "menu": [
-                    {
+                "menu": [{
                         "Tag": "Switch Function",
                         "Access": "R/W",
                         "Value": "Alarm",
-                        "PossibleValues": [
-                            {
+                        "PossibleValues": [{
                                 "Tag": "Alarm"
                             },
                             {
@@ -637,13 +612,11 @@
     {
         "Tag": "Output2",
         "Icon": "md-play-forward-outline",
-        "menu": [
-            {
+        "menu": [{
                 "Tag": "Output Type",
                 "Access": "R",
                 "Value": "Digital Input",
-                "PossibleValues": [
-                    {
+                "PossibleValues": [{
                         "Tag": "Current"
                     },
                     {
@@ -661,13 +634,11 @@
                 "Tag": "Current Output",
                 "Access": "R",
                 "Value": "10",
-                "menu": [
-                    {
+                "menu": [{
                         "Tag": "Output-Assign",
                         "Access": "R/W",
                         "Value": "Off",
-                        "PossibleValues": [
-                            {
+                        "PossibleValues": [{
                                 "Tag": "Off"
                             },
                             {
@@ -723,13 +694,11 @@
                 "Tag": "Switch Output",
                 "Access": "R",
                 "Value": "10",
-                "menu": [
-                    {
+                "menu": [{
                         "Tag": "Switch Function",
                         "Access": "R/W",
                         "Value": "Alarm",
-                        "PossibleValues": [
-                            {
+                        "PossibleValues": [{
                                 "Tag": "Alarm"
                             },
                             {
@@ -799,13 +768,11 @@
             {
                 "Tag": "Digital Input",
                 "Access": "R",
-                "menu": [
-                    {
+                "menu": [{
                         "Tag": "D-In Polarity",
                         "Access": "R",
                         "Value": "Low",
-                        "PossibleValues": [
-                            {
+                        "PossibleValues": [{
                                 "Tag": "Low"
                             },
                             {
@@ -817,8 +784,7 @@
                         "Tag": "D-In Function",
                         "Access": "R",
                         "Value": "Off",
-                        "PossibleValues": [
-                            {
+                        "PossibleValues": [{
                                 "Tag": "Measurement Assignment Chemical"
                             },
                             {
@@ -830,8 +796,7 @@
                         "Tag": "D-In Polarity HIGH",
                         "Access": "R",
                         "Value": "NaOH",
-                        "PossibleValues": [
-                            {
+                        "PossibleValues": [{
                                 "Tag": "NaOH"
                             },
                             {
@@ -846,8 +811,7 @@
                         "Tag": "D-IN Polarity LOW",
                         "Access": "R",
                         "Value": "NaCl",
-                        "PossibleValues": [
-                            {
+                        "PossibleValues": [{
                                 "Tag": "NaOH"
                             },
                             {
@@ -865,36 +829,31 @@
     {
         "Tag": "Display",
         "Icon": "md-easel-outline",
-        "menu": [
-            {
-                "Tag": "Backlight",
-                "Access": "R",
-                "Value": "On",
-                "PossibleValues": [
-                    {
-                        "Tag": "Off"
-                    },
-                    {
-                        "Tag": "BLE"
-                    }
-                ]
-            }
-        ]
+        "menu": [{
+            "Tag": "Backlight",
+            "Access": "R",
+            "Value": "On",
+            "PossibleValues": [{
+                    "Tag": "Off"
+                },
+                {
+                    "Tag": "BLE"
+                }
+            ]
+        }]
     },
     {
         "Tag": "Communication",
         "Icon": "md-radio",
-        "menu": [
-            {
+        "menu": [{
                 "Tag": "Communication Type",
                 "Access": "R",
                 "Value": "Off",
-                "PossibleValues": [
-                    {
+                "PossibleValues": [{
                         "Tag": "Off"
                     },
                     {
-                        "Tag": "BLE"
+                        "Tag": "Bluetooth"
                     },
                     {
                         "Tag": "WiFi"
@@ -904,13 +863,11 @@
             {
                 "Tag": "Bluetooth",
                 "Access": "R",
-                "menu": [
-                    {
+                "menu": [{
                         "Tag": "Bluetooth Function",
                         "Access": "R/W",
                         "Value": "On",
-                        "PossibleValues": [
-                            {
+                        "PossibleValues": [{
                                 "Tag": "Off"
                             },
                             {
@@ -922,8 +879,7 @@
                         "Tag": "Bluetooth Tx Power Level",
                         "Access": "R",
                         "Value": "1",
-                        "PossibleValues": [
-                            {
+                        "PossibleValues": [{
                                 "Tag": "0"
                             },
                             {
@@ -935,8 +891,7 @@
                         "Tag": "Bluetooth Connection Status",
                         "Access": "R/W",
                         "Value": "On",
-                        "PossibleValues": [
-                            {
+                        "PossibleValues": [{
                                 "Tag": "Off"
                             },
                             {
@@ -949,13 +904,11 @@
             {
                 "Tag": "WiFi",
                 "Access": "R",
-                "menu": [
-                    {
+                "menu": [{
                         "Tag": "WiFi Function",
                         "Access": "R/W",
                         "Value": "On",
-                        "PossibleValues": [
-                            {
+                        "PossibleValues": [{
                                 "Tag": "Off"
                             },
                             {
@@ -966,20 +919,19 @@
                     {
                         "Tag": "WiFi Mode",
                         "Access": "R/W",
-                        "Value": "AP",
-                        "PossibleValues": [
-                            {
-                                "Tag": "AP"
+                        "Value": "Access Point Mode",
+                        "PossibleValues": [{
+                                "Tag": "Access Point Mode"
                             },
                             {
-                                "Tag": "STA"
+                                "Tag": "Station Mode"
                             }
                         ]
                     },
                     {
                         "Tag": "SSID",
                         "Access": "R/W",
-                        "Value": "On"
+                        "Value": "ICT-12345678"
                     },
                     {
                         "Tag": "Password",
@@ -989,8 +941,7 @@
                         "Tag": "Configure IPv4",
                         "Access": "R/W",
                         "Value": "Manual",
-                        "PossibleValues": [
-                            {
+                        "PossibleValues": [{
                                 "Tag": "Manual"
                             },
                             {
@@ -1001,7 +952,7 @@
                     {
                         "Tag": "IP Address",
                         "Access": "R/W",
-                        "Value": "15"
+                        "Value": "132.152.266"
                     },
                     {
                         "Tag": "Subnet Address",
@@ -1021,13 +972,11 @@
     {
         "Tag": "System",
         "Icon": "md-hammer-sharp",
-        "menu": [
-            {
+        "menu": [{
                 "Tag": "Language",
                 "Access": "R",
                 "Value": "English",
-                "PossibleValues": [
-                    {
+                "PossibleValues": [{
                         "Tag": "English"
                     },
                     {
@@ -1050,8 +999,7 @@
             {
                 "Tag": "Device Reset",
                 "Access": "R",
-                "PossibleValues": [
-                    {
+                "PossibleValues": [{
                         "Tag": "Cancel"
                     },
                     {

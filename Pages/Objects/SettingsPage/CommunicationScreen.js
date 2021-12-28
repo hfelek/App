@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
-import { TextInput} from 'react-native-paper';
+import { TextInput } from 'react-native-paper';
 ////Title Sildim Yukarıdan
 import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
@@ -66,77 +66,77 @@ const CommunicationScreen = ({ route, navigation }) => {
         )
       case 'Bluetooth Function':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Bluetooth Settings Screen', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Bluetooth Function', { Tag: title })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
-      case 'Bluetooth Tx Power Level':
-        return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Bluetooth Settings Screen', { Tag: title })}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.value}>{value}</Text>
-          </TouchableOpacity>
-        )
-      case 'Bluetooth Connection Status':
-        return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Bluetooth Settings Screen', { Tag: title })}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.value}>{value}</Text>
-          </TouchableOpacity>
-        )
+      // case 'Bluetooth Tx Power Level':
+      //   return (
+      //     <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Bluetooth Settings Screen', { Tag: title })}>
+      //       <Text style={styles.title}>{title}</Text>
+      //       <Text style={styles.value}>{value}</Text>
+      //     </TouchableOpacity>
+      //   )
+      // case 'Bluetooth Connection Status':
+      //   return (
+      //     <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Bluetooth Settings Screen', { Tag: title })}>
+      //       <Text style={styles.title}>{title}</Text>
+      //       <Text style={styles.value}>{value}</Text>
+      //     </TouchableOpacity>
+      //   )
       case 'WiFi Function':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Settings Screen', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'WiFi Mode':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Settings Screen', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'SSID':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Settings Screen', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('SSID Screen', { Tag: title })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'Password':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Settings Screen', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Password Screen', { Tag: title })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'Configure IPv4':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Settings Screen', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'IP Address':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Settings Screen', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'Router':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Settings Screen', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'Subnet Address':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Settings Screen', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
@@ -181,7 +181,7 @@ const CommunicationScreen = ({ route, navigation }) => {
       <SafeAreaView style={styles.container}>
         <FlatList
           data={possibleValues}
-          renderItem={renderItem1}
+          renderItem={renderItem}
           keyExtractor={item => item.Tag}
         />
       </SafeAreaView>
@@ -189,13 +189,17 @@ const CommunicationScreen = ({ route, navigation }) => {
   };
   const BluetoothSettingsScreen = ({ route, navigation }) => {
     const { Tag } = route.params
-    navigation.setOptions({ title: Tag })
+    useEffect(() => {
+      navigation.setOptions({ title: Tag })
+    });
     return (
       <Text>{Tag}</Text>)
   };
   const WiFiSettingsScreen = ({ route, navigation }) => {
     const { Tag } = route.params
-    navigation.setOptions({ title: Tag })
+    useEffect(() => {
+      navigation.setOptions({ title: Tag })
+    });
     return (
       <Text>{Tag}</Text>)
   };
@@ -216,28 +220,30 @@ const CommunicationScreen = ({ route, navigation }) => {
       )
     }
     const renderItemSelectable = ({ item }) => (
-      ItemSelectable(item.Tag)
+      ItemSelectable(item.Tag, item.Value)
     );
-    if (selection != val[0].Value) {
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity >
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
-    }
-    else {
-      console.log(selection)
+    useEffect(() => {
+      if (selection != val[0].Value) {
+        navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity >
+              <View style={styles.buttonBar}>
+                <Text>Save</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        });
+      }
+      else {
+        console.log(selection)
 
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
+        navigation.setOptions({
+          headerRight: () => (
+            <></>
+          ),
+        });
+      }
+    });
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -248,7 +254,247 @@ const CommunicationScreen = ({ route, navigation }) => {
       </SafeAreaView>
     );
   };
+  const WiFiFunctionScreen = ({ route, navigation }) => {
+    const { Tag } = route.params
+    const valSystemUnits = Values.filter(row => row.Tag == 'Communication')[0];
+    const subTitle = valSystemUnits.menu.filter(row => row.Tag == "WiFi")[0];
+    const val = subTitle.menu.filter(row => row.Tag == Tag);
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    function ItemSelectable(title) {
 
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
+          {CheckButtoned(selection, title)}
+        </TouchableOpacity>
+      )
+    }
+    const renderItemSelectable = ({ item }) => (
+      ItemSelectable(item.Tag, item.Value)
+    );
+    useEffect(() => {
+
+      if (selection != val[0].Value) {
+        navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity >
+              <View style={styles.buttonBar}>
+                <Text>Save</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        });
+      }
+      else {
+        navigation.setOptions({
+          headerRight: () => (
+            <></>
+          ),
+        });
+      }
+    });
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItemSelectable}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
+    );
+  };
+  // function IPParse(Ip){
+
+
+  // }
+  const SSIDScreen = ({ route, navigation }) => {
+    const { Tag } = route.params
+    useEffect(() => {
+      navigation.setOptions({ title: Tag })
+    });
+    const filtered = Values.filter(row => row.Tag == 'Communication');
+    const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
+    const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
+
+    const [text, setText] = React.useState(filteredATSub);
+
+  
+    return (
+      <View>
+        <TextInput
+          label={"Set Your WiFi " + Tag}
+          value={text}
+          selectionColor='#000'
+          underlineColor='#000'
+          activeOutlineColor='#000'
+          outlineColor='#000'          // activeUnderlineColor='#000'
+          error={false}
+          right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
+          onChangeText={text => setText(text)}
+        />
+        {/* <LenghtChecker lenght={32} /> */}
+
+        <Button
+          onPress={() => { console.log(typeof (text)) }}
+          title="Save"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
+        />
+        {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
+        {/* <MaskedInput {...props} /> */}
+
+      </View>
+    );
+  };
+  const IPScreen = ({ route, navigation }) => {
+    const { Tag } = route.params
+    useEffect(() => {
+      navigation.setOptions({ title: Tag })
+    });
+    const filtered = Values.filter(row => row.Tag == 'Communication');
+    const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
+    const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
+
+    const [text1, setText1] = React.useState(filteredATSub);
+
+    function IPHandle  (IP123){
+     console.log( "asfas1232145112..41251123124".replaceAll("[^0-9.,]"))
+      var returnValIP= IP123.replace('\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b');
+      console.log(IP123)
+      console.log("IP123")
+      console.log(returnValIP)
+      console.log("returnValIP")
+
+      console.log(typeof(IP123))
+      console.log("typeof(IP123)")
+
+      // setText(IP)
+      // return (returnValIP)
+
+    } 
+  
+    return (
+      <View>
+        <TextInput
+          label={"Set Your WiFi " + Tag}
+          value={text1}
+          selectionColor='#000'
+          underlineColor='#000'
+          activeOutlineColor='#000'
+          outlineColor='#000'
+          keyboardType="numeric"
+          // activeUnderlineColor='#000'
+          error={false}
+          right={<TextInput.Icon name="close-circle-outline" onPress={text => setText1("")} />}
+          onChangeText={text1 => IPHandle(text1)}
+        />
+        {/* <LenghtChecker lenght={32} /> */}
+
+        <Button
+          onPress={() => { console.log(typeof (text1)) }}
+          title="Save"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
+        />
+        {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
+        {/* <MaskedInput {...props} /> */}
+
+      </View>
+    );
+  };
+
+  const PasswordScreen = ({ route, navigation }) => {
+    const { Tag } = route.params
+    useEffect(() => {
+      navigation.setOptions({ title: Tag })
+    });
+    // const filtered = Values.filter(row => row.Tag == 'Communication');
+    // const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
+    // const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
+
+    const [text, setText] = React.useState("");
+
+  
+    return (
+      <View>
+        <TextInput
+          label={"Set Your WiFi " + Tag}
+          value={text}
+          selectionColor='#000'
+          underlineColor='#000'
+          activeOutlineColor='#000'
+          outlineColor='#000'
+          secureTextEntry={true}
+          // keyboardType="numeric"
+          // activeUnderlineColor='#000'
+          error={false}
+          right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
+          onChangeText={text => setText(text)}
+        />
+        {/* <LenghtChecker lenght={32} /> */}
+
+        <Button
+          onPress={() => { console.log(typeof (text)) }}
+          title="Save"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
+        />
+        {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
+        {/* <MaskedInput {...props} /> */}
+
+      </View>
+    );
+  };
+
+  const BluetoothFunctionScreen = ({ route, navigation }) => {
+    const { Tag } = route.params
+    const valSystemUnits = Values.filter(row => row.Tag == 'Communication')[0];
+    const subTitle = valSystemUnits.menu.filter(row => row.Tag == "Bluetooth")[0];
+    const val = subTitle.menu.filter(row => row.Tag == Tag);
+    const possibleValues = val[0].PossibleValues;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    function ItemSelectable(title) {
+
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
+          {CheckButtoned(selection, title)}
+        </TouchableOpacity>
+      )
+    }
+    const renderItemSelectable = ({ item }) => (
+      ItemSelectable(item.Tag)
+    );
+    useEffect(() => {
+
+      if (selection != val[0].Value) {
+        navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity >
+              <View style={styles.buttonBar}>
+                <Text>Save</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        });
+      }
+      else {
+        navigation.setOptions({
+          headerRight: () => (
+            <></>
+          ),
+        });
+      }
+    });
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItemSelectable}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
+    );
+  };
   const WifiScreen = ({ navigation }) => {
     const valSystemUnits = Values.filter(row => row.Tag == 'Communication');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'WiFi');
@@ -260,7 +506,7 @@ const CommunicationScreen = ({ route, navigation }) => {
       <SafeAreaView style={styles.container}>
         <FlatList
           data={possibleValues}
-          renderItem={renderItem1}
+          renderItem={renderItem}
           keyExtractor={item => item.Tag}
         />
       </SafeAreaView>
@@ -281,6 +527,14 @@ const CommunicationScreen = ({ route, navigation }) => {
       <StackCommunication.Screen name='Communication Type' component={CommunicationTypeScreen} />
       <StackCommunication.Screen name='Bluetooth Settings Screen' component={BluetoothSettingsScreen} />
       <StackCommunication.Screen name='WiFi Settings Screen' component={WiFiSettingsScreen} />
+      <StackCommunication.Screen name='Bluetooth Function' component={BluetoothFunctionScreen} />
+      <StackCommunication.Screen name='WiFi Function' component={WiFiFunctionScreen} />
+      <StackCommunication.Screen name='IP Screen' component={IPScreen} />
+      <StackCommunication.Screen name='Password Screen' component={PasswordScreen} />
+      <StackCommunication.Screen name='SSID Screen' component={SSIDScreen} />
+
+
+
     </StackCommunication.Navigator>
 
   );

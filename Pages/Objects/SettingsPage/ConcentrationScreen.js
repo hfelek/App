@@ -49,6 +49,13 @@ const ConcentrationScreen = ({ route, navigation }) => {
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
+        case 'Measurement Range':
+          return (
+            <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Measurement Range')}>
+              <Text style={styles.title}>{title}</Text>
+              <Text style={styles.value}>{value}</Text>
+            </TouchableOpacity>
+          )
       default:
         return (
           <View style={styles.item}>
@@ -59,6 +66,54 @@ const ConcentrationScreen = ({ route, navigation }) => {
         )
     };
   }
+  const MeasurementRangeScreen = ({ route, navigation }) => {
+    const valSystemUnits = Values.filter(row => row.Tag == 'Concentration');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Measurement Range');
+
+    const possibleValues = val[0].Menu;
+    const [selection, setSelection] = React.useState(val[0].Value);
+    function ItemSelectable(title) {
+
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
+          {CheckButtoned(selection, title)}
+        </TouchableOpacity>
+      )
+    }
+    const renderItemSelectable = ({ item }) => (
+      ItemSelectable(item.Tag)
+    );
+    useEffect(() => {
+    
+    if (selection != val[0].Value) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+      });
+    }
+  });
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={possibleValues}
+          renderItem={renderItemSelectable}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>
+    );
+  };
 
 
 
@@ -132,6 +187,8 @@ const ConcentrationScreen = ({ route, navigation }) => {
     <StackConcentration.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
       <StackConcentration.Screen name='Concentration Main' component={ConcentrationMainScreen} options={{headerTitle:"Concentration"}} />
       <StackConcentration.Screen name='Measurement Type' component={MeasurementTypeScreen} />
+      <StackConcentration.Screen name='Measurement Range' component={MeasurementRangeScreen} />
+
     </StackConcentration.Navigator>
 
   );
