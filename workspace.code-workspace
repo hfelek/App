@@ -1,0 +1,16 @@
+{
+    "folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "ESP32app",
+			"path": "..\\..\\..\\Users\\hseyi\\Documents\\PlatformIO\\Projects\\ESP32app"
+		},
+		{
+			"name": "211125-175135-esp32dev",
+			"path": "..\\..\\..\\Users\\hseyi\\Documents\\PlatformIO\\Projects\\211125-175135-esp32dev"
+		}
+	],
+    "settings": {}
+}
