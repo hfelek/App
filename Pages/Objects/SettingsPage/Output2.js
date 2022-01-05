@@ -326,8 +326,8 @@ const Output2Screen = ({ route, navigation }) => {
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Digital Input');
     const possibleValues = val[0].menu;
 
-    console.log(possibleValues)
-    console.log(typeof (possibleValues))
+    // console.log(possibleValues)
+    // console.log(typeof (possibleValues))
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -343,8 +343,8 @@ const Output2Screen = ({ route, navigation }) => {
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Current Output');
     const possibleValues = val[0].menu;
 
-    console.log(possibleValues)
-    console.log(typeof (possibleValues))
+    // console.log(possibleValues)
+    // console.log(typeof (possibleValues))
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -361,8 +361,8 @@ const Output2Screen = ({ route, navigation }) => {
     const filteredSub = filtered.filter(row => row.Tag == 'Current Output')[0].menu;
     const filteredAT = filteredSub.filter(row => row.Tag == Tag);
     const [text, setText] = React.useState(filteredAT[0].Value);
-    console.log(route)
-    console.log("route")
+    // console.log(route)
+    // console.log("route")
 
     return (
       <View>
@@ -393,10 +393,10 @@ const Output2Screen = ({ route, navigation }) => {
   }
   const SwitchFunctionScreen = ({ route, navigation }) => {
     const { Tag } = route.params
-    console.log("route")
-    console.log(route)
-    console.log("navigation")
-    console.log(navigation)
+    // console.log("route")
+    // console.log(route)
+    // console.log("navigation")
+    // console.log(navigation)
     
 
     const valSystemUnits = Values.filter(row => row.Tag == 'Output2')[0].menu;
@@ -531,10 +531,10 @@ const Output2Screen = ({ route, navigation }) => {
   }
   const DigitalInputSettingsScreen = ({ route, navigation }) =>{
     const { Tag } = route.params
-    console.log("route")
-    console.log(route)
-    console.log("navigation")
-    console.log(navigation)
+    // console.log("route")
+    // console.log(route)
+    // console.log("navigation")
+    // console.log(navigation)
     
 
     const valSystemUnits = Values.filter(row => row.Tag == 'Output2')[0].menu;
@@ -590,8 +590,8 @@ const Output2Screen = ({ route, navigation }) => {
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Switch Output');
     const possibleValues = val[0].menu;
 
-    console.log(possibleValues)
-    console.log(typeof (possibleValues))
+    // console.log(possibleValues)
+    // console.log(typeof (possibleValues))
     return (
       <SafeAreaView style={styles.container}>
         <FlatList

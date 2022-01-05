@@ -1,0 +1,19 @@
+[{
+    "Device Name": "ICT",
+    "Version": "1.0",
+    "BLEParams": {
+        "Tag": "Get Sensor Values",
+        "UUID Mask Lenght": "26",
+        "UUID Mask": "a65373b2-6942-11ec-90d6-0242ac",
+        "Services": [{
+                "Service Tag": "Get Sensor Values",
+                "Serivce Mask": "11",
+                "Characteristics": [{
+                    "Characteristic Tag": "Get Sensor Values",
+                    "UUID Mask": "01"
+                }]
+            }
+
+        ]
+    }
+}]

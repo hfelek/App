@@ -262,7 +262,7 @@ const SystemScreen = ({ route, navigation }) => {
 
         <Button
           onPress={() => {
-            console.log(typeof text);
+            // console.log(typeof text);
           }}
           title="Save"
           color="#841584"

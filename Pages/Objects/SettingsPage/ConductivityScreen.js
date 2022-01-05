@@ -240,8 +240,8 @@ const ConductivityScreen = ({ route, navigation }) => {
     const [nonLinearParamC3, setNonLinearParamC3] = react.useState(initialNonLinearParams.filter(row => row.Tag == "C3")[0].Value)
     const [nonLinearParamC4, setNonLinearParamC4] = react.useState(initialNonLinearParams.filter(row => row.Tag == "C4")[0].Value)
     const [nonLinearParamC5, setNonLinearParamC5] = react.useState(initialNonLinearParams.filter(row => row.Tag == "C5")[0].Value)
-    console.log(nonLinearParamT1)
-    console.log()
+    // console.log(nonLinearParamT1)
+    // console.log()
     return (
       // <ReturnMenu param={compensationVal} />
       <SafeAreaView style={[styles.container,{ flex: 1, flexDirection: "row" }]}>
@@ -426,7 +426,7 @@ const ConductivityScreen = ({ route, navigation }) => {
     function callBackSlider() {
         
       if ((temperatureF != initialValF) || (temperatureC != initialValC)) {
-        console.log({ temperatureF, initialValF, temperatureC, initialValC })
+        // console.log({ temperatureF, initialValF, temperatureC, initialValC })
         navigation.setOptions({
           headerRight: () => (
             <TouchableOpacity >
@@ -535,7 +535,7 @@ const ConductivityScreen = ({ route, navigation }) => {
     const itemToBeRenderedInitial = possibleValues.filter(row => row.Tag==rangeValue)[0]
 
     const [selection, setSelection] = React.useState(Number(itemToBeRenderedInitial.Value));
-    console.log(Number(itemToBeRenderedInitial.Stepsize))
+    // console.log(Number(itemToBeRenderedInitial.Stepsize))
     
     function callBackSlider() {
       // useEffect(() => {

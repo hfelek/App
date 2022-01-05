@@ -157,8 +157,8 @@ const SystemUnitsScreen = ({ route, navigation }) => {
     React.useEffect(() => {
       if(selection != val.Value){
       setSubSelection(null)
-      console.log("subSelection:") 
-      console.log(subSelection)  
+      // console.log("subSelection:") 
+      // console.log(subSelection)  
       
     }
     }, [selection]);

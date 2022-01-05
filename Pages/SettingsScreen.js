@@ -44,8 +44,8 @@ import SystemScreen from './Objects/SettingsPage/System'
 
 
 
-const uniqueTags = [...new Set(ICTParams.map(item => item.Tag))];
-const a = Object.assign({}, uniqueTags);
+// const uniqueTags = [...new Set(ICTParams.map(item => item.Tag))];
+// const a = Object.assign({}, uniqueTags);
 // const navigation = useNavigation();
 const StackSettings = createStackNavigator();
 
@@ -89,7 +89,7 @@ SettingsScreen = ({ navigation,route }) => {
 
 
   
-  console.log(JSON.stringify(a, null, 4));
+  // console.log(JSON.stringify(a, null, 4));
 
   return (
     // <NavigationContainer>

@@ -175,8 +175,8 @@ const CommunicationScreen = ({ route, navigation }) => {
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Bluetooth');
     const possibleValues = val[0].menu;
     const [selection, setSelection] = React.useState(val[0].Value);
-    console.log(possibleValues)
-    console.log(typeof (possibleValues))
+    //console.log(possibleValues)
+    //console.log(typeof (possibleValues))
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -235,7 +235,7 @@ const CommunicationScreen = ({ route, navigation }) => {
         });
       }
       else {
-        console.log(selection)
+        //console.log(selection)
 
         navigation.setOptions({
           headerRight: () => (
@@ -358,15 +358,15 @@ const CommunicationScreen = ({ route, navigation }) => {
     const [text1, setText1] = React.useState(filteredATSub);
 
     function IPHandle  (IP123){
-     console.log( "asfas1232145112..41251123124".replaceAll("[^0-9.,]"))
+    //  console.log( "asfas1232145112..41251123124".replaceAll("[^0-9.,]"))
       var returnValIP= IP123.replace('\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b');
-      console.log(IP123)
-      console.log("IP123")
-      console.log(returnValIP)
-      console.log("returnValIP")
+      // console.log(IP123)
+      // console.log("IP123")
+      // console.log(returnValIP)
+      // console.log("returnValIP")
 
-      console.log(typeof(IP123))
-      console.log("typeof(IP123)")
+      // console.log(typeof(IP123))
+      // console.log("typeof(IP123)")
 
       // setText(IP)
       // return (returnValIP)
@@ -500,8 +500,8 @@ const CommunicationScreen = ({ route, navigation }) => {
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'WiFi');
     const possibleValues = val[0].menu;
     const [selection, setSelection] = React.useState(val[0].Value);
-    console.log(possibleValues)
-    console.log(typeof (possibleValues))
+    // console.log(possibleValues)
+    // console.log(typeof (possibleValues))
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
