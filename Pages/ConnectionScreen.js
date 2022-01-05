@@ -502,10 +502,9 @@ const ConnectionScreen = () => {
   }
 
   const handleDiscoverPeripheral = (peripheral) => {
-    console.log('Got ble peripheral', peripheral);
     if (peripheral.name) {
-      // peripheral.name = 'NO NAME';
-    
+    console.log('Got ble peripheral', peripheral);
+
     peripherals.set(peripheral.id, peripheral);
     setList(Array.from(peripherals.values()));
     }
@@ -548,11 +547,11 @@ const ConnectionScreen = () => {
             
             BleManager.retrieveServices(peripheral.id).then((peripheralInfo) => {
               console.log(peripheralInfo);
-              var service = '5d3182dd-d58a-469d-a6c7-d160c0b7f716';
-              var bakeCharacteristic = '13333333-3333-3333-3333-333333330003';
-              var crustCharacteristic = 'c2f8fea4-5876-4c1d-93ae-be9d438751cf';
+              var service = 'a65373b2-6942-11ec-90d6-0242ac130000';
+              var bakeCharacteristic = 'a65373b2-6942-11ec-90d6-0242ac110100';
+              var crustCharacteristic ='a65373b2-6942-11ec-90d6-0242ac130100';
 
-              // setTimeout(() => {
+              // setTimeout(() => {<
               //   BleManager.startNotification(peripheral.id, service, bakeCharacteristic).then(() => {
               //     console.log('Started notification on ' + peripheral.id);
                   setTimeout(() => {

@@ -1,0 +1,181 @@
+[{
+        "Tag": "Identification",
+        "menu": {
+            "Application Tag": "EliarBLExxxxxxxxxxxxxxxxxxxxxxxx",
+            "Device Name": "ICT-1234xxxxxxxx",
+            "Device ID1": "12345678",
+            "Device ID2": "122345678",
+            "Device ID3": "12345678",
+            "Vendor Name": "Eliar AGxxxxxxxxxxxxxxxxxxxxxxxx",
+            "Vendor ID1": "12345678",
+            "Vendor ID2": "12345678",
+            "Device Serial No": "xxxxxxxxxx",
+            "Hardware Version": "xxxxxxxxxx",
+            "Firmware Version": "xxxxxxxxxx",
+            "Order Code": "xxxxxxxxxxxxx",
+            "Device Type": "16777216",
+            "User Role": "256"
+        }
+    },
+    {
+        "Tag": "Diagnostics",
+        "menu": {
+            "Actual Diagnostics": "xxxx",
+            "Last Diagnostics": "xxxx",
+            "Simulation Process Variable": "Disabled",
+            "Simulation Process Variable Value Conducticity": "429496.7296",
+            "Simulation Process Variable Value Concentration": "429496.7296",
+            "Simulation Process Variable Value Temperature": "429496.7296"
+        }
+    },
+    {
+        "Tag": "Measured Values",
+        "menu": {
+            "Conductivity": "429496.7296",
+            "Concentration": "429496.7296",
+            "Temperature": "429496.7296"
+        }
+    },
+    {
+        "Tag": "System Units",
+        "menu": {
+            "Unit Conductivity": "##uS/cm",
+            "Unit Concentration": "Na2SO4",
+            "SubSelectedValue": "Baume",
+            "Unit Temperature": "##OC"
+        }
+    },
+    {
+        "Tag": "Conductivity",
+        "menu": {
+            "Range": "2000 mS/cm",
+            "Temp Compensation": "Non-Linear",
+            "Linear Coef": "2.2",
+            "T1": "429496.7296",
+            "T2": "429496.7296",
+            "T3": "429496.7296",
+            "T4": "429496.7296",
+            "T5": "429496.7296",
+            "C1": "429496.7296",
+            "C2": "429496.7296",
+            "C3": "429496.7296",
+            "C4": "429496.7296",
+            "C5": "429496.7296",
+            "##OC": "429496.7296",
+            "##OF": "429496.7296",
+            "Cell Const": "429496.7296",
+            "Mount. Factor": "429496.7296",
+            "Zero Point": {
+                "2000 ##US/cm": "429496.7296",
+                "20 mS/cm": "429496.7296",
+                "200 mS/cm": "429496.7296",
+                "500 mS/cm": "429496.7296",
+                "1000 mS/cm": "429496.7296",
+                "2000 mS/cm": "429496.7296"
+            },
+            "Filter C Const": "12345678"
+        }
+    },
+    {
+        "Tag": "Concentration",
+        "menu": {
+            "Measurement Type": "NaCl",
+            "Measurement Range": "NaOH Low"
+        }
+    },
+    {
+        "Tag": "Output1",
+        "menu": {
+            "Output Type": "IO-Link",
+            "Current Output": {
+                "Output-Assign": "Concentration",
+                "Cond SV": "429496.7296",
+                "Cond EV": "429496.7296",
+                "Conc SV": "429496.7296",
+                "Conc EV": "429496.7296",
+                "Temp SV": "429496.7296",
+                "Temp EV": "429496.7296"
+            },
+            "Switch Output": {
+                "Switch Polarity": "npn",
+                "Switch Function": "Alarm",
+                "Cond OnV": "429496.7296",
+                "Cond OffV": "429496.7296",
+                "Conc OnV": "429496.7296",
+                "Conc OffV": "429496.7296",
+                "Temp OnV": "429496.7296",
+                "Temp OffV": "429496.7296"
+            },
+            "IO-Link": ""
+        }
+    },
+    {
+        "Tag": "Output2",
+        "menu": {
+            "Output Type": 0,
+            "Current Output": {
+                "Output-Assign": "Concentration",
+                "Cond SV": "429496.7296",
+                "Cond EV": "429496.7296",
+                "Conc SV": "429496.7296",
+                "Conc EV": "429496.7296",
+                "Temp SV": "429496.7296",
+                "Temp EV": "429496.7296"
+            },
+            "Switch Output": {
+                "Switch Polarity": "npn",
+                "Switch Function": "Alarm",
+                "Cond OnV": "429496.7296",
+                "Cond OffV": "429496.7296",
+                "Conc OnV": "429496.7296",
+                "Conc OffV": "429496.7296",
+                "Temp OnV": "429496.7296",
+                "Temp OffV": "429496.7296"
+            },
+            "Digital Input": {
+                "D-In Polarity": 0,
+                "D-In Function": 0,
+                "D-In Polarity HIGH": 1,
+                "D-IN Polarity LOW": 2
+            }
+        }
+    },
+    {
+        "Tag": "Display",
+        "menu": {
+            "Backlight": "On"
+        }
+    },
+    {
+        "Tag": "Communication",
+        "menu": {
+            "Communication Type": "Off",
+            "Bluetooth": {
+                "Bluetooth Function": "On",
+                "Bluetooth Tx Power Level": "10",
+                "Bluetooth Connection Status": "Off"
+            },
+            "WiFi": {
+                "Wifi Function": "On",
+                "Wifi Mode": "Access Point Mode",
+                "SSID": "ICT-12345678",
+                "Password": "Null",
+                "Configure IPv4": "Manual",
+                "IP Address": "132.152.266.123",
+                "Subnet Address": "132.152.266.123",
+                "Router": "132.152.266.123"
+            }
+        }
+    },
+    {
+        "Tag": "System",
+        "menu": {
+            "Language": "English",
+            "Set Access Code": "Null",
+            "Access Code": "12345678",
+            "Auto Calibrate": "12345678",
+            "Device Reset": "12345678",
+            "User Role": "Admin"
+        }
+    }
+]
