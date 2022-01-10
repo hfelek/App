@@ -234,22 +234,28 @@
                 "Access": "R",
                 "Value": "20 mS/cm",
                 "PossibleValues": [{
-                        "Tag": "2000 µS/cm"
+                        "Tag": "2000 µS/cm",
+                        "Enum": 0
                     },
                     {
-                        "Tag": "20 mS/cm"
+                        "Tag": "20 mS/cm",
+                        "Enum": 1
                     },
                     {
-                        "Tag": "200 mS/cm"
+                        "Tag": "200 mS/cm",
+                        "Enum": 2
                     },
                     {
-                        "Tag": "500 mS/cm"
+                        "Tag": "500 mS/cm",
+                        "Enum": 3
                     },
                     {
-                        "Tag": "1000 mS/cm"
+                        "Tag": "1000 mS/cm",
+                        "Enum": 4
                     },
                     {
-                        "Tag": "2000 mS/cm"
+                        "Tag": "2000 mS/cm",
+                        "Enum": 5
                     }
                 ]
             },
@@ -258,10 +264,12 @@
                 "Access": "R/W",
                 "Value": "Non-Linear",
                 "Menu": [{
-                        "Tag": "Linear"
+                        "Tag": "Linear",
+                        "Enum": 0
                     },
                     {
-                        "Tag": "Non-Linear"
+                        "Tag": "Non-Linear",
+                        "Enum": 1
                     }
                 ]
             },

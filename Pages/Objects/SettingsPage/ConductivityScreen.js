@@ -14,13 +14,20 @@ import { RectButton } from 'react-native-gesture-handler';
 // import Slider from '@react-native-community/slider';
 //import MultiSlider from 'react-native-multi-slider';
 
+import BufferArray from '../../../Navigation/Functions/BufferArray';
+import BleManager from 'react-native-ble-manager';
+
 let ConductivityParams = Paramsfiltered.find(ConductivityParams => ConductivityParams.Tag === "Conductivity");
 let MenuParams = ConductivityParams.menu;
 const StackConductivity = createStackNavigator();
 
 var filtered = Values.filter(row => row.Tag == 'Conductivity');
 var filteredAT = filtered.filter(row => row.Tag == 'Range');
-
+const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
+  BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
+  console.log("In Button Function")
+  ///If anything else is to be done, it will be done here!
+}
 
 
 const ConductivityScreen = ({ route, navigation }) => {
@@ -138,26 +145,26 @@ const ConductivityScreen = ({ route, navigation }) => {
       ItemSelectable(item.Tag)
     );
     useEffect(() => {
-    
-    if (selection != val[0].Value) {
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity >
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
-    }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-  });
+
+      if (selection != val[0].Value) {
+        navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'73':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`)) }}>
+              <View style={styles.buttonBar}>
+                <Text>Save</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        });
+      }
+      else {
+        navigation.setOptions({
+          headerRight: () => (
+            <></>
+          ),
+        });
+      }
+    });
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -177,13 +184,12 @@ const ConductivityScreen = ({ route, navigation }) => {
     const limitsMF = [possibleValues.RangeLower, possibleValues.RangeUpper]
     const [mountingFactor, setMountingFactor] = React.useState(initalMFValue);
     function callBackSlider() {
-      // useEffect(() => {
-      
+
       if ((initalMFValue != mountingFactor)) {
 
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'85':'${mountingFactor}'}}`)) }}>
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
@@ -198,7 +204,6 @@ const ConductivityScreen = ({ route, navigation }) => {
           ),
         });
       }
-    // });
     }
 
 
@@ -221,7 +226,20 @@ const ConductivityScreen = ({ route, navigation }) => {
 
     );
   };
-  const TemperatureCoefficientScreen = () => {
+  const TemperatureCoefficientScreen = ({ route, navigation }) => {
+    useEffect(() => {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'78':'${nonLinearParamT1}','79':'${nonLinearParamC1}','7A':'${nonLinearParamT2}'},'7B':'${nonLinearParamC2}','7C':'${nonLinearParamT3}','7D':'${nonLinearParamC3}','7E':'${nonLinearParamT4}','7F':'${nonLinearParamC4}','80':'${nonLinearParamT5}','81':'${nonLinearParamC5}'}`)) }}>
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+      })
+    })
+
+
     const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
     const compensationVal = valSystemUnits[0].menu.filter(row => row.Tag == 'Temperature Compensation')[0].Value;
     const coefficientMenu = valSystemUnits[0].menu.filter(row => row.Tag == 'Temperature Coefficient')[0].Menu;
@@ -244,122 +262,122 @@ const ConductivityScreen = ({ route, navigation }) => {
     // console.log()
     return (
       // <ReturnMenu param={compensationVal} />
-      <SafeAreaView style={[styles.container,{ flex: 1, flexDirection: "row" }]}>
+      <SafeAreaView style={[styles.container, { flex: 1, flexDirection: "row" }]}>
         {/* <ScrollView style={{ flex: 1, flexDirection: "row" }}> */}
-          <View style={{ flex: 1,paddingTop:5}}>
-            <Text style={styles.basicText}>  T1 Param  </Text>
-            <TextInput style={styles.input}
-              value={nonLinearParamT1}
-              // placeholder={nonLinearParamT1}
-              onChangeText={(text) => (setNonLinearParamT1(text))}
-              // onBlur={(text) =>handleTextChangeEnd(text,item)}
-              maxLength={5}
-              editable
+        <View style={{ flex: 1, paddingTop: 5 }}>
+          <Text style={styles.basicText}>  T1 Param  </Text>
+          <TextInput style={styles.input}
+            value={nonLinearParamT1}
+            // placeholder={nonLinearParamT1}
+            onChangeText={(text) => (setNonLinearParamT1(text))}
+            // onBlur={(text) =>handleTextChangeEnd(text,item)}
+            maxLength={5}
+            editable
 
-              keyboardType="numeric"
-            />
-            <Text style={styles.basicText}>  T2 Param  </Text>
-            <TextInput style={styles.input}
-              value={nonLinearParamT2}
-              // placeholder={nonLinearParamT1}
-              onChangeText={(text) => (setNonLinearParamT2(text))}
-              // onBlur={(text) =>handleTextChangeEnd(text,item)}
-              maxLength={5}
-              editable
+            keyboardType="numeric"
+          />
+          <Text style={styles.basicText}>  T2 Param  </Text>
+          <TextInput style={styles.input}
+            value={nonLinearParamT2}
+            // placeholder={nonLinearParamT1}
+            onChangeText={(text) => (setNonLinearParamT2(text))}
+            // onBlur={(text) =>handleTextChangeEnd(text,item)}
+            maxLength={5}
+            editable
 
-              keyboardType="numeric"
-            />
-            <Text style={styles.basicText}>  T3 Param  </Text>
-            <TextInput style={styles.input}
-              value={nonLinearParamT3}
-              // placeholder={nonLinearParamT1}
-              onChangeText={(text) => (setNonLinearParamT3(text))}
-              // onBlur={(text) =>handleTextChangeEnd(text,item)}
-              maxLength={5}
-              editable
+            keyboardType="numeric"
+          />
+          <Text style={styles.basicText}>  T3 Param  </Text>
+          <TextInput style={styles.input}
+            value={nonLinearParamT3}
+            // placeholder={nonLinearParamT1}
+            onChangeText={(text) => (setNonLinearParamT3(text))}
+            // onBlur={(text) =>handleTextChangeEnd(text,item)}
+            maxLength={5}
+            editable
 
-              keyboardType="numeric"
-            />
-            <Text style={styles.basicText}>  T4 Param  </Text>
-            <TextInput style={styles.input}
-              value={nonLinearParamT4}
-              // placeholder={nonLinearParamT1}
-              onChangeText={(text) => (setNonLinearParamT4(text))}
-              // onBlur={(text) =>handleTextChangeEnd(text,item)}
-              maxLength={5}
-              editable
+            keyboardType="numeric"
+          />
+          <Text style={styles.basicText}>  T4 Param  </Text>
+          <TextInput style={styles.input}
+            value={nonLinearParamT4}
+            // placeholder={nonLinearParamT1}
+            onChangeText={(text) => (setNonLinearParamT4(text))}
+            // onBlur={(text) =>handleTextChangeEnd(text,item)}
+            maxLength={5}
+            editable
 
-              keyboardType="numeric"
-            />
-            <Text style={styles.basicText}>  T5 Param  </Text>
-            <TextInput style={styles.input}
-              value={nonLinearParamT5}
-              // placeholder={nonLinearParamT1}
-              onChangeText={(text) => (setNonLinearParamT5(text))}
-              // onBlur={(text) =>handleTextChangeEnd(text,item)}
-              maxLength={5}
-              editable
+            keyboardType="numeric"
+          />
+          <Text style={styles.basicText}>  T5 Param  </Text>
+          <TextInput style={styles.input}
+            value={nonLinearParamT5}
+            // placeholder={nonLinearParamT1}
+            onChangeText={(text) => (setNonLinearParamT5(text))}
+            // onBlur={(text) =>handleTextChangeEnd(text,item)}
+            maxLength={5}
+            editable
 
-              keyboardType="numeric"
-            />
-          </View>
-          <View style={{ flex: 1, paddingTop:5 }}>
-            <Text style={styles.basicText}>  C1 Param  </Text>
-            <TextInput style={styles.input}
-              value={nonLinearParamC1}
-              // placeholder={nonLinearParamT1}
-              onChangeText={(text) => (setNonLinearParamC1(text))}
-              // onBlur={(text) =>handleTextChangeEnd(text,item)}
-              maxLength={5}
-              editable
+            keyboardType="numeric"
+          />
+        </View>
+        <View style={{ flex: 1, paddingTop: 5 }}>
+          <Text style={styles.basicText}>  C1 Param  </Text>
+          <TextInput style={styles.input}
+            value={nonLinearParamC1}
+            // placeholder={nonLinearParamT1}
+            onChangeText={(text) => (setNonLinearParamC1(text))}
+            // onBlur={(text) =>handleTextChangeEnd(text,item)}
+            maxLength={5}
+            editable
 
-              keyboardType="numeric"
-            />
-            <Text style={styles.basicText}>  C2 Param  </Text>
-            <TextInput style={styles.input}
-              value={nonLinearParamC2}
-              // placeholder={nonLinearParamT1}
-              onChangeText={(text) => (setNonLinearParamC2(text))}
-              // onBlur={(text) =>handleTextChangeEnd(text,item)}
-              maxLength={5}
-              editable
+            keyboardType="numeric"
+          />
+          <Text style={styles.basicText}>  C2 Param  </Text>
+          <TextInput style={styles.input}
+            value={nonLinearParamC2}
+            // placeholder={nonLinearParamT1}
+            onChangeText={(text) => (setNonLinearParamC2(text))}
+            // onBlur={(text) =>handleTextChangeEnd(text,item)}
+            maxLength={5}
+            editable
 
-              keyboardType="numeric"
-            />
-            <Text style={styles.basicText}>  C3 Param  </Text>
-            <TextInput style={styles.input}
-              value={nonLinearParamC3}
-              // placeholder={nonLinearParamT1}
-              onChangeText={(text) => (setNonLinearParamC3(text))}
-              // onBlur={(text) =>handleTextChangeEnd(text,item)}
-              maxLength={5}
-              editable
+            keyboardType="numeric"
+          />
+          <Text style={styles.basicText}>  C3 Param  </Text>
+          <TextInput style={styles.input}
+            value={nonLinearParamC3}
+            // placeholder={nonLinearParamT1}
+            onChangeText={(text) => (setNonLinearParamC3(text))}
+            // onBlur={(text) =>handleTextChangeEnd(text,item)}
+            maxLength={5}
+            editable
 
-              keyboardType="numeric"
-            />
-            <Text style={styles.basicText}>  C4 Param  </Text>
-            <TextInput style={styles.input}
-              value={nonLinearParamC4}
-              // placeholder={nonLinearParamT1}
-              onChangeText={(text) => (setNonLinearParamC4(text))}
-              // onBlur={(text) =>handleTextChangeEnd(text,item)}
-              maxLength={5}
-              editable
+            keyboardType="numeric"
+          />
+          <Text style={styles.basicText}>  C4 Param  </Text>
+          <TextInput style={styles.input}
+            value={nonLinearParamC4}
+            // placeholder={nonLinearParamT1}
+            onChangeText={(text) => (setNonLinearParamC4(text))}
+            // onBlur={(text) =>handleTextChangeEnd(text,item)}
+            maxLength={5}
+            editable
 
-              keyboardType="numeric"
-            />
-            <Text style={styles.basicText}>  C5 Param  </Text>
-            <TextInput style={styles.input}
-              value={nonLinearParamC5}
-              // placeholder={nonLinearParamT1}
-              onChangeText={(text) => (setNonLinearParamC5s(text))}
-              // onBlur={(text) =>handleTextChangeEnd(text,item)}
-              maxLength={5}
-              editable
+            keyboardType="numeric"
+          />
+          <Text style={styles.basicText}>  C5 Param  </Text>
+          <TextInput style={styles.input}
+            value={nonLinearParamC5}
+            // placeholder={nonLinearParamT1}
+            onChangeText={(text) => (setNonLinearParamC5(text))}
+            // onBlur={(text) =>handleTextChangeEnd(text,item)}
+            maxLength={5}
+            editable
 
-              keyboardType="numeric"
-            />
-          </View>
+            keyboardType="numeric"
+          />
+        </View>
         {/* </ScrollView> */}
       </SafeAreaView>
     )
@@ -382,26 +400,26 @@ const ConductivityScreen = ({ route, navigation }) => {
       ItemSelectable(item.Tag)
     );
     useEffect(() => {
-    
-    if (selection != val[0].Value) {
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity >
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
-    }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-  });
+
+      if (selection != val[0].Value) {
+        navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'74':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`)) }}>
+              <View style={styles.buttonBar}>
+                <Text>Save</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        });
+      }
+      else {
+        navigation.setOptions({
+          headerRight: () => (
+            <></>
+          ),
+        });
+      }
+    });
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -424,12 +442,12 @@ const ConductivityScreen = ({ route, navigation }) => {
     const limitsF = [possibleValues.filter(row => row.Tag == '°F')[0].RangeLower, possibleValues.filter(row => row.Tag == '°F')[0].RangeUpper]
     const limitsC = [possibleValues.filter(row => row.Tag == '°C')[0].RangeLower, possibleValues.filter(row => row.Tag == '°C')[0].RangeUpper]
     function callBackSlider() {
-        
+
       if ((temperatureF != initialValF) || (temperatureC != initialValC)) {
         // console.log({ temperatureF, initialValF, temperatureC, initialValC })
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Communication', 'Set Parameters': {'82':'${temperatureC}','83':'${temperatureF}'}}`)) }}>
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
@@ -444,8 +462,8 @@ const ConductivityScreen = ({ route, navigation }) => {
           ),
         });
       }
-    
-}
+
+    }
     return (
 
       <View style={styles.containerSlider}>
@@ -491,7 +509,7 @@ const ConductivityScreen = ({ route, navigation }) => {
 
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Communication', 'Set Parameters': {'8C':'${filterCC}'}}`)) }} >
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
@@ -506,7 +524,7 @@ const ConductivityScreen = ({ route, navigation }) => {
           ),
         });
       }
-    // });
+      // });
 
     }
     return (
@@ -527,23 +545,45 @@ const ConductivityScreen = ({ route, navigation }) => {
 
     );
   };
-  const ZeroPointScreeen = ({route,navigation}) => {
+  const ZeroPointScreeen = ({ route, navigation }) => {
     const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Zero Point');
     const possibleValues = val[0].Menu;
-    const rangeValue =valSystemUnits[0].menu.filter(row => row.Tag == 'Range')[0].Value
-    const itemToBeRenderedInitial = possibleValues.filter(row => row.Tag==rangeValue)[0]
-
+    const rangeValue = valSystemUnits[0].menu.filter(row => row.Tag == 'Range')[0].Value
+    const itemToBeRenderedInitial = possibleValues.filter(row => row.Tag == rangeValue)[0]
     const [selection, setSelection] = React.useState(Number(itemToBeRenderedInitial.Value));
+    let measurementRange
+    switch (rangeValue) {
+      case "2000 µS/cm":
+        measurementRange='86'
+        break;
+      case "20 mS/cm":
+        measurementRange='87'
+                break;
+      case "200 mS/cm":
+        measurementRange='88'
+                break;
+      case "500 mS/cm":
+        measurementRange='89'
+                break;
+      case "1000 mS/cm":
+        measurementRange='8A'
+                break;
+      case "1000 mS/cm":
+        measurementRange='8B'
+                  break;
+      default:
+      // code block
+    }
     // console.log(Number(itemToBeRenderedInitial.Stepsize))
-    
+
     function callBackSlider() {
       // useEffect(() => {
 
       if ((selection != Number(itemToBeRenderedInitial.Value))) {
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${measurementRange}':'${selection}'}}`)) }} >
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
@@ -558,14 +598,14 @@ const ConductivityScreen = ({ route, navigation }) => {
           ),
         });
       }
-    // });
+      // });
     }
     return (
       <View style={styles.containerSlider}>
 
         <Slider
           value={Number(selection)}
-          onValueChange={value => setSelection((Math.round(value*100)/100))}
+          onValueChange={value => setSelection((Math.round(value * 100) / 100))}
           minimumValue={Number(itemToBeRenderedInitial.RangeLower)}
           maximumValue={Number(itemToBeRenderedInitial.RangeUpper)}
           onSlidingComplete={() => callBackSlider()}
@@ -621,7 +661,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
 
   },
-  basicText:{color:"#000",textAlign:"center"},
+  basicText: { color: "#000", textAlign: "center" },
   title: {
     fontSize: 15,
     color: 'black',
