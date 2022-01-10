@@ -1,4 +1,4 @@
-[{
+export const storageObject = JSON.stringify([{
         "Tag": "Identification",
         "Icon": "create-outline",
         "menu": [{
@@ -850,16 +850,13 @@
                 "Access": "R",
                 "Value": "Off",
                 "PossibleValues": [{
-                        "Tag": "Off",
-                        "Enum": 0
+                        "Tag": "Off"
                     },
                     {
-                        "Tag": "Bluetooth",
-                        "Enum": 1
+                        "Tag": "Bluetooth"
                     },
                     {
-                        "Tag": "WiFi",
-                        "Enum": 2
+                        "Tag": "WiFi"
                     }
                 ]
             },
@@ -1028,4 +1025,4 @@
             }
         ]
     }
-]
+]);

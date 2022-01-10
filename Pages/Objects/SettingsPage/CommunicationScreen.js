@@ -8,6 +8,24 @@ import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import BleManager from 'react-native-ble-manager';
+import ConnectionScreen from '../../ConnectionScreen';
+const Buffer = require('buffer/').Buffer;
+const BufferArray = (inputStr)=> {
+  var myBuffer=[]
+  var str = inputStr ;
+  var buffer = new Buffer(str);
+  for (var i = 0; i < buffer.length; i++) {
+     myBuffer.push(buffer[i]);
+  }
+  return(myBuffer)
+}
+const HandleWriteCommand = (peripheralId,serviceUUID,characteristicUUID,value,maxbytesize=512)=>{
+  BleManager.write(peripheralId,serviceUUID,characteristicUUID,value,maxbytesize)///////////Here Writes to the BLE Peripheral
+  console.log("In Button Function")
+  ///If anything else is to be done, it will be done here!
+}
+
 
 let CommunicationParams = Paramsfiltered.find(CommunicationParams => CommunicationParams.Tag === "Communication");
 let MenuParams = CommunicationParams.menu;
@@ -209,7 +227,23 @@ const CommunicationScreen = ({ route, navigation }) => {
     const val = valSystemUnits.filter(row => row.Tag == 'Communication Type');
     const possibleValues = val[0].PossibleValues;
     const [selection, setSelection] = React.useState(val[0].Value);
-    console.log("hello")
+    var myBuffer = [];
+    if (Platform.OS === 'android') {
+      BleManager.requestMTU("24:0A:C4:09:69:62", 512)
+          .then((mtu) => {
+              // Success code
+              console.log()
+              console.log("MTU size changed to " + mtu + " bytes");
+          })
+          .catch((error) => {
+              // Failure code
+              console.log("Error kodu")
+              console.log("24:0A:C4:09:69:62")
+              console.log(error);
+          });
+   };
+    
+    
     function ItemSelectable(title) {
 
 
@@ -222,11 +256,15 @@ const CommunicationScreen = ({ route, navigation }) => {
     const renderItemSelectable = ({ item }) => (
       ItemSelectable(item.Tag, item.Value)
     );
+    // ({"Tag":"Communication", "Set Parameters": {"CB":"1"}})
+    
+    
     useEffect(() => {
       if (selection != val[0].Value) {
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity >
+            // Burada Peripheral ID ve UUIDler daha object oriented yapılacak.
+            <TouchableOpacity  onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'C8':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
