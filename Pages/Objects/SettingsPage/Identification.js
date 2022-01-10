@@ -6,14 +6,19 @@ import { TextInput } from 'react-native-paper';
 import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
-
+import BleManager from 'react-native-ble-manager';
+import BufferArray from '../../../Navigation/Functions/BufferArray';
 let IdentificationParams = Paramsfiltered.find(IdentificationParams => IdentificationParams.Tag === "Identification");
 let MenuParams = IdentificationParams.menu;
 const StackIdentification = createStackNavigator();
 
 var filtered;
 var filteredAT;
-
+const HandleWriteCommand = (peripheralId,serviceUUID,characteristicUUID,value,maxbytesize=512)=>{
+  BleManager.write(peripheralId,serviceUUID,characteristicUUID,value,maxbytesize)///////////Here Writes to the BLE Peripheral
+  console.log("In Button Function")
+  ///If anything else is to be done, it will be done here!
+}
 
 const IdentificationScreen = ({ route, navigation }) => {
 
@@ -73,10 +78,9 @@ const IdentificationScreen = ({ route, navigation }) => {
           right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
           onChangeText={text => setText(text)}
         />
-        <LenghtChecker lenght={32} />
-
-                <Button
-          onPress={() => {console.log( typeof(text))}}
+          <LenghtChecker lenght={32} />
+          <Button
+          onPress={() =>{ HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'18':'${text}'}}`))}} 
           title="Save"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"

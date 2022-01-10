@@ -7,8 +7,12 @@ import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import BufferArray from '../../../Navigation/Functions/BufferArray';
+
 import { createIconSetFromFontello } from 'react-native-vector-icons';
 import Icon from 'react-native-vector-icons/Ionicons';
+const Buffer = require('buffer/').Buffer;
+import BleManager from 'react-native-ble-manager';
 
 let SystemUnitsParams = Paramsfiltered.find(SystemUnitsParams => SystemUnitsParams.Tag === "System Units");
 let MenuParams = SystemUnitsParams.menu;
@@ -16,7 +20,11 @@ const StackSystemUnits = createStackNavigator();
 
 var filtered = Values.filter(row => row.Tag == 'System Units');
 var filteredAT = filtered.filter(row => row.Tag == 'Unit Conductivity');
-
+const HandleWriteCommand = (peripheralId,serviceUUID,characteristicUUID,value,maxbytesize=512)=>{
+  BleManager.write(peripheralId,serviceUUID,characteristicUUID,value,maxbytesize)///////////Here Writes to the BLE Peripheral
+  console.log("In Button Function")
+  ///If anything else is to be done, it will be done here!
+}
 
 
 const SystemUnitsScreen = ({ route, navigation }) => {
@@ -116,8 +124,8 @@ const SystemUnitsScreen = ({ route, navigation }) => {
     if (selection != val[0].Value) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity >
-            <View style={styles.buttonBar}>
+          <TouchableOpacity  onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'System Units', 'Set Parameters': {'69':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
+          <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
           </TouchableOpacity>
@@ -152,6 +160,34 @@ const SystemUnitsScreen = ({ route, navigation }) => {
     const subValueToRender = val.SubSelectedValue;
     const [subSelection, setSubSelection] = React.useState(subValueToRender);
     const subSelectionList = val["SubList"];
+    let HexIndex 
+    let subIndex
+    switch(selection) {
+      case "NaCl":
+        HexIndex='6A'
+        break;
+      case "NaOH":
+        HexIndex='6B'
+        break;
+        case "Na2SO4":
+        HexIndex='6C'
+        break;
+      default:
+        // code block
+    }
+    switch(subSelection) {
+      case "g/kg":
+        subIndex='0'
+        break;
+      case "wt%":
+        subIndex='1'
+        break;
+        case "Baume":
+        subIndex='2'
+        break;
+      default:
+        // code block
+    }
     ///////////BURADA BİR BUG VAR... İLK DEĞERE TEKRAR TIKLAYINCA, SUBVALUE DEĞİŞMİYOR 
     
     React.useEffect(() => {
@@ -192,8 +228,8 @@ const SystemUnitsScreen = ({ route, navigation }) => {
       if ((selection != val.Value || subSelection !=subValueToRender) && (subSelection!=null)) {
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity >
-              <View style={styles.buttonBar}>
+            <TouchableOpacity  onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'System Units', 'Set Parameters': {'Tag':'${HexIndex}', ${subIndex}}}`))}}>
+            <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
             </TouchableOpacity>
@@ -254,7 +290,7 @@ const SystemUnitsScreen = ({ route, navigation }) => {
     if (selection != val[0].Value) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity >
+          <TouchableOpacity  onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'System Units', 'Set Parameters': {'6D':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>

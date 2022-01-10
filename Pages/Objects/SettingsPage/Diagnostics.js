@@ -7,6 +7,8 @@ import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
+import BleManager from 'react-native-ble-manager';
+import BufferArray from '../../../Navigation/Functions/BufferArray';
 
 let DiagnosticsParams = Paramsfiltered.find(DiagnosticsParams => DiagnosticsParams.Tag === "Diagnostics");
 let MenuParams = DiagnosticsParams.menu;
@@ -16,7 +18,11 @@ const SwitchComponents = ["Simulation Process Variable"]
 const ReadableComponents = ["Last Diagnostics", "Actual Diagnostics"]
 var filtered;
 var filteredAT;
-
+const HandleWriteCommand = (peripheralId,serviceUUID,characteristicUUID,value,maxbytesize=512)=>{
+  BleManager.write(peripheralId,serviceUUID,characteristicUUID,value,maxbytesize)///////////Here Writes to the BLE Peripheral
+  console.log("In Button Function")
+  ///If anything else is to be done, it will be done here!
+}
 function Item(title, value, navigation) {
   if (TextComponents.includes(title)) {
     return (
@@ -95,11 +101,14 @@ const DiagnosticsScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
     const { Value } = route.params;
     const {SwitchableValues} =route.params;
+    const [text, setText] = React.useState(Value);
+
+    console.log(SwitchableValues)
+    console.log(text)
     useEffect(() => {
       navigation.setOptions({title:Tag})
     });
 
-    const [text, setText] = React.useState(Value);
     const renderItemSelectable = ({ item })=>{
       return(
       <TouchableOpacity style={styles.itemButton} onPress={() => {setText(item.Tag)}} >
@@ -112,7 +121,7 @@ const DiagnosticsScreen = ({ route, navigation }) => {
     if(text!=Value){
       navigation.setOptions({
         headerRight: () => (
-        <TouchableOpacity >
+          <TouchableOpacity  onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Diagnostics', 'Set Parameters': {'52':'${SwitchableValues.filter(row => row.Tag == text)[0].Enum}'}}`))}}>
           <View style={styles.buttonBar}>
             <Text>Save</Text>
           </View>
@@ -147,6 +156,20 @@ const DiagnosticsScreen = ({ route, navigation }) => {
 
     const { Tag } = route.params;
     const { Value } = route.params;
+    let HexIndex =0
+    switch(Tag) {
+      case "Simulation Process Variable Value Conducticity":
+        HexIndex='53'
+        break;
+      case "Simulation Process Variable Value Concentration":
+        HexIndex='54'
+        break;
+        case "Simulation Process Variable Value Temperature":
+          HexIndex='55'
+          break;
+      default:
+        // code block
+    }
     useEffect(() => {
       navigation.setOptions({title:Tag})
     });
@@ -173,7 +196,7 @@ const DiagnosticsScreen = ({ route, navigation }) => {
          {/* <Text>Enter a unique name for the measuring point to identify the device within the plant. Lenght --{'>'} {lenght} </Text>  */}
 
         <Button
-          onPress={() => { console.log(typeof (text)) }}
+          onPress={() =>{ HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${text}'}}`))}} 
           title="Save"
           color="#841584"
           accessibilityLabel="Save Configuration"

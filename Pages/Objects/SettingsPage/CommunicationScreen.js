@@ -11,15 +11,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import ConnectionScreen from '../../ConnectionScreen';
 const Buffer = require('buffer/').Buffer;
-const BufferArray = (inputStr)=> {
-  var myBuffer=[]
-  var str = inputStr ;
-  var buffer = new Buffer(str);
-  for (var i = 0; i < buffer.length; i++) {
-     myBuffer.push(buffer[i]);
-  }
-  return(myBuffer)
-}
+
+
 const HandleWriteCommand = (peripheralId,serviceUUID,characteristicUUID,value,maxbytesize=512)=>{
   BleManager.write(peripheralId,serviceUUID,characteristicUUID,value,maxbytesize)///////////Here Writes to the BLE Peripheral
   console.log("In Button Function")
@@ -77,14 +70,14 @@ const CommunicationScreen = ({ route, navigation }) => {
         )
       case 'Communication Type':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Communication Type', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Communication Type', { Tag: title, HexIndex: "C8"  })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'Bluetooth Function':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Bluetooth Function', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Bluetooth Function', { Tag: title, HexIndex: "C9"  })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
@@ -105,56 +98,56 @@ const CommunicationScreen = ({ route, navigation }) => {
       //   )
       case 'WiFi Function':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title, HexIndex: "CC" })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'WiFi Mode':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title, HexIndex: "CD"  })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'SSID':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('SSID Screen', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('SSID Screen', { Tag: title, HexIndex: "CE" })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'Password':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Password Screen', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Password Screen', { Tag: title, HexIndex: "CF" })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'Configure IPv4':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title, HexIndex: "D0" })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'IP Address':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title , HexIndex: "D1" })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'Router':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title, HexIndex: "D3" })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'Subnet Address':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title, HexIndex: "D2" })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
@@ -206,7 +199,8 @@ const CommunicationScreen = ({ route, navigation }) => {
     );
   };
   const BluetoothSettingsScreen = ({ route, navigation }) => {
-    const { Tag } = route.params
+    const { Tag } = route.params;
+    const {HexIndex} = route.params;
     useEffect(() => {
       navigation.setOptions({ title: Tag })
     });
@@ -214,15 +208,17 @@ const CommunicationScreen = ({ route, navigation }) => {
       <Text>{Tag}</Text>)
   };
   const WiFiSettingsScreen = ({ route, navigation }) => {
-    const { Tag } = route.params
-    useEffect(() => {
+    const { Tag } = route.params;
+    const {HexIndex} = route.params;    useEffect(() => {
       navigation.setOptions({ title: Tag })
     });
     return (
       <Text>{Tag}</Text>)
   };
   const CommunicationTypeScreen = ({ route, navigation }) => {
-    const { Tag } = route.params
+    const { Tag } = route.params;
+    const {HexIndex} = route.params;  
+
     const valSystemUnits = Values.filter(row => row.Tag == "Communication")[0].menu;
     const val = valSystemUnits.filter(row => row.Tag == 'Communication Type');
     const possibleValues = val[0].PossibleValues;
@@ -264,7 +260,7 @@ const CommunicationScreen = ({ route, navigation }) => {
         navigation.setOptions({
           headerRight: () => (
             // Burada Peripheral ID ve UUIDler daha object oriented yapılacak.
-            <TouchableOpacity  onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'C8':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
+            <TouchableOpacity  onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
@@ -293,7 +289,12 @@ const CommunicationScreen = ({ route, navigation }) => {
     );
   };
   const WiFiFunctionScreen = ({ route, navigation }) => {
-    const { Tag } = route.params
+    const { Tag } = route.params;
+    console.log(Tag)
+    const {HexIndex} = route.params;  
+    useEffect(() => {
+      navigation.setOptions({ title: Tag })
+    });
     const valSystemUnits = Values.filter(row => row.Tag == 'Communication')[0];
     const subTitle = valSystemUnits.menu.filter(row => row.Tag == "WiFi")[0];
     const val = subTitle.menu.filter(row => row.Tag == Tag);
@@ -315,7 +316,7 @@ const CommunicationScreen = ({ route, navigation }) => {
       if (selection != val[0].Value) {
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity >
+            <TouchableOpacity  onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {${HexIndex}:'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
@@ -346,14 +347,15 @@ const CommunicationScreen = ({ route, navigation }) => {
 
   // }
   const SSIDScreen = ({ route, navigation }) => {
-    const { Tag } = route.params
-    useEffect(() => {
+    const { Tag } = route.params;
+    const {HexIndex} = route.params;   
+     useEffect(() => {
       navigation.setOptions({ title: Tag })
     });
     const filtered = Values.filter(row => row.Tag == 'Communication');
     const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
     const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
-
+    const initialText = filteredATSub;
     const [text, setText] = React.useState(filteredATSub);
 
   
@@ -371,13 +373,12 @@ const CommunicationScreen = ({ route, navigation }) => {
           onChangeText={text => setText(text)}
         />
         {/* <LenghtChecker lenght={32} /> */}
-
+     {initialText!=text &&
         <Button
-          onPress={() => { console.log(typeof (text)) }}
-          title="Save"
+        onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${text}'}}`))}}          title="Save"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
-        />
+        />}
         {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
         {/* <MaskedInput {...props} /> */}
 
@@ -385,8 +386,8 @@ const CommunicationScreen = ({ route, navigation }) => {
     );
   };
   const IPScreen = ({ route, navigation }) => {
-    const { Tag } = route.params
-    useEffect(() => {
+    const { Tag } = route.params;
+    const {HexIndex} = route.params;    useEffect(() => {
       navigation.setOptions({ title: Tag })
     });
     const filtered = Values.filter(row => row.Tag == 'Communication');
@@ -424,16 +425,16 @@ const CommunicationScreen = ({ route, navigation }) => {
           // activeUnderlineColor='#000'
           error={false}
           right={<TextInput.Icon name="close-circle-outline" onPress={text => setText1("")} />}
-          onChangeText={text1 => IPHandle(text1)}
+          onChangeText={textwritten => setText1(textwritten)}
         />
         {/* <LenghtChecker lenght={32} /> */}
-
+  {filteredATSub!=text1 &&
         <Button
-          onPress={() => { console.log(typeof (text1)) }}
-          title="Save"
+        onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${text1}'}}`))}}          title="Save"
+        title="Save"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
-        />
+        />}
         {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
         {/* <MaskedInput {...props} /> */}
 
@@ -442,8 +443,8 @@ const CommunicationScreen = ({ route, navigation }) => {
   };
 
   const PasswordScreen = ({ route, navigation }) => {
-    const { Tag } = route.params
-    useEffect(() => {
+    const { Tag } = route.params;
+    const {HexIndex} = route.params;    useEffect(() => {
       navigation.setOptions({ title: Tag })
     });
     // const filtered = Values.filter(row => row.Tag == 'Communication');
@@ -470,13 +471,13 @@ const CommunicationScreen = ({ route, navigation }) => {
           onChangeText={text => setText(text)}
         />
         {/* <LenghtChecker lenght={32} /> */}
-
+        {text.length > 8 &&
         <Button
-          onPress={() => { console.log(typeof (text)) }}
-          title="Save"
+        onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${text}'}}`))}}          title="Save"
+        title="Save"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
-        />
+        />}
         {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
         {/* <MaskedInput {...props} /> */}
 
@@ -485,8 +486,8 @@ const CommunicationScreen = ({ route, navigation }) => {
   };
 
   const BluetoothFunctionScreen = ({ route, navigation }) => {
-    const { Tag } = route.params
-    const valSystemUnits = Values.filter(row => row.Tag == 'Communication')[0];
+    const { Tag } = route.params;
+    const {HexIndex} = route.params;    const valSystemUnits = Values.filter(row => row.Tag == 'Communication')[0];
     const subTitle = valSystemUnits.menu.filter(row => row.Tag == "Bluetooth")[0];
     const val = subTitle.menu.filter(row => row.Tag == Tag);
     const possibleValues = val[0].PossibleValues;
@@ -507,7 +508,8 @@ const CommunicationScreen = ({ route, navigation }) => {
       if (selection != val[0].Value) {
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity >
+            <TouchableOpacity  onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
+
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
