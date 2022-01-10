@@ -86,10 +86,12 @@
                 "Access": "R",
                 "Value": "Enabled",
                 "Assignable Values": [{
-                        "Tag": "Enabled"
+                        "Tag": "Enabled",
+                        "Enum": 1
                     },
                     {
-                        "Tag": "Disabled"
+                        "Tag": "Disabled",
+                        "Enum": 0
                     }
                 ]
             },
@@ -138,13 +140,16 @@
                 "Access": "R",
                 "Value": "μS/cm",
                 "PossibleValues": [{
-                        "Tag": "μS/cm"
+                        "Tag": "μS/cm",
+                        "Enum": 0
                     },
                     {
-                        "Tag": "mS/cm"
+                        "Tag": "mS/cm",
+                        "Enum": 1
                     },
                     {
-                        "Tag": " S/m"
+                        "Tag": " S/m",
+                        "Enum": 2
                     }
                 ]
             },
@@ -153,42 +158,54 @@
                 "Access": "R",
                 "Value": "Na2SO4",
                 "PossibleValues": [{
-                        "Tag": "NaCl"
+                        "Tag": "NaCl",
+                        "Enum": 0
                     },
                     {
-                        "Tag": "NaOH"
+                        "Tag": "NaOH",
+
+                        "Enum": 1
                     },
                     {
-                        "Tag": "Na2SO4"
+                        "Tag": "Na2SO4",
+                        "Enum": 2
                     }
                 ],
                 "SubSelectedValue": "g/kg",
                 "SubList": {
                     "NaCl": [{
-                            "Tag": "g/kg"
+                            "Tag": "g/kg",
+                            "Enum": 0
                         },
                         {
-                            "Tag": "wt%"
+                            "Tag": "wt%",
+                            "Enum": 1
                         },
                         {
-                            "Tag": "Baume"
+                            "Tag": "Baume",
+                            "Enum": 2
                         }
                     ],
                     "NaOH": [{
-                            "Tag": "g/kg"
+                            "Tag": "g/kg",
+                            "Enum": 0
                         },
                         {
-                            "Tag": "wt%"
+                            "Tag": "wt%",
+                            "Enum": 1
                         },
                         {
-                            "Tag": "Baume"
+                            "Tag": "Baume",
+                            "Enum": 2
                         }
                     ],
                     "Na2SO4": [{
-                            "Tag": "g/kg"
+                            "Tag": "g/kg",
+                            "Enum": 0
                         },
                         {
-                            "Tag": "wt%"
+                            "Tag": "wt%",
+                            "Enum": 1
                         }
                     ]
                 }
@@ -198,10 +215,12 @@
                 "Access": "R",
                 "Value": "°C",
                 "PossibleValues": [{
-                        "Tag": "°C"
+                        "Tag": "°C",
+                        "Enum": 0
                     },
                     {
-                        "Tag": "°F"
+                        "Tag": "°F",
+                        "Enum": 1
                     }
                 ]
             }
@@ -871,10 +890,12 @@
                         "Access": "R/W",
                         "Value": "On",
                         "PossibleValues": [{
-                                "Tag": "Off"
+                                "Tag": "Off",
+                                "Enum": 0
                             },
                             {
-                                "Tag": "On"
+                                "Tag": "On",
+                                "Enum": 1
                             }
                         ]
                     },
@@ -895,10 +916,12 @@
                         "Access": "R/W",
                         "Value": "On",
                         "PossibleValues": [{
-                                "Tag": "Off"
+                                "Tag": "Off",
+                                "Enum": 0
                             },
                             {
-                                "Tag": "On"
+                                "Tag": "On",
+                                "Enum": 1
                             }
                         ]
                     }
@@ -912,10 +935,12 @@
                         "Access": "R/W",
                         "Value": "On",
                         "PossibleValues": [{
-                                "Tag": "Off"
+                                "Tag": "Off",
+                                "Enum": "0"
                             },
                             {
-                                "Tag": "On"
+                                "Tag": "On",
+                                "Enum": "1"
                             }
                         ]
                     },
@@ -924,10 +949,12 @@
                         "Access": "R/W",
                         "Value": "Access Point Mode",
                         "PossibleValues": [{
-                                "Tag": "Access Point Mode"
+                                "Tag": "Access Point Mode",
+                                "Enum": 0
                             },
                             {
-                                "Tag": "Station Mode"
+                                "Tag": "Station Mode",
+                                "Enum": 1
                             }
                         ]
                     },
@@ -945,10 +972,12 @@
                         "Access": "R/W",
                         "Value": "Manual",
                         "PossibleValues": [{
-                                "Tag": "Manual"
+                                "Tag": "Manual",
+                                "Enum": 0
                             },
                             {
-                                "Tag": "DHCP"
+                                "Tag": "DHCP",
+                                "Enum": 1
                             }
                         ]
                     },
