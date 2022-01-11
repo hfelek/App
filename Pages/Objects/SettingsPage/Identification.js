@@ -21,17 +21,53 @@ const HandleWriteCommand = (peripheralId,serviceUUID,characteristicUUID,value,ma
   console.log("In Button Function")
   ///If anything else is to be done, it will be done here!
 }
+const ApplicationTagScreen = () => {
 
+  filtered = Values.filter(row => row.Tag == 'Identification');
+  filteredAT = filtered[0].menu.filter(row => row.Tag == 'Application Tag');
+  const [text, setText] = React.useState(filteredAT[0].Value);
+ 
+  return (
+    <View>
+      <TextInput
+        label="Set Your Application Tag"
+        value={text}
+        selectionColor='#000'
+        underlineColor='#000'
+        activeOutlineColor='#000'
+        outlineColor='#000'
+        // activeUnderlineColor='#000'
+        error={false}
+        right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
+        onChangeText={text => setText(text)}
+      />
+        {/* <LenghtChecker lenght={32} /> */}
+        {(filteredAT[0].Value !=  text) &&
+        <Button
+        onPress={() =>{ HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'18':'${text}'}}`))}} 
+        title="Save"
+        color="#841584"
+        accessibilityLabel="Learn more about this purple button"
+      />}
+      {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
+      
+    </View>
+  );
+};
+BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+  // Success code
+
+  console.log(JSON.stringify(peripheralsArray[0].id));
+  peripheralID=peripheralsArray[0].id
+}).catch(() => {
+  console.log("Couldnt Find A peripheral");
+  // expected output: "Success!"
+});
 const IdentificationScreen = ({ route, navigation }) => {
-  BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
-    // Success code
+  
+  
+  
 
-    console.log(JSON.stringify(peripheralsArray[0].id));
-    peripheralID=peripheralsArray[0].id
-  }).catch(() => {
-    console.log("Couldnt Find A peripheral");
-    // expected output: "Success!"
-  });
   function Item(title, value) {
     switch (title) {
       case 'Application Tag':
@@ -54,7 +90,7 @@ const IdentificationScreen = ({ route, navigation }) => {
 
 
 
-
+  console.log("burdayım1")
   // console.log(JSON.stringify(IdentificationParams));
   // console.log(JSON.stringify(MenuParams));
 
@@ -68,39 +104,9 @@ const IdentificationScreen = ({ route, navigation }) => {
     </SafeAreaView>
   )
 
-  const ApplicationTagScreen = () => {
 
-    filtered = Values.filter(row => row.Tag == 'Identification');
-    filteredAT = filtered[0].menu.filter(row => row.Tag == 'Application Tag');
-    const [text, setText] = React.useState(filteredAT[0].Value);
-   
-    return (
-      <View>
-        <TextInput
-          label="Set Your Application Tag"
-          value={text}
-          selectionColor='#000'
-          underlineColor='#000'
-          activeOutlineColor='#000'
-          outlineColor='#000'
-          // activeUnderlineColor='#000'
-          error={false}
-          right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
-          onChangeText={text => setText(text)}
-        />
-          {/* <LenghtChecker lenght={32} /> */}
-          {(filteredAT[0].Value !=  text) &&
-          <Button
-          onPress={() =>{ HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'18':'${text}'}}`))}} 
-          title="Save"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />}
-        {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
-        
-      </View>
-    );
-  };
+  console.log("burdayım2")
+
   const renderItem = ({ item }) => (
     Item(item.Tag, item.Value)
   );
