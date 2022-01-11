@@ -835,7 +835,7 @@
                         ]
                     },
                     {
-                        "Tag": "D-IN Polarity LOW",
+                        "Tag": "D-In Polarity LOW",
                         "Access": "R",
                         "Value": "NaCl",
                         "PossibleValues": [{

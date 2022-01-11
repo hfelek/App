@@ -7,7 +7,14 @@ import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import BleManager from 'react-native-ble-manager';
+import BufferArray from '../../../Navigation/Functions/BufferArray';
 
+const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
+  BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
+  console.log("In Button Function")
+  ///If anything else is to be done, it will be done here!
+}
 let Output2Params = Paramsfiltered.find(Output2Params => Output2Params.Tag === "Output2");
 let MenuParams = Output2Params.menu;
 const StackOutput2 = createStackNavigator();
@@ -45,6 +52,24 @@ const Output2Screen = ({ route, navigation }) => {
     const val = valSystemUnits[0].menu.filter(row => row.Tag == Tag);
     const possibleValues = val[0].PossibleValues;
     const [selection, setSelection] = React.useState(val[0].Value);
+    let hexIndex
+    switch (selection) {
+      case "Current":
+        hexIndex = "0"
+        break;
+      case "Switch":
+        hexIndex = "1"
+        break;
+      case "Digital Input":
+        hexIndex = "2"
+        break;
+      case "Off":
+        hexIndex = "3"
+        break;
+
+      default:
+        break;
+    }
     function ItemSelectable(title) {
 
       return (
@@ -58,25 +83,28 @@ const Output2Screen = ({ route, navigation }) => {
     );
     useEffect(() => {
 
-    if (selection != val[0].Value) {
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity >
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
-    }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-  });
+      if (selection != val[0].Value) {
+        navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output2', 'Set Parameters': {'AF':'${hexIndex}'}}`)) }}
+
+            >
+              <View style={styles.buttonBar}>
+                <Text>Save</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        });
+      }
+      else {
+        navigation.setOptions({
+          headerRight: () => (
+            <></>
+          ),
+        });
+      }
+    });
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -258,7 +286,7 @@ const Output2Screen = ({ route, navigation }) => {
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
-      case 'D-IN Polarity LOW':
+      case 'D-In Polarity LOW':
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Digital Input Settings', {
             Tag: title,
@@ -363,7 +391,33 @@ const Output2Screen = ({ route, navigation }) => {
     const [text, setText] = React.useState(filteredAT[0].Value);
     // console.log(route)
     // console.log("route")
+    let hexIndexKey
+    switch (Tag) {
+      case "Conduction Start Value":
+        hexIndexKey = "B1"
+        break;
+      case "Conduction End Value":
+        hexIndexKey = "B2"
+        break;
+      case "Concentration Start Value":
+        hexIndexKey = "B3"
+        break;
+      case "Concentration End Value":
+        hexIndexKey = "B4"
+        break;
+      case "Temperature Start Value":
+        hexIndexKey = "B5"
+        break;
+      case "Temperature End Value":
+        hexIndexKey = "B6"
+        break;
 
+      default:
+        break;
+    }
+    useEffect(() => {
+      navigation.setOptions({ title: Tag })
+    })
     return (
       <View>
         <TextInput
@@ -380,12 +434,13 @@ const Output2Screen = ({ route, navigation }) => {
         />
         {/* <LenghtChecker lenght={32} /> */}
 
-        <Button
-          onPress={() => { console.log(typeof (text)) }}
-          title="Save"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
+        {text != filteredAT[0].Value &&
+          <Button
+            onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
+            title="Save"
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />}
         {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
 
       </View>
@@ -393,17 +448,45 @@ const Output2Screen = ({ route, navigation }) => {
   }
   const SwitchFunctionScreen = ({ route, navigation }) => {
     const { Tag } = route.params
-    // console.log("route")
-    // console.log(route)
-    // console.log("navigation")
-    // console.log(navigation)
-    
 
+  
     const valSystemUnits = Values.filter(row => row.Tag == 'Output2')[0].menu;
     const subTitle = valSystemUnits.filter(row => row.Tag == 'Switch Output');
     const val = subTitle[0].menu.filter(row => row.Tag == Tag);
     const possibleValues = val[0].PossibleValues;
     const [selection, setSelection] = React.useState(val[0].Value);
+    let hexIndex
+    switch (selection) {
+      case "Alarm":
+        hexIndex = "0"
+        break;
+      case "Off":
+        hexIndex = "1"
+        break;
+      case "On":
+        hexIndex = "2"
+        break;
+      case "Limit Conductivity":
+        hexIndex = "3"
+        break;
+      case "Limit Concentration":
+        hexIndex = "4"
+        break;
+      case "Limit Temperature":
+        hexIndex = "5"
+        break;
+      case "Window Conductivity":
+        hexIndex = "6"
+        break;
+      case "Window Concentration":
+        hexIndex = "7"
+        break;
+      case "Window Temperature":
+        hexIndex = "8"
+        break;
+      default:
+        break;
+    }
     function ItemSelectable(title) {
 
       return (
@@ -417,25 +500,28 @@ const Output2Screen = ({ route, navigation }) => {
     );
     useEffect(() => {
 
-    if (selection != val[0].Value) {
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity >
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
-    }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-  });
+      if (selection != val[0].Value) {
+        navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity
+            onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output2', 'Set Parameters': {'B8':'${hexIndex}'}}`)) }}
+
+            >
+              <View style={styles.buttonBar}>
+                <Text>Save</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        });
+      }
+      else {
+        navigation.setOptions({
+          headerRight: () => (
+            <></>
+          ),
+        });
+      }
+    });
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -453,6 +539,24 @@ const Output2Screen = ({ route, navigation }) => {
     const val = subTitle[0].menu.filter(row => row.Tag == Tag);
     const possibleValues = val[0].PossibleValues;
     const [selection, setSelection] = React.useState(val[0].Value);
+    let hexIndex
+    switch (selection) {
+      case "Off":
+        hexIndex = "0"
+        break;
+      case "Conductivity":
+        hexIndex = "1"
+        break;
+      case "Concentration":
+        hexIndex = "2"
+        break;
+      case "Temperature":
+        hexIndex = "3"
+        break;
+
+      default:
+        break;
+    }
     function ItemSelectable(title) {
 
       return (
@@ -469,7 +573,10 @@ const Output2Screen = ({ route, navigation }) => {
     if (selection != val[0].Value) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity >
+          <TouchableOpacity
+          onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output2', 'Set Parameters': {'AF':'${hexIndex}'}}`)) }}
+
+          >
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -501,7 +608,33 @@ const Output2Screen = ({ route, navigation }) => {
     const filteredSub = filtered.filter(row => row.Tag == 'Switch Output')[0].menu;
     const filteredAT = filteredSub.filter(row => row.Tag == Tag);
     const [text, setText] = React.useState(filteredAT[0].Value);
+    useEffect(() => {
+      navigation.setOptions({ title: Tag })
+    })
+    let hexIndexKey
+    switch (Tag) {
+      case "Conduction On Value":
+        hexIndexKey = "B9"
+        break;
+      case "Conduction Off Value":
+        hexIndexKey = "BA"
+        break;
+      case "Concentration On Value":
+        hexIndexKey = "BB"
+        break;
+      case "Concentration Off Value":
+        hexIndexKey = "BC"
+        break;
+      case "Temperature On Value":
+        hexIndexKey = "BD"
+        break;
+      case "Temperature Off Value":
+        hexIndexKey = "BE"
+        break;
 
+      default:
+        break;
+    }
     return (
       <View>
         <TextInput
@@ -518,12 +651,15 @@ const Output2Screen = ({ route, navigation }) => {
         />
         {/* <LenghtChecker lenght={32} /> */}
 
-        <Button
-          onPress={() => { console.log(typeof (text)) }}
-          title="Save"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
+   
+        {text != filteredAT[0].Value &&
+          <Button
+
+            onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
+            title="Save"
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />}
         {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
 
       </View>
@@ -531,17 +667,63 @@ const Output2Screen = ({ route, navigation }) => {
   }
   const DigitalInputSettingsScreen = ({ route, navigation }) =>{
     const { Tag } = route.params
-    // console.log("route")
-    // console.log(route)
-    // console.log("navigation")
-    // console.log(navigation)
-    
-
+  
     const valSystemUnits = Values.filter(row => row.Tag == 'Output2')[0].menu;
     const subTitle = valSystemUnits.filter(row => row.Tag == 'Digital Input');
     const val = subTitle[0].menu.filter(row => row.Tag == Tag);
     const possibleValues = val[0].PossibleValues;
     const [selection, setSelection] = React.useState(val[0].Value);
+    let hexIndexKey
+    let hexValue
+    switch (Tag) {
+      case "D-In Polarity":
+        hexIndexKey = "BF"
+        if(selection=='Low'){
+          hexValue='0'
+        }
+        else if (selection=='High'){
+          hexValue='1'
+        }
+        break;
+      case "D-In Function":
+        hexIndexKey = "C0"
+        if(selection=='Measurement Assignment Chemical'){
+          hexValue='0'
+        }
+        else if (selection=='Off'){
+          hexValue='1'
+        }
+        break;
+        break;
+      case "D-In Polarity HIGH":
+        hexIndexKey = "C1"
+        if(selection=='NaOH'){
+          hexValue='0'
+        }
+        else if (selection=='NaCl'){
+          hexValue='1'
+        }
+        else if (selection=='Na2SO4'){
+          hexValue='2'
+        }
+        break;
+      case "D-In Polarity LOW":
+        hexIndexKey = "C2"
+        if(selection=='NaOH'){
+          hexValue='0'
+        }
+        else if (selection=='NaCl'){
+          hexValue='1'
+        }
+        else if (selection=='Na2SO4'){
+          hexValue='2'
+        }
+        break;
+
+
+      default:
+        break;
+    }
     function ItemSelectable(title) {
 
       return (
@@ -554,11 +736,12 @@ const Output2Screen = ({ route, navigation }) => {
       ItemSelectable(item.Tag)
     );
     useEffect(() => {
-    
+    navigation.setOptions({title:Tag})
+
     if (selection != val[0].Value) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity >
+          <TouchableOpacity   onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output2', 'Set Parameters': {${hexIndexKey}:'${hexValue}'}}`)) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>

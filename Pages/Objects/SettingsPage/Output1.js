@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -7,7 +7,14 @@ import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import BleManager from 'react-native-ble-manager';
+import BufferArray from '../../../Navigation/Functions/BufferArray';
 
+const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
+  BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
+  console.log("In Button Function")
+  ///If anything else is to be done, it will be done here!
+}
 let Output1Params = Paramsfiltered.find(Output1Params => Output1Params.Tag === "Output1");
 let MenuParams = Output1Params.menu;
 const StackOutput1 = createStackNavigator();
@@ -40,7 +47,7 @@ const Output1Screen = ({ route, navigation }) => {
       )
     }
   }
-  
+
   function Item(title, value) {
     switch (title) {
       case 'Switch Output':
@@ -75,15 +82,15 @@ const Output1Screen = ({ route, navigation }) => {
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
-        case 'Output Type':
-          return (
-            <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Output Type', {
-              Tag: title,
-            })}>
-              <Text style={styles.title}>{title}</Text>
-              <Text style={styles.value}>{value}</Text>
-            </TouchableOpacity>
-          )
+      case 'Output Type':
+        return (
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Output Type', {
+            Tag: title,
+          })}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        )
 
       case 'Concentration Start Value':
         return (
@@ -237,18 +244,64 @@ const Output1Screen = ({ route, navigation }) => {
     );
   };
   const CurrentOutputSettingsScreen = ({ route, navigation }) => {
-    const {Tag} = route.params
+    const { Tag } = route.params
     const filtered = Values.filter(row => row.Tag == 'Output1')[0].menu;
     const filteredSub = filtered.filter(row => row.Tag == 'Current Output')[0].menu;
     const filteredAT = filteredSub.filter(row => row.Tag == Tag);
     const [text, setText] = React.useState(filteredAT[0].Value);
-    // console.log(route)
-    // console.log("route")
+    let hexIndexKey
+    switch (Tag) {
+      case "Conduction Start Value":
+        hexIndexKey = "9D"
+        break;
+      case "Conduction End Value":
+        hexIndexKey = "9E"
+        break;
+      case "Concentration Start Value":
+        hexIndexKey = "9F"
+        break;
+      case "Concentration End Value":
+        hexIndexKey = "A0"
+        break;
+      case "Temperature Start Value":
+        hexIndexKey = "A1"
+        break;
+      case "Temperature End Value":
+        hexIndexKey = "A2"
+        break;
 
+      default:
+        break;
+    }
+    useEffect(() => {
+      navigation.setOptions({ title: Tag })
+    })
+    //   if (text != filteredAT[0].Value) {
+    //     navigation.setOptions({
+    //       headerRight: () => (
+    //         <TouchableOpacity
+    //           onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
+
+    //         >
+    //           <View style={styles.buttonBar}>
+    //             <Text>Save</Text>
+    //           </View>
+    //         </TouchableOpacity>
+    //       ),
+    //     });
+    //   }
+    //   else {
+    //     navigation.setOptions({
+    //       headerRight: () => (
+    //         <></>
+    //       ),
+    //     });
+    //   }
+    // });
     return (
       <View>
         <TextInput
-          label={"Set " + Tag }
+          label={"Set " + Tag}
           value={text}
           selectionColor='#000'
           underlineColor='#000'
@@ -260,24 +313,42 @@ const Output1Screen = ({ route, navigation }) => {
           onChangeText={text => setText(text)}
         />
         {/* <LenghtChecker lenght={32} /> */}
-
+        {text != filteredAT[0].Value &&
           <Button
-          onPress={() => {console.log( typeof(text))}}
-          title="Save"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
+            onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
+            title="Save"
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />}
         {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
-        
+
       </View>
     );
   }
-  const OutputTypeScreen = ({ route, navigation}) =>{
-    const {Tag} = route.params
+  const OutputTypeScreen = ({ route, navigation }) => {
+    const { Tag } = route.params
     const valSystemUnits = Values.filter(row => row.Tag == 'Output1');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == Tag);
     const possibleValues = val[0].PossibleValues;
     const [selection, setSelection] = React.useState(val[0].Value);
+    let hexIndex
+    switch (selection) {
+      case "Current":
+        hexIndex = "0"
+        break;
+      case "Switch":
+        hexIndex = "1"
+        break;
+      case "IO-Link":
+        hexIndex = "2"
+        break;
+      case "Off":
+        hexIndex = "3"
+        break;
+
+      default:
+        break;
+    }
     function ItemSelectable(title) {
 
       return (
@@ -291,25 +362,28 @@ const Output1Screen = ({ route, navigation }) => {
     );
     useEffect(() => {
 
-    if (selection != val[0].Value) {
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity >
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
-    }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-  });
+      if (selection != val[0].Value) {
+        navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output 1', 'Set Parameters': {'9C':'${hexIndex}'}}`)) }}
+
+            >
+              <View style={styles.buttonBar}>
+                <Text>Save</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        });
+      }
+      else {
+        navigation.setOptions({
+          headerRight: () => (
+            <></>
+          ),
+        });
+      }
+    });
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -320,13 +394,31 @@ const Output1Screen = ({ route, navigation }) => {
       </SafeAreaView>
     );
   };
-  const OutputAssignScreen = ({ route, navigation}) =>{
-    const {Tag} = route.params
+  const OutputAssignScreen = ({ route, navigation }) => {
+    const { Tag } = route.params
     const valSystemUnits = Values.filter(row => row.Tag == 'Output1')[0].menu;
     const subTitle = valSystemUnits.filter(row => row.Tag == 'Current Output');
     const val = subTitle[0].menu.filter(row => row.Tag == Tag);
     const possibleValues = val[0].PossibleValues;
     const [selection, setSelection] = React.useState(val[0].Value);
+    let hexIndex
+    switch (selection) {
+      case "Off":
+        hexIndex = "0"
+        break;
+      case "Conductivity":
+        hexIndex = "1"
+        break;
+      case "Concentration":
+        hexIndex = "2"
+        break;
+      case "Temperature":
+        hexIndex = "3"
+        break;
+
+      default:
+        break;
+    }
     function ItemSelectable(title) {
 
       return (
@@ -339,26 +431,27 @@ const Output1Screen = ({ route, navigation }) => {
       ItemSelectable(item.Tag)
     );
     useEffect(() => {
-  
-    if (selection != val[0].Value) {
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity >
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
-    }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-  });
+      if (selection != val[0].Value) {
+        navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {'9C':'${hexIndex}'}}`)) }}
+            >
+              <View style={styles.buttonBar}>
+                <Text>Save</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        });
+      }
+      else {
+        navigation.setOptions({
+          headerRight: () => (
+            <></>
+          ),
+        });
+      }
+    });
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -369,13 +462,45 @@ const Output1Screen = ({ route, navigation }) => {
       </SafeAreaView>
     );
   };
-  const SwitchFunctionScreen = ({ route, navigation}) =>{
-    const {Tag} = route.params
+  const SwitchFunctionScreen = ({ route, navigation }) => {
+    const { Tag } = route.params
     const valSystemUnits = Values.filter(row => row.Tag == 'Output1')[0].menu;
     const subTitle = valSystemUnits.filter(row => row.Tag == 'Switch Output');
     const val = subTitle[0].menu.filter(row => row.Tag == Tag);
     const possibleValues = val[0].PossibleValues;
     const [selection, setSelection] = React.useState(val[0].Value);
+    let hexIndex
+    switch (selection) {
+      case "Alarm":
+        hexIndex = "0"
+        break;
+      case "Off":
+        hexIndex = "1"
+        break;
+      case "On":
+        hexIndex = "2"
+        break;
+      case "Limit Conductivity":
+        hexIndex = "3"
+        break;
+      case "Limit Concentration":
+        hexIndex = "4"
+        break;
+      case "Limit Temperature":
+        hexIndex = "5"
+        break;
+      case "Window Conductivity":
+        hexIndex = "6"
+        break;
+      case "Window Concentration":
+        hexIndex = "7"
+        break;
+      case "Window Temperature":
+        hexIndex = "8"
+        break;
+      default:
+        break;
+    }
     function ItemSelectable(title) {
 
       return (
@@ -388,26 +513,29 @@ const Output1Screen = ({ route, navigation }) => {
       ItemSelectable(item.Tag)
     );
     useEffect(() => {
-  
-    if (selection != val[0].Value) {
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity >
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
-    }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-  });
+
+      if (selection != val[0].Value) {
+        navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity
+            onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {'A4':'${hexIndex}'}}`)) }}
+
+            >
+              <View style={styles.buttonBar}>
+                <Text>Save</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        });
+      }
+      else {
+        navigation.setOptions({
+          headerRight: () => (
+            <></>
+          ),
+        });
+      }
+    });
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -418,19 +546,46 @@ const Output1Screen = ({ route, navigation }) => {
       </SafeAreaView>
     );
   };
-  
-  
+
+
   const SwitchOutputSettingsScreen = ({ route, navigation }) => {
-    const {Tag} = route.params
+    const { Tag } = route.params
     const filtered = Values.filter(row => row.Tag == 'Output1')[0].menu;
     const filteredSub = filtered.filter(row => row.Tag == 'Switch Output')[0].menu;
     const filteredAT = filteredSub.filter(row => row.Tag == Tag);
     const [text, setText] = React.useState(filteredAT[0].Value);
-   
+    useEffect(() => {
+      navigation.setOptions({ title: Tag })
+    })
+    let hexIndexKey
+    switch (Tag) {
+      case "Conduction On Value":
+        hexIndexKey = "A5"
+        break;
+      case "Conduction Off Value":
+        hexIndexKey = "A6"
+        break;
+      case "Concentration On Value":
+        hexIndexKey = "A7"
+        break;
+      case "Concentration Off Value":
+        hexIndexKey = "A8"
+        break;
+      case "Temperature On Value":
+        hexIndexKey = "A9"
+        break;
+      case "Temperature Off Value":
+        hexIndexKey = "AA"
+        break;
+
+      default:
+        break;
+    }
+
     return (
       <View>
         <TextInput
-          label={"Set " + Tag }
+          label={"Set " + Tag}
           value={text}
           selectionColor='#000'
           underlineColor='#000'
@@ -443,14 +598,16 @@ const Output1Screen = ({ route, navigation }) => {
         />
         {/* <LenghtChecker lenght={32} /> */}
 
+        {text != filteredAT[0].Value &&
           <Button
-          onPress={() => {console.log( typeof(text))}}
-          title="Save"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
+
+            onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
+            title="Save"
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />}
         {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
-        
+
       </View>
     );
   }
@@ -528,13 +685,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     justifyContent: 'center'
   },
-  
+
   buttonBar: {
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
-    marginRight:3,
-    borderRadius: 10, 
+    marginRight: 3,
+    borderRadius: 10,
   },
 
   myText: {
