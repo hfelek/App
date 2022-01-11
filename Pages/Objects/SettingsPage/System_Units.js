@@ -13,7 +13,7 @@ import { createIconSetFromFontello } from 'react-native-vector-icons';
 import Icon from 'react-native-vector-icons/Ionicons';
 const Buffer = require('buffer/').Buffer;
 import BleManager from 'react-native-ble-manager';
-let periprheralID='0'
+let peripheralID='0'
 
 let SystemUnitsParams = Paramsfiltered.find(SystemUnitsParams => SystemUnitsParams.Tag === "System Units");
 let MenuParams = SystemUnitsParams.menu;
@@ -33,7 +33,7 @@ const SystemUnitsScreen = ({ route, navigation }) => {
     // Success code
 
     console.log(JSON.stringify(peripheralsArray[0].id));
-    periprheralID=peripheralsArray[0].id
+    peripheralID=peripheralsArray[0].id
   }).catch(() => {
     console.log("Couldnt Find A peripheral");
     // expected output: "Success!"
@@ -133,7 +133,7 @@ const SystemUnitsScreen = ({ route, navigation }) => {
     if (selection != val[0].Value) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity  onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'System Units', 'Set Parameters': {'69':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
+          <TouchableOpacity  onPress={() => { HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'System Units', 'Set Parameters': {'69':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
           <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -237,7 +237,7 @@ const SystemUnitsScreen = ({ route, navigation }) => {
       if ((selection != val.Value || subSelection !=subValueToRender) && (subSelection!=null)) {
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity  onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'System Units', 'Set Parameters': {'Tag':'${HexIndex}', ${subIndex}}}`))}}>
+            <TouchableOpacity  onPress={() => { HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'System Units', 'Set Parameters': {'Tag':'${HexIndex}', ${subIndex}}}`))}}>
             <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
@@ -299,7 +299,7 @@ const SystemUnitsScreen = ({ route, navigation }) => {
     if (selection != val[0].Value) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity  onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'System Units', 'Set Parameters': {'6D':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
+          <TouchableOpacity  onPress={() => { HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'System Units', 'Set Parameters': {'6D':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>

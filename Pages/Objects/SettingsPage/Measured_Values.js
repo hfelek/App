@@ -7,7 +7,7 @@ import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import BleManager from 'react-native-ble-manager';
 import react from 'react';
-let periprheralID='0'
+let peripheralID='0'
 
 let MeasuredValuesParams = Paramsfiltered.find(MeasuredValuesParams => MeasuredValuesParams.Tag === "Measured Values");
 let MenuParams = MeasuredValuesParams.menu;

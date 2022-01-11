@@ -16,7 +16,7 @@ import { RectButton } from 'react-native-gesture-handler';
 
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
-let periprheralID='0'
+let peripheralID='0'
 
 let ConductivityParams = Paramsfiltered.find(ConductivityParams => ConductivityParams.Tag === "Conductivity");
 let MenuParams = ConductivityParams.menu;
@@ -36,7 +36,7 @@ const ConductivityScreen = ({ route, navigation }) => {
     // Success code
 
     console.log(JSON.stringify(peripheralsArray[0].id));
-    periprheralID=peripheralsArray[0].id
+    peripheralID=peripheralsArray[0].id
   }).catch(() => {
     console.log("Couldnt Find A peripheral");
     // expected output: "Success!"
@@ -158,7 +158,7 @@ const ConductivityScreen = ({ route, navigation }) => {
       if (selection != val[0].Value) {
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'73':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`)) }}>
+            <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'73':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`)) }}>
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
@@ -198,7 +198,7 @@ const ConductivityScreen = ({ route, navigation }) => {
 
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'85':'${mountingFactor}'}}`)) }}>
+            <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'85':'${mountingFactor}'}}`)) }}>
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
@@ -239,7 +239,7 @@ const ConductivityScreen = ({ route, navigation }) => {
     useEffect(() => {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'78':'${nonLinearParamT1}','79':'${nonLinearParamC1}','7A':'${nonLinearParamT2}'},'7B':'${nonLinearParamC2}','7C':'${nonLinearParamT3}','7D':'${nonLinearParamC3}','7E':'${nonLinearParamT4}','7F':'${nonLinearParamC4}','80':'${nonLinearParamT5}','81':'${nonLinearParamC5}'}`)) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'78':'${nonLinearParamT1}','79':'${nonLinearParamC1}','7A':'${nonLinearParamT2}'},'7B':'${nonLinearParamC2}','7C':'${nonLinearParamT3}','7D':'${nonLinearParamC3}','7E':'${nonLinearParamT4}','7F':'${nonLinearParamC4}','80':'${nonLinearParamT5}','81':'${nonLinearParamC5}'}`)) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -413,7 +413,7 @@ const ConductivityScreen = ({ route, navigation }) => {
       if (selection != val[0].Value) {
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'74':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`)) }}>
+            <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'74':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`)) }}>
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
@@ -456,7 +456,7 @@ const ConductivityScreen = ({ route, navigation }) => {
         // console.log({ temperatureF, initialValF, temperatureC, initialValC })
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Communication', 'Set Parameters': {'82':'${temperatureC}','83':'${temperatureF}'}}`)) }}>
+            <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Communication', 'Set Parameters': {'82':'${temperatureC}','83':'${temperatureF}'}}`)) }}>
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
@@ -518,7 +518,7 @@ const ConductivityScreen = ({ route, navigation }) => {
 
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Communication', 'Set Parameters': {'8C':'${filterCC}'}}`)) }} >
+            <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Communication', 'Set Parameters': {'8C':'${filterCC}'}}`)) }} >
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
@@ -592,7 +592,7 @@ const ConductivityScreen = ({ route, navigation }) => {
       if ((selection != Number(itemToBeRenderedInitial.Value))) {
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${measurementRange}':'${selection}'}}`)) }} >
+            <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${measurementRange}':'${selection}'}}`)) }} >
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>

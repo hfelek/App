@@ -9,7 +9,7 @@ import react from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
-let periprheralID='0'
+let peripheralID='0'
 
 const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
   BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
@@ -29,7 +29,7 @@ const Output1Screen = ({ route, navigation }) => {
     // Success code
 
     console.log(JSON.stringify(peripheralsArray[0].id));
-    periprheralID=peripheralsArray[0].id
+    peripheralID=peripheralsArray[0].id
   }).catch(() => {
     console.log("Couldnt Find A peripheral");
     // expected output: "Success!"
@@ -74,19 +74,21 @@ const Output1Screen = ({ route, navigation }) => {
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
-      case 'Conduction Start Value':
+      case 'Conductivity Start Value':
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
             Tag: title,
+            name:title
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
-      case 'Conduction End Value':
+      case 'Conductivity End Value':
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
             Tag: title,
+            name:title
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -106,6 +108,7 @@ const Output1Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
             Tag: title,
+            name:title
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -115,6 +118,7 @@ const Output1Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
             Tag: title,
+            name:title
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -133,6 +137,7 @@ const Output1Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
             Tag: title,
+            name:title
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -142,6 +147,7 @@ const Output1Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
             Tag: title,
+            name:title
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -156,19 +162,21 @@ const Output1Screen = ({ route, navigation }) => {
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
-      case 'Conduction On Value':
+      case 'Conductivity On Value':
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
             Tag: title,
+            name:'Conduction On Value'
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
-      case 'Conduction Off Value':
+      case 'Conductivity Off Value':
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
             Tag: title,
+            name:title
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -178,6 +186,7 @@ const Output1Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
             Tag: title,
+            name:title
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -187,6 +196,7 @@ const Output1Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
             Tag: title,
+            name:title
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -196,6 +206,7 @@ const Output1Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
             Tag: title,
+            name:title
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -205,6 +216,7 @@ const Output1Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
             Tag: title,
+            name:title
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -283,14 +295,14 @@ const Output1Screen = ({ route, navigation }) => {
       default:
         break;
     }
-    useEffect(() => {
-      navigation.setOptions({ title: Tag })
-    })
+    // useEffect(() => {
+    //   navigation.setOptions({ title: Tag })
+    // })
     //   if (text != filteredAT[0].Value) {
     //     navigation.setOptions({
     //       headerRight: () => (
     //         <TouchableOpacity
-    //           onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
+    //           onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
 
     //         >
     //           <View style={styles.buttonBar}>
@@ -317,6 +329,7 @@ const Output1Screen = ({ route, navigation }) => {
           underlineColor='#000'
           activeOutlineColor='#000'
           outlineColor='#000'
+          keyboardType='numeric'
           // activeUnderlineColor='#000'
           error={false}
           right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
@@ -325,7 +338,7 @@ const Output1Screen = ({ route, navigation }) => {
         {/* <LenghtChecker lenght={32} /> */}
         {text != filteredAT[0].Value &&
           <Button
-            onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
+            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
             title="Save"
             color="#841584"
             accessibilityLabel="Learn more about this purple button"
@@ -376,7 +389,7 @@ const Output1Screen = ({ route, navigation }) => {
         navigation.setOptions({
           headerRight: () => (
             <TouchableOpacity
-              onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output 1', 'Set Parameters': {'9C':'${hexIndex}'}}`)) }}
+              onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output 1', 'Set Parameters': {'9C':'${hexIndex}'}}`)) }}
 
             >
               <View style={styles.buttonBar}>
@@ -445,7 +458,7 @@ const Output1Screen = ({ route, navigation }) => {
         navigation.setOptions({
           headerRight: () => (
             <TouchableOpacity
-              onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {'9C':'${hexIndex}'}}`)) }}
+              onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {'9C':'${hexIndex}'}}`)) }}
             >
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
@@ -528,7 +541,7 @@ const Output1Screen = ({ route, navigation }) => {
         navigation.setOptions({
           headerRight: () => (
             <TouchableOpacity
-            onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {'A4':'${hexIndex}'}}`)) }}
+            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {'A4':'${hexIndex}'}}`)) }}
 
             >
               <View style={styles.buttonBar}>
@@ -564,9 +577,9 @@ const Output1Screen = ({ route, navigation }) => {
     const filteredSub = filtered.filter(row => row.Tag == 'Switch Output')[0].menu;
     const filteredAT = filteredSub.filter(row => row.Tag == Tag);
     const [text, setText] = React.useState(filteredAT[0].Value);
-    useEffect(() => {
-      navigation.setOptions({ title: Tag })
-    })
+    // useEffect(() => {
+    //   navigation.setOptions({ title: Tag })
+    // })
     let hexIndexKey
     switch (Tag) {
       case "Conduction On Value":
@@ -601,6 +614,7 @@ const Output1Screen = ({ route, navigation }) => {
           underlineColor='#000'
           activeOutlineColor='#000'
           outlineColor='#000'
+          keyboardType='numeric'
           // activeUnderlineColor='#000'
           error={false}
           right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
@@ -611,7 +625,7 @@ const Output1Screen = ({ route, navigation }) => {
         {text != filteredAT[0].Value &&
           <Button
 
-            onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
+            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
             title="Save"
             color="#841584"
             accessibilityLabel="Learn more about this purple button"
@@ -647,8 +661,8 @@ const Output1Screen = ({ route, navigation }) => {
       <StackOutput1.Screen name='Output1 Main' component={Output1MainScreen} options={{ headerTitle: "Output 1" }} />
       <StackOutput1.Screen name='Switch Output' component={SwitchOutputScreen} />
       <StackOutput1.Screen name='Current Output' component={CurrentOutputScreen} />
-      <StackOutput1.Screen name='Current Output Settings' component={CurrentOutputSettingsScreen} />
-      <StackOutput1.Screen name='Switch Output Settings' component={SwitchOutputSettingsScreen} />
+      <StackOutput1.Screen name='Current Output Settings' component={CurrentOutputSettingsScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
+      <StackOutput1.Screen name='Switch Output Settings' component={SwitchOutputSettingsScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
       <StackOutput1.Screen name='Output Type' component={OutputTypeScreen} />
       <StackOutput1.Screen name='Output-Assign' component={OutputAssignScreen} />
       <StackOutput1.Screen name='Switch Function' component={SwitchFunctionScreen} />

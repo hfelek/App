@@ -9,7 +9,7 @@ import react from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
-let periprheralID='0'
+let peripheralID='0'
 
 const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
   BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
@@ -29,7 +29,7 @@ const Output2Screen = ({ route, navigation }) => {
     // Success code
 
     console.log(JSON.stringify(peripheralsArray[0].id));
-    periprheralID=peripheralsArray[0].id
+    peripheralID=peripheralsArray[0].id
   }).catch(() => {
     console.log("Couldnt Find A peripheral");
     // expected output: "Success!"
@@ -97,7 +97,7 @@ const Output2Screen = ({ route, navigation }) => {
         navigation.setOptions({
           headerRight: () => (
             <TouchableOpacity
-              onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output2', 'Set Parameters': {'AF':'${hexIndex}'}}`)) }}
+              onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output2', 'Set Parameters': {'AF':'${hexIndex}'}}`)) }}
 
             >
               <View style={styles.buttonBar}>
@@ -156,6 +156,7 @@ const Output2Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
             Tag: title,
+            name:'Conductivity Start Value'
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -165,6 +166,7 @@ const Output2Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
             Tag: title,
+            name:'Conductivity End Value'
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -174,6 +176,7 @@ const Output2Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
             Tag: title,
+            name:'Concentration Start Value'
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -183,6 +186,7 @@ const Output2Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
             Tag: title,
+            name:'Concentration End Value'
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -206,19 +210,11 @@ const Output2Screen = ({ route, navigation }) => {
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
-      case 'Output-Assign':
-        return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
-            Tag: title,
-          })}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.value}>{value}</Text>
-          </TouchableOpacity>
-        )
       case 'Temperature Start Value':
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
             Tag: title,
+            name:'Temperature Start Value'
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -228,6 +224,7 @@ const Output2Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
             Tag: title,
+            name:'Temperature End Value'
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -246,6 +243,7 @@ const Output2Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
             Tag: title,
+            name:'Conductivity On Value',
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -255,6 +253,7 @@ const Output2Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
             Tag: title,
+            name:'Conductivity Off Value'
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -264,6 +263,7 @@ const Output2Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
             Tag: title,
+            name:'Concentration On Value'
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -273,6 +273,7 @@ const Output2Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
             Tag: title,
+            name:'Concentration Off Value',
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -282,6 +283,7 @@ const Output2Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
             Tag: title,
+            name:'Temperature On Value'
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -291,6 +293,7 @@ const Output2Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
             Tag: title,
+            name:'Temperature Off Value',
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -300,6 +303,7 @@ const Output2Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Digital Input Settings', {
             Tag: title,
+            name:'D-In Polarity LOW'
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -309,6 +313,7 @@ const Output2Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Digital Input Settings', {
             Tag: title,
+            name:'D-In Polarity'
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -318,6 +323,7 @@ const Output2Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Digital Input Settings', {
             Tag: title,
+            name:'D-In Function'
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -327,6 +333,7 @@ const Output2Screen = ({ route, navigation }) => {
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Digital Input Settings', {
             Tag: title,
+            name:'D-In Polarity HIGH'
           })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -425,9 +432,9 @@ const Output2Screen = ({ route, navigation }) => {
       default:
         break;
     }
-    useEffect(() => {
-      navigation.setOptions({ title: Tag })
-    })
+    // useEffect(() => {
+    //   navigation.setOptions({ title: Tag })
+    // })
     return (
       <View>
         <TextInput
@@ -446,7 +453,7 @@ const Output2Screen = ({ route, navigation }) => {
 
         {text != filteredAT[0].Value &&
           <Button
-            onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
+            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
             title="Save"
             color="#841584"
             accessibilityLabel="Learn more about this purple button"
@@ -514,7 +521,7 @@ const Output2Screen = ({ route, navigation }) => {
         navigation.setOptions({
           headerRight: () => (
             <TouchableOpacity
-            onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output2', 'Set Parameters': {'B8':'${hexIndex}'}}`)) }}
+            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output2', 'Set Parameters': {'B8':'${hexIndex}'}}`)) }}
 
             >
               <View style={styles.buttonBar}>
@@ -584,7 +591,7 @@ const Output2Screen = ({ route, navigation }) => {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
-          onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output2', 'Set Parameters': {'AF':'${hexIndex}'}}`)) }}
+          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output2', 'Set Parameters': {'AF':'${hexIndex}'}}`)) }}
 
           >
             <View style={styles.buttonBar}>
@@ -618,9 +625,9 @@ const Output2Screen = ({ route, navigation }) => {
     const filteredSub = filtered.filter(row => row.Tag == 'Switch Output')[0].menu;
     const filteredAT = filteredSub.filter(row => row.Tag == Tag);
     const [text, setText] = React.useState(filteredAT[0].Value);
-    useEffect(() => {
-      navigation.setOptions({ title: Tag })
-    })
+    // useEffect(() => {
+    //   navigation.setOptions({ title: Tag })
+    // })
     let hexIndexKey
     switch (Tag) {
       case "Conductivity On Value":
@@ -656,6 +663,7 @@ const Output2Screen = ({ route, navigation }) => {
           outlineColor='#000'
           // activeUnderlineColor='#000'
           error={false}
+          keyboardType='numeric'
           right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
           onChangeText={text => setText(text)}
         />
@@ -665,7 +673,7 @@ const Output2Screen = ({ route, navigation }) => {
         {text != filteredAT[0].Value &&
           <Button
 
-            onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
+            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
             title="Save"
             color="#841584"
             accessibilityLabel="Learn more about this purple button"
@@ -745,13 +753,16 @@ const Output2Screen = ({ route, navigation }) => {
     const renderItemSelectable = ({ item }) => (
       ItemSelectable(item.Tag)
     );
+    useEffect(()=> {
+      navigation.setOptions({title:Tag})
+
+    },[navigation])
     useEffect(() => {
-    navigation.setOptions({title:Tag})
 
     if (selection != val[0].Value) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity   onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output2', 'Set Parameters': {${hexIndexKey}:'${hexValue}'}}`)) }}>
+          <TouchableOpacity   onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output2', 'Set Parameters': {${hexIndexKey}:'${hexValue}'}}`)) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -766,7 +777,7 @@ const Output2Screen = ({ route, navigation }) => {
         ),
       });
     }
-  });
+  },[]);
 
     return (
       <SafeAreaView style={styles.container}>
@@ -804,10 +815,10 @@ const Output2Screen = ({ route, navigation }) => {
       <StackOutput2.Screen name='Output2 Main' component={Output2MainScreen} options={{ headerTitle: "Output 2" }} />
       <StackOutput2.Screen name='Switch Output' component={SwitchOutputScreen} />
       <StackOutput2.Screen name='Current Output' component={CurrentOutputScreen} />
-      <StackOutput2.Screen name='Current Output Settings' component={CurrentOutputSettingsScreen} />
-      <StackOutput2.Screen name='Switch Output Settings' component={SwitchOutputSettingsScreen} />
+      <StackOutput2.Screen name='Current Output Settings' component={CurrentOutputSettingsScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
+      <StackOutput2.Screen name='Switch Output Settings' component={SwitchOutputSettingsScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
       <StackOutput2.Screen name='Digital Input' component={DigitalInputScreen} />
-      <StackOutput2.Screen name='Digital Input Settings' component={DigitalInputSettingsScreen} />
+      <StackOutput2.Screen name='Digital Input Settings' component={DigitalInputSettingsScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
       <StackOutput2.Screen name='Switch Function' component={SwitchFunctionScreen} />
       <StackOutput2.Screen name='Output-Assign' component={OutputAssignScreen} />
       <StackOutput2.Screen name='Output Type' component={OutputTypeScreen} />

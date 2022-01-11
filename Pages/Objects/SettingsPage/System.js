@@ -19,7 +19,7 @@ import react, { useEffect } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
-let periprheralID='0'
+let peripheralID='0'
 
 const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
   BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
@@ -40,14 +40,14 @@ const SystemScreen = ({ route, navigation }) => {
     // Success code
 
     console.log(JSON.stringify(peripheralsArray[0].id));
-    periprheralID=peripheralsArray[0].id
+    peripheralID=peripheralsArray[0].id
   }).catch(() => {
     console.log("Couldnt Find A peripheral");
     // expected output: "Success!"
   });
   
   function functionWriteBle(indexKey,indexValue) {
-    HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'System', 'Set Parameters': {'${indexKey}':'${indexValue}'}}`))
+    HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'System', 'Set Parameters': {'${indexKey}':'${indexValue}'}}`))
   }
 
 
@@ -94,7 +94,7 @@ const SystemScreen = ({ route, navigation }) => {
           <TouchableOpacity
             style={styles.itemButton}
             onPress={() =>
-              navigation.navigate('Write Screen', { Tag: title, Value: value })
+              navigation.navigate('Write Screen', { Tag: title, Value: value,name:title })
             }>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -106,7 +106,7 @@ const SystemScreen = ({ route, navigation }) => {
           <TouchableOpacity
             style={styles.itemButton}
             onPress={() =>
-              navigation.navigate('Write Screen', { Tag: title, Value: value })
+              navigation.navigate('Write Screen', { Tag: title, Value: value,name:title })
             }>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -130,7 +130,7 @@ const SystemScreen = ({ route, navigation }) => {
           <TouchableOpacity
             style={styles.itemButton}
             onPress={() =>
-              navigation.navigate('Write Screen', { Tag: title, Value: value })
+              navigation.navigate('Write Screen', { Tag: title, Value: value,name:title })
             }>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -267,10 +267,10 @@ const SystemScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
     const { Value } = route.params;
     const [text, setText] = React.useState('');
-    useEffect(() => {
+    // useEffect(() => {
 
-    navigation.setOptions({ title: Tag });
-    });
+    // navigation.setOptions({ title: Tag });
+    // });
     return (
       <View>
         <TextInput
@@ -329,7 +329,7 @@ const SystemScreen = ({ route, navigation }) => {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
-          onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'System', 'Set Parameters': {'D7':'${indexValue}'}}`)) }}
+          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'System', 'Set Parameters': {'D7':'${indexValue}'}}`)) }}
           >
             <View style={styles.buttonBar}>
               <Text>Save</Text>
@@ -380,7 +380,7 @@ const SystemScreen = ({ route, navigation }) => {
         component={SystemMainScreen}
         options={{ headerTitle: 'System' }}
       />
-      <StackSystem.Screen name="Write Screen" component={WriteScreen} />
+      <StackSystem.Screen name="Write Screen" component={WriteScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
       <StackSystem.Screen name="Device Reset" component={DeviceResetScreen} />
       <StackSystem.Screen name="Language" component={LanguageScreen} />
     </StackSystem.Navigator>

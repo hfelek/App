@@ -15,7 +15,7 @@ const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value
   console.log("In Button Function")
   ///If anything else is to be done, it will be done here!
 }
-let periprheralID='0'
+let peripheralID='0'
 let DisplayParams = Paramsfiltered.find(DisplayParams => DisplayParams.Tag === "Display");
 let MenuParams = DisplayParams.menu;
 const StackDisplay = createStackNavigator();
@@ -29,7 +29,7 @@ const DisplayScreen = ({ route, navigation }) => {
     // Success code
 
     console.log(JSON.stringify(peripheralsArray[0].id));
-    periprheralID=peripheralsArray[0].id
+    peripheralID=peripheralsArray[0].id
   }).catch(() => {
     console.log("Couldnt Find A peripheral");
     // expected output: "Success!"
@@ -115,14 +115,14 @@ const DisplayScreen = ({ route, navigation }) => {
     if(text!=Value){
       navigation.setOptions({
         headerRight: () => (
-        <TouchableHighlight 
+        <TouchableOpacity 
         
-        onPress={() => { HandleWriteCommand(periprheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Display', 'Set Parameters': {'C3':'${indexValue}'}}`)) }}
+        onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Display', 'Set Parameters': {'C3':'${indexValue}'}}`)) }}
         >
           <View style={styles.buttonBar}>
             <Text>Save</Text>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
         ),
       });
     }

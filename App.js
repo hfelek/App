@@ -19,7 +19,7 @@ import {
   TouchableHighlight, Platform, TextInput, FlatList, StatusBar,
 } from 'react-native';
 import ActionBarImage from './Src/EliarIconImage.js';
-
+import BleManager from 'react-native-ble-manager';
 // function getHeaderTitle(route) {
 //   // If the focused route is not found, we need to assume it's the initial screen
 //   // This can happen during if there hasn't been any navigation inside the screen
@@ -54,6 +54,16 @@ const screenOptions = ({ route, color }) => {
 const Tab = createBottomTabNavigator();
 
 App = ({route,Navigator}) => {
+  // BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+  //   // Success code
+
+  //   console.log(JSON.stringify(peripheralsArray[0].id));
+  //   console.log("App.js içinde Ble.Connection Check Edildi")
+  //   // peripheralID=peripheralsArray[0].id
+  // }).catch(() => {
+  //   console.log("Couldnt Find A peripheral");
+  //   // expected output: "Success!"
+  // });
   return (
 
     <NavigationContainer >
@@ -96,6 +106,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#d9f4ff',
 
   },
+  
 })
 
 const config = {

@@ -10,6 +10,7 @@ import react from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import ConnectionScreen from '../../ConnectionScreen';
+import BufferArray from '../../../Navigation/Functions/BufferArray';
 const Buffer = require('buffer/').Buffer;
 
 
@@ -19,7 +20,7 @@ const HandleWriteCommand = (peripheralId,serviceUUID,characteristicUUID,value,ma
   ///If anything else is to be done, it will be done here!
 }
 
-let periprheralID='0'
+let peripheralID='0'
 
 let CommunicationParams = Paramsfiltered.find(CommunicationParams => CommunicationParams.Tag === "Communication");
 let MenuParams = CommunicationParams.menu;
@@ -34,7 +35,7 @@ const CommunicationScreen = ({ route, navigation }) => {
     // Success code
 
     console.log(JSON.stringify(peripheralsArray[0].id));
-    periprheralID=peripheralsArray[0].id
+    peripheralID=peripheralsArray[0].id
   }).catch(() => {
     console.log("Couldnt Find A peripheral");
     // expected output: "Success!"
@@ -108,14 +109,14 @@ const CommunicationScreen = ({ route, navigation }) => {
       //   )
       case 'WiFi Function':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title, HexIndex: "CC" })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title, HexIndex: "CC",name:title })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'WiFi Mode':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title, HexIndex: "CD"  })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title, HexIndex: "CD",name:title })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
@@ -136,28 +137,28 @@ const CommunicationScreen = ({ route, navigation }) => {
         )
       case 'Configure IPv4':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title, HexIndex: "D0" })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title, HexIndex: "D0",name:title })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'IP Address':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title , HexIndex: "D1" })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title , HexIndex: "D1",name:title })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'Router':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title, HexIndex: "D3" })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title, HexIndex: "D3",name:title })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
       case 'Subnet Address':
         return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title, HexIndex: "D2" })}>
+          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title, HexIndex: "D2",name:title })}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
@@ -211,17 +212,18 @@ const CommunicationScreen = ({ route, navigation }) => {
   const BluetoothSettingsScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
     const {HexIndex} = route.params;
-    useEffect(() => {
-      navigation.setOptions({ title: Tag })
-    });
+    // useEffect(() => {
+    //   navigation.setOptions({ title: Tag })
+    // });
     return (
       <Text>{Tag}</Text>)
   };
   const WiFiSettingsScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
-    const {HexIndex} = route.params;    useEffect(() => {
-      navigation.setOptions({ title: Tag })
-    });
+    const {HexIndex} = route.params;   
+    //  useEffect(() => {
+    //   navigation.setOptions({ title: Tag })
+    // });
     return (
       <Text>{Tag}</Text>)
   };
@@ -235,7 +237,7 @@ const CommunicationScreen = ({ route, navigation }) => {
     const [selection, setSelection] = React.useState(val[0].Value);
     var myBuffer = [];
     if (Platform.OS === 'android') {
-      BleManager.requestMTU("24:0A:C4:09:69:62", 512)
+      BleManager.requestMTU(peripheralID, 512)
           .then((mtu) => {
               // Success code
               console.log()
@@ -244,7 +246,6 @@ const CommunicationScreen = ({ route, navigation }) => {
           .catch((error) => {
               // Failure code
               console.log("Error kodu")
-              console.log("24:0A:C4:09:69:62")
               console.log(error);
           });
    };
@@ -270,7 +271,7 @@ const CommunicationScreen = ({ route, navigation }) => {
         navigation.setOptions({
           headerRight: () => (
             // Burada Peripheral ID ve UUIDler daha object oriented yapılacak.
-            <TouchableOpacity  onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
+            <TouchableOpacity  onPress={() => { HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
@@ -302,9 +303,9 @@ const CommunicationScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
     console.log(Tag)
     const {HexIndex} = route.params;  
-    useEffect(() => {
-      navigation.setOptions({ title: Tag })
-    });
+    // useEffect(() => {
+    //   navigation.setOptions({ title: Tag })
+    // });
     const valSystemUnits = Values.filter(row => row.Tag == 'Communication')[0];
     const subTitle = valSystemUnits.menu.filter(row => row.Tag == "WiFi")[0];
     const val = subTitle.menu.filter(row => row.Tag == Tag);
@@ -326,7 +327,7 @@ const CommunicationScreen = ({ route, navigation }) => {
       if (selection != val[0].Value) {
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity  onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {${HexIndex}:'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
+            <TouchableOpacity  onPress={() => { HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {${HexIndex}:'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
               </View>
@@ -359,9 +360,9 @@ const CommunicationScreen = ({ route, navigation }) => {
   const SSIDScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
     const {HexIndex} = route.params;   
-     useEffect(() => {
-      navigation.setOptions({ title: Tag })
-    });
+    //  useEffect(() => {
+    //   navigation.setOptions({ title: Tag })
+    // });
     const filtered = Values.filter(row => row.Tag == 'Communication');
     const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
     const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
@@ -385,7 +386,7 @@ const CommunicationScreen = ({ route, navigation }) => {
         {/* <LenghtChecker lenght={32} /> */}
      {initialText!=text &&
         <Button
-        onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${text}'}}`))}}          title="Save"
+        onPress={() => { HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${text}'}}`))}}          title="Save"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
         />}
@@ -397,9 +398,10 @@ const CommunicationScreen = ({ route, navigation }) => {
   };
   const IPScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
-    const {HexIndex} = route.params;    useEffect(() => {
-      navigation.setOptions({ title: Tag })
-    });
+    const {HexIndex} = route.params;   
+    //  useEffect(() => {
+    //   navigation.setOptions({ title: Tag })
+    // });
     const filtered = Values.filter(row => row.Tag == 'Communication');
     const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
     const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
@@ -440,7 +442,7 @@ const CommunicationScreen = ({ route, navigation }) => {
         {/* <LenghtChecker lenght={32} /> */}
   {filteredATSub!=text1 &&
         <Button
-        onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${text1}'}}`))}}          title="Save"
+        onPress={() => { HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${text1}'}}`))}}          title="Save"
         title="Save"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
@@ -454,9 +456,10 @@ const CommunicationScreen = ({ route, navigation }) => {
 
   const PasswordScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
-    const {HexIndex} = route.params;    useEffect(() => {
-      navigation.setOptions({ title: Tag })
-    });
+    const {HexIndex} = route.params;    
+    // useEffect(() => {
+    //   navigation.setOptions({ title: Tag })
+    // });
     // const filtered = Values.filter(row => row.Tag == 'Communication');
     // const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
     // const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
@@ -483,7 +486,7 @@ const CommunicationScreen = ({ route, navigation }) => {
         {/* <LenghtChecker lenght={32} /> */}
         {text.length > 8 &&
         <Button
-        onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${text}'}}`))}}          title="Save"
+        onPress={() => { HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${text}'}}`))}}          title="Save"
         title="Save"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
@@ -518,7 +521,7 @@ const CommunicationScreen = ({ route, navigation }) => {
       if (selection != val[0].Value) {
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity  onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
+            <TouchableOpacity  onPress={() => { HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`))}}>
 
               <View style={styles.buttonBar}>
                 <Text>Save</Text>
@@ -578,8 +581,8 @@ const CommunicationScreen = ({ route, navigation }) => {
       <StackCommunication.Screen name='Bluetooth Settings Screen' component={BluetoothSettingsScreen} />
       <StackCommunication.Screen name='WiFi Settings Screen' component={WiFiSettingsScreen} />
       <StackCommunication.Screen name='Bluetooth Function' component={BluetoothFunctionScreen} />
-      <StackCommunication.Screen name='WiFi Function' component={WiFiFunctionScreen} />
-      <StackCommunication.Screen name='IP Screen' component={IPScreen} />
+      <StackCommunication.Screen name='WiFi Function' component={WiFiFunctionScreen}  options={({ route }) => ({ headerTitle: route.params.name })}  />
+      <StackCommunication.Screen name='IP Screen' component={IPScreen}  options={({ route }) => ({ headerTitle: route.params.name })} />
       <StackCommunication.Screen name='Password Screen' component={PasswordScreen} />
       <StackCommunication.Screen name='SSID Screen' component={SSIDScreen} />
 

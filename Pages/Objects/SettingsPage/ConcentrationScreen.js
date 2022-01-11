@@ -8,6 +8,7 @@ import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 let periprheralID='0'
+import BleManager from 'react-native-ble-manager';
 
 let ConcentrationParams = Paramsfiltered.find(ConcentrationParams => ConcentrationParams.Tag === "Concentration");
 let MenuParams = ConcentrationParams.menu;

@@ -10,7 +10,7 @@ import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 let IdentificationParams = Paramsfiltered.find(IdentificationParams => IdentificationParams.Tag === "Identification");
 let MenuParams = IdentificationParams.menu;
-let periprheralID='0'
+let peripheralID='0'
 
 const StackIdentification = createStackNavigator();
 
@@ -27,7 +27,7 @@ const IdentificationScreen = ({ route, navigation }) => {
     // Success code
 
     console.log(JSON.stringify(peripheralsArray[0].id));
-    periprheralID=peripheralsArray[0].id
+    peripheralID=peripheralsArray[0].id
   }).catch(() => {
     console.log("Couldnt Find A peripheral");
     // expected output: "Success!"
@@ -91,7 +91,7 @@ const IdentificationScreen = ({ route, navigation }) => {
           {/* <LenghtChecker lenght={32} /> */}
           {(filteredAT[0].Value !=  text) &&
           <Button
-          onPress={() =>{ HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'18':'${text}'}}`))}} 
+          onPress={() =>{ HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'18':'${text}'}}`))}} 
           title="Save"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"

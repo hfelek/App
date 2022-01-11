@@ -9,7 +9,7 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
-let periprheralID='0'
+let peripheralID='0'
 
 let DiagnosticsParams = Paramsfiltered.find(DiagnosticsParams => DiagnosticsParams.Tag === "Diagnostics");
 let MenuParams = DiagnosticsParams.menu;
@@ -27,7 +27,7 @@ const HandleWriteCommand = (peripheralId,serviceUUID,characteristicUUID,value,ma
 function Item(title, value, navigation) {
   if (TextComponents.includes(title)) {
     return (
-      <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Simulation Process Variable', { Tag: title, Value: value })}>
+      <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Simulation Process Variable', { Tag: title, Value: value,name:title })}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.value}>{value}</Text>
       </TouchableOpacity>)
@@ -37,7 +37,7 @@ function Item(title, value, navigation) {
   else if (SwitchComponents.includes(title)) {
   var switchValues = (Values.filter(row => row.Tag == 'Diagnostics'))[0].menu.filter(row => row.Tag == title)[0]["Assignable Values"];
   return (
-    <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switchable Components', { Tag: title, Value: value, SwitchableValues: switchValues})}>
+    <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switchable Components', { Tag: title, Value: value, SwitchableValues: switchValues,name:title})}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.value}>{value}</Text>
     </TouchableOpacity>)
@@ -64,7 +64,7 @@ const DiagnosticsScreen = ({ route, navigation }) => {
     // Success code
 
     console.log(JSON.stringify(peripheralsArray[0].id));
-    periprheralID=peripheralsArray[0].id
+    peripheralID=peripheralsArray[0].id
   }).catch(() => {
     console.log("Couldnt Find A peripheral");
     // expected output: "Success!"
@@ -130,7 +130,7 @@ const DiagnosticsScreen = ({ route, navigation }) => {
     if(text!=Value){
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity  onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Diagnostics', 'Set Parameters': {'52':'${SwitchableValues.filter(row => row.Tag == text)[0].Enum}'}}`))}}>
+          <TouchableOpacity  onPress={() => { HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Diagnostics', 'Set Parameters': {'52':'${SwitchableValues.filter(row => row.Tag == text)[0].Enum}'}}`))}}>
           <View style={styles.buttonBar}>
             <Text>Save</Text>
           </View>
@@ -206,7 +206,7 @@ const DiagnosticsScreen = ({ route, navigation }) => {
          {/* <Text>Enter a unique name for the measuring point to identify the device within the plant. Lenght --{'>'} {lenght} </Text>  */}
 { text!=Value &&
         <Button
-          onPress={() =>{ HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${text}'}}`))}} 
+          onPress={() =>{ HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${text}'}}`))}} 
           title="Save"
           color="#841584"
           accessibilityLabel="Save Configuration"
@@ -223,8 +223,8 @@ const DiagnosticsScreen = ({ route, navigation }) => {
   return (
     <StackDiagnostics.Navigator initialRouteName='Diagnostics Main' screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
       <StackDiagnostics.Screen name='Diagnostics Main' component={DiagnosticsMainScreen} options={{ headerTitle: 'Diagnostics' }} />
-      <StackDiagnostics.Screen name='Simulation Process Variable' component={SimulationProcessVariableScreen} />
-      <StackDiagnostics.Screen name='Switchable Components' component={SwitchVariableScreen} />
+      <StackDiagnostics.Screen name='Simulation Process Variable' component={SimulationProcessVariableScreen}  options={({ route }) => ({ headerTitle: route.params.name })} />
+      <StackDiagnostics.Screen name='Switchable Components' component={SwitchVariableScreen}  options={({ route }) => ({ headerTitle: route.params.name })} />
     </StackDiagnostics.Navigator>
 
   );

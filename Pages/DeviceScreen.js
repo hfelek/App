@@ -142,6 +142,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 12,
   },
+  noDevice:{
+    // backgroundColor:'rgba(255,255,255,0.26)',
+    marginTop:'50%',
+    margin:'10%',
+    borderRadius:3,
+    width: '80%' ,
+    height: '35%',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+}
 });
 
 export default DeviceScreen;
