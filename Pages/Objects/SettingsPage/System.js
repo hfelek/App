@@ -17,7 +17,14 @@ import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react, { useEffect } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import BleManager from 'react-native-ble-manager';
+import BufferArray from '../../../Navigation/Functions/BufferArray';
 
+const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
+  BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
+  console.log("In Button Function")
+  ///If anything else is to be done, it will be done here!
+}
 let SystemParams = Paramsfiltered.find(
   SystemParams => SystemParams.Tag === 'System',
 );
@@ -27,16 +34,24 @@ const StackSystem = createStackNavigator();
 var filtered;
 var filteredAT;
 
-
 const SystemScreen = ({ route, navigation }) => {
-  const createTwoButtonAlert = (title, msg,object) =>
+  
+  function functionWriteBle(indexKey,indexValue) {
+    HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'System', 'Set Parameters': {'${indexKey}':'${indexValue}'}}`))
+  }
+
+
+
+
+
+  const createTwoButtonAlert = (title, msg,object,hexValue) =>
     Alert.alert(title, msg, [
       {
         text: 'Cancel',
         onPress: () => console.log(object+ "cancelled"),
         style: 'cancel',
       },
-      { text: 'Yes', onPress: () => console.log( object+ " confirmed.") },
+      { text: 'Yes', onPress: () => functionWriteBle('DB',`'${hexValue}'`) },
     ]);
     const CheckButtoned = (selectedValue, sentValue) => {
       if (selectedValue === sentValue) {
@@ -130,8 +145,11 @@ const SystemScreen = ({ route, navigation }) => {
             onPress={() => createTwoButtonAlert(
               'Alert',
               'Are you sure to cancel ongoing action?',
-              title
-            )}>
+              title,
+              '0'
+            ) 
+
+            }>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
@@ -144,7 +162,8 @@ const SystemScreen = ({ route, navigation }) => {
             onPress={() => createTwoButtonAlert(
               'Alert',
               'Are you sure to start Auto Calibration?',
-              title
+              title,
+              '2'
             )}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -158,27 +177,28 @@ const SystemScreen = ({ route, navigation }) => {
             onPress={() => createTwoButtonAlert(
               'Alert',
               'Are you sure to restore Factory Settings?',
-              title
+              title,
+              '1'
             )}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         );
         break;
-      case 'Parameters Restore':
-        return (
-          <TouchableOpacity
-            style={styles.itemButton}
-            onPress={() => createTwoButtonAlert(
-              'Alert',
-              'Are you sure to restore parameters?',
-              title
-            )}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.value}>{value}</Text>
-          </TouchableOpacity>
-        );
-        break;
+      // case 'Parameters Restore':
+      //   return (
+      //     <TouchableOpacity
+      //       style={styles.itemButton}
+      //       onPress={() => createTwoButtonAlert(
+      //         'Alert',
+      //         'Are you sure to restore parameters?',
+      //         title
+      //       )}>
+      //       <Text style={styles.title}>{title}</Text>
+      //       <Text style={styles.value}>{value}</Text>
+      //     </TouchableOpacity>
+      //   );
+      //   break;
       case 'Wifi Parameters Restore':
         return (
           <TouchableOpacity
@@ -186,7 +206,8 @@ const SystemScreen = ({ route, navigation }) => {
             onPress={() => createTwoButtonAlert(
               'Alert',
               'Are you sure to restore WiFi parameters?',
-              title
+              title,
+              '3'
             )}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
@@ -200,14 +221,15 @@ const SystemScreen = ({ route, navigation }) => {
             onPress={() => createTwoButtonAlert(
               'Alert',
               'Are you sure to restart the device?',
-              title
+              title,
+              '4'
             )}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         );
         break;
-      default:
+      case 'User Role':
         return (
           <View style={styles.item}>
             <Text style={styles.title}>{title}</Text>
@@ -278,6 +300,8 @@ const SystemScreen = ({ route, navigation }) => {
     const subTitle = valSystemUnits.filter(row => row.Tag == 'Language');
     const possibleValues = subTitle[0].PossibleValues;
     const [selection, setSelection] = React.useState(subTitle[0].Value);
+    let indexValue = (selection=='English') ? '0':'1'
+
     function ItemSelectable(title) {
 
       return (
@@ -294,7 +318,9 @@ const SystemScreen = ({ route, navigation }) => {
     if (selection != subTitle[0].Value) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity >
+          <TouchableOpacity
+          onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'System', 'Set Parameters': {'D7':'${indexValue}'}}`)) }}
+          >
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>

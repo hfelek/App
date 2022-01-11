@@ -7,6 +7,14 @@ import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import Icon from 'react-native-vector-icons/Ionicons';
 import react from 'react';
+import BleManager from 'react-native-ble-manager';
+import BufferArray from '../../../Navigation/Functions/BufferArray';
+
+const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
+  BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
+  console.log("In Button Function")
+  ///If anything else is to be done, it will be done here!
+}
 
 let DisplayParams = Paramsfiltered.find(DisplayParams => DisplayParams.Tag === "Display");
 let MenuParams = DisplayParams.menu;
@@ -63,14 +71,12 @@ const DisplayScreen = ({ route, navigation }) => {
     if(initialValue===newValue){
       return(
         <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-        <Text>Value Not Changed</Text>
       </View>
         )
     }
     else{
       return(
         <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-          <Text>Value Changed</Text>
         </View>
       )
     }
@@ -93,13 +99,16 @@ const DisplayScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
     const { Value } = route.params;
     const [text, setText] = React.useState(Value);
-    
+    let indexValue = (text=='On') ? '0':'1'
     useEffect(() => {
     
     if(text!=Value){
       navigation.setOptions({
         headerRight: () => (
-        <TouchableHighlight >
+        <TouchableHighlight 
+        
+        onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Display', 'Set Parameters': {'C3':'${indexValue}'}}`)) }}
+        >
           <View style={styles.buttonBar}>
             <Text>Save</Text>
           </View>
