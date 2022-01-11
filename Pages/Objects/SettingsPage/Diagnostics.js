@@ -9,6 +9,7 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
+let periprheralID='0'
 
 let DiagnosticsParams = Paramsfiltered.find(DiagnosticsParams => DiagnosticsParams.Tag === "Diagnostics");
 let MenuParams = DiagnosticsParams.menu;
@@ -59,7 +60,15 @@ function Item(title, value, navigation) {
 
 const DiagnosticsScreen = ({ route, navigation }) => {
 
+  BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+    // Success code
 
+    console.log(JSON.stringify(peripheralsArray[0].id));
+    periprheralID=peripheralsArray[0].id
+  }).catch(() => {
+    console.log("Couldnt Find A peripheral");
+    // expected output: "Success!"
+  });
   const DiagnosticsMainScreen = ({ navigation }) => (
 
     <SafeAreaView style={styles.container}>
@@ -189,18 +198,19 @@ const DiagnosticsScreen = ({ route, navigation }) => {
           outlineColor='#000'
           // activeUnderlineColor='#000'
           error={false}
+          keyboardType='numeric'
           right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
           onChangeText={text => setText(text)}
         />
          {/* <Text>Text Here. Lenght --{'>'} {32} </Text>  */}
          {/* <Text>Enter a unique name for the measuring point to identify the device within the plant. Lenght --{'>'} {lenght} </Text>  */}
-
+{ text!=Value &&
         <Button
           onPress={() =>{ HandleWriteCommand("24:0A:C4:09:69:62","a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${text}'}}`))}} 
           title="Save"
           color="#841584"
           accessibilityLabel="Save Configuration"
-        />
+        />}
         {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
 
       </View>

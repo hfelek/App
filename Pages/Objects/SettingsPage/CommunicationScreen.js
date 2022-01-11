@@ -19,6 +19,7 @@ const HandleWriteCommand = (peripheralId,serviceUUID,characteristicUUID,value,ma
   ///If anything else is to be done, it will be done here!
 }
 
+let periprheralID='0'
 
 let CommunicationParams = Paramsfiltered.find(CommunicationParams => CommunicationParams.Tag === "Communication");
 let MenuParams = CommunicationParams.menu;
@@ -29,6 +30,15 @@ var filteredAT;
 
 
 const CommunicationScreen = ({ route, navigation }) => {
+  BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+    // Success code
+
+    console.log(JSON.stringify(peripheralsArray[0].id));
+    periprheralID=peripheralsArray[0].id
+  }).catch(() => {
+    console.log("Couldnt Find A peripheral");
+    // expected output: "Success!"
+  });
   const CheckButtoned = (selectedValue, sentValue) => {
     if (selectedValue === sentValue) {
       return (

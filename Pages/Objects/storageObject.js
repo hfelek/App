@@ -491,13 +491,13 @@ export const storageObject = JSON.stringify([{
                         ]
                     },
                     {
-                        "Tag": "Conduction Start Value",
+                        "Tag": "Conductivity Start Value",
                         "Access": "R/W",
                         "Value": "15",
                         "Limit": "100"
                     },
                     {
-                        "Tag": "Conduction End Value",
+                        "Tag": "Conductivity End Value",
                         "Access": "R",
                         "Value": "10",
                         "Limit": "100"
@@ -566,13 +566,13 @@ export const storageObject = JSON.stringify([{
                         ]
                     },
                     {
-                        "Tag": "Conduction On Value",
+                        "Tag": "Conductivity On Value",
                         "Access": "R/W",
                         "Value": "15",
                         "Limit": "100"
                     },
                     {
-                        "Tag": "Conduction Off Value",
+                        "Tag": "Conductivity Off Value",
                         "Access": "R",
                         "Value": "10",
                         "Limit": "100"
@@ -653,13 +653,13 @@ export const storageObject = JSON.stringify([{
                         ]
                     },
                     {
-                        "Tag": "Conduction Start Value",
+                        "Tag": "Conductivity Start Value",
                         "Access": "R/W",
                         "Value": "15",
                         "Limit": "100"
                     },
                     {
-                        "Tag": "Conduction End Value",
+                        "Tag": "Conductivity End Value",
                         "Access": "R",
                         "Value": "10",
                         "Limit": "100"
@@ -728,13 +728,13 @@ export const storageObject = JSON.stringify([{
                         ]
                     },
                     {
-                        "Tag": "Conduction On Value",
+                        "Tag": "Conductivity On Value",
                         "Access": "R/W",
                         "Value": "15",
                         "Limit": "100"
                     },
                     {
-                        "Tag": "Conduction Off Value",
+                        "Tag": "Conductivity Off Value",
                         "Access": "R",
                         "Value": "10",
                         "Limit": "100"

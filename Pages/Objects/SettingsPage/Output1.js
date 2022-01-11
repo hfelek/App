@@ -9,6 +9,7 @@ import react from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
+let periprheralID='0'
 
 const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
   BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
@@ -24,6 +25,15 @@ var filteredAT = filtered.filter(row => row.Tag == 'Switch Output');
 
 
 const Output1Screen = ({ route, navigation }) => {
+  BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+    // Success code
+
+    console.log(JSON.stringify(peripheralsArray[0].id));
+    periprheralID=peripheralsArray[0].id
+  }).catch(() => {
+    console.log("Couldnt Find A peripheral");
+    // expected output: "Success!"
+  });
 
   const CheckButtoned = (selectedValue, sentValue) => {
     if (selectedValue === sentValue) {

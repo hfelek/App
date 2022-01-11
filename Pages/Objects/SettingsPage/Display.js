@@ -15,7 +15,7 @@ const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value
   console.log("In Button Function")
   ///If anything else is to be done, it will be done here!
 }
-
+let periprheralID='0'
 let DisplayParams = Paramsfiltered.find(DisplayParams => DisplayParams.Tag === "Display");
 let MenuParams = DisplayParams.menu;
 const StackDisplay = createStackNavigator();
@@ -25,7 +25,15 @@ var filteredAT = filtered.filter(row => row.Tag == 'Backlight');
 
 
 const DisplayScreen = ({ route, navigation }) => {
+  BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+    // Success code
 
+    console.log(JSON.stringify(peripheralsArray[0].id));
+    periprheralID=peripheralsArray[0].id
+  }).catch(() => {
+    console.log("Couldnt Find A peripheral");
+    // expected output: "Success!"
+  });
   function Item(title, value) {
     switch (title) {
       case 'Backlight':
@@ -45,6 +53,7 @@ const DisplayScreen = ({ route, navigation }) => {
         )
     };
   }
+
   const CheckButtoned=(selectedValue, sentValue )=> {
     if(selectedValue===sentValue){
       return(
@@ -99,6 +108,7 @@ const DisplayScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
     const { Value } = route.params;
     const [text, setText] = React.useState(Value);
+
     let indexValue = (text=='On') ? '0':'1'
     useEffect(() => {
     
@@ -107,7 +117,7 @@ const DisplayScreen = ({ route, navigation }) => {
         headerRight: () => (
         <TouchableHighlight 
         
-        onPress={() => { HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Display', 'Set Parameters': {'C3':'${indexValue}'}}`)) }}
+        onPress={() => { HandleWriteCommand(periprheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Display', 'Set Parameters': {'C3':'${indexValue}'}}`)) }}
         >
           <View style={styles.buttonBar}>
             <Text>Save</Text>

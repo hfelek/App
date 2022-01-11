@@ -16,6 +16,7 @@ import { RectButton } from 'react-native-gesture-handler';
 
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
+let periprheralID='0'
 
 let ConductivityParams = Paramsfiltered.find(ConductivityParams => ConductivityParams.Tag === "Conductivity");
 let MenuParams = ConductivityParams.menu;
@@ -31,7 +32,15 @@ const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value
 
 
 const ConductivityScreen = ({ route, navigation }) => {
+  BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+    // Success code
 
+    console.log(JSON.stringify(peripheralsArray[0].id));
+    periprheralID=peripheralsArray[0].id
+  }).catch(() => {
+    console.log("Couldnt Find A peripheral");
+    // expected output: "Success!"
+  });
   function Item(title, value) {
     switch (title) {
       case 'Range':

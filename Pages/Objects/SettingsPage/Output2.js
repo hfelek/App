@@ -9,6 +9,7 @@ import react from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
+let periprheralID='0'
 
 const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
   BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
@@ -24,6 +25,15 @@ var filteredAT = filtered.filter(row => row.Tag == 'Switch Output');
 
 
 const Output2Screen = ({ route, navigation }) => {
+  BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+    // Success code
+
+    console.log(JSON.stringify(peripheralsArray[0].id));
+    periprheralID=peripheralsArray[0].id
+  }).catch(() => {
+    console.log("Couldnt Find A peripheral");
+    // expected output: "Success!"
+  });
   const CheckButtoned = (selectedValue, sentValue) => {
     if (selectedValue === sentValue) {
       return (
@@ -142,7 +152,7 @@ const Output2Screen = ({ route, navigation }) => {
               <Text style={styles.value}>{value}</Text>
             </TouchableOpacity>
           )
-      case 'Conduction Start Value':
+      case 'Conductivity Start Value':
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
             Tag: title,
@@ -151,7 +161,7 @@ const Output2Screen = ({ route, navigation }) => {
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
-      case 'Conduction End Value':
+      case 'Conductivity End Value':
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
             Tag: title,
@@ -232,7 +242,7 @@ const Output2Screen = ({ route, navigation }) => {
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
-      case 'Conduction On Value':
+      case 'Conductivity On Value':
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
             Tag: title,
@@ -241,7 +251,7 @@ const Output2Screen = ({ route, navigation }) => {
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
         )
-      case 'Conduction Off Value':
+      case 'Conductivity Off Value':
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
             Tag: title,
@@ -393,10 +403,10 @@ const Output2Screen = ({ route, navigation }) => {
     // console.log("route")
     let hexIndexKey
     switch (Tag) {
-      case "Conduction Start Value":
+      case "Conductivity Start Value":
         hexIndexKey = "B1"
         break;
-      case "Conduction End Value":
+      case "Conductivity End Value":
         hexIndexKey = "B2"
         break;
       case "Concentration Start Value":
@@ -613,10 +623,10 @@ const Output2Screen = ({ route, navigation }) => {
     })
     let hexIndexKey
     switch (Tag) {
-      case "Conduction On Value":
+      case "Conductivity On Value":
         hexIndexKey = "B9"
         break;
-      case "Conduction Off Value":
+      case "Conductivity Off Value":
         hexIndexKey = "BA"
         break;
       case "Concentration On Value":

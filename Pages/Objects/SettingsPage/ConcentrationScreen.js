@@ -7,6 +7,7 @@ import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+let periprheralID='0'
 
 let ConcentrationParams = Paramsfiltered.find(ConcentrationParams => ConcentrationParams.Tag === "Concentration");
 let MenuParams = ConcentrationParams.menu;
@@ -17,6 +18,15 @@ var filteredAT = filtered.filter(row => row.Tag == 'Measurement Type');
 
 
 const ConcentrationScreen = ({ route, navigation }) => {
+  BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+    // Success code
+
+    console.log(JSON.stringify(peripheralsArray[0].id));
+    periprheralID=peripheralsArray[0].id
+  }).catch(() => {
+    console.log("Couldnt Find A peripheral");
+    // expected output: "Success!"
+  });
   const CheckButtoned = (selectedValue, sentValue) => {
     if (selectedValue === sentValue) {
       return (

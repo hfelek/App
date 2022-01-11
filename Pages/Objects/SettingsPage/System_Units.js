@@ -13,6 +13,7 @@ import { createIconSetFromFontello } from 'react-native-vector-icons';
 import Icon from 'react-native-vector-icons/Ionicons';
 const Buffer = require('buffer/').Buffer;
 import BleManager from 'react-native-ble-manager';
+let periprheralID='0'
 
 let SystemUnitsParams = Paramsfiltered.find(SystemUnitsParams => SystemUnitsParams.Tag === "System Units");
 let MenuParams = SystemUnitsParams.menu;
@@ -28,7 +29,15 @@ const HandleWriteCommand = (peripheralId,serviceUUID,characteristicUUID,value,ma
 
 
 const SystemUnitsScreen = ({ route, navigation }) => {
+  BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+    // Success code
 
+    console.log(JSON.stringify(peripheralsArray[0].id));
+    periprheralID=peripheralsArray[0].id
+  }).catch(() => {
+    console.log("Couldnt Find A peripheral");
+    // expected output: "Success!"
+  });
   function Item(title, value) {
     switch (title) {
       case 'Unit Conductivity':

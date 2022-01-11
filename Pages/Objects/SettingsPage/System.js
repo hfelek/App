@@ -19,6 +19,7 @@ import react, { useEffect } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
+let periprheralID='0'
 
 const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
   BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
@@ -35,6 +36,15 @@ var filtered;
 var filteredAT;
 
 const SystemScreen = ({ route, navigation }) => {
+  BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+    // Success code
+
+    console.log(JSON.stringify(peripheralsArray[0].id));
+    periprheralID=peripheralsArray[0].id
+  }).catch(() => {
+    console.log("Couldnt Find A peripheral");
+    // expected output: "Success!"
+  });
   
   function functionWriteBle(indexKey,indexValue) {
     HandleWriteCommand("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'System', 'Set Parameters': {'${indexKey}':'${indexValue}'}}`))
@@ -264,7 +274,7 @@ const SystemScreen = ({ route, navigation }) => {
     return (
       <View>
         <TextInput
-          label={'Set Your ' + Tag}
+          label={(Tag=='Access Code' ? 'Write The Device Access Code!' : 'Set Your Access Code!' )}
           value={text}
           selectionColor="#000"
           underlineColor="#000"
