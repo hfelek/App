@@ -82,7 +82,7 @@ const ConnectionScreen = () => {
   const peripherals = new Map();
   const [connectedPeripheral, setConnectedPeripheral] = useState(null);
   const [list, setList] = useState([])
-
+  console.log("I am in Connection Screen")
 
   const startScan = () => {
     if (!isScanning) {

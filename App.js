@@ -64,6 +64,7 @@ App = ({route,Navigator}) => {
   //   console.log("Couldnt Find A peripheral");
   //   // expected output: "Success!"
   // });
+  console.log("I am in Main Screen")
   return (
 
     <NavigationContainer >
@@ -74,7 +75,7 @@ App = ({route,Navigator}) => {
 
       <Tab.Navigator screenOptions={ ({ route }) => ({
         tabBarIcon: ({ color }) => screenOptions({ route, color })
-      })} initialRouteName="Connection" >
+      })} initialRouteName="Connection"  >
         <Tab.Screen name="Connection" component={ConnectionScreen} options={styles.tabScreenOptions} />
         <Tab.Screen name="Device" component={DeviceScreen} options={styles.tabScreenOptions} />
         <Tab.Screen name="Settings" component={SettingsScreen}      options={styles.tabScreenOptions } />

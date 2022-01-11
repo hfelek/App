@@ -13,9 +13,7 @@ import {
 } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ICTParams from '../Pages/Objects/ICTParams.json';
 import Paramsfiltered from '../Pages/Objects/Paramsfiltered.json';
-import onPressSettings from './Objects/SettingsPage/OnPressSettingsPage'
 import { NavigationContainer,useIsFocused,useFocusEffect } from '@react-navigation/native';
 import { StackRouter } from 'react-navigation';
 import { useNavigation } from '@react-navigation/native';
@@ -44,7 +42,6 @@ let peripheralID = null
 
 
 
-// const uniqueTags = [...new Set(ICTParams.map(item => item.Tag))];
 // const a = Object.assign({}, uniqueTags);
 // const navigation = useNavigation();
 const StackSettings = createStackNavigator();
@@ -64,6 +61,7 @@ SettingsScreen = ({ navigation, route }) => {
   // const [peripheralConnected,setPeripheralConnected] = React.useState(false)
 
   function SettingsMainScreen ({ navigation })  {
+    console.log("I am in Settings Screen")
     // useFocusEffect(
       
     //   React.useCallback(() => {
