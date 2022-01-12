@@ -8,23 +8,26 @@ import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
-let IdentificationParams = Paramsfiltered.find(IdentificationParams => IdentificationParams.Tag === "Identification");
-let MenuParams = IdentificationParams.menu;
-let peripheralID='0'
+
 
 const StackIdentification = createStackNavigator();
 
 var filtered;
 var filteredAT;
+const IdentificationParams = Paramsfiltered.find(IdentificationParams => IdentificationParams.Tag === "Identification");
+const MenuParams = IdentificationParams.menu;
+let peripheralID='0'
 const HandleWriteCommand = (peripheralId,serviceUUID,characteristicUUID,value,maxbytesize=512)=>{
   BleManager.write(peripheralId,serviceUUID,characteristicUUID,value,maxbytesize)///////////Here Writes to the BLE Peripheral
   console.log("In Button Function")
   ///If anything else is to be done, it will be done here!
 }
 const ApplicationTagScreen = () => {
-
+  React.useEffect(() => {  
   filtered = Values.filter(row => row.Tag == 'Identification');
   filteredAT = filtered[0].menu.filter(row => row.Tag == 'Application Tag');
+  
+  },[]);
   const [text, setText] = React.useState(filteredAT[0].Value);
  
   return (
@@ -54,49 +57,52 @@ const ApplicationTagScreen = () => {
     </View>
   );
 };
-BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
-  // Success code
 
-  console.log(JSON.stringify(peripheralsArray[0].id));
-  peripheralID=peripheralsArray[0].id
-}).catch(() => {
-  console.log("Couldnt Find A peripheral");
-  // expected output: "Success!"
-});
+function Item(title, value,navigation) {
+  switch (title) {
+    case 'Application Tag':
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Application Tag')}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.value}>{value}</Text>
+        </TouchableOpacity>
+      )
+    default:
+      return (
+        <View style={styles.item}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.value}>{value}</Text>
+        </View>
+
+      )
+  };
+}
 const IdentificationScreen = ({ route, navigation }) => {
+
+  React.useEffect(() => {
+    BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+      // Success code
+    
+      console.log(JSON.stringify(peripheralsArray[0].id));
+      peripheralID=peripheralsArray[0].id
+    }).catch(() => {
+      console.log("Couldnt Find A peripheral");
+      // expected output: "Success!"
+    });
+    },[]);
   
-  
-  
-
-  function Item(title, value) {
-    switch (title) {
-      case 'Application Tag':
-        return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Application Tag')}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.value}>{value}</Text>
-          </TouchableOpacity>
-        )
-      default:
-        return (
-          <View style={styles.item}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.value}>{value}</Text>
-          </View>
-
-        )
-    };
-  }
 
 
 
-  console.log("burdayım1")
+
+
   // console.log(JSON.stringify(IdentificationParams));
   // console.log(JSON.stringify(MenuParams));
 
   const IdentificationMainScreen = ({ navigation }) => (
     <SafeAreaView style={styles.container}>
       <FlatList
+        initialNumToRender={MenuParams.length}
         data={MenuParams}
         renderItem={renderItem}
         keyExtractor={item => item.Tag}
@@ -105,10 +111,9 @@ const IdentificationScreen = ({ route, navigation }) => {
   )
 
 
-  console.log("burdayım2")
 
   const renderItem = ({ item }) => (
-    Item(item.Tag, item.Value)
+    Item(item.Tag, item.Value,navigation)
   );
 
   return (

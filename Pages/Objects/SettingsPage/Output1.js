@@ -36,6 +36,7 @@ const Output1Screen = ({ route, navigation }) => {
   });
 
   const CheckButtoned = (selectedValue, sentValue) => {
+    console.log("I am in checkbuttoned")
     if (selectedValue === sentValue) {
       return (
 
@@ -59,6 +60,8 @@ const Output1Screen = ({ route, navigation }) => {
   }
 
   function Item(title, value) {
+    
+    console.log("I am in Item")
     switch (title) {
       case 'Switch Output':
         return (
@@ -239,16 +242,16 @@ const Output1Screen = ({ route, navigation }) => {
   // console.log(JSON.stringify(Output1Params));
   // console.log(JSON.stringify(MenuParams));
 
-  const Output1MainScreen = ({ navigation }) => (
-
-    <SafeAreaView style={styles.container}>
+  function Output1MainScreen  ({ navigation })  {
+  console.log("I am here Output1 Main")
+   return(<SafeAreaView style={styles.container}>
       <FlatList
         data={MenuParams}
         renderItem={renderItem}
         keyExtractor={item => item.Tag}
       />
-    </SafeAreaView>
-  )
+    </SafeAreaView>)
+  }
   const CurrentOutputScreen = () => {
     const valSystemUnits = Values.filter(row => row.Tag == 'Output1');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Current Output');
@@ -271,6 +274,7 @@ const Output1Screen = ({ route, navigation }) => {
     const filteredSub = filtered.filter(row => row.Tag == 'Current Output')[0].menu;
     const filteredAT = filteredSub.filter(row => row.Tag == Tag);
     const [text, setText] = React.useState(filteredAT[0].Value);
+    console.log("I am here Current Output")
     let hexIndexKey
     switch (Tag) {
       case "Conduction Start Value":
@@ -354,6 +358,7 @@ const Output1Screen = ({ route, navigation }) => {
     const val = valSystemUnits[0].menu.filter(row => row.Tag == Tag);
     const possibleValues = val[0].PossibleValues;
     const [selection, setSelection] = React.useState(val[0].Value);
+    console.log("I am in OutputType Screen")
     let hexIndex
     switch (selection) {
       case "Current":
@@ -418,6 +423,8 @@ const Output1Screen = ({ route, navigation }) => {
     );
   };
   const OutputAssignScreen = ({ route, navigation }) => {
+    console.log("I am in OutputAssign Screen")
+
     const { Tag } = route.params
     const valSystemUnits = Values.filter(row => row.Tag == 'Output1')[0].menu;
     const subTitle = valSystemUnits.filter(row => row.Tag == 'Current Output');
@@ -486,6 +493,8 @@ const Output1Screen = ({ route, navigation }) => {
     );
   };
   const SwitchFunctionScreen = ({ route, navigation }) => {
+    console.log("I am in Switch Function")
+
     const { Tag } = route.params
     const valSystemUnits = Values.filter(row => row.Tag == 'Output1')[0].menu;
     const subTitle = valSystemUnits.filter(row => row.Tag == 'Switch Output');
@@ -572,6 +581,8 @@ const Output1Screen = ({ route, navigation }) => {
 
 
   const SwitchOutputSettingsScreen = ({ route, navigation }) => {
+    console.log("I am in Switch Output Settings Screen")
+
     const { Tag } = route.params
     const filtered = Values.filter(row => row.Tag == 'Output1')[0].menu;
     const filteredSub = filtered.filter(row => row.Tag == 'Switch Output')[0].menu;
@@ -636,6 +647,8 @@ const Output1Screen = ({ route, navigation }) => {
     );
   }
   const SwitchOutputScreen = () => {
+    console.log("I am in Swtich Output Screen")
+
     const valSystemUnits = Values.filter(row => row.Tag == 'Output1');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Switch Output');
     const possibleValues = val[0].menu;

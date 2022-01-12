@@ -26,7 +26,7 @@ import MeasuredValuesScreen from './Objects/SettingsPage/Measured_Values'
 import SystemUnitsScreen from './Objects/SettingsPage/System_Units'
 import ConductivityScreen from './Objects/SettingsPage/ConductivityScreen'
 import ConcentrationScreen from './Objects/SettingsPage/ConcentrationScreen'
-import Output1Screen from './Objects/SettingsPage/Output1'
+import Output1MainScreen from './Objects/SettingsPage/Output1'
 import Output2Screen from './Objects/SettingsPage/Output2'
 import DisplayScreen from './Objects/SettingsPage/Display'
 import CommunicationScreen from './Objects/SettingsPage/CommunicationScreen'
@@ -55,96 +55,50 @@ const demoConnection = [
   { title: 'Prop4', id: 'id4' },
 ];
 
-SettingsScreen = ({ navigation, route }) => {
-
-
-  // const [peripheralConnected,setPeripheralConnected] = React.useState(false)
-
-  function SettingsMainScreen ({ navigation })  {
-    console.log("I am in Settings Screen")
-    // useFocusEffect(
-      
-    //   React.useCallback(() => {
-    //     alert('Screen was focused');
-
-    //     BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
-    //       // Success code
-    //       console.log(JSON.stringify(peripheralsArray[0].id));
-    //       peripheralID=peripheralsArray[0].id
-    //       setPeripheralConnected(true)
-    //     }).catch(() => {
-    //       console.log("Couldnt Find A peripheral");
-    //       setPeripheralConnected(false)
-    //       // expected output: "Success!"
-    //     });
-    //     console.log("peripheralConnected")
-
-    //     console.log(peripheralConnected)
-    //     // Do something when the screen is focused
-    //     return () => {
-    //       alert('Screen was unfocused');
-    //       // Do something when the screen is unfocused
-    //       // Useful for cleanup functions
-    //     };
-    //   }, [])
-    // );
-
-    
-
-    
-    
-
-    // if (peripheralConnected === false) {
-
-    //   return (<View style={styles.noDevice}>
-    //     <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
-    //     <Icon name='alert-circle-outline' size={100} color="#000" rounded='true' />
-    //   </View>)
-    // }
-    // else{
-  
+const SettingsMainScreen = ({ navigation,route }) =>{
+  console.log("I am in Settings Main")
+  function renderItem ({ item }){
+    console.log("I am here 1")
     return(
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={Paramsfiltered}
-        renderItem={renderItem}
-        keyExtractor={item => item.Tag}
-      // navigation={navigation}
-      />
-    </SafeAreaView>)}
-    // }
-  const renderItem = ({ item }) => {
-
-    return (
-
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(item.Tag, { msg: "I came From Screen1" })}  >
         <Icon
           name={Paramsfiltered.find(row => row['Tag'] == item.Tag).Icon}
           size={20}
           color="#000"
         />
-
+  
         <Text style={styles.title}>{"     " + item.Tag}</Text>
       </TouchableOpacity>)
-  };
-
-
-
-  if (peripheralID != null) {
-
-    return (<View style={styles.noDevice}>
-      <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
-      <Icon name='alert-circle-outline' size={100} color="#000" rounded='true' />
-    </View>)
   }
+  return(<SafeAreaView style={styles.container}>
+    <FlatList
+      initialNumToRender={Paramsfiltered.length}
+      data={Paramsfiltered}
+      renderItem={(item)=>renderItem(item)}
+      keyExtractor={item => item.Tag}
+      extraData={navigation}
+    // navigation={navigation}
+    />
+  </SafeAreaView>)
+  }
+const SettingsScreen = ({ navigation, route }) => {
 
-  else {
+console.log("I am here Settings Screen")
 
-    // console.log(JSON.stringify(a, null, 4));
+  // if (peripheralID != null) {
+
+  //   return (<View style={styles.noDevice}>
+  //     <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
+  //     <Icon name='alert-circle-outline' size={100} color="#000" rounded='true' />
+  //   </View>)
+  // }
+
+  // else {
+
+  //   // console.log(JSON.stringify(a, null, 4));
 
     return (
 
-      // <NavigationContainer>
       <StackSettings.Navigator screenOptions={{ headerShown: false }}>
         <StackSettings.Screen name='SettingsMain' component={SettingsMainScreen} />
         <StackSettings.Screen name='Identification' component={IdentificationScreen} />
@@ -152,17 +106,17 @@ SettingsScreen = ({ navigation, route }) => {
         <StackSettings.Screen name='Measured Values' component={MeasuredValuesScreen} />
         <StackSettings.Screen name='Conductivity' component={ConductivityScreen} />
         <StackSettings.Screen name='Concentration' component={ConcentrationScreen} />
-        <StackSettings.Screen name='Output1' component={Output1Screen} />
+        <StackSettings.Screen name='Output1' component={Output1MainScreen} />
         <StackSettings.Screen name='Output2' component={Output2Screen} />
         <StackSettings.Screen name='Display' component={DisplayScreen} />
         <StackSettings.Screen name='Communication' component={CommunicationScreen} />
         <StackSettings.Screen name='System Units' component={SystemUnitsScreen} />
         <StackSettings.Screen name='System' component={SystemScreen} />
       </StackSettings.Navigator>
-      //  </NavigationContainer> 
     );
-  }
+  // }
 };
+
 const styles = StyleSheet.create({
   button: {
     backgroundColor: "#ffffff",

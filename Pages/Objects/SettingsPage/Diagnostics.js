@@ -206,7 +206,7 @@ const DiagnosticsScreen = ({ route, navigation }) => {
          {/* <Text>Enter a unique name for the measuring point to identify the device within the plant. Lenght --{'>'} {lenght} </Text>  */}
 { text!=Value &&
         <Button
-          onPress={() =>{ HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${text}'}}`))}} 
+          onPress={() =>{ HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",BufferArray(`{'Tag':'Diagnostics', 'Set Parameters': {'${HexIndex}':'${text}'}}`))}} 
           title="Save"
           color="#841584"
           accessibilityLabel="Save Configuration"

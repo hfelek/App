@@ -10,10 +10,13 @@ import React, {
   useState,
   useEffect,
 } from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
+  RefreshControl,
   View,
   Text,
   Platform,
@@ -25,6 +28,7 @@ import {
   FlatList,
   TouchableHighlight,
 } from 'react-native';
+import SignalLevelIndicator from '../Navigation/Functions/signalLevelIndicator';
 import { bytesToString } from "convert-string";
 import {
   Colors,
@@ -77,6 +81,14 @@ const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 const Buffer = require('buffer/').Buffer;
 
 const ConnectionScreen = () => {
+  const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
+  const [refreshing, setRefreshing] = React.useState(false);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
   const [isScanning, setIsScanning] = useState(false);
   const [deviceConnected, setDeviceConnected] = useState(false)
   const peripherals = new Map();
@@ -381,73 +393,98 @@ const ConnectionScreen = () => {
 
   const renderItem = (item) => {
     const color = '#fff';
-    if (connectedPeripheral != item.id) {
+
       return (
         <TouchableHighlight onPress={() => ConnectPeripheral(item)}>
-          <View style={[styles.row, { backgroundColor: color }]}>
-            <Text style={{ fontSize: 12, textAlign: 'center', color: '#333333', padding: 10 }}>{item.name}</Text>
-            <Text style={{ fontSize: 10, textAlign: 'center', color: '#333333', padding: 2 }}>RSSI: {item.rssi}</Text>
-            <Text style={{ fontSize: 8, textAlign: 'center', color: '#333333', padding: 2, paddingBottom: 20 }}>{item.id}</Text>
+          <View style={[styles.row, { backgroundColor: color, flexDirection:'row',justifyContent:'space-evenly' }]}>
+            <Text style={{ fontSize: 20, textAlign: 'center', color: '#333333', paddingTop: 25}}>{item.name}</Text>
+            <View style={{alignItems:'center',paddingBottom:20}}>
+            <SignalLevelIndicator signalStrength={item.rssi}/>
+     
+            </View>
+            <View style={{alignItems:'center',paddingTop:20}}>
+             <Icon
+            name="checkmark-outline"
+            size={40}
+            color={item.id === connectedPeripheral?"green" : 'white'}
+            
+          /> 
+            </View>
+ 
+            {/* <Text style={{ fontSize: 8, textAlign: 'center', color: '#333333', padding: 2, paddingBottom: 20 }}>{item.id}</Text> */}
           </View>
         </TouchableHighlight>
       );
-    }
-    else
-      return (
-        <></>
-      )
+
 
 
 
   }
-  const renderItem1 = (item) => {
-    const color = 'gray';
-    if (connectedPeripheral == item.id) {
-      return (
-        <TouchableHighlight onPress={() => ConnectPeripheral(item)}>
-          <View style={[styles.row, { backgroundColor: color }]}>
-            <Text style={{ fontSize: 12, textAlign: 'center', color: '#333333', padding: 10 }}>{item.name}</Text>
-            <Text style={{ fontSize: 10, textAlign: 'center', color: '#333333', padding: 2 }}>RSSI: {item.rssi}</Text>
-            <Text style={{ fontSize: 8, textAlign: 'center', color: '#333333', padding: 2, paddingBottom: 20 }}>{item.id}</Text>
-          </View>
-        </TouchableHighlight>
-      );
-    }
-    else
-      return (
-        <></>
-      )
+  // const renderItem1 = (item) => {
+  //   const color = 'gray';
+  //   if (connectedPeripheral == item.id) {
+  //     return (
+  //       <TouchableHighlight onPress={() => ConnectPeripheral(item)}>
+  //         <View style={[styles.row, { backgroundColor: color }]}>
+  //           <Text style={{ fontSize: 20, textAlign: 'center', color: '#333333', padding: 10 }}>{item.name}</Text>
+  //           <SignalLevelIndicator signalStrength={item.rssi}/>
+  //           <Text style={{ fontSize: 8, textAlign: 'center', color: '#333333', padding: 2, paddingBottom: 20 }}>{item.id}</Text>
+  //         </View>
+  //       </TouchableHighlight>
+  //     );
+  //   }
+  //   else
+  //     return (
+  //       <></>
+  //     )
 
 
 
-  }
+  // }
 
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView
+          refreshControl={
+            <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+
+          }
           contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          {global.HermesInternal == null ? null : (
+          style={styles.scrollView}
+          
+          
+          >
+          {/* {global.HermesInternal == null ? null : (
             <View style={styles.engine}>
               <Text style={styles.footer}>Engine: Hermes</Text>
             </View>
-          )}
+          )} */}
           <View style={styles.body}>
 
-            <View style={{ margin: 10 }}>
+            <View style={{ margin: 10,  }}>
+              {/* <TouchableHighlight
+              title={'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}
+              onPress={() => startScan()}
+              >
+
+              </TouchableHighlight> */}
               <Button
+                color={'#7209B7'}
                 title={'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}
                 onPress={() => startScan()}
               />
             </View>
-
+{/* 
             {(connectedPeripheral != null) &&
               <View style={{ flex: 1, margin: 20 }}>
                 <Text >Connected Devices</Text>
               </View>
-            }
+            } */}
 
 
             {/* 
@@ -462,18 +499,19 @@ const ConnectionScreen = () => {
             } */}
 
           </View>
+          
         </ScrollView>
-        <FlatList
+        {/* <FlatList
           data={list}
           renderItem={({ item }) => renderItem1(item)}
           keyExtractor={item => item.id}
-        />
+        /> */}
 
-        {(connectedPeripheral != null) &&
+        {/* {(connectedPeripheral != null) &&
           <View style={{ flex: 1, margin: 20 }}>
             <Text style={{ color: "red" }} >Other Devices</Text>
           </View>
-        }
+        } */}
         <FlatList
           data={list}
           renderItem={({ item }) => renderItem(item)}
