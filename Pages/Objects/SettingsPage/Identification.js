@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -8,28 +8,36 @@ import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
+import { ContextConfigurationValues } from '../../../App';
 
 
 const StackIdentification = createStackNavigator();
 
 var filtered;
 var filteredAT;
+
+
 const IdentificationParams = Paramsfiltered.find(IdentificationParams => IdentificationParams.Tag === "Identification");
 const MenuParams = IdentificationParams.menu;
+
 let peripheralID='0'
+
+
+
 const HandleWriteCommand = (peripheralId,serviceUUID,characteristicUUID,value,maxbytesize=512)=>{
   BleManager.write(peripheralId,serviceUUID,characteristicUUID,value,maxbytesize)///////////Here Writes to the BLE Peripheral
   console.log("In Button Function")
   ///If anything else is to be done, it will be done here!
 }
 const ApplicationTagScreen = () => {
-  React.useEffect(() => {  
+  // React.useEffect(() => {  
   filtered = Values.filter(row => row.Tag == 'Identification');
   filteredAT = filtered[0].menu.filter(row => row.Tag == 'Application Tag');
   
-  },[]);
+  // },[]);
   const [text, setText] = React.useState(filteredAT[0].Value);
- 
+  const context = useContext(ContextConfigurationValues) 
+
   return (
     <View>
       <TextInput
@@ -54,6 +62,9 @@ const ApplicationTagScreen = () => {
       />}
       {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
       
+
+      <Text>{JSON.stringify(context)}</Text>
+
     </View>
   );
 };

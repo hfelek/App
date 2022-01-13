@@ -18,6 +18,8 @@ import {
   Modal,
   TouchableHighlight, Platform, TextInput, FlatList, StatusBar,
 } from 'react-native';
+import ConfigurationValuesInitialState from "./Pages/ESP32New.json"
+import SensorValuesInitialState from "./Pages/ICTSensorValues.json"
 import ActionBarImage from './Src/EliarIconImage.js';
 import BleManager from 'react-native-ble-manager';
 // function getHeaderTitle(route) {
@@ -30,6 +32,13 @@ import BleManager from 'react-native-ble-manager';
 // }
 
 
+/////
+
+
+export const ContextSensorValues = React.createContext(null);
+export const ContextConfigurationValues = React.createContext(null);
+// export const ContextAppState = React.createContext(null);
+/////
 //Screen Names and Logos Settings
 const screenOptions = ({ route, color }) => {
   let iconName;
@@ -54,25 +63,42 @@ const screenOptions = ({ route, color }) => {
 const Tab = createBottomTabNavigator();
 
 App = ({route,Navigator}) => {
-  // BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
-  //   // Success code
+  const [configurationValues, setConfigurationValues] = React.useState(ConfigurationValuesInitialState);
+  const [sensorValues, setSensorValues] = React.useState(SensorValuesInitialState)
+  
+  
+  
+  
+  function setConfigurationValueByKey(ISDUIndex,Value) {
+    console.log(ISDUIndex)
+    // const newObject =JSON.parse(`{"${ISDUIndex}":"${Value}"}`)
+    // console.log(`{"${ISDUIndex}":${Value}}`) 
+    const newState = { ...configurationValues, [ISDUIndex]:Value };
+    setConfigurationValues(newState);
+  }
+  function setSensorValueByKey(ISDUIndex,Value) {
+    console.log(ISDUIndex)
+    // const newObject =JSON.parse(`{"${ISDUIndex}":"${Value}"}`)
+    // console.log(`{"${ISDUIndex}":${Value}}`) 
+    const newState = { ...configurationValues, [ISDUIndex]:Value };
+    setSensorValues(newState);
+  }
 
-  //   console.log(JSON.stringify(peripheralsArray[0].id));
-  //   console.log("App.js içinde Ble.Connection Check Edildi")
-  //   // peripheralID=peripheralsArray[0].id
-  // }).catch(() => {
-  //   console.log("Couldnt Find A peripheral");
-  //   // expected output: "Success!"
-  // });
+
+  const contextConfigurationValuesSetters = {
+     setConfigurationValueByKey
+  }
+  const contextSensorValuesSetters = {
+    setSensorValueByKey    
+ }
+
+
+
+
   console.log("I am in Main Screen")
   return (
-
+ <ContextConfigurationValues.Provider value = {{...configurationValues, ...contextConfigurationValuesSetters}}>
     <NavigationContainer >
-      {/* <Tab.Navigator screenOptions={({route}) => ({
-        tabBarIcon: ({color}) => screenOptions({route, color})  */}
-
-
-
       <Tab.Navigator screenOptions={ ({ route }) => ({
         tabBarIcon: ({ color }) => screenOptions({ route, color })
       })} initialRouteName="Connection"  >
@@ -82,6 +108,7 @@ App = ({route,Navigator}) => {
 
       </Tab.Navigator>
     </NavigationContainer>
+  </ContextConfigurationValues.Provider>
   );
 }
 export default App;
