@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import react from 'react';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
-import { ContextConfigurationValues,ContextSensorValues } from '../../../App';
+import { ContextConfigurationValues } from '../../../App';
 const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
   BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
   console.log("In Button Function")
@@ -112,8 +112,8 @@ const DisplayScreen = ({ route, navigation }) => {
     const [text, setText] = React.useState(Value);
 
     //Context Addition
-    const contextConfiguration = useContext(ContextConfigurationValues) 
-    const contextSensorValues = useContext(contextValue)
+    const context = useContext(ContextConfigurationValues) 
+
     //
     let indexValue = (text=='On') ? '0':'1'
     useEffect(() => {
@@ -146,20 +146,13 @@ const DisplayScreen = ({ route, navigation }) => {
           {CheckButtoned(text,"On")}
         </TouchableOpacity>
         {/* <TouchableOpacity style={styles.itemButton} onPress={() => setText("Off")} > */}
-        <TouchableOpacity style={styles.itemButton} onPress={() => {contextConfiguration.setConfigurationValueByKey("10","ELiar AG 1453")
-        conttextSensorValues.setSensorValueByKey("5F","1204512")
-      
-      }
-      } >
+        <TouchableOpacity style={styles.itemButton} onPress={() => context.setValueByKey("10","ELiar AHJAS")} >
  
           {CheckButtoned(text,"Off")}
         </TouchableOpacity>
         {ChangedButton(Value,text,navigation)}
-        <Text>{contextConfiguration["6A"]}</Text>
-        <Text>{contextSensorValues["5F"]}</Text>
-        <Text>{JSON.stringify(contextSensorValues)}</Text>
-
-        <Text>{JSON.stringify(ContextConfigurationValues)}</Text>
+        <Text>{context["6A"]}</Text>
+        <Text>{JSON.stringify(context)}</Text>
       </View>
     );
   };

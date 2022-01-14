@@ -1,17 +1,22 @@
-import * as React from 'react';
+import React,{useEffect,useContext} from 'react'
 import react from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Settings, Image, Dimensions, TouchableOpacity,TouchableHighlight } from 'react-native';
 import Values from './Objects/Paramsfiltered.json';
 import { List } from 'react-native-paper';
+import { ContextConfigurationValues,ContextSensorValues } from '../App'
 
 let IdentificationParams;
 let MenuParams;
 var filtered;
 var filteredAT;
 const demoConnection = [{ Tag: "Application Tag", Value: "id1" }, { Tag: "Device Name", Value: "id2" }, { Tag: "Device Serial No", Value: "id3" }, { Tag: "Device Type", Value: "id4" },{ Tag: "Random Tag", Value: "Random Value" }]
-const bottomValues = [{ "Tag": "Connection", "Value": "Connected" }, { "Tag": "Conductivity", "Value": "id2", }, { "Tag": "Concentration", "Value": "id3" }]
 
 DeviceScreen = () => {
+  const contextConfiguration = useContext(ContextConfigurationValues) 
+  const contextValues = useContext(ContextSensorValues) 
+  const bottomValues = [{ "Tag": "Connection", "Value": "Connected" }, { "Tag": "Conductivity", "Value": `${contextValues["Value"]["5F"]}`  }, { "Tag": "Concentration", "Value": `${contextValues["Value"]["60"]}` },{ "Tag": "Temperature", "Value":`${contextValues["Value"]["61"]}`  }]
+
+  console.log(JSON.stringify(contextValues))
   const Item = ({ item }) => (
     <View style={styles.itemTab} >
       <Text style={styles.titleTab}>{item.Tag}</Text>
@@ -22,7 +27,7 @@ DeviceScreen = () => {
     <View style={styles.itemTab} >
       <Text style={styles.titleTab}>{item.Tag}</Text>
         <View style={[styles.titleTabButton]}>
-          <Text >Touch Here</Text>
+          <Text >{item.Value}</Text>
         </View>
     </View>
   );
@@ -84,8 +89,8 @@ DeviceScreen = () => {
      {/* Values are rendered here. */}
         
 
-          <ValuesTabBottom/>
-
+      <ValuesTabBottom/>
+      <Text>{JSON.stringify(contextValues)}</Text>
       </SafeAreaView>
 
 

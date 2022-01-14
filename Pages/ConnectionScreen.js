@@ -148,8 +148,9 @@ const ConnectionScreen = () => {
     // Convert bytes array to string
     
     const data = bytesToString(value);
-    
-    contextValues.setSensorValue(data)
+
+    contextValues.setSensorValue(JSON.parse(data))
+    console.log(typeof(contextValues));
     console.log("notify update'e gelindi")
     console.log(data);
     console.log(value);

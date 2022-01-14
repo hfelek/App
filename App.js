@@ -69,27 +69,29 @@ App = ({route,Navigator}) => {
   
   
   
-  function setConfigurationValueByKey(ISDUIndex,Value) {
+  function setValueByKey(ISDUIndex,Value) {
     console.log(ISDUIndex)
     // const newObject =JSON.parse(`{"${ISDUIndex}":"${Value}"}`)
     // console.log(`{"${ISDUIndex}":${Value}}`) 
     const newState = { ...configurationValues, [ISDUIndex]:Value };
     setConfigurationValues(newState);
   }
-  function setSensorValueByKey(ISDUIndex,Value) {
-    console.log(ISDUIndex)
+  function setSensorValue(Value) {
+    // console.log(ISDUIndex)
     // const newObject =JSON.parse(`{"${ISDUIndex}":"${Value}"}`)
     // console.log(`{"${ISDUIndex}":${Value}}`) 
-    const newState = { ...configurationValues, [ISDUIndex]:Value };
+    const newState = { Value} ;
+    console.log(Value)
+    console.log("Iam in set Sensor Value")
     setSensorValues(newState);
   }
 
 
   const contextConfigurationValuesSetters = {
-     setConfigurationValueByKey
+     setValueByKey
   }
   const contextSensorValuesSetters = {
-    setSensorValueByKey    
+    setSensorValue    
  }
 
 
@@ -98,6 +100,7 @@ App = ({route,Navigator}) => {
   console.log("I am in Main Screen")
   return (
  <ContextConfigurationValues.Provider value = {{...configurationValues, ...contextConfigurationValuesSetters}}>
+ <ContextSensorValues.Provider value= {{...sensorValues, ...contextSensorValuesSetters}}>
     <NavigationContainer >
       <Tab.Navigator screenOptions={ ({ route }) => ({
         tabBarIcon: ({ color }) => screenOptions({ route, color })
@@ -108,6 +111,7 @@ App = ({route,Navigator}) => {
 
       </Tab.Navigator>
     </NavigationContainer>
+  </ContextSensorValues.Provider>
   </ContextConfigurationValues.Provider>
   );
 }
