@@ -9,8 +9,10 @@
 import React, {
   useState,
   useEffect,
+  useContext
 } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { ContextConfigurationValues,ContextSensorValues } from '../App';
 
 import {
   SafeAreaView,
@@ -81,6 +83,8 @@ const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 const Buffer = require('buffer/').Buffer;
 
 const ConnectionScreen = () => {
+  const contextValues = useContext(ContextSensorValues) 
+  const contextConfiguration = useContext(ContextConfigurationValues)
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
@@ -142,10 +146,14 @@ const ConnectionScreen = () => {
 
   const handleUpdateValueForCharacteristic = ({ value, peripheral, characteristic, service }) => {
     // Convert bytes array to string
+    
     const data = bytesToString(value);
+    
+    contextValues.setSensorValue(data)
     console.log("notify update'e gelindi")
     console.log(data);
     console.log(value);
+    console.log(JSON.stringify(contextValues))
   }
 
   // const retrieveConnected = () => {
@@ -312,7 +320,7 @@ const ConnectionScreen = () => {
         //setTimeout(() => {
 
 
-        BleManager.startNotification(peripheralInfo.id, "a65373b2-6942-11ec-90d6-024200150000", "a65373b2-6942-11ec-90d6-024200150100").then(() => {
+        BleManager.startNotification(peripheralInfo.id, "a65373b2-6942-11ec-90d6-024200110000", "a65373b2-6942-11ec-90d6-024200110100").then(() => {
           console.log('Read Data');
 
 
@@ -525,6 +533,7 @@ const ConnectionScreen = () => {
           renderItem={({ item }) => renderItem(item)}
           keyExtractor={item => item.id}
         /> */}
+        <Text>{JSON.stringify(contextValues)}</Text>
       </SafeAreaView>
     </>
   );
