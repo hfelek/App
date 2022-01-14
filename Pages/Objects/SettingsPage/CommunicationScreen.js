@@ -31,6 +31,8 @@ var filteredAT;
 
 
 const CommunicationScreen = ({ route, navigation }) => {
+  console.log("WTF IAM HERE")
+
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
     // Success code
 
@@ -228,27 +230,16 @@ const CommunicationScreen = ({ route, navigation }) => {
       <Text>{Tag}</Text>)
   };
   const CommunicationTypeScreen = ({ route, navigation }) => {
+    
     const { Tag } = route.params;
     const {HexIndex} = route.params;  
-
+    console.log("I am Here As weLL")
     const valSystemUnits = Values.filter(row => row.Tag == "Communication")[0].menu;
     const val = valSystemUnits.filter(row => row.Tag == 'Communication Type');
     const possibleValues = val[0].PossibleValues;
     const [selection, setSelection] = React.useState(val[0].Value);
     var myBuffer = [];
-    if (Platform.OS === 'android') {
-      BleManager.requestMTU(peripheralID, 512)
-          .then((mtu) => {
-              // Success code
-              console.log()
-              console.log("MTU size changed to " + mtu + " bytes");
-          })
-          .catch((error) => {
-              // Failure code
-              console.log("Error kodu")
-              console.log(error);
-          });
-   };
+
     
     
     function ItemSelectable(title) {

@@ -88,7 +88,7 @@ const ApplicationTagScreen = () => {
         {/* <LenghtChecker lenght={32} /> */}
         {(contextConfigurationValues["18"] !=  text) &&
         <Button
-        onPress={() =>{ HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",`{"Tag":"Communication", "Set Parameters": {"18":"${text}"}}`,contextConfigurationValues)}} 
+        onPress={() =>{ HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",`{"Tag":"Identification", "Set Parameters": {"18":"${text}"}}`,contextConfigurationValues)}} 
         title="Save"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"

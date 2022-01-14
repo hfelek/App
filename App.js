@@ -76,6 +76,18 @@ App = ({route,Navigator}) => {
     const newState = { ...configurationValues, [ISDUIndex]:Value };
     setConfigurationValues(newState);
   }
+  function setValueTotal(object) {
+    console.log(object)
+    // const newObject =JSON.parse(`{"${ISDUIndex}":"${Value}"}`)
+    // console.log(`{"${ISDUIndex}":${Value}}`) 
+    const newState = { ...configurationValues};
+    for (const property in object) {
+      newState[property]=object[property]
+      console.log(`${property}: ${object[property]}`);
+    }
+    setConfigurationValues(newState);
+  }
+  
   function setSensorValue(Value) {
     // console.log(ISDUIndex)
     // const newObject =JSON.parse(`{"${ISDUIndex}":"${Value}"}`)
@@ -88,7 +100,8 @@ App = ({route,Navigator}) => {
 
 
   const contextConfigurationValuesSetters = {
-     setValueByKey
+     setValueByKey,
+     setValueTotal
   }
   const contextSensorValuesSetters = {
     setSensorValue    

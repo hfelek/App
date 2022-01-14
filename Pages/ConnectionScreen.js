@@ -43,25 +43,20 @@ function printCoordinate (){
 }
 // let consoleobject = printCoordinate.bind(storageObject)
 
-let configurationCharacteristicsMap = new Map();
-configurationCharacteristicsMap.set("Identification", { "ServiceUUID": "A65373B2-6942-11EC-90D6-024200130000", "CharacteristicUUID": "A65373B2-6942-11EC-90D6-024200130100" })
-configurationCharacteristicsMap.set("Diagnostics", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130200" })
-configurationCharacteristicsMap.set("Measured Values", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130300" })
-configurationCharacteristicsMap.set("System Units", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130400" })
-configurationCharacteristicsMap.set("Conductivity", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130500" })
-configurationCharacteristicsMap.set("Concentration", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130600" })
-
+let notifyCharacteristicsMap = new Map();
+notifyCharacteristicsMap.set("Identification", { "ServiceUUID": "A65373B2-6942-11EC-90D6-024200130000", "CharacteristicUUID": "A65373B2-6942-11EC-90D6-024200130100" })
+notifyCharacteristicsMap.set("Diagnostics", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130200" })
+notifyCharacteristicsMap.set("Measured Values", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130300" })
+notifyCharacteristicsMap.set("System Units", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130400" })
+notifyCharacteristicsMap.set("Conductivity", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130500" })
+notifyCharacteristicsMap.set("Concentration", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130600" })
 ///buradan itibaren ikinci serviste yer alıyor
-configurationCharacteristicsMap.set("Output1", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200140700" })
-configurationCharacteristicsMap.set("Output2", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200140800" })
-configurationCharacteristicsMap.set("Display", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200140900" })
-configurationCharacteristicsMap.set("Communication", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200141000" })
-configurationCharacteristicsMap.set("System", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200141100" })
-let sensorValuesCharecteristicMap = new Map();
-sensorValuesCharecteristicMap.set("Output1", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200110000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-0242a0110100" })
-
-let notitfyValueCharacteristicMap = new Map();
-notitfyValueCharacteristicMap.set("Notify", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200150000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-0242a0150100" })
+notifyCharacteristicsMap.set("Output1", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200140700" })
+notifyCharacteristicsMap.set("Output2", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200140800" })
+notifyCharacteristicsMap.set("Display", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200140900" })
+notifyCharacteristicsMap.set("Communication", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200141000" })
+notifyCharacteristicsMap.set("System", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200141100" })
+notifyCharacteristicsMap.set("Values",{ "ServiceUUID": "a65373b2-6942-11ec-90d6-024200110000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200110100" })
 
 // const configurationCharacteristics = [
 //                                       { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000",
@@ -146,15 +141,30 @@ const ConnectionScreen = () => {
 
   const handleUpdateValueForCharacteristic = ({ value, peripheral, characteristic, service }) => {
     // Convert bytes array to string
-    
     const data = bytesToString(value);
+    console.log("Update Has Been Made From Characteristic")
+    console.log(characteristic)
+    let parsedObject = JSON.parse(data)
+    switch(characteristic) {
+      case "a65373b2-6942-11ec-90d6-024200110100":
+        contextValues.setSensorValue(parsedObject)
+        console.log("Data Has Been Handled. Data:")
+        console.log(JSON.stringify(contextValues)) 
+        break;
 
-    contextValues.setSensorValue(JSON.parse(data))
-    console.log(typeof(contextValues));
-    console.log("notify update'e gelindi")
-    console.log(data);
-    console.log(value);
-    console.log(JSON.stringify(contextValues))
+        
+      default:
+        contextConfiguration.setValueTotal(parsedObject["menu"])
+        parsedObject["menu"]
+        console.log(parsedObject["menu"])
+
+        console.log("Data Has Been Handled. Data:")
+ 
+      
+        
+    }
+
+   
   }
 
   // const retrieveConnected = () => {
@@ -319,16 +329,26 @@ const ConnectionScreen = () => {
         console.log(peripheralInfo)
 
         //setTimeout(() => {
-
-
-        BleManager.startNotification(peripheralInfo.id, "a65373b2-6942-11ec-90d6-024200110000", "a65373b2-6942-11ec-90d6-024200110100").then(() => {
-          console.log('Read Data');
+          for (let [key, value] of notifyCharacteristicsMap) {
+            
+        BleManager.startNotification(peripheralInfo.id, value["ServiceUUID"],value["CharacteristicUUID"]).then(() => {
+          console.log('Notification Succesfull for' + JSON.stringify(value));
 
 
         }).catch((error) => {
           console.log('Notification error', error);
         });
+        }
+            
+            
 
+        // BleManager.startNotification(peripheralInfo.id, "a65373b2-6942-11ec-90d6-024200110000", "a65373b2-6942-11ec-90d6-024200110100").then(() => {
+        //   console.log('Read Data');
+
+
+        // }).catch((error) => {
+        //   console.log('Notification error', error);
+        // });
 
         // }, 1000);
 
