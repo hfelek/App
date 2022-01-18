@@ -14,6 +14,7 @@ import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 const Buffer = require('buffer/').Buffer;
 import { useNavigation } from '@react-navigation/native';
+import { ScrollView } from 'react-native-gesture-handler';
 const renderItem = ({ item, navigation, context = null }) => (
   Item(item.Tag, item.Value, navigation, context = context)
 );
@@ -118,8 +119,34 @@ const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value
     console.log(setParameters)
 
     for (const item in setParameters) {
+      console.log("item")
+      console.log(item)
+      console.log(JSON.stringify(setParameters[item]))
       context.setValueByKey(item, setParameters[item])
     }
+    // AlertLocal()
+    Alert.alert("Configuration Successfull!")
+  })
+    .catch((error) => {
+      // Failure code
+      Alert.alert("Couldn't Handle Configuration. Please, Check Your Connection!")
+
+      console.log("error")
+      console.log(error);
+    });///////////Here Writes to the BLE Peripheral
+
+  console.log("In Button Function")
+  ///If anything else is to be done, it will be done here!
+}
+const HandleWriteCommandGroup = (peripheralId, serviceUUID, characteristicUUID, value, context, maxbytesize = 512) => {
+
+  BleManager.write(peripheralId, serviceUUID, characteristicUUID, BufferArray(value), maxbytesize).then(() => {
+    console.log("data written")
+    // Command is written from BLEAPP to ESP32, Global Object in APP will be changed
+    let setParameters = JSON.parse(value)["Set Parameters"]
+    console.log(setParameters)
+
+    context.setValueTotal(setParameters)
     // AlertLocal()
     Alert.alert("Configuration Successfull!")
   })
@@ -161,10 +188,21 @@ function Item(title, value, navigation = null, context = null) {
         </TouchableOpacity>
       )
     case 'Communication Type':
+      if(context["C8"]=="0"){
+        val="Off"
+      }else if  
+       (context["C8"]=="1"){
+        val="Bluetooth"
+      }
+      else if  
+       (context["C8"]=="2"){
+        val="WiFi"
+      }
+
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Communication Type', { Tag: title, HexIndex: "C8" })}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+          <Text style={styles.value}>{val}</Text>
         </TouchableOpacity>
       )
     case 'Bluetooth Function':
@@ -225,38 +263,38 @@ function Item(title, value, navigation = null, context = null) {
       val = context["D0"] == "0" ? "Manual" : "DHCP"
 
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title, HexIndex: "D0", name: title })}>
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configure IPv4', { Tag: title, HexIndex: "D0", name: title })}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.value}>{val}</Text>
         </TouchableOpacity>
       )
     case 'IP Address':
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title, HexIndex: "D1", name: title })}>
+        <View style={styles.itemButton} >
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.value}>{context["D1"]}</Text>
-        </TouchableOpacity>
+        </View>
       )
     case 'Router Adress':
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title, HexIndex: "D3", name: title })}>
+        <View style={styles.itemButton} >
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.value}>{context["D3"]}</Text>
-        </TouchableOpacity>
+        </View>
       )
     case 'Subnet Address':
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('IP Screen', { Tag: title, HexIndex: "D2", name: title })}>
+        <View style={styles.itemButton}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.value}>{context["D2"]}</Text>
-        </TouchableOpacity>
+        </View>
       )
 
     default:
       return (
         <View style={styles.item}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{context}</Text>
+          <Text style={styles.value}>{null}</Text>
         </View>
 
       )
@@ -267,35 +305,115 @@ function IPHANDLER(IP) {
   var splitParts = IP.split(".");
 
   if (splitParts.length != 4) {
-    Alert.alert("Please Enter a Valid IP Adress!"," IP addresses are expressed as a set of four numbers!")
+    Alert.alert("Please Enter a Valid IP Adress!", " IP addresses are expressed as a set of four numbers!")
     return (false)
   }
-  let i =0
+  let i = 0
   try {
     for (const element of splitParts) {
       console.log(element)
-      if (parseInt(element)<256 && parseInt(element)>-1){
+      if (parseInt(element) < 256 && parseInt(element) > -1) {
         i++
       }
     }
-    if (i==4){
+    if (i == 4) {
       console.log(i)
       return true
 
     }
-    else{
-      Alert.alert("Please Enter a Valid IP Adress!","Each number in the set can range from 0 to 255!")
+    else {
+      Alert.alert("Please Enter a Valid IP Adress!", "Each number in the set can range from 0 to 255!")
       return false
     }
 
   }
   catch (err) {
-  console.log(err)
-  Alert.alert("Please Enter a Valid IP Adress!")
+    console.log(err)
+    Alert.alert("Please Enter a Valid IP Adress!")
 
-  return(false)
+    return (false)
   }
 }
+function dec2bin(dec) {
+  return (dec >>> 0).toString(2);
+}
+function inverter(num) {
+  if (num == 0) {
+    return 255
+  }
+  else {
+    return (~num)
+  }
+}
+function IPCOMPARATOR(ip, subnet, router) {
+
+
+
+  try {
+    var splitPartsip = ip.split(".");
+    var splitPartssubnet = subnet.split(".");
+    var splitPartsrouter = router.split(".");
+    let total = 0
+    const arr = [0, 1, 2, 3]
+
+    for (let index = 0; index < arr.length; index++) {
+      console.log("iteration")
+      console.log(index)
+      let ip1 = parseInt(splitPartsip[index])
+      let subnet1 = parseInt(splitPartssubnet[index])
+      let router1 = parseInt(splitPartsrouter[index])
+      console.log("ip1")
+      console.log(ip1)
+      console.log("subnet1")
+      console.log(subnet1)
+      console.log("router1")
+      console.log(router1)
+
+
+      let comparison = 255 - (ip1 ^ router1)
+      console.log("comparison")
+      console.log(comparison)
+
+      let subnetcomaparison = comparison & subnet1
+      console.log("subnetcomaparison")
+      console.log(subnetcomaparison)
+
+      if (subnetcomaparison == subnet1) {
+        console.log("subnetcomaparison")
+
+        console.log(subnetcomaparison)
+        console.log("subnet1")
+
+        console.log(subnet1)
+        total++
+        // return(true)
+      }
+      else {
+        Alert.alert("IP Adress, Subnet Mask and Router IP should be valid!")
+        // return (false)
+      }
+    }
+    if (total == 4) {
+      console.log(total)
+      return (true)
+    }
+    else {
+      Alert.alert("IP Adress, Subnet Mask and Router IP should be valid!")
+      return (false)
+    }
+
+    // {
+    //   Alert.alert("Please Enter a Valid IP Adress!","Each number in the set can range from 0 to 255!")
+    //   return false
+    // }
+
+  }
+  catch (err) {
+    console.log(err)
+    return (false)
+  }
+}
+
 
 const IPScreen = ({ route, navigation }) => {
   const context = useContext(ContextConfigurationValues)
@@ -311,21 +429,6 @@ const IPScreen = ({ route, navigation }) => {
 
   const [text1, setText1] = React.useState(context[HexIndex]);
 
-  function IPHandle(IP123) {
-    //  console.log( "asfas1232145112..41251123124".replaceAll("[^0-9.,]"))
-    var returnValIP = IP123.replace('\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b');
-    // console.log(IP123)
-    // console.log("IP123")
-    // console.log(returnValIP)
-    // console.log("returnValIP")
-
-    // console.log(typeof(IP123))
-    // console.log("typeof(IP123)")
-
-    // setText(IP)
-    // return (returnValIP)
-
-  }
 
   return (
     <View>
@@ -347,8 +450,9 @@ const IPScreen = ({ route, navigation }) => {
         <Button
           onPress={() => {
 
-            if(IPHANDLER(text1)){
-            HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${HexIndex}":"${text1}"}}`, context)}
+            if (IPHANDLER(text1)) {
+              HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${HexIndex}":"${text1}"}}`, context)
+            }
           }}
           title="Save"
           color="#841584"
@@ -412,6 +516,151 @@ const BluetoothFunctionScreen = ({ route, navigation }) => {
         renderItem={renderItemSelectable}
         keyExtractor={item => item.Tag}
       />
+    </SafeAreaView>
+  );
+};
+const IPV4 = ({ route, navigation }) => {
+  const { Tag } = route.params;
+  const { HexIndex } = route.params;
+
+  const enumWifi = { "0": "Manual", "1": "DHCP" }
+
+
+
+
+  const context = useContext(ContextConfigurationValues)
+  const [IPAdress, setIPAdress] = React.useState(context["D1"]);
+  const [subnetAdress, setSubnetAdress] = React.useState(context["D2"]);
+  const [routerAdress, setRouterAdress] = React.useState(context["D3"]);
+
+  // useEffect(() => {
+  //   navigation.setOptions({ title: Tag })
+  // });
+  const valSystemUnits = Values.filter(row => row.Tag == 'Communication')[0];
+  const subTitle = valSystemUnits.menu.filter(row => row.Tag == "WiFi")[0];
+  const val = subTitle.menu.filter(row => row.Tag == Tag);
+  const possibleValues = val[0].PossibleValues;
+  const [selection, setSelection] = React.useState(enumWifi[context[HexIndex]]);
+  function ItemSelectable(title) {
+
+    return (
+      <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
+        {CheckButtoned(selection, title)}
+      </TouchableOpacity>
+    )
+  }
+  const renderItemSelectable = ({ item }) => (
+    ItemSelectable(item.Tag, item.Value)
+  );
+  useEffect(() => {
+
+    if ((selection =="DHCP") && ("Manual"==enumWifi[context[HexIndex]])) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={() => {
+                      HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${HexIndex}":"1"}}`, context)
+            }
+            }>
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+      });
+    }
+    else if ((selection =="Manual") && ((IPAdress!=context["D1"])||(subnetAdress!=context["D2"])||(routerAdress!=context["D3"]))) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={() => {
+                      if(IPHANDLER(IPAdress)){
+                      if(IPHANDLER(subnetAdress)){
+                      if(IPHANDLER(routerAdress)){
+                      if(IPCOMPARATOR(IPAdress,subnetAdress,routerAdress)){
+
+                      HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters":{"D1":"${IPAdress}","D2":"${subnetAdress}","D3":"${routerAdress}","D0":"0"}}`, context)
+            }}}}}
+            }>
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+      });
+    }
+  });
+  return (
+    <SafeAreaView style={styles.containerIPv4}>
+      <FlatList
+        data={possibleValues}
+        renderItem={renderItemSelectable}
+        keyExtractor={item => item.Tag}
+      />
+      {selection == "Manual" && (
+        <ScrollView style={{ paddingTop: 0, backgroundColor: "#ffffff" }}>
+          <Text style={styles.myText}>Configure Your Connection IPs Manually</Text>
+          <TextInput
+            label={"Set Your  WiFi " + "Static IP Adress"}
+            value={IPAdress}
+            selectionColor='#000'
+            underlineColor='#000'
+            activeOutlineColor='#000'
+            style={{ backgroundColor: "white" }}
+            outlineColor='#000'
+            keyboardType="numeric"
+            // activeUnderlineColor='#000'
+            error={false}
+            right={<TextInput.Icon name="close-circle-outline" onPress={text => setText1("")} />}
+            onChangeText={textwritten => setIPAdress(textwritten)}
+          />
+          <TextInput
+            label={"Set Your  WiFi " + "Static Subnet Adress"}
+            value={subnetAdress}
+            style={{ backgroundColor: "white" }}
+            selectionColor='#000'
+            underlineColor='#000'
+            activeOutlineColor='#000'
+            outlineColor='#000'
+            keyboardType="numeric"
+            // activeUnderlineColor='#000'
+            error={false}
+            right={<TextInput.Icon name="close-circle-outline" onPress={text => setSubnetAdress("")} />}
+            onChangeText={textwritten => setSubnetAdress(textwritten)}
+          />
+          <TextInput
+            label={"Set Your  WiFi " + "Static Router IP Adress"}
+            value={routerAdress}
+            style={{ backgroundColor: "white" }}
+            selectionColor='#000'
+            underlineColor='#000'
+            activeOutlineColor='#000'
+            outlineColor='#000'
+            keyboardType="numeric"
+            // activeUnderlineColor='#000'
+            error={false}
+            right={<TextInput.Icon name="close-circle-outline" onPress={text => setRouterAdress("")} />}
+            onChangeText={textwritten => setRouterAdress(textwritten)}
+          />
+
+        </ScrollView>
+
+      )
+
+
+      }
+
+
+
+
+
     </SafeAreaView>
   );
 };
@@ -546,22 +795,67 @@ const SSIDScreen = ({ route, navigation }) => {
     </View>
   );
 };
-const CommunicationMainScreen = ({ navigation }) => (
-
+const CommunicationMainScreen = ({ navigation }) => {
+  const context = useContext(ContextConfigurationValues)
+  return(
   <SafeAreaView style={styles.container}>
     <FlatList
       data={MenuParams}
-      renderItem={({ item, index, separators }) => (renderItem({ item, navigation }))}
+      renderItem={({ item, index, separators }) => (renderItem({ item, navigation,context }))}
       keyExtractor={item => item.Tag}
     />
-  </SafeAreaView>
-)
+  </SafeAreaView>)
+}
+const PasswordScreen = ({ route, navigation }) => {
+  const context = useContext(ContextConfigurationValues)
+  const { Tag } = route.params;
+  const { HexIndex } = route.params;
+  // useEffect(() => {
+  //   navigation.setOptions({ title: Tag })
+  // });
+  // const filtered = Values.filter(row => row.Tag == 'Communication');
+  // const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
+  // const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
+
+  const [text, setText] = React.useState("");
+
+
+  return (
+    <View>
+      <TextInput
+        label={"Set Your WiFi " + Tag}
+        value={text}
+        selectionColor='#000'
+        underlineColor='#000'
+        activeOutlineColor='#000'
+        outlineColor='#000'
+        secureTextEntry={true}
+        // keyboardType="numeric"
+        // activeUnderlineColor='#000'
+        error={false}
+        right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
+        onChangeText={text => setText(text)}
+      />
+      {/* <LenghtChecker lenght={32} /> */}
+      {text.length > 8 &&
+        <Button
+          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${HexIndex}":"${text}"}}`,context) }} title="Save"
+          title="Save"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
+        />}
+      {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
+      {/* <MaskedInput {...props} /> */}
+
+    </View>
+  );
+};
 
 const CommunicationScreen = ({ route, navigation }) => {
 
 
   const contextConfigurationValues = useContext(ContextConfigurationValues)
-  console.log("WTF IAM HERE")
+  console.log("IAM HERE")
 
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
 
@@ -585,24 +879,24 @@ const CommunicationScreen = ({ route, navigation }) => {
 
 
 
-  const BluetoothSettingsScreen = ({ route, navigation }) => {
-    const { Tag } = route.params;
-    const { HexIndex } = route.params;
-    // useEffect(() => {
-    //   navigation.setOptions({ title: Tag })
-    // });
-    return (
-      <Text>{Tag}</Text>)
-  };
-  const WiFiSettingsScreen = ({ route, navigation }) => {
-    const { Tag } = route.params;
-    const { HexIndex } = route.params;
-    //  useEffect(() => {
-    //   navigation.setOptions({ title: Tag })
-    // });
-    return (
-      <Text>{Tag}</Text>)
-  };
+  // const BluetoothSettingsScreen = ({ route, navigation }) => {
+  //   const { Tag } = route.params;
+  //   const { HexIndex } = route.params;
+  //   // useEffect(() => {
+  //   //   navigation.setOptions({ title: Tag })
+  //   // });
+  //   return (
+  //     <Text>{Tag}</Text>)
+  // };
+  // const WiFiSettingsScreen = ({ route, navigation }) => {
+  //   const { Tag } = route.params;
+  //   const { HexIndex } = route.params;
+  //   //  useEffect(() => {
+  //   //   navigation.setOptions({ title: Tag })
+  //   // });
+  //   return (
+  //     <Text>{Tag}</Text>)
+  // };
 
 
   // function IPParse(Ip){
@@ -612,49 +906,7 @@ const CommunicationScreen = ({ route, navigation }) => {
 
 
 
-  const PasswordScreen = ({ route, navigation }) => {
-    const { Tag } = route.params;
-    const { HexIndex } = route.params;
-    // useEffect(() => {
-    //   navigation.setOptions({ title: Tag })
-    // });
-    // const filtered = Values.filter(row => row.Tag == 'Communication');
-    // const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
-    // const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
 
-    const [text, setText] = React.useState("");
-
-
-    return (
-      <View>
-        <TextInput
-          label={"Set Your WiFi " + Tag}
-          value={text}
-          selectionColor='#000'
-          underlineColor='#000'
-          activeOutlineColor='#000'
-          outlineColor='#000'
-          secureTextEntry={true}
-          // keyboardType="numeric"
-          // activeUnderlineColor='#000'
-          error={false}
-          right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
-          onChangeText={text => setText(text)}
-        />
-        {/* <LenghtChecker lenght={32} /> */}
-        {text.length > 8 &&
-          <Button
-            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${HexIndex}':'${text}'}}`)) }} title="Save"
-            title="Save"
-            color="#841584"
-            accessibilityLabel="Learn more about this purple button"
-          />}
-        {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
-        {/* <MaskedInput {...props} /> */}
-
-      </View>
-    );
-  };
 
 
   const WifiScreen = ({ navigation }) => {
@@ -685,8 +937,10 @@ const CommunicationScreen = ({ route, navigation }) => {
       <StackCommunication.Screen name='Bluetooth' component={BluetoothScreen} />
       <StackCommunication.Screen name='WiFi' component={WifiScreen} />
       <StackCommunication.Screen name='Communication Type' component={CommunicationTypeScreen} />
-      <StackCommunication.Screen name='Bluetooth Settings Screen' component={BluetoothSettingsScreen} />
-      <StackCommunication.Screen name='WiFi Settings Screen' component={WiFiSettingsScreen} />
+      {/* <StackCommunication.Screen name='Bluetooth Settings Screen' component={BluetoothSettingsScreen} /> */}
+      {/* <StackCommunication.Screen name='WiFi Settings Screen' component={WiFiSettingsScreen} /> */}
+      <StackCommunication.Screen name='Configure IPv4' component={IPV4} options={({ route }) => ({ headerTitle: route.params.name })} />
+
       <StackCommunication.Screen name='Bluetooth Function' component={BluetoothFunctionScreen} />
       <StackCommunication.Screen name='WiFi Function' component={WiFiFunctionScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
       <StackCommunication.Screen name='IP Screen' component={IPScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
@@ -710,11 +964,22 @@ const styles = StyleSheet.create({
     // marginTop: StatusBar.currentHeight || 0,
     paddingTop: 0,
   },
+  containerIPv4: {
+
+    justifyContent: "center", // 
+    padding: 0,
+    // alignItems:"flex-end",
+    // alignContent:"flex-start",
+    // marginTop: StatusBar.currentHeight || 0,
+    paddingTop: 0,
+  },
   item: {
     backgroundColor: '#ffffff',
     padding: 8,
     flexDirection: 'column',
     paddingTop: 0,
+    borderTopColor: 'black',
+    borderTopWidth: StyleSheet.hairlineWidth,
     borderBottomColor: 'black',
     borderBottomWidth: StyleSheet.hairlineWidth,
 
@@ -739,7 +1004,7 @@ const styles = StyleSheet.create({
   },
   myText: {
     color: 'black',
-    fontSize: 25,
+    fontSize: 19,
     textAlign: 'center'
   },
   buttonBar: {
