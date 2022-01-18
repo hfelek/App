@@ -31,6 +31,7 @@ import Output2Screen from './Objects/SettingsPage/Output2'
 import DisplayScreen from './Objects/SettingsPage/Display'
 import CommunicationScreen from './Objects/SettingsPage/CommunicationScreen'
 import SystemScreen from './Objects/SettingsPage/System'
+import ConfigurationScreen from './Objects/SettingsPage/Configuration'
 
 
 let peripheralID = null
@@ -102,6 +103,8 @@ console.log("I am here Settings Screen")
       <StackSettings.Navigator screenOptions={{ headerShown: false }}>
         <StackSettings.Screen name='SettingsMain' component={SettingsMainScreen} />
         <StackSettings.Screen name='Identification' component={IdentificationScreen} />
+        <StackSettings.Screen name='Configuration' component={ConfigurationScreen} />
+
         <StackSettings.Screen name='Diagnostics' component={DiagnosticsScreen} />
         <StackSettings.Screen name='Measured Values' component={MeasuredValuesScreen} />
         <StackSettings.Screen name='Conductivity' component={ConductivityScreen} />
@@ -111,6 +114,7 @@ console.log("I am here Settings Screen")
         <StackSettings.Screen name='Display' component={DisplayScreen} />
         <StackSettings.Screen name='Communication' component={CommunicationScreen} />
         <StackSettings.Screen name='System Units' component={SystemUnitsScreen} />
+
         <StackSettings.Screen name='System' component={SystemScreen} />
       </StackSettings.Navigator>
     );

@@ -69,6 +69,47 @@
         ]
     },
     {
+        "Tag": "Configuration",
+        "Icon": "ios-build-outline",
+        "menu": [{
+                "Tag": "Active Configuration",
+                "Access": "R",
+                "Value": "0",
+                "PossibleValues": [{
+                        "Tag": "Configuration 1",
+                        "Enum": "0"
+                    },
+                    {
+                        "Tag": "Configuration 2",
+                        "Enum": "1"
+                    },
+                    {
+                        "Tag": "Configuration 3",
+                        "Enum": "2"
+                    },
+                    {
+                        "Tag": "Configuration 4",
+                        "Enum": "3"
+                    }
+                ]
+            },
+            {
+                "Tag": "Reference Temperature",
+                "Access": "R",
+                "Value": "0",
+                "PossibleValues": [{
+                        "Tag": "°C",
+                        "Enum": "0"
+                    },
+                    {
+                        "Tag": "°F",
+                        "Enum": "1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "Tag": "Diagnostics",
         "Icon": "md-pulse-outline",
         "menu": [{
@@ -163,7 +204,6 @@
                     },
                     {
                         "Tag": "NaOH",
-
                         "Enum": 1
                     },
                     {
@@ -467,11 +507,12 @@
                 "Access": "R",
                 "Value": "NaOH Low",
                 "Menu": [{
-                    "Tag": "NaOH High"
-
-                }, {
-                    "Tag": "NaOH Low"
-                }]
+                        "Tag": "NaOH High"
+                    },
+                    {
+                        "Tag": "NaOH Low"
+                    }
+                ]
             }
         ]
     },
@@ -869,6 +910,7 @@
             ]
         }]
     },
+
     {
         "Tag": "Communication",
         "Icon": "md-radio",
