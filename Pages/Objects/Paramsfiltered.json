@@ -96,7 +96,7 @@
                 ]
             },
             {
-                "Tag": "Simulation Process Variable Value Conducticity",
+                "Tag": "Simulation Process Variable Value Conductivity",
                 "Access": "R",
                 "Value": "10"
             },
@@ -958,11 +958,11 @@
                         "Value": "Access Point Mode",
                         "PossibleValues": [{
                                 "Tag": "Access Point Mode",
-                                "Enum": 0
+                                "Enum": 1
                             },
                             {
                                 "Tag": "Station Mode",
-                                "Enum": 1
+                                "Enum": 0
                             }
                         ]
                     },
@@ -1000,7 +1000,7 @@
                         "Value": "15"
                     },
                     {
-                        "Tag": "Router",
+                        "Tag": "Router Adress",
                         "Access": "R/W",
                         "Value": "15",
                         "Limit": "100"
