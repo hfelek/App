@@ -26,7 +26,7 @@ var filtered = Values.filter(row => row.Tag == 'Display');
 var filteredAT = filtered.filter(row => row.Tag == 'Backlight');
 
 
-const DisplayScreen = ({ route, navigation }) => {
+const ConfigurationScreen = ({ route, navigation }) => {
     BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
         // Success code
 
@@ -39,11 +39,11 @@ const DisplayScreen = ({ route, navigation }) => {
 
     function Item(title, value) {
         switch (title) {
-            case 'Backlight':
+            case 'Active Configuration':
                 return ( <
                     TouchableOpacity style = { styles.itemButton }
                     onPress = {
-                        () => navigation.navigate('Backlight', { Tag: title, Value: value }) } >
+                        () => navigation.navigate('Active Configuration', { Tag: title, Value: value }) } >
                     <
                     Text style = { styles.title } > { title } < /Text> <
                     Text style = { styles.value } > { value } < /Text> <
@@ -107,7 +107,7 @@ const DisplayScreen = ({ route, navigation }) => {
 
 
 
-    const DisplayMainScreen = ({ navigation }) => (
+    const ConfigurationMainScreen = ({ navigation }) => (
 
         <
         SafeAreaView style = { styles.container } >
@@ -180,13 +180,13 @@ const DisplayScreen = ({ route, navigation }) => {
         StackDisplay.Navigator screenOptions = {
             { headerShown: true, headerTitleAlign: 'center' } } >
         <
-        StackDisplay.Screen name = 'Display Main'
-        component = { DisplayMainScreen }
+        StackDisplay.Screen name = 'Configuration Main'
+        component = { ConfigurationMainScreen }
         options = {
             { headerTitle: "Display" } }
         /> <
-        StackDisplay.Screen name = 'Backlight'
-        component = { BacklightScreen }
+        StackDisplay.Screen name = 'Active Configuration'
+        component = { ConfigurationScreen }
         /> <
         /StackDisplay.Navigator>
 
