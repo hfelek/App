@@ -111,7 +111,7 @@
     },
     {
         "Tag": "Diagnostics",
-        "Icon": "md-pulse-outline",
+        "Icon": "map-outline",
         "menu": [{
                 "Tag": "Actual Diagnostics",
                 "Access": "R",
@@ -1002,7 +1002,7 @@
     },
     {
         "Tag": "Temperature Coefficient Non-Linear",
-        "Icon": "git-branch-outline",
+        "Icon": "pulse-outline",
         "menu": [{
                 "Tag": "Configuration 1",
                 "menu": [{
@@ -1310,35 +1310,1100 @@
         ]
     },
     {
-        "Tag": "Operation Mode IO",
-        "Icon": "ios-play-forward-outline",
+        "Tag": "Temperature Coefficient Custom",
+        "Icon": "document-text-outline",
         "menu": [{
-                "Tag": "Measurement Type",
-                "Access": "R",
-                "Value": "NaCl",
-                "PossibleValues": [{
-                        "Tag": "NaCl"
+                "Tag": "Configuration 1",
+                "Config": [{
+                        "Tag": "Number of Temperature Points in the Custom Table",
+                        "Value": "3",
+                        "RangeUpper": "6"
                     },
                     {
-                        "Tag": "NaOH"
+                        "Tag": "Number of Concentration Points in the Custom Table",
+                        "Value": "3",
+                        "RangeUpper": "6"
+                    }
+                ],
+                "menu": [{
+                        "Tag": "Conductivity Point 1",
+                        "Value": "0.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
                     },
                     {
-                        "Tag": "Na2SO4"
+                        "Tag": "Conductivity Point 2",
+                        "Value": "10.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
                     },
                     {
-                        "Tag": "No Function"
+                        "Tag": "Conductivity Point 3",
+                        "Value": "20.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 4",
+                        "Value": "50.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 5",
+                        "Value": "60.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 6",
+                        "Value": "70.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 7",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 8",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 9",
+                        "Value": "0.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 10",
+                        "Value": "10.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 11",
+                        "Value": "20.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 12",
+                        "Value": "50.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 13",
+                        "Value": "60.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 14",
+                        "Value": "70.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 15",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 16",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 17",
+                        "Value": "2.0",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 18",
+                        "Value": "2.1",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 19",
+                        "Value": "2.2",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 20",
+                        "Value": "2.3",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 21",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 22",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 23",
+                        "Value": "0.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 24",
+                        "Value": "10.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 25",
+                        "Value": "20.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 26",
+                        "Value": "50.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 27",
+                        "Value": "60.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 28",
+                        "Value": "70.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 29",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 30",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 31",
+                        "Value": "2.0",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 32",
+                        "Value": "2.1",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
                     }
                 ]
             },
             {
-                "Tag": "Measurement Range",
-                "Access": "R",
-                "Value": "NaOH Low",
-                "Menu": [{
-                        "Tag": "NaOH High"
+                "Tag": "Configuration 2",
+                "Config": [{
+                        "Tag": "Number of Temperature Points in the Custom Table",
+                        "Value": "3",
+                        "RangeUpper": "6"
                     },
                     {
-                        "Tag": "NaOH Low"
+                        "Tag": "Number of Concentration Points in the Custom Table",
+                        "Value": "3",
+                        "RangeUpper": "6"
+                    }
+                ],
+                "menu": [{
+                        "Tag": "Conductivity Point 1",
+                        "Value": "0.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 2",
+                        "Value": "10.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 3",
+                        "Value": "20.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 4",
+                        "Value": "50.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 5",
+                        "Value": "60.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 6",
+                        "Value": "70.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 7",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 8",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 9",
+                        "Value": "0.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 10",
+                        "Value": "10.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 11",
+                        "Value": "20.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 12",
+                        "Value": "50.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 13",
+                        "Value": "60.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 14",
+                        "Value": "70.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 15",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 16",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 17",
+                        "Value": "2.0",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 18",
+                        "Value": "2.1",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 19",
+                        "Value": "2.2",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 20",
+                        "Value": "2.3",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 21",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 22",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 23",
+                        "Value": "0.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 24",
+                        "Value": "10.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 25",
+                        "Value": "20.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 26",
+                        "Value": "50.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 27",
+                        "Value": "60.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 28",
+                        "Value": "70.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 29",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 30",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 31",
+                        "Value": "2.0",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 32",
+                        "Value": "2.1",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    }
+                ]
+            },
+            {
+                "Tag": "Configuration 3",
+                "Config": [{
+                        "Tag": "Number of Temperature Points in the Custom Table",
+                        "Value": "3",
+                        "RangeUpper": "6"
+                    },
+                    {
+                        "Tag": "Number of Concentration Points in the Custom Table",
+                        "Value": "3",
+                        "RangeUpper": "6"
+                    }
+                ],
+                "menu": [{
+                        "Tag": "Conductivity Point 1",
+                        "Value": "0.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 2",
+                        "Value": "10.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 3",
+                        "Value": "20.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 4",
+                        "Value": "50.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 5",
+                        "Value": "60.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 6",
+                        "Value": "70.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 7",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 8",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 9",
+                        "Value": "0.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 10",
+                        "Value": "10.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 11",
+                        "Value": "20.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 12",
+                        "Value": "50.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 13",
+                        "Value": "60.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 14",
+                        "Value": "70.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 15",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 16",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 17",
+                        "Value": "2.0",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 18",
+                        "Value": "2.1",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 19",
+                        "Value": "2.2",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 20",
+                        "Value": "2.3",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 21",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 22",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 23",
+                        "Value": "0.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 24",
+                        "Value": "10.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 25",
+                        "Value": "20.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 26",
+                        "Value": "50.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 27",
+                        "Value": "60.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 28",
+                        "Value": "70.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 29",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 30",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 31",
+                        "Value": "2.0",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 32",
+                        "Value": "2.1",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    }
+                ]
+            },
+            {
+                "Tag": "Configuration 4",
+                "Config": [{
+                        "Tag": "Number of Temperature Points in the Custom Table",
+                        "Value": "3",
+                        "RangeUpper": "6"
+                    },
+                    {
+                        "Tag": "Number of Concentration Points in the Custom Table",
+                        "Value": "3",
+                        "RangeUpper": "6"
+                    }
+                ],
+                "menu": [{
+                        "Tag": "Conductivity Point 1",
+                        "Value": "0.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 2",
+                        "Value": "10.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 3",
+                        "Value": "20.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 4",
+                        "Value": "50.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 5",
+                        "Value": "60.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 6",
+                        "Value": "70.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 7",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 8",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 9",
+                        "Value": "0.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 10",
+                        "Value": "10.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 11",
+                        "Value": "20.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 12",
+                        "Value": "50.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 13",
+                        "Value": "60.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 14",
+                        "Value": "70.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 15",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 16",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 17",
+                        "Value": "2.0",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 18",
+                        "Value": "2.1",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 19",
+                        "Value": "2.2",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 20",
+                        "Value": "2.3",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 21",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 22",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 23",
+                        "Value": "0.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 24",
+                        "Value": "10.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 25",
+                        "Value": "20.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 26",
+                        "Value": "50.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 27",
+                        "Value": "60.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 28",
+                        "Value": "70.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 29",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 30",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 31",
+                        "Value": "2.0",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Conductivity Point 32",
+                        "Value": "2.1",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Tag": "Operation Mode IO",
+        "Icon": "ios-play-forward-outline",
+        "menu": [{
+                "Tag": "Operation Mode IO 1",
+                "Value": "Off",
+                "PossibleValues": [{
+                        "Tag": "Current Output",
+                        "Enum": "0"
+                    },
+                    {
+                        "Tag": "Switch Output",
+                        "Enum": "1"
+                    },
+                    {
+                        "Tag": "Digital Input",
+                        "Enum": "2"
+                    },
+                    {
+                        "Tag": "Off",
+                        "Enum": "3"
+                    }
+                ],
+                "subMenu": [{
+                        "Tag": "Current Output",
+                        "Enum": "0",
+                        "menu": [{
+                            "Tag": "Output-Assign",
+                            "Value": "Off",
+                            "PossibleValues": [{
+                                    "Tag": "Off",
+                                    "Enum": "0"
+                                },
+                                {
+                                    "Tag": "Conductivitiy",
+                                    "Enum": "1"
+                                },
+                                {
+                                    "Tag": "Concentration",
+                                    "Enum": "2"
+                                },
+                                {
+                                    "Tag": "Temperature",
+                                    "Enum": "3"
+                                }
+                            ]
+                        }]
+                    },
+                    {
+                        "Tag": "Switch Output",
+                        "Enum": "1",
+                        "menu": [{
+                                "Tag": "Output Type",
+                                "value": "P-Switching",
+                                "PossibleValues": [{
+                                        "Tag": "P-Switching",
+                                        "Enum": "0"
+                                    },
+                                    {
+                                        "Tag": "N-Switching",
+                                        "Enum": "1"
+                                    },
+                                    {
+                                        "Tag": "Push-Pull",
+                                        "Enum": "2"
+                                    }
+                                ]
+                            },
+                            {
+                                "Tag": "Output-Assign",
+                                "Value": "",
+                                "PossibleValues": [{
+                                        "Tag": "Off",
+                                        "Enum": "0"
+                                    },
+                                    {
+                                        "Tag": "Conductivitiy",
+                                        "Enum": "1"
+                                    },
+                                    {
+                                        "Tag": "Concentration",
+                                        "Enum": "2"
+                                    },
+                                    {
+                                        "Tag": "Temperature",
+                                        "Enum": "3"
+                                    }
+                                ]
+                            },
+                            {
+                                "Tag": "Function",
+                                "Value": "Off",
+                                "PossibleValues": [{
+                                        "Tag": "Alarm",
+                                        "Enum": "0"
+                                    },
+                                    {
+                                        "Tag": "Off",
+                                        "Enum": "1"
+                                    },
+                                    {
+                                        "Tag": "On",
+                                        "Enum": "2"
+                                    },
+                                    {
+                                        "Tag": "Limit Conductivity",
+                                        "Enum": "3"
+                                    },
+                                    {
+                                        "Tag": "Limit Concentration",
+                                        "Enum": "4"
+                                    },
+                                    {
+                                        "Tag": "Limit Temperature",
+                                        "Enum": "5"
+                                    },
+                                    {
+                                        "Tag": "Window Conductivity",
+                                        "Enum": "6"
+                                    },
+                                    {
+                                        "Tag": "Window Concentration",
+                                        "Enum": "7"
+                                    },
+                                    {
+                                        "Tag": "Window Temperature",
+                                        "Enum": "8"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Tag": "Operation Mode IO 2",
+                "Value": "Off",
+                "PossibleValues": [{
+                        "Tag": "Current Output",
+                        "Enum": "0"
+                    },
+                    {
+                        "Tag": "Switch Output",
+                        "Enum": "1"
+                    },
+                    {
+                        "Tag": "IO-LINK",
+                        "Enum": "2"
+                    },
+                    {
+                        "Tag": "Off",
+                        "Enum": "3"
+                    }
+                ],
+                "subMenu": [{
+                        "Tag": "Current Output",
+                        "Enum": "0",
+                        "menu": [{
+                            "Tag": "Output-Assign",
+                            "Value": "Off",
+                            "PossibleValues": [{
+                                    "Tag": "Off",
+                                    "Enum": "0"
+                                },
+                                {
+                                    "Tag": "Conductivitiy",
+                                    "Enum": "1"
+                                },
+                                {
+                                    "Tag": "Concentration",
+                                    "Enum": "2"
+                                },
+                                {
+                                    "Tag": "Temperature",
+                                    "Enum": "3"
+                                }
+                            ]
+                        }]
+                    },
+                    {
+                        "Tag": "Switch Output",
+                        "Enum": "1",
+                        "menu": [{
+                                "Tag": "Output Type",
+                                "value": "P-Switching",
+                                "PossibleValues": [{
+                                        "Tag": "P-Switching",
+                                        "Enum": "0"
+                                    },
+                                    {
+                                        "Tag": "N-Switching",
+                                        "Enum": "1"
+                                    },
+                                    {
+                                        "Tag": "Push-Pull",
+                                        "Enum": "2"
+                                    }
+                                ]
+                            },
+                            {
+                                "Tag": "Output-Assign",
+                                "Value": "",
+                                "PossibleValues": [{
+                                        "Tag": "Off",
+                                        "Enum": "0"
+                                    },
+                                    {
+                                        "Tag": "Conductivitiy",
+                                        "Enum": "1"
+                                    },
+                                    {
+                                        "Tag": "Concentration",
+                                        "Enum": "2"
+                                    },
+                                    {
+                                        "Tag": "Temperature",
+                                        "Enum": "3"
+                                    }
+                                ]
+                            },
+                            {
+                                "Tag": "Function",
+                                "Value": "Off",
+                                "PossibleValues": [{
+                                        "Tag": "Alarm",
+                                        "Enum": "0"
+                                    },
+                                    {
+                                        "Tag": "Off",
+                                        "Enum": "1"
+                                    },
+                                    {
+                                        "Tag": "On",
+                                        "Enum": "2"
+                                    },
+                                    {
+                                        "Tag": "Limit Conductivity",
+                                        "Enum": "3"
+                                    },
+                                    {
+                                        "Tag": "Limit Concentration",
+                                        "Enum": "4"
+                                    },
+                                    {
+                                        "Tag": "Limit Temperature",
+                                        "Enum": "5"
+                                    },
+                                    {
+                                        "Tag": "Window Conductivity",
+                                        "Enum": "6"
+                                    },
+                                    {
+                                        "Tag": "Window Concentration",
+                                        "Enum": "7"
+                                    },
+                                    {
+                                        "Tag": "Window Temperature",
+                                        "Enum": "8"
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
             }
