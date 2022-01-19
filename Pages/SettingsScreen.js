@@ -34,6 +34,7 @@ import SystemScreen from './Objects/SettingsPage/System'
 import ConfigurationScreen from './Objects/SettingsPage/Configuration'
 import TemperatureCoeffNonLinearScreen from './Objects/SettingsPage/TemperatureCoeffNonLinear'
 import TemperatureCoeffLinearScreen from './Objects/SettingsPage/TemperatureCoeffLinear'
+import TemperatureCoeffCustomScreen from './Objects/SettingsPage/TemperatureCoeffCustom'
 
 let peripheralID = null
 
@@ -109,6 +110,7 @@ console.log("I am here Settings Screen")
         <StackSettings.Screen name='Measured Values' component={MeasuredValuesScreen} />
         <StackSettings.Screen name='Temperature Coefficient Non-Linear' component={TemperatureCoeffNonLinearScreen} />
         <StackSettings.Screen name='Temperature Coefficient Linear' component={TemperatureCoeffLinearScreen} />
+        <StackSettings.Screen name='Temperature Coefficient Custom' component={TemperatureCoeffCustomScreen} />
 
         <StackSettings.Screen name='Conductivity Input' component={ConductivityScreen} />
         <StackSettings.Screen name='Concentration' component={ConcentrationScreen} />

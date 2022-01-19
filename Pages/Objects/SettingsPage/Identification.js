@@ -21,7 +21,22 @@ var filteredAT;
 
 const IdentificationParams = Paramsfiltered.find(IdentificationParams => IdentificationParams.Tag === "Identification");
 const MenuParams = IdentificationParams.menu;
-
+const ITEMSINPAGE = {
+  "Application Tag":"18",
+  "Device Name":"12",
+  "Device ID1":"09",
+   "Device ID2":"0A",
+  "Device ID3":"0B",
+  "Vendor Name":"10",
+  "Vendor ID1":"07",
+  "Vendor ID2":"08",
+  "Device Serial No":"15",
+  "Hardware Version":"16",
+  "Firmware Version":"17",
+  "Order Code":"41",
+  "Device Type":"42",
+  "User Role":"43"
+}
 let peripheralID='0'
 const AlertLocal =() => {
   console.log("I am Here")
@@ -33,37 +48,37 @@ const AlertLocal =() => {
   })
   )
 }
+const HandleWriteCommand = (peripheralId,serviceUUID,characteristicUUID,value,context,maxbytesize=512)=>{
+  
+  BleManager.write(peripheralId,serviceUUID,characteristicUUID, BufferArray(value),maxbytesize)  .then(() => {
+    console.log("data written")
+    // Command is written from BLEAPP to ESP32, Global Object in APP will be changed
+     let setParameters= JSON.parse(value)["Set Parameters"]
+    console.log(setParameters)
 
+    for (const item in setParameters) {
+       contextConfigurationValues.setValueByKey(item,setParameters[item])
+       console.log(contextConfigurationValues["18"])
+    }
+  // AlertLocal()
+    Alert.alert("Configuration Successfull!")
+  })
+  .catch((error) => {
+    // Failure code
+    Alert.alert("Couldn't Handle Configuration. Please, Check Your Connection!")
+
+    console.log("error")
+    console.log(error);
+  });///////////Here Writes to the BLE Peripheral
+  
+  console.log("In Button Function")
+  ///If anything else is to be done, it will be done here!
+}
 
 
 const ApplicationTagScreen = () => {
   const contextConfigurationValues = useContext(ContextConfigurationValues) 
-  const HandleWriteCommand = (peripheralId,serviceUUID,characteristicUUID,value,context,maxbytesize=512)=>{
-  
-    BleManager.write(peripheralId,serviceUUID,characteristicUUID, BufferArray(value),maxbytesize)  .then(() => {
-      console.log("data written")
-      // Command is written from BLEAPP to ESP32, Global Object in APP will be changed
-       let setParameters= JSON.parse(value)["Set Parameters"]
-      console.log(setParameters)
 
-      for (const item in setParameters) {
-         contextConfigurationValues.setValueByKey(item,setParameters[item])
-         console.log(contextConfigurationValues["18"])
-      }
-    // AlertLocal()
-      Alert.alert("Configuration Successfull!")
-    })
-    .catch((error) => {
-      // Failure code
-      Alert.alert("Couldn't Handle Configuration. Please, Check Your Connection!")
-
-      console.log("error")
-      console.log(error);
-    });///////////Here Writes to the BLE Peripheral
-    
-    console.log("In Button Function")
-    ///If anything else is to be done, it will be done here!
-  }
   // React.useEffect(() => {  
   filtered = Values.filter(row => row.Tag == 'Identification');
   filteredAT = filtered[0].menu.filter(row => row.Tag == 'Application Tag');
@@ -101,8 +116,18 @@ const ApplicationTagScreen = () => {
     </View>
   );
 };
-
-function Item(title, value,navigation) {
+function IdentificationMainScreen  ({ navigation }){
+  const context = useContext(ContextConfigurationValues)
+  return(<SafeAreaView style={styles.container}>
+    <FlatList
+      initialNumToRender={MenuParams.length}
+      data={MenuParams}
+      renderItem={({ item, index, separators }) => (renderItem({ item, navigation, context }))}
+      keyExtractor={item => item.Tag}
+    />
+  </SafeAreaView>)
+}
+function Item(title, value, navigation = null, context = null) {
   switch (title) {
     case 'Application Tag':
       return (
@@ -121,29 +146,13 @@ function Item(title, value,navigation) {
       )
   };
 }
+const renderItem = ({ item, navigation, context = null }) => (
+  Item(item.Tag, item.Value, navigation, context = context)
+);
 const IdentificationScreen = ({ route, navigation }) => {
 
   
   const contextConfigurationValues = useContext(ContextConfigurationValues) 
-  const ITEMSINPAGE = {
-  "Application Tag":"18",
-  "Device Name":"12",
-  "Device ID1":"09",
-   "Device ID2":"0A",
-  "Device ID3":"0B",
-  "Vendor Name":"10",
-  "Vendor ID1":"07",
-  "Vendor ID2":"08",
-  "Device Serial No":"15",
-  "Hardware Version":"16",
-  "Firmware Version":"17",
-  "Order Code":"41",
-  "Device Type":"42",
-  "User Role":"43"
-}
-
-
-
 
   React.useEffect(() => {
     BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
@@ -165,24 +174,11 @@ const IdentificationScreen = ({ route, navigation }) => {
   // console.log(JSON.stringify(IdentificationParams));
   // console.log(JSON.stringify(MenuParams));
 
-  const IdentificationMainScreen = ({ navigation }) => (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        initialNumToRender={MenuParams.length}
-        data={MenuParams}
-        renderItem={renderItem}
-        keyExtractor={item => item.Tag}
-      />
-    </SafeAreaView>
-  )
 
 
 
-  const renderItem = ({ item }) => (
-    Item(item.Tag, contextConfigurationValues[ITEMSINPAGE[item.Tag]] ,navigation)
 
-    // Item(item.Tag, JSON.stringify(contextConfigurationValues[JSON.stringify(ITEMSINPAGE[JSON.stringify(item.tag)])]) ,navigation)
-  );
+
 
   return (
     <StackIdentification.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
