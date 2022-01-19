@@ -1,0 +1,277 @@
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity, ScrollView } from 'react-native'
+// import Values from '../Paramsfiltered.json';
+import { createStackNavigator } from '@react-navigation/stack';
+import { TextInput } from 'react-native-paper';
+import Values from '../Paramsfiltered.json';
+import LenghtChecker from '../../../Navigation/Functions/Utililty';
+import react from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { Slider } from "@miblanchard/react-native-slider";
+import ScrollViewNativeComponent from 'react-native/Libraries/Components/ScrollView/ScrollViewNativeComponent';
+import { color, or, round } from 'react-native-reanimated';
+import { RectButton } from 'react-native-gesture-handler';
+// import Slider from '@react-native-community/slider';
+//import MultiSlider from 'react-native-multi-slider';
+
+import BufferArray from '../../../Navigation/Functions/BufferArray';
+import BleManager from 'react-native-ble-manager';
+let peripheralID = '0'
+
+let linearCoeffParams = Values.filter(item => item.Tag === "Temperature Coefficient Linear")[0];
+let MenuParams = linearCoeffParams.menu;
+// let subMenuParams = MenuParams.filter(row => row.Tag == 'Configuration 1')[0].menu;
+const StackConductivity = createStackNavigator();
+
+
+const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
+  BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
+  console.log("In Button Function")
+  ///If anything else is to be done, it will be done here!
+}
+
+function renderItem(item, navigation = null, context = null, parent) {
+  return (Item(item.Tag, item.Value, navigation, context, parent))
+}
+
+function Item(title, value, navigation = null, context = null, parent = null) {
+  switch (title) {
+    case 'Configuration 1':
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Linear Temperature Coefficient', { Tag: title,  name: title, ConfigNum: parent })}>
+          <Text style={styles.title}>{title}</Text>
+          {/* <Text style={styles.value}>{value}</Text> */}
+        </TouchableOpacity>
+      )
+    case 'Configuration 2':
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
+          <Text style={styles.title}>{title}</Text>
+          {/* <Text style={styles.value}>{value}</Text> */}
+        </TouchableOpacity>
+      )
+    case 'Configuration 3':
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
+          <Text style={styles.title}>{title}</Text>
+          {/* <Text style={styles.value}>{value}</Text> */}
+        </TouchableOpacity>
+      )
+    case 'Configuration 4':
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
+          <Text style={styles.title}>{title}</Text>
+          {/* <Text style={styles.value}>{value}</Text> */}
+        </TouchableOpacity>
+      )
+    case 'Configuration':
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configuration Linear Coeff', {  name :"Linear Temperature Coefficients" })}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.value}>{value}</Text>
+        </TouchableOpacity>
+      )
+    default:
+      return (
+        <View style={styles.item}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.value}>{value}</Text>
+        </View>
+
+      )
+  };
+}
+
+
+
+const CheckButtoned = (selectedValue, sentValue) => {
+  if (selectedValue === sentValue) {
+    return (
+
+      <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+        <Text>{sentValue}</Text>
+        <Icon
+          name="checkmark-outline"
+          size={20}
+          color="#f54"
+        />
+      </View>
+    )
+  }
+  else {
+    return (
+      <View style={{ flexDirection: "row" }}>
+        <Text>{sentValue}</Text>
+      </View>
+    )
+  }
+}
+
+
+
+function ConfigurationNumScreen({ route, navigation }) {
+  // const { Tag } = route.params;
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={MenuParams}
+        renderItem={({ item, index, separators }) => (renderItem(item, navigation, "hello", item.Tag))}
+        keyExtractor={item => item.Tag}
+        initialNumToRender={MenuParams.length}
+      />
+    </SafeAreaView>
+  )
+}
+
+
+
+
+const TemperatureCoefficientScreen = ({ route, navigation }) => {
+    // const context = useContext(ContextConfigurationValues)
+
+    const { Tag } = route.params;
+    const { ConfigNum } = route.params;
+    const value = MenuParams.filter(item => item.Tag == ConfigNum)[0].Value
+    console.log(MenuParams)
+    console.log(ConfigNum)
+    console.log(value)
+    // useEffect(() => {
+    //   navigation.setOptions({ title: Tag })
+    // });
+    // const filtered = Values.filter(row => row.Tag == 'Communication');
+    // const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
+    // const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
+  
+    const [text, setText] = React.useState(value);
+  
+  
+    return (
+        <View>
+          <TextInput
+            label={"Set Your Linear Coefficient for " + ConfigNum + " in %/°C"}
+            value={text}
+            selectionColor='#000'
+            underlineColor='#000'
+            keyboardType="numeric"
+            activeOutlineColor='#000'
+            outlineColor='#000'          // activeUnderlineColor='#000'
+            error={false}
+            right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
+            onChangeText={text => setText(text)}
+          />
+          {/* <LenghtChecker lenght={32} /> */}
+            <Button
+              onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${HexIndex}":"${text}"}}`, context) }}
+              title="Save"
+              color="#841584"
+              accessibilityLabel="Learn more about this purple button"
+            />
+          {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
+          {/* <MaskedInput {...props} /> */}
+    
+        </View>
+      );
+  };
+
+const TemperatureCoeffLinearScreen = ({ route, navigation }) => {
+  BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+    // Success code
+
+    console.log(JSON.stringify(peripheralsArray[0].id));
+    peripheralID = peripheralsArray[0].id
+  }).catch(() => {
+    console.log("Couldnt Find A peripheral");
+    // expected output: "Success!"
+  });
+
+
+  return (
+    <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+      <StackConductivity.Screen name='Configuration Linear Coeff' component={ConfigurationNumScreen} options={{ headerTitle: "Linear Temperature Coefficient" }} />
+      <StackConductivity.Screen name='Linear Temperature Coefficient' component={TemperatureCoefficientScreen}  options={({ route }) => ({ headerTitle: route.params.name })} />
+      {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
+
+
+    </StackConductivity.Navigator>
+
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+export default TemperatureCoeffLinearScreen
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center", // 
+    padding: 0,
+    // marginTop: StatusBar.currentHeight || 0,
+    paddingTop: 0,
+  },
+  item: {
+    backgroundColor: '#ffffff',
+    padding: 8,
+    flexDirection: 'column',
+    paddingTop: 0,
+    borderBottomColor: 'black',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+
+  },
+  basicText: { color: "#000", textAlign: "center" },
+  title: {
+    fontSize: 15,
+    color: 'black',
+  },
+  buttonBar: {
+    alignItems: "center",
+    backgroundColor: "#9A348E",
+    padding: 8,
+    marginRight: 3,
+    borderRadius: 10,
+  },
+  value: {
+    fontSize: 12,
+    color: 'gray',
+  },
+  itemButton: {
+    backgroundColor: '#ffffff',
+    padding: 8,
+    marginVertical: 0,
+    marginHorizontal: 0,
+    flexDirection: 'column',
+    borderBottomColor: 'black',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    justifyContent: 'center'
+  },
+  myText: {
+    color: 'black',
+    fontSize: 25,
+    textAlign: 'center'
+  },
+  input: {
+    margin: 15,
+    height: 40,
+    borderColor: '#7a42f4',
+    borderWidth: 1
+  },
+  containerSlider: {
+    flex: 1,
+    marginLeft: 30,
+    marginRight: 30,
+    alignItems: 'stretch',
+    justifyContent: "flex-start",
+  },
+});
+

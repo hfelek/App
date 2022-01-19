@@ -18,12 +18,12 @@ import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
 let peripheralID = '0'
 
-let ConductivityParams = Paramsfiltered.find(ConductivityParams => ConductivityParams.Tag === "Conductivity");
+let ConductivityParams = Paramsfiltered.find(ConductivityParams => ConductivityParams.Tag === "Conductivity Input");
 let MenuParams = ConductivityParams.menu;
 // let subMenuParams = MenuParams.filter(row => row.Tag == 'Configuration 1')[0].menu;
 const StackConductivity = createStackNavigator();
 
-var filtered = Values.filter(row => row.Tag == 'Conductivity');
+var filtered = Values.filter(row => row.Tag == 'Conductivity Input');
 var filteredAT = filtered.filter(row => row.Tag == 'Range');
 const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
   BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
@@ -31,11 +31,11 @@ const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value
   ///If anything else is to be done, it will be done here!
 }
 
-function renderItem  ( item,navigation=null,context=null,parent ){
-  return(Item(item.Tag, item.Value,navigation,context,parent ))
-} 
+function renderItem(item, navigation = null, context = null, parent) {
+  return (Item(item.Tag, item.Value, navigation, context, parent))
+}
 
-function Item(title, value, navigation = null, context = null,parent=null ) {
+function Item(title, value, navigation = null, context = null, parent = null) {
   switch (title) {
     case 'Configuration 1':
       return (
@@ -67,14 +67,14 @@ function Item(title, value, navigation = null, context = null,parent=null ) {
       )
     case 'Conductivity Range':
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Conductivity Range',{Tag: title,ConfigNum:parent})}>
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Conductivity Range', { Tag: title, ConfigNum: parent })}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.value}>{value}</Text>
         </TouchableOpacity>
       )
     case 'Temperature Compensation':
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Temperature Compensation',{Tag: title,ConfigNum:parent})}>
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Temperature Compensation', { Tag: title, ConfigNum: parent })}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.value}>{value}</Text>
         </TouchableOpacity>
@@ -82,7 +82,7 @@ function Item(title, value, navigation = null, context = null,parent=null ) {
 
     case 'Reference Temperature':
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Reference Temperature',{Tag: title,ConfigNum:parent})}>
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Reference Temperature', { Tag: title, ConfigNum: parent })}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.value}>{value}</Text>
         </TouchableOpacity>
@@ -91,7 +91,7 @@ function Item(title, value, navigation = null, context = null,parent=null ) {
 
     case 'Filter Time Constant':
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Filter Time Constant',{Tag: title,ConfigNum:parent})}>
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Filter Time Constant', { Tag: title, ConfigNum: parent })}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.value}>{value}</Text>
         </TouchableOpacity>
@@ -106,17 +106,19 @@ function Item(title, value, navigation = null, context = null,parent=null ) {
       )
   };
 }
+
 const ConductivityMainScreen = ({ navigation }) => (
 
   <SafeAreaView style={styles.container}>
     <FlatList
       data={MenuParams}
-      renderItem={({ item, index, separators }) => (renderItem( item, navigation ))}
+      renderItem={({ item, index, separators }) => (renderItem(item, navigation))}
       keyExtractor={item => item.Tag}
       initialNumToRender={MenuParams.length}
     />
   </SafeAreaView>
 )
+
 const CheckButtoned = (selectedValue, sentValue) => {
   if (selectedValue === sentValue) {
     return (
@@ -139,28 +141,33 @@ const CheckButtoned = (selectedValue, sentValue) => {
     )
   }
 }
-function ConfigurationNumScreen ({ route,navigation }) {
+
+
+
+function ConfigurationNumScreen({ route, navigation }) {
   const { Tag } = route.params;
   const subMenuParams = MenuParams.filter(row => row.Tag == Tag)[0].menu;
 
-  return(
-  <SafeAreaView style={styles.container}>
-    <FlatList
-      data={subMenuParams}
-      renderItem={({ item, index, separators }) => (renderItem( item, navigation,"hello", Tag ))}
-      keyExtractor={item => item.Tag}
-      initialNumToRender={MenuParams.length}
-    />
-  </SafeAreaView>
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={subMenuParams}
+        renderItem={({ item, index, separators }) => (renderItem(item, navigation, "hello", Tag))}
+        keyExtractor={item => item.Tag}
+        initialNumToRender={MenuParams.length}
+      />
+    </SafeAreaView>
   )
-  }
+}
+
+
 
 const RangeScreen = ({ route, navigation }) => {
   const { Tag } = route.params;
   console.log(Tag)
   const { ConfigNum } = route.params;
 
-  const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
+  const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity Input');
   const val = valSystemUnits[0].menu.filter(row => row.Tag == ConfigNum)[0];
   const subval = val.menu.filter(row => row.Tag == Tag)[0];
   const possibleValues = subval.PossibleValues;
@@ -210,57 +217,6 @@ const RangeScreen = ({ route, navigation }) => {
     </SafeAreaView>
   );
 };
-const MountingFactorScreen = ({ route, navigation }) => {
-  const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
-  const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Mounting Factor')[0];
-  const possibleValues = val.PossibleValues;
-  const initalMFValue = val.Value;
-  const limitsMF = [possibleValues.RangeLower, possibleValues.RangeUpper]
-  const [mountingFactor, setMountingFactor] = React.useState(initalMFValue);
-  function callBackSlider() {
-
-    if ((initalMFValue != mountingFactor)) {
-
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'85':'${mountingFactor}'}}`)) }}>
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
-    }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-  }
-
-
-
-  return (
-
-    <View style={styles.containerSlider}>
-
-      <Slider
-        value={mountingFactor}
-        onValueChange={value => setMountingFactor(value[0].toFixed(3))}
-        minimumValue={limitsMF[0]}
-        maximumValue={limitsMF[1]}
-        onSlidingComplete={() => callBackSlider()}
-      />
-      <Text style={{ alignContent: "center" }}>Mounting Factor Value : {mountingFactor}</Text>
-    </View>
-
-
-
-  );
-};
-
 const TemperatureCoefficientScreen = ({ route, navigation }) => {
   useEffect(() => {
     navigation.setOptions({
@@ -417,16 +373,236 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
     </SafeAreaView>
   )
 };
+
+
+
+
+
+
+
+
+
+// const MountingFactorScreen = ({ route, navigation }) => {
+//   const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
+//   const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Mounting Factor')[0];
+//   const possibleValues = val.PossibleValues;
+//   const initalMFValue = val.Value;
+//   const limitsMF = [possibleValues.RangeLower, possibleValues.RangeUpper]
+//   const [mountingFactor, setMountingFactor] = React.useState(initalMFValue);
+//   function callBackSlider() {
+
+//     if ((initalMFValue != mountingFactor)) {
+
+//       navigation.setOptions({
+//         headerRight: () => (
+//           <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'85':'${mountingFactor}'}}`)) }}>
+//             <View style={styles.buttonBar}>
+//               <Text>Save</Text>
+//             </View>
+//           </TouchableOpacity>
+//         ),
+//       });
+//     }
+//     else {
+//       navigation.setOptions({
+//         headerRight: () => (
+//           <></>
+//         ),
+//       });
+//     }
+//   }
+
+
+
+//   return (
+
+//     <View style={styles.containerSlider}>
+
+//       <Slider
+//         value={mountingFactor}
+//         onValueChange={value => setMountingFactor(value[0].toFixed(3))}
+//         minimumValue={limitsMF[0]}
+//         maximumValue={limitsMF[1]}
+//         onSlidingComplete={() => callBackSlider()}
+//       />
+//       <Text style={{ alignContent: "center" }}>Mounting Factor Value : {mountingFactor}</Text>
+//     </View>
+
+
+
+//   );
+// };
+
+// const TemperatureCoefficientScreen = ({ route, navigation }) => {
+//   useEffect(() => {
+//     navigation.setOptions({
+//       headerRight: () => (
+//         <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'78':'${nonLinearParamT1}','79':'${nonLinearParamC1}','7A':'${nonLinearParamT2}'},'7B':'${nonLinearParamC2}','7C':'${nonLinearParamT3}','7D':'${nonLinearParamC3}','7E':'${nonLinearParamT4}','7F':'${nonLinearParamC4}','80':'${nonLinearParamT5}','81':'${nonLinearParamC5}'}`)) }}>
+//           <View style={styles.buttonBar}>
+//             <Text>Save</Text>
+//           </View>
+//         </TouchableOpacity>
+//       ),
+//     })
+//   })
+
+
+//   const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
+//   const compensationVal = valSystemUnits[0].menu.filter(row => row.Tag == 'Temperature Compensation')[0].Value;
+//   const coefficientMenu = valSystemUnits[0].menu.filter(row => row.Tag == 'Temperature Coefficient')[0].Menu;
+//   const initialNonLinearParams = coefficientMenu.filter(row => row.Tag == 'Non-Linear')[0].Value
+//   const initialLinearParams = coefficientMenu.filter(row => row.Tag == 'Linear')[0].Value[0]
+//   const [nonLinearParams, setNonLinearParams] = useState(initialNonLinearParams)
+//   const [linearParam, setLinearParam] = useState(initialLinearParams)
+//   const [nonLinearParams1, setNonLinearParams1] = useState(nonLinearParams)
+//   const [nonLinearParamT1, setNonLinearParamT1] = react.useState(initialNonLinearParams.filter(row => row.Tag == "T1")[0].Value)
+//   const [nonLinearParamT2, setNonLinearParamT2] = react.useState(initialNonLinearParams.filter(row => row.Tag == "T2")[0].Value)
+//   const [nonLinearParamT3, setNonLinearParamT3] = react.useState(initialNonLinearParams.filter(row => row.Tag == "T3")[0].Value)
+//   const [nonLinearParamT4, setNonLinearParamT4] = react.useState(initialNonLinearParams.filter(row => row.Tag == "T4")[0].Value)
+//   const [nonLinearParamT5, setNonLinearParamT5] = react.useState(initialNonLinearParams.filter(row => row.Tag == "T5")[0].Value)
+//   const [nonLinearParamC1, setNonLinearParamC1] = react.useState(initialNonLinearParams.filter(row => row.Tag == "C1")[0].Value)
+//   const [nonLinearParamC2, setNonLinearParamC2] = react.useState(initialNonLinearParams.filter(row => row.Tag == "C2")[0].Value)
+//   const [nonLinearParamC3, setNonLinearParamC3] = react.useState(initialNonLinearParams.filter(row => row.Tag == "C3")[0].Value)
+//   const [nonLinearParamC4, setNonLinearParamC4] = react.useState(initialNonLinearParams.filter(row => row.Tag == "C4")[0].Value)
+//   const [nonLinearParamC5, setNonLinearParamC5] = react.useState(initialNonLinearParams.filter(row => row.Tag == "C5")[0].Value)
+//   // console.log(nonLinearParamT1)
+//   // console.log()
+//   return (
+//     // <ReturnMenu param={compensationVal} />
+//     <SafeAreaView style={[styles.container, { flex: 1, flexDirection: "row" }]}>
+//       {/* <ScrollView style={{ flex: 1, flexDirection: "row" }}> */}
+//       <View style={{ flex: 1, paddingTop: 5 }}>
+//         <Text style={styles.basicText}>  T1 Param  </Text>
+//         <TextInput style={styles.input}
+//           value={nonLinearParamT1}
+//           // placeholder={nonLinearParamT1}
+//           onChangeText={(text) => (setNonLinearParamT1(text))}
+//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
+//           maxLength={5}
+//           editable
+
+//           keyboardType="numeric"
+//         />
+//         <Text style={styles.basicText}>  T2 Param  </Text>
+//         <TextInput style={styles.input}
+//           value={nonLinearParamT2}
+//           // placeholder={nonLinearParamT1}
+//           onChangeText={(text) => (setNonLinearParamT2(text))}
+//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
+//           maxLength={5}
+//           editable
+
+//           keyboardType="numeric"
+//         />
+//         <Text style={styles.basicText}>  T3 Param  </Text>
+//         <TextInput style={styles.input}
+//           value={nonLinearParamT3}
+//           // placeholder={nonLinearParamT1}
+//           onChangeText={(text) => (setNonLinearParamT3(text))}
+//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
+//           maxLength={5}
+//           editable
+
+//           keyboardType="numeric"
+//         />
+//         <Text style={styles.basicText}>  T4 Param  </Text>
+//         <TextInput style={styles.input}
+//           value={nonLinearParamT4}
+//           // placeholder={nonLinearParamT1}
+//           onChangeText={(text) => (setNonLinearParamT4(text))}
+//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
+//           maxLength={5}
+//           editable
+
+//           keyboardType="numeric"
+//         />
+//         <Text style={styles.basicText}>  T5 Param  </Text>
+//         <TextInput style={styles.input}
+//           value={nonLinearParamT5}
+//           // placeholder={nonLinearParamT1}
+//           onChangeText={(text) => (setNonLinearParamT5(text))}
+//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
+//           maxLength={5}
+//           editable
+
+//           keyboardType="numeric"
+//         />
+//       </View>
+//       <View style={{ flex: 1, paddingTop: 5 }}>
+//         <Text style={styles.basicText}>  C1 Param  </Text>
+//         <TextInput style={styles.input}
+//           value={nonLinearParamC1}
+//           // placeholder={nonLinearParamT1}
+//           onChangeText={(text) => (setNonLinearParamC1(text))}
+//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
+//           maxLength={5}
+//           editable
+
+//           keyboardType="numeric"
+//         />
+//         <Text style={styles.basicText}>  C2 Param  </Text>
+//         <TextInput style={styles.input}
+//           value={nonLinearParamC2}
+//           // placeholder={nonLinearParamT1}
+//           onChangeText={(text) => (setNonLinearParamC2(text))}
+//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
+//           maxLength={5}
+//           editable
+
+//           keyboardType="numeric"
+//         />
+//         <Text style={styles.basicText}>  C3 Param  </Text>
+//         <TextInput style={styles.input}
+//           value={nonLinearParamC3}
+//           // placeholder={nonLinearParamT1}
+//           onChangeText={(text) => (setNonLinearParamC3(text))}
+//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
+//           maxLength={5}
+//           editable
+
+//           keyboardType="numeric"
+//         />
+//         <Text style={styles.basicText}>  C4 Param  </Text>
+//         <TextInput style={styles.input}
+//           value={nonLinearParamC4}
+//           // placeholder={nonLinearParamT1}
+//           onChangeText={(text) => (setNonLinearParamC4(text))}
+//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
+//           maxLength={5}
+//           editable
+
+//           keyboardType="numeric"
+//         />
+//         <Text style={styles.basicText}>  C5 Param  </Text>
+//         <TextInput style={styles.input}
+//           value={nonLinearParamC5}
+//           // placeholder={nonLinearParamT1}
+//           onChangeText={(text) => (setNonLinearParamC5(text))}
+//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
+//           maxLength={5}
+//           editable
+
+//           keyboardType="numeric"
+//         />
+//       </View>
+//       {/* </ScrollView> */}
+//     </SafeAreaView>
+//   )
+// };
+
+
+
 const TemperatureCompensationScreen = ({ route, navigation }) => {
   const { Tag } = route.params;
   console.log(Tag)
   const { ConfigNum } = route.params;
   console.log(ConfigNum)
-
-  const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
+  const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity Input');
   const val = valSystemUnits[0].menu.filter(row => row.Tag == ConfigNum)[0];
   const subval = val.menu.filter(row => row.Tag == Tag)[0];
   const possibleValues = subval.PossibleValues;
+  const possibleValLenght = Object.keys(possibleValues).length
+
   console.log(subval)
   const [selection, setSelection] = React.useState(val.Value);
   function ItemSelectable(title) {
@@ -467,14 +643,18 @@ const TemperatureCompensationScreen = ({ route, navigation }) => {
         data={possibleValues}
         renderItem={renderItemSelectable}
         keyExtractor={item => item.Tag}
+        initialNumToRender={possibleValLenght}
       />
     </SafeAreaView>
   );
 };
+
+
+
 const ReferenceTemperatureScreen = ({ route, navigation }) => {
   const { Tag } = route.params;
   const { ConfigNum } = route.params;
-  const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity')[0];
+  const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity Input')[0];
   const val = valSystemUnits.menu.filter(row => row.Tag == ConfigNum)[0];
   const subval = val.menu.filter(row => row.Tag == Tag)[0];
 
@@ -540,11 +720,13 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
 
 
 };
+
+
 const FilterCountConstantScreen = ({ route, navigation }) => {
   const { Tag } = route.params;
   const { ConfigNum } = route.params;
 
-  const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
+  const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity Input');
   const val = valSystemUnits[0].menu.filter(row => row.Tag == ConfigNum)[0];
   const subval = val.menu.filter(row => row.Tag == Tag)[0];
 
@@ -595,78 +777,79 @@ const FilterCountConstantScreen = ({ route, navigation }) => {
   );
 };
 
-const ZeroPointScreeen = ({ route, navigation }) => {
-  const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
-  const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Zero Point');
-  const possibleValues = val[0].Menu;
-  const rangeValue = valSystemUnits[0].menu.filter(row => row.Tag == 'Range')[0].Value
-  const itemToBeRenderedInitial = possibleValues.filter(row => row.Tag == rangeValue)[0]
-  const [selection, setSelection] = React.useState(Number(itemToBeRenderedInitial.Value));
-  let measurementRange
-  switch (rangeValue) {
-    case "2000 µS/cm":
-      measurementRange = '86'
-      break;
-    case "20 mS/cm":
-      measurementRange = '87'
-      break;
-    case "200 mS/cm":
-      measurementRange = '88'
-      break;
-    case "500 mS/cm":
-      measurementRange = '89'
-      break;
-    case "1000 mS/cm":
-      measurementRange = '8A'
-      break;
-    case "1000 mS/cm":
-      measurementRange = '8B'
-      break;
-    default:
-    // code block
-  }
-  // console.log(Number(itemToBeRenderedInitial.Stepsize))
 
-  function callBackSlider() {
-    // useEffect(() => {
+// const ZeroPointScreeen = ({ route, navigation }) => {
+//   const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity');
+//   const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Zero Point');
+//   const possibleValues = val[0].Menu;
+//   const rangeValue = valSystemUnits[0].menu.filter(row => row.Tag == 'Range')[0].Value
+//   const itemToBeRenderedInitial = possibleValues.filter(row => row.Tag == rangeValue)[0]
+//   const [selection, setSelection] = React.useState(Number(itemToBeRenderedInitial.Value));
+//   let measurementRange
+//   switch (rangeValue) {
+//     case "2000 µS/cm":
+//       measurementRange = '86'
+//       break;
+//     case "20 mS/cm":
+//       measurementRange = '87'
+//       break;
+//     case "200 mS/cm":
+//       measurementRange = '88'
+//       break;
+//     case "500 mS/cm":
+//       measurementRange = '89'
+//       break;
+//     case "1000 mS/cm":
+//       measurementRange = '8A'
+//       break;
+//     case "1000 mS/cm":
+//       measurementRange = '8B'
+//       break;
+//     default:
+//     // code block
+//   }
+//   // console.log(Number(itemToBeRenderedInitial.Stepsize))
 
-    if ((selection != Number(itemToBeRenderedInitial.Value))) {
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${measurementRange}':'${selection}'}}`)) }} >
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
-    }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-    // });
-  }
-  return (
-    <View style={styles.containerSlider}>
+//   function callBackSlider() {
+//     // useEffect(() => {
 
-      <Slider
-        value={Number(selection)}
-        onValueChange={value => setSelection((Math.round(value * 100) / 100))}
-        minimumValue={Number(itemToBeRenderedInitial.RangeLower)}
-        maximumValue={Number(itemToBeRenderedInitial.RangeUpper)}
-        onSlidingComplete={() => callBackSlider()}
-        step={Number(itemToBeRenderedInitial.Stepsize)}
-      />
-      <Text style={{ alignContent: "center" }}>Zero Point Value: {selection}</Text>
-      <Text style={{ alignContent: "center" }}>Measurement Range: {rangeValue}</Text>
+//     if ((selection != Number(itemToBeRenderedInitial.Value))) {
+//       navigation.setOptions({
+//         headerRight: () => (
+//           <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Communication', 'Set Parameters': {'${measurementRange}':'${selection}'}}`)) }} >
+//             <View style={styles.buttonBar}>
+//               <Text>Save</Text>
+//             </View>
+//           </TouchableOpacity>
+//         ),
+//       });
+//     }
+//     else {
+//       navigation.setOptions({
+//         headerRight: () => (
+//           <></>
+//         ),
+//       });
+//     }
+//     // });
+//   }
+//   return (
+//     <View style={styles.containerSlider}>
 
-    </View>
-  );
-};
+//       <Slider
+//         value={Number(selection)}
+//         onValueChange={value => setSelection((Math.round(value * 100) / 100))}
+//         minimumValue={Number(itemToBeRenderedInitial.RangeLower)}
+//         maximumValue={Number(itemToBeRenderedInitial.RangeUpper)}
+//         onSlidingComplete={() => callBackSlider()}
+//         step={Number(itemToBeRenderedInitial.Stepsize)}
+//       />
+//       <Text style={{ alignContent: "center" }}>Zero Point Value: {selection}</Text>
+//       <Text style={{ alignContent: "center" }}>Measurement Range: {rangeValue}</Text>
+
+//     </View>
+//   );
+// };
 
 
 const ConductivityScreen = ({ route, navigation }) => {
@@ -683,7 +866,7 @@ const ConductivityScreen = ({ route, navigation }) => {
 
   return (
     <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-      <StackConductivity.Screen name='Conductivity Main' component={ConductivityMainScreen} options={{ headerTitle: "Conductivity" }} />
+      <StackConductivity.Screen name='Conductivity Main' component={ConductivityMainScreen} options={{ headerTitle: "Conductivity Input" }} />
       <StackConductivity.Screen name='Conductivity Range' component={RangeScreen} />
       <StackConductivity.Screen name='Temperature Compensation' component={TemperatureCompensationScreen} />
       <StackConductivity.Screen name='Reference Temperature' component={ReferenceTemperatureScreen} />

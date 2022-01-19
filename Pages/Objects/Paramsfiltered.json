@@ -69,7 +69,7 @@
         ]
     },
     {
-        "Tag": "Configuration",
+        "Tag": "Setup Menu",
         "Icon": "ios-build-outline",
         "menu": [{
                 "Tag": "Active Configuration",
@@ -267,8 +267,8 @@
         ]
     },
     {
-        "Tag": "Conductivity",
-        "Icon": "md-git-network-outline",
+        "Tag": "Conductivity Input",
+        "Icon": "ios-barcode-sharp",
         "menu": [{
                 "Tag": "Configuration 1",
                 "menu": [{
@@ -307,11 +307,111 @@
                         "Value": "Non-Linear",
                         "PossibleValues": [{
                                 "Tag": "Linear",
-                                "Enum": 0
+                                "Enum": "0"
                             },
                             {
                                 "Tag": "Non-Linear",
-                                "Enum": 1
+                                "Enum": "1"
+                            },
+                            {
+                                "Tag": "Custom",
+                                "Enum": "2"
+                            },
+                            {
+                                "Tag": "NaOH 0...12%",
+                                "Enum": "3"
+                            },
+                            {
+                                "Tag": "NaOH 0...12%B",
+                                "Enum": "4"
+                            },
+                            {
+                                "Tag": "NaOH 25...50%",
+                                "Enum": "5"
+                            },
+                            {
+                                "Tag": "NaOH 25...50%B",
+                                "Enum": "6"
+                            },
+                            {
+                                "Tag": "HNO3 0...25%",
+                                "Enum": "7"
+                            },
+                            {
+                                "Tag": "HNO3 0...25%B",
+                                "Enum": "8"
+                            },
+                            {
+                                "Tag": "HNO3 36...82%",
+                                "Enum": "9"
+                            },
+                            {
+                                "Tag": "HNO3 36...82%B",
+                                "Enum": "10"
+                            },
+                            {
+                                "Tag": "H2SO4 0...28%",
+                                "Enum": "11"
+                            },
+                            {
+                                "Tag": "H2SO4 0...28%B",
+                                "Enum": "12"
+                            },
+                            {
+                                "Tag": "H2SO4 36...85%",
+                                "Enum": "13"
+                            },
+                            {
+                                "Tag": "H2SO4 36...85%B",
+                                "Enum": "14"
+                            },
+                            {
+                                "Tag": "H2SO4 92...99%",
+                                "Enum": "15"
+                            },
+                            {
+                                "Tag": "H2SO4 92...99%B",
+                                "Enum": "16"
+                            },
+                            {
+                                "Tag": "HCl 0...18%",
+                                "Enum": "17"
+                            },
+                            {
+                                "Tag": "HCl 0...18%B",
+                                "Enum": "18"
+                            },
+                            {
+                                "Tag": "HCl 22...44%",
+                                "Enum": "19"
+                            },
+                            {
+                                "Tag": "HCl 22...44%B",
+                                "Enum": "20"
+                            },
+                            {
+                                "Tag": "NaCl 0...25%",
+                                "Enum": "21"
+                            },
+                            {
+                                "Tag": "NaCl 0...25%B",
+                                "Enum": "22"
+                            },
+                            {
+                                "Tag": "MgCl2 0...17.5%",
+                                "Enum": "23"
+                            },
+                            {
+                                "Tag": "MgCl2 0...17.5%B",
+                                "Enum": "24"
+                            },
+                            {
+                                "Tag": "MgCl2 18.5...25%",
+                                "Enum": "25"
+                            },
+                            {
+                                "Tag": "MgCl2 18.5...25%B",
+                                "Enum": "26"
                             }
                         ]
                     },
@@ -382,11 +482,111 @@
                         "Value": "Non-Linear",
                         "PossibleValues": [{
                                 "Tag": "Linear",
-                                "Enum": 0
+                                "Enum": "0"
                             },
                             {
                                 "Tag": "Non-Linear",
-                                "Enum": 1
+                                "Enum": "1"
+                            },
+                            {
+                                "Tag": "Custom",
+                                "Enum": "2"
+                            },
+                            {
+                                "Tag": "NaOH 0...12%",
+                                "Enum": "3"
+                            },
+                            {
+                                "Tag": "NaOH 0...12%B",
+                                "Enum": "4"
+                            },
+                            {
+                                "Tag": "NaOH 25...50%",
+                                "Enum": "5"
+                            },
+                            {
+                                "Tag": "NaOH 25...50%B",
+                                "Enum": "6"
+                            },
+                            {
+                                "Tag": "HNO3 0...25%",
+                                "Enum": "7"
+                            },
+                            {
+                                "Tag": "HNO3 0...25%B",
+                                "Enum": "8"
+                            },
+                            {
+                                "Tag": "HNO3 36...82%",
+                                "Enum": "9"
+                            },
+                            {
+                                "Tag": "HNO3 36...82%B",
+                                "Enum": "10"
+                            },
+                            {
+                                "Tag": "H2SO4 0...28%",
+                                "Enum": "11"
+                            },
+                            {
+                                "Tag": "H2SO4 0...28%B",
+                                "Enum": "12"
+                            },
+                            {
+                                "Tag": "H2SO4 36...85%",
+                                "Enum": "13"
+                            },
+                            {
+                                "Tag": "H2SO4 36...85%B",
+                                "Enum": "14"
+                            },
+                            {
+                                "Tag": "H2SO4 92...99%",
+                                "Enum": "15"
+                            },
+                            {
+                                "Tag": "H2SO4 92...99%B",
+                                "Enum": "16"
+                            },
+                            {
+                                "Tag": "HCl 0...18%",
+                                "Enum": "17"
+                            },
+                            {
+                                "Tag": "HCl 0...18%B",
+                                "Enum": "18"
+                            },
+                            {
+                                "Tag": "HCl 22...44%",
+                                "Enum": "19"
+                            },
+                            {
+                                "Tag": "HCl 22...44%B",
+                                "Enum": "20"
+                            },
+                            {
+                                "Tag": "NaCl 0...25%",
+                                "Enum": "21"
+                            },
+                            {
+                                "Tag": "NaCl 0...25%B",
+                                "Enum": "22"
+                            },
+                            {
+                                "Tag": "MgCl2 0...17.5%",
+                                "Enum": "23"
+                            },
+                            {
+                                "Tag": "MgCl2 0...17.5%B",
+                                "Enum": "24"
+                            },
+                            {
+                                "Tag": "MgCl2 18.5...25%",
+                                "Enum": "25"
+                            },
+                            {
+                                "Tag": "MgCl2 18.5...25%B",
+                                "Enum": "26"
                             }
                         ]
                     },
@@ -457,11 +657,111 @@
                         "Value": "Non-Linear",
                         "PossibleValues": [{
                                 "Tag": "Linear",
-                                "Enum": 0
+                                "Enum": "0"
                             },
                             {
                                 "Tag": "Non-Linear",
-                                "Enum": 1
+                                "Enum": "1"
+                            },
+                            {
+                                "Tag": "Custom",
+                                "Enum": "2"
+                            },
+                            {
+                                "Tag": "NaOH 0...12%",
+                                "Enum": "3"
+                            },
+                            {
+                                "Tag": "NaOH 0...12%B",
+                                "Enum": "4"
+                            },
+                            {
+                                "Tag": "NaOH 25...50%",
+                                "Enum": "5"
+                            },
+                            {
+                                "Tag": "NaOH 25...50%B",
+                                "Enum": "6"
+                            },
+                            {
+                                "Tag": "HNO3 0...25%",
+                                "Enum": "7"
+                            },
+                            {
+                                "Tag": "HNO3 0...25%B",
+                                "Enum": "8"
+                            },
+                            {
+                                "Tag": "HNO3 36...82%",
+                                "Enum": "9"
+                            },
+                            {
+                                "Tag": "HNO3 36...82%B",
+                                "Enum": "10"
+                            },
+                            {
+                                "Tag": "H2SO4 0...28%",
+                                "Enum": "11"
+                            },
+                            {
+                                "Tag": "H2SO4 0...28%B",
+                                "Enum": "12"
+                            },
+                            {
+                                "Tag": "H2SO4 36...85%",
+                                "Enum": "13"
+                            },
+                            {
+                                "Tag": "H2SO4 36...85%B",
+                                "Enum": "14"
+                            },
+                            {
+                                "Tag": "H2SO4 92...99%",
+                                "Enum": "15"
+                            },
+                            {
+                                "Tag": "H2SO4 92...99%B",
+                                "Enum": "16"
+                            },
+                            {
+                                "Tag": "HCl 0...18%",
+                                "Enum": "17"
+                            },
+                            {
+                                "Tag": "HCl 0...18%B",
+                                "Enum": "18"
+                            },
+                            {
+                                "Tag": "HCl 22...44%",
+                                "Enum": "19"
+                            },
+                            {
+                                "Tag": "HCl 22...44%B",
+                                "Enum": "20"
+                            },
+                            {
+                                "Tag": "NaCl 0...25%",
+                                "Enum": "21"
+                            },
+                            {
+                                "Tag": "NaCl 0...25%B",
+                                "Enum": "22"
+                            },
+                            {
+                                "Tag": "MgCl2 0...17.5%",
+                                "Enum": "23"
+                            },
+                            {
+                                "Tag": "MgCl2 0...17.5%B",
+                                "Enum": "24"
+                            },
+                            {
+                                "Tag": "MgCl2 18.5...25%",
+                                "Enum": "25"
+                            },
+                            {
+                                "Tag": "MgCl2 18.5...25%B",
+                                "Enum": "26"
                             }
                         ]
                     },
@@ -532,11 +832,111 @@
                         "Value": "Non-Linear",
                         "PossibleValues": [{
                                 "Tag": "Linear",
-                                "Enum": 0
+                                "Enum": "0"
                             },
                             {
                                 "Tag": "Non-Linear",
-                                "Enum": 1
+                                "Enum": "1"
+                            },
+                            {
+                                "Tag": "Custom",
+                                "Enum": "2"
+                            },
+                            {
+                                "Tag": "NaOH 0...12%",
+                                "Enum": "3"
+                            },
+                            {
+                                "Tag": "NaOH 0...12%B",
+                                "Enum": "4"
+                            },
+                            {
+                                "Tag": "NaOH 25...50%",
+                                "Enum": "5"
+                            },
+                            {
+                                "Tag": "NaOH 25...50%B",
+                                "Enum": "6"
+                            },
+                            {
+                                "Tag": "HNO3 0...25%",
+                                "Enum": "7"
+                            },
+                            {
+                                "Tag": "HNO3 0...25%B",
+                                "Enum": "8"
+                            },
+                            {
+                                "Tag": "HNO3 36...82%",
+                                "Enum": "9"
+                            },
+                            {
+                                "Tag": "HNO3 36...82%B",
+                                "Enum": "10"
+                            },
+                            {
+                                "Tag": "H2SO4 0...28%",
+                                "Enum": "11"
+                            },
+                            {
+                                "Tag": "H2SO4 0...28%B",
+                                "Enum": "12"
+                            },
+                            {
+                                "Tag": "H2SO4 36...85%",
+                                "Enum": "13"
+                            },
+                            {
+                                "Tag": "H2SO4 36...85%B",
+                                "Enum": "14"
+                            },
+                            {
+                                "Tag": "H2SO4 92...99%",
+                                "Enum": "15"
+                            },
+                            {
+                                "Tag": "H2SO4 92...99%B",
+                                "Enum": "16"
+                            },
+                            {
+                                "Tag": "HCl 0...18%",
+                                "Enum": "17"
+                            },
+                            {
+                                "Tag": "HCl 0...18%B",
+                                "Enum": "18"
+                            },
+                            {
+                                "Tag": "HCl 22...44%",
+                                "Enum": "19"
+                            },
+                            {
+                                "Tag": "HCl 22...44%B",
+                                "Enum": "20"
+                            },
+                            {
+                                "Tag": "NaCl 0...25%",
+                                "Enum": "21"
+                            },
+                            {
+                                "Tag": "NaCl 0...25%B",
+                                "Enum": "22"
+                            },
+                            {
+                                "Tag": "MgCl2 0...17.5%",
+                                "Enum": "23"
+                            },
+                            {
+                                "Tag": "MgCl2 0...17.5%B",
+                                "Enum": "24"
+                            },
+                            {
+                                "Tag": "MgCl2 18.5...25%",
+                                "Enum": "25"
+                            },
+                            {
+                                "Tag": "MgCl2 18.5...25%B",
+                                "Enum": "26"
                             }
                         ]
                     },
@@ -566,6 +966,379 @@
                             "RangeUpper": 100,
                             "RangeLower": 0
                         }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Tag": "Temperature Coefficient Linear",
+        "Icon": "analytics",
+        "menu": [{
+                "Tag": "Configuration 1",
+                "Value": "0.0",
+                "RangeUpper": 130.0,
+                "RangeLower": -10.0
+            },
+            {
+                "Tag": "Configuration 2",
+                "Value": "0.0",
+                "RangeUpper": 130.0,
+                "RangeLower": -10.0
+            },
+            {
+                "Tag": "Configuration 3",
+                "Value": "0.0",
+                "RangeUpper": 130.0,
+                "RangeLower": -10.0
+            },
+            {
+                "Tag": "Configuration 4",
+                "Value": "0.0",
+                "RangeUpper": 130.0,
+                "RangeLower": -10.0
+            }
+        ]
+    },
+    {
+        "Tag": "Temperature Coefficient Non-Linear",
+        "Icon": "git-branch-outline",
+        "menu": [{
+                "Tag": "Configuration 1",
+                "menu": [{
+                        "Tag": "Temperature Point 1",
+                        "Value": "0.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 2",
+                        "Value": "10.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 3",
+                        "Value": "20.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 4",
+                        "Value": "50.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 5",
+                        "Value": "60.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 6",
+                        "Value": "70.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 1",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 2",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 3",
+                        "Value": "2.0",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 4",
+                        "Value": "2.1",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 5",
+                        "Value": "2.2",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 6",
+                        "Value": "2.3",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    }
+                ]
+            },
+            {
+                "Tag": "Configuration 2",
+                "menu": [{
+                        "Tag": "Temperature Point 1",
+                        "Value": "0.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 2",
+                        "Value": "10.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 3",
+                        "Value": "20.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 4",
+                        "Value": "50.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 5",
+                        "Value": "60.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 6",
+                        "Value": "70.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 1",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 2",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 3",
+                        "Value": "2.0",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 4",
+                        "Value": "2.1",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 5",
+                        "Value": "2.2",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 6",
+                        "Value": "2.3",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    }
+                ]
+            },
+            {
+                "Tag": "Configuration 3",
+                "menu": [{
+                        "Tag": "Temperature Point 1",
+                        "Value": "0.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 2",
+                        "Value": "10.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 3",
+                        "Value": "20.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 4",
+                        "Value": "50.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 5",
+                        "Value": "60.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 6",
+                        "Value": "70.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 1",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 2",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 3",
+                        "Value": "2.0",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 4",
+                        "Value": "2.1",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 5",
+                        "Value": "2.2",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 6",
+                        "Value": "2.3",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    }
+                ]
+            },
+            {
+                "Tag": "Configuration 4",
+                "menu": [{
+                        "Tag": "Temperature Point 1",
+                        "Value": "0.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 2",
+                        "Value": "10.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 3",
+                        "Value": "20.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 4",
+                        "Value": "50.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 5",
+                        "Value": "60.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Point 6",
+                        "Value": "70.0",
+                        "RangeUpper": 130.0,
+                        "RangeLower": -10.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 1",
+                        "Value": "1.8",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 2",
+                        "Value": "1.9",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 3",
+                        "Value": "2.0",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 4",
+                        "Value": "2.1",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 5",
+                        "Value": "2.2",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    },
+                    {
+                        "Tag": "Temperature Coefficient 6",
+                        "Value": "2.3",
+                        "RangeUpper": 5.4,
+                        "RangeLower": 0.0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Tag": "Operation Mode IO",
+        "Icon": "ios-play-forward-outline",
+        "menu": [{
+                "Tag": "Measurement Type",
+                "Access": "R",
+                "Value": "NaCl",
+                "PossibleValues": [{
+                        "Tag": "NaCl"
+                    },
+                    {
+                        "Tag": "NaOH"
+                    },
+                    {
+                        "Tag": "Na2SO4"
+                    },
+                    {
+                        "Tag": "No Function"
+                    }
+                ]
+            },
+            {
+                "Tag": "Measurement Range",
+                "Access": "R",
+                "Value": "NaOH Low",
+                "Menu": [{
+                        "Tag": "NaOH High"
+                    },
+                    {
+                        "Tag": "NaOH Low"
                     }
                 ]
             }

@@ -18,11 +18,11 @@ const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value
 
 
 let peripheralID='0'
-let ConfigurationParams = Paramsfiltered.find(ConfigurationParams => ConfigurationParams.Tag === "Configuration");
+let ConfigurationParams = Paramsfiltered.find(ConfigurationParams => ConfigurationParams.Tag === "Setup Menu");
 let MenuParams = ConfigurationParams.menu;
 const StackConfiguration = createStackNavigator();
 
-var filtered = Values.filter(row => row.Tag == 'Configuration');
+var filtered = Values.filter(row => row.Tag == 'Setup Menu');
 var filteredAT = filtered.filter(row => row.Tag == 'Active Configuration');
 const CheckButtoned=(selectedValue, sentValue )=> {
     if(selectedValue===sentValue){
@@ -163,7 +163,7 @@ const ConfigurationScreen = ({ route, navigation }) => {
 
   const ActiveConfigurationScreen = ({ route, navigation }) => {
     const { Tag } = route.params
-    const valSystemUnits = Values.filter(row => row.Tag == 'Configuration')[0].menu;
+    const valSystemUnits = Values.filter(row => row.Tag == 'Setup Menu')[0].menu;
     const val = valSystemUnits.filter(row => row.Tag == Tag)[0];
     const possibleValues = val.PossibleValues;
     const [selection, setSelection] = React.useState(val.Value);
@@ -236,7 +236,7 @@ const ConfigurationScreen = ({ route, navigation }) => {
 
   return (
     <StackConfiguration.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-      <StackConfiguration.Screen name='Configuration Main' component={ConfigurationMainScreen} options={{ headerTitle: "Configuration" }} />
+      <StackConfiguration.Screen name='Configuration Main' component={ConfigurationMainScreen} options={{ headerTitle: "Setup Menu" }} />
       <StackConfiguration.Screen name='Active Configuration' component={ActiveConfigurationScreen} />
       <StackConfiguration.Screen name='Reference Temperature' component={ReferenceTemperatureScreen} />
 

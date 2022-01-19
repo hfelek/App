@@ -32,7 +32,8 @@ import DisplayScreen from './Objects/SettingsPage/Display'
 import CommunicationScreen from './Objects/SettingsPage/CommunicationScreen'
 import SystemScreen from './Objects/SettingsPage/System'
 import ConfigurationScreen from './Objects/SettingsPage/Configuration'
-
+import TemperatureCoeffNonLinearScreen from './Objects/SettingsPage/TemperatureCoeffNonLinear'
+import TemperatureCoeffLinearScreen from './Objects/SettingsPage/TemperatureCoeffLinear'
 
 let peripheralID = null
 
@@ -103,11 +104,13 @@ console.log("I am here Settings Screen")
       <StackSettings.Navigator screenOptions={{ headerShown: false }}>
         <StackSettings.Screen name='SettingsMain' component={SettingsMainScreen} />
         <StackSettings.Screen name='Identification' component={IdentificationScreen} />
-        <StackSettings.Screen name='Configuration' component={ConfigurationScreen} />
-
+        <StackSettings.Screen name='Setup Menu' component={ConfigurationScreen} />
         <StackSettings.Screen name='Diagnostics' component={DiagnosticsScreen} />
         <StackSettings.Screen name='Measured Values' component={MeasuredValuesScreen} />
-        <StackSettings.Screen name='Conductivity' component={ConductivityScreen} />
+        <StackSettings.Screen name='Temperature Coefficient Non-Linear' component={TemperatureCoeffNonLinearScreen} />
+        <StackSettings.Screen name='Temperature Coefficient Linear' component={TemperatureCoeffLinearScreen} />
+
+        <StackSettings.Screen name='Conductivity Input' component={ConductivityScreen} />
         <StackSettings.Screen name='Concentration' component={ConcentrationScreen} />
         <StackSettings.Screen name='Output1' component={Output1MainScreen} />
         <StackSettings.Screen name='Output2' component={Output2Screen} />
