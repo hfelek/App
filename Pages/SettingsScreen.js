@@ -36,6 +36,11 @@ import TemperatureCoeffNonLinearScreen from './Objects/SettingsPage/TemperatureC
 import TemperatureCoeffLinearScreen from './Objects/SettingsPage/TemperatureCoeffLinear'
 import TemperatureCoeffCustomScreen from './Objects/SettingsPage/TemperatureCoeffCustom'
 import OperationModeScreen from './Objects/SettingsPage/OperationModeScreen'
+import CurrentOutputScreen from './Objects/SettingsPage/CurrentOutputScreen'
+import SwitchOutputScreeen from './Objects/SettingsPage/SwitchOutputScreen'
+import DigitalInputScreen from './Objects/SettingsPage/DigitalInputScreen'
+import CalibrationScreen from './Objects/SettingsPage/CalibrationScreen'
+
 let peripheralID = null
 
 
@@ -119,8 +124,13 @@ console.log("I am here Settings Screen")
         <StackSettings.Screen name='Display' component={DisplayScreen} />
         <StackSettings.Screen name='Communication' component={CommunicationScreen} />
         <StackSettings.Screen name='System Units' component={SystemUnitsScreen} />
-
+        <StackSettings.Screen name='Current Output' component={CurrentOutputScreen} />
         <StackSettings.Screen name='System' component={SystemScreen} />
+        <StackSettings.Screen name='Calibration' component={CalibrationScreen} />
+
+        <StackSettings.Screen name='Switch Output' component={SwitchOutputScreeen} />
+        <StackSettings.Screen name='Digital Input' component={DigitalInputScreen} />
+
       </StackSettings.Navigator>
     );
   // }

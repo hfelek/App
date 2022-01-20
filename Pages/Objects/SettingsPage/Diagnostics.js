@@ -24,23 +24,31 @@ const enumObj={"1":"Enabled","0":"Disabled"}
 var filtered;
 var filteredAT;
 const itemKeyObject= {"Actual Diagnostics":"50", "Last Diagnostics":"51"}
-const CheckButtoned=(selectedValue, sentValue )=> {
-  if(selectedValue===sentValue){
-    return(
+const CheckButtoned = (selectedValue, sentValue) => {
+  if (selectedValue === sentValue) {
+    return (
 
-        <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-          <Text>{sentValue}</Text>
-          <Icon
-            name="checkmark-outline"
-            size={20}
-            color="#f54"
-          />
-        </View>
-      )
+      <View style={{
+        padding: 8,
+        marginVertical: 0,
+        marginHorizontal: 0, justifyContent: "space-between", flexDirection: "row"
+      }}>
+        <Text>{sentValue}</Text>
+        <Icon
+          name="checkmark-outline"
+          size={20}
+          color="#f54"
+        />
+      </View>
+    )
   }
-  else{
-    return(
-      <View style={{ flexDirection: "row" }}>
+  else {
+    return (
+      <View style={{
+        padding: 8,
+        marginVertical: 0,
+        marginHorizontal: 0, flexDirection: "row"
+      }}>
         <Text>{sentValue}</Text>
       </View>
     )

@@ -21,7 +21,7 @@ let peripheralID = '0'
 let nonLinearCoeffParams = Values.filter(item => item.Tag === "Temperature Coefficient Non-Linear")[0];
 let MenuParams = nonLinearCoeffParams.menu;
 // let subMenuParams = MenuParams.filter(row => row.Tag == 'Configuration 1')[0].menu;
-const StackConductivity = createStackNavigator();
+const StackTempCoeffNonLinear = createStackNavigator();
 
 
 const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
@@ -40,28 +40,28 @@ function Item(title, value, navigation = null, context = null, parent = null) {
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Non-Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
           <Text style={styles.title}>{title}</Text>
-          {/* <Text style={styles.value}>{value}</Text> */}
+          <Text style={styles.value}>{value}</Text>
         </TouchableOpacity>
       )
     case 'Configuration 2':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Non-Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
           <Text style={styles.title}>{title}</Text>
-          {/* <Text style={styles.value}>{value}</Text> */}
+          <Text style={styles.value}>{value}</Text>
         </TouchableOpacity>
       )
     case 'Configuration 3':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Non-Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
           <Text style={styles.title}>{title}</Text>
-          {/* <Text style={styles.value}>{value}</Text> */}
+          <Text style={styles.value}>{value}</Text>
         </TouchableOpacity>
       )
     case 'Configuration 4':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Non-Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
           <Text style={styles.title}>{title}</Text>
-          {/* <Text style={styles.value}>{value}</Text> */}
+          <Text style={styles.value}>{value}</Text>
         </TouchableOpacity>
       )
     case 'Configuration':
@@ -324,13 +324,13 @@ const TemperatureCoeffNonLinearScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-      <StackConductivity.Screen name='Configuration' component={ConfigurationNumScreen} options={{ headerTitle: "Non-Linear Temperature Coefficient" }} />
-      <StackConductivity.Screen name='Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
+    <StackTempCoeffNonLinear.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+      <StackTempCoeffNonLinear.Screen name='Configuration' component={ConfigurationNumScreen} options={{ headerTitle: "Non-Linear Temperature Coefficient" }} />
+      <StackTempCoeffNonLinear.Screen name='Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
       {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
 
 
-    </StackConductivity.Navigator>
+    </StackTempCoeffNonLinear.Navigator>
 
   );
 }

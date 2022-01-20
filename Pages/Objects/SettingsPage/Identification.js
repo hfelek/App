@@ -57,8 +57,8 @@ const HandleWriteCommand = (peripheralId,serviceUUID,characteristicUUID,value,co
     console.log(setParameters)
 
     for (const item in setParameters) {
-       contextConfigurationValues.setValueByKey(item,setParameters[item])
-       console.log(contextConfigurationValues["18"])
+       context.setValueByKey(item,setParameters[item])
+       console.log(context["18"])
     }
   // AlertLocal()
     Alert.alert("Configuration Successfull!")

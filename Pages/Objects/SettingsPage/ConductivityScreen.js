@@ -123,7 +123,11 @@ const CheckButtoned = (selectedValue, sentValue) => {
   if (selectedValue === sentValue) {
     return (
 
-      <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+      <View style={{
+        padding: 8,
+        marginVertical: 0,
+        marginHorizontal: 0, justifyContent: "space-between", flexDirection: "row"
+      }}>
         <Text>{sentValue}</Text>
         <Icon
           name="checkmark-outline"
@@ -135,7 +139,11 @@ const CheckButtoned = (selectedValue, sentValue) => {
   }
   else {
     return (
-      <View style={{ flexDirection: "row" }}>
+      <View style={{
+        padding: 8,
+        marginVertical: 0,
+        marginHorizontal: 0, flexDirection: "row"
+      }}>
         <Text>{sentValue}</Text>
       </View>
     )

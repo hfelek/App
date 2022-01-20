@@ -2445,6 +2445,404 @@
         ]
     },
     {
+        "Tag": "Current Output",
+        "Icon": "md-swap-vertical-sharp",
+        "menu": [{
+                "Tag": "Configuration 1",
+                "Access": "R",
+                "menu": [{
+                        "Tag": "Conductivity - 4mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Conductivity - 20mA Set Point",
+                        "Access": "R",
+                        "Value": "10",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration - 4mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration - 20mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature - 4mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature - 20mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    }
+                ]
+            },
+            {
+                "Tag": "Configuration 2",
+                "Access": "R",
+                "menu": [{
+                        "Tag": "Conductivity - 4mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Conductivity - 20mA Set Point",
+                        "Access": "R",
+                        "Value": "10",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration - 4mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration - 20mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature - 4mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature - 20mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    }
+                ]
+            },
+            {
+                "Tag": "Configuration 3",
+                "Access": "R",
+                "menu": [{
+                        "Tag": "Conductivity - 4mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Conductivity - 20mA Set Point",
+                        "Access": "R",
+                        "Value": "10",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration - 4mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration - 20mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature - 4mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature - 20mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    }
+                ]
+            },
+            {
+                "Tag": "Configuration 4",
+                "Access": "R",
+                "menu": [{
+                        "Tag": "Conductivity - 4mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Conductivity - 20mA Set Point",
+                        "Access": "R",
+                        "Value": "10",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration - 4mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration - 20mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature - 4mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature - 20mA Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Tag": "Switch Output",
+        "Icon": "crop-outline",
+        "menu": [{
+                "Tag": "Configuration 1",
+                "Access": "R",
+                "menu": [{
+                        "Tag": "Conductivity - ON-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Conductivity - OFF-Value Set Point",
+                        "Access": "R",
+                        "Value": "10",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration - ON-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration - OFF-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature - ON-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature - OFF-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    }
+                ]
+            },
+            {
+                "Tag": "Configuration 2",
+                "Access": "R",
+                "menu": [{
+                        "Tag": "Conductivity - ON-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Conductivity - OFF-Value Set Point",
+                        "Access": "R",
+                        "Value": "10",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration - ON-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration - OFF-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature - ON-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature - OFF-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    }
+                ]
+            },
+            {
+                "Tag": "Configuration 3",
+                "Access": "R",
+                "menu": [{
+                        "Tag": "Conductivity - ON-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Conductivity - OFF-Value Set Point",
+                        "Access": "R",
+                        "Value": "10",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration - ON-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration - OFF-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature - ON-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature - OFF-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    }
+                ]
+            },
+            {
+                "Tag": "Configuration 4",
+                "Access": "R",
+                "menu": [{
+                        "Tag": "Conductivity - ON-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Conductivity - OFF-Value Set Point",
+                        "Access": "R",
+                        "Value": "10",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration - ON-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Concentration - OFF-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature - ON-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    },
+                    {
+                        "Tag": "Temperature - OFF-Value Set Point",
+                        "Access": "R/W",
+                        "Value": "15",
+                        "Limit": "100"
+                    }
+                ]
+            }
+        ]
+    },
+
+    {
+        "Tag": "Digital Input",
+        "Icon": "expand-outline",
+        "menu": [{
+                "Tag": "Digital Input Status",
+                "Access": "R",
+                "Value": "High",
+                "PossibleValues": [{
+                        "Tag": "D-IN State:High"
+                    },
+                    {
+                        "Tag": "D-IN State:Low"
+                    }
+
+                ]
+            },
+            {
+                "Tag": "Digital Input Function",
+                "Access": "R",
+                "Value": "Configuration Control",
+                "PossibleValues": [{
+                        "Tag": "Configuration Control",
+                        "Enum": "0"
+                    },
+                    {
+                        "Tag": "Status Control",
+                        "Enum": "1"
+                    }
+
+                ],
+                "SubMenu": [{
+                    "Tag": "Configuration Control",
+                    "menu": [{
+                            "Tag": "D-IN State:High",
+                            "Value": "Configuration 1",
+                            "PossibleValues": [
+                                { "Tag": "Configuration 1", "Enum": "0" },
+                                { "Tag": "Configuration 2", "Enum": "1" },
+                                { "Tag": "Configuration 3", "Enum": "2" },
+                                { "Tag": "Configuration 4", "Enum": "3" }
+                            ]
+                        },
+                        {
+                            "Tag": "D-IN State:Low",
+                            "Value": "Configuration 1",
+                            "PossibleValues": [
+                                { "Tag": "Configuration 1", "Enum": "0" },
+                                { "Tag": "Configuration 2", "Enum": "1" },
+                                { "Tag": "Configuration 3", "Enum": "2" },
+                                { "Tag": "Configuration 4", "Enum": "3" }
+                            ]
+                        }
+                    ]
+
+                }]
+            }
+        ]
+    },
+
+    {
         "Tag": "Output1",
         "Icon": "md-play-outline",
         "menu": [{
@@ -2978,22 +3376,12 @@
             }
         ]
     },
+
+
     {
-        "Tag": "System",
-        "Icon": "md-hammer-sharp",
+        "Tag": "Calibration",
+        "Icon": "cog-outline",
         "menu": [{
-                "Tag": "Language",
-                "Access": "R",
-                "Value": "English",
-                "PossibleValues": [{
-                        "Tag": "English"
-                    },
-                    {
-                        "Tag": "Türkçe"
-                    }
-                ]
-            },
-            {
                 "Tag": "Set Access Code",
                 "Access": "W"
             },
@@ -3002,35 +3390,42 @@
                 "Access": "W"
             },
             {
-                "Tag": "Auto-Calibrate",
+                "Tag": "Device Restore Factory"
+            },
+            {
+                "Tag": "Device Auto Calibration"
+            },
+            {
+                "Tag": "Wifi Parameters Restore"
+            },
+            {
+                "Tag": "Restart"
+            }
+        ]
+    },
+
+    {
+        "Tag": "System",
+        "Icon": "md-hammer-sharp",
+        "menu": [{
+                "Tag": "Set Access Code",
                 "Access": "W"
             },
             {
-                "Tag": "Device Reset",
-                "Access": "R",
-                "PossibleValues": [{
-                        "Tag": "Cancel"
-                    },
-                    {
-                        "Tag": "Device Restore Factory"
-                    },
-                    {
-                        "Tag": "Device Auto Calibration"
-                    },
-                    {
-                        "Tag": "Parameters Restore"
-                    },
-                    {
-                        "Tag": "Wifi Parameters Restore"
-                    },
-                    {
-                        "Tag": "Restart"
-                    }
-                ]
+                "Tag": "Access Code",
+                "Access": "W"
             },
             {
-                "Tag": "User Role",
-                "Access": "R"
+                "Tag": "Device Restore Factory"
+            },
+            {
+                "Tag": "Device Auto Calibration"
+            },
+            {
+                "Tag": "Wifi Parameters Restore"
+            },
+            {
+                "Tag": "Restart"
             }
         ]
     }

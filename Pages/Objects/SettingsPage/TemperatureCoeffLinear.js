@@ -40,28 +40,28 @@ function Item(title, value, navigation = null, context = null, parent = null) {
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Linear Temperature Coefficient', { Tag: title,  name: title, ConfigNum: parent })}>
           <Text style={styles.title}>{title}</Text>
-          {/* <Text style={styles.value}>{value}</Text> */}
+          <Text style={styles.value}>{value}</Text>
         </TouchableOpacity>
       )
     case 'Configuration 2':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
           <Text style={styles.title}>{title}</Text>
-          {/* <Text style={styles.value}>{value}</Text> */}
+          <Text style={styles.value}>{value}</Text>
         </TouchableOpacity>
       )
     case 'Configuration 3':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
           <Text style={styles.title}>{title}</Text>
-          {/* <Text style={styles.value}>{value}</Text> */}
+          <Text style={styles.value}>{value}</Text>
         </TouchableOpacity>
       )
     case 'Configuration 4':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
           <Text style={styles.title}>{title}</Text>
-          {/* <Text style={styles.value}>{value}</Text> */}
+          <Text style={styles.value}>{value}</Text>
         </TouchableOpacity>
       )
     case 'Configuration':
@@ -88,7 +88,11 @@ const CheckButtoned = (selectedValue, sentValue) => {
   if (selectedValue === sentValue) {
     return (
 
-      <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+      <View style={{
+        padding: 8,
+        marginVertical: 0,
+        marginHorizontal: 0, justifyContent: "space-between", flexDirection: "row"
+      }}>
         <Text>{sentValue}</Text>
         <Icon
           name="checkmark-outline"
@@ -100,7 +104,11 @@ const CheckButtoned = (selectedValue, sentValue) => {
   }
   else {
     return (
-      <View style={{ flexDirection: "row" }}>
+      <View style={{
+        padding: 8,
+        marginVertical: 0,
+        marginHorizontal: 0, flexDirection: "row"
+      }}>
         <Text>{sentValue}</Text>
       </View>
     )

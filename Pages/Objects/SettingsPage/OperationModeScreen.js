@@ -42,14 +42,14 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Operation Selection', { Tag: title, name: title, ConfigNum: parent })}>
                     <Text style={styles.title}>{title}</Text>
-                    {/* <Text style={styles.value}>{value}</Text> */}
+                    <Text style={styles.value}>{value}</Text>
                 </TouchableOpacity>
             )
         case 'Operation Mode IO 2':
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Operation Selection', { Tag: title, name: title, ConfigNum: parent })}>
                     <Text style={styles.title}>{title}</Text>
-                    {/* <Text style={styles.value}>{value}</Text> */}
+                    <Text style={styles.value}>{value}</Text>
                 </TouchableOpacity>
             )
         case 'Configuration':
@@ -147,6 +147,10 @@ const OperationSelectionScreen = ({ route, navigation }) => {
     // const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
 
     const [selection, setSelection] = React.useState(value);
+    const [selectionCurrentAssign, setSelectionCurrentAssign] = React.useState(value);
+    const [selectionSwitchOutputType, setSelectionSwitchOutputType] = React.useState("P-Switching")
+    const [selectionSwitchAssign, setSelectionSwitchAssign] = React.useState("Condcutivitity")
+    const [selectionSwitchFunction, setSelectionSwitchFunction] = React.useState("Off")
     // console.log("PossibleValues")
     // console.log(PossibleValues)
 
@@ -158,25 +162,27 @@ const OperationSelectionScreen = ({ route, navigation }) => {
 
     console.log(PossibleValues)
     return (
-        <SafeAreaView style={[styles.container1]}>
-            <View style={[styles.itemButton, { paddingTop: 0, alignItems: "center" }]} >
-                <Text style={styles.title}>{"Choose The Output Type of IO" + " for " + ConfigNum}</Text>
+        <SafeAreaView style={[styles.container1, { alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
+            <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
+                <Text style={[styles.title,{borderBottomWidth:2,borderBottomColor:"black"}]}>{"Choose The Output Type of IOU" + " for " + ConfigNum}</Text>
             </View>
 
 
+            <View style={styles.pickerText} >
 
-            <Picker style={styles.picker}
-                selectedValue={selection}
-                onValueChange={(itemValue, itemIndex) =>
-                    setSelection(itemValue)
-                }>
-                <Picker.Item label="Current Output" value="Current Output" />
-                <Picker.Item label="Switch Output" value="Switch Output" />
-                <Picker.Item label="Digital Input" value="Digital Input" />
-                <Picker.Item label="Off" value="Off" />
-                {/* {pickerPossibleValues} */}
+                <Picker style={{ textAlign: '' }}
+                    selectedValue={selection}
+                    onValueChange={(itemValue, itemIndex) =>
+                        setSelection(itemValue)
+                    }>
+                    <Picker.Item label="Current Output" value="Current Output" />
+                    <Picker.Item label="Switch Output" value="Switch Output" />
+                    <Picker.Item label="Digital Input" value="Digital Input" />
+                    <Picker.Item label="Off" value="Off" />
+                    {/* {pickerPossibleValues} */}
 
-            </Picker>
+                </Picker>
+            </View>
             {/* {
                 selection == "Current Output" && 
                 <Picker style={styles.picker}
@@ -191,9 +197,123 @@ const OperationSelectionScreen = ({ route, navigation }) => {
 
             } */}
             {
-                selection == "Switch Output" && <Text>Switch Output</Text>
+                selection == "Switch Output" && (
+                    <View style={[styles.container1, { alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
+                        <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
+                            <Text style={[styles.title,{borderBottomWidth:2,borderBottomColor:"black"}]}>{"Choose the Output Assign for Switch Output"}</Text>
+                        </View>
+
+                        <View style={styles.pickerText} >
+
+                            <Picker style={[styles.picker, { textAlign: 'center' }]}
+                                selectedValue={selectionSwitchOutputType}
+                                onValueChange={(itemValue, itemIndex) =>
+                                    setSelectionSwitchOutputType(itemValue)
+                                }>
+                                <Picker.Item label="Off" value="Off" />
+                                <Picker.Item label="Conductivity" value="Conductivity" />
+                                <Picker.Item label="Concentration" value="Concentration" />
+                                <Picker.Item label="Temperature" value="Temperature" />
+                                {/* {pickerPossibleValues} */}
+
+                            </Picker>
+                        </View>
+                        <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
+                            <Text style={[styles.title,{borderBottomWidth:2,borderBottomColor:"black"}]}>{"Choose the Function Type for Switch Output"}</Text>
+                        </View>
+                        <View style={styles.pickerText} >
+
+                            <Picker style={styles.picker}
+                                selectedValue={selectionSwitchOutputType}
+                                onValueChange={(itemValue, itemIndex) =>
+                                    setSelectionSwitchOutputType(itemValue)
+                                }>
+                                <Picker.Item label="Alarm" value="Alarm" />
+                                <Picker.Item label="Off" value="Off" />
+                                <Picker.Item label="On" value="On" />
+                                <Picker.Item label="Limit Conductivity" value="Limit Conductivity" />
+                                <Picker.Item label="Limit Concentration" value="Limit Concentration" />
+                                <Picker.Item label="Limit Temperature" value="Limit Temperature" />
+                                <Picker.Item label="Window Conductivity" value="Window Conductivity" />
+                                <Picker.Item label="Window Concentration" value="Window Concentration" />
+                                <Picker.Item label="Window Temperature" value="Window Temperature" />
+                                {/* {pickerPossibleValues} */}
+
+                            </Picker>
+                        </View>
+                        <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
+                            <Text style={[styles.title,{borderBottomWidth:2,borderBottomColor:"black"}]}>{"Choose The Output Type for Switch Output"}</Text>
+                        </View>
+                        <View style={styles.pickerText} >
+
+                            <Picker style={styles.picker}
+                                selectedValue={selectionSwitchOutputType}
+                                onValueChange={(itemValue, itemIndex) =>
+                                    setSelectionSwitchOutputType(itemValue)
+                                }>
+                                <Picker.Item label="P-Switching" value="P-Switching" />
+                                <Picker.Item label="N-Switching" value="N-Switching" />
+                                <Picker.Item label="Push-Pull" value="Push-Pull" />
+                                {/* {pickerPossibleValues} */}
+
+                            </Picker>
+                        </View>
+
+                    </View>
+
+
+
+                )
                 //   Current Output Seçiliyken Renderlanacak
             }
+            {
+                selection == "Current Output" && (
+                    <View style={[styles.container1, { alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
+
+                        <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
+                            <Text style={[styles.title,{borderBottomWidth:2,borderBottomColor:"black"}]}>{"Choose the Output Assign for Switch Output"}</Text>
+                        </View>
+
+                        <View style={styles.pickerText} >
+
+                            <Picker style={[styles.picker, { textAlign: 'center' }]}
+                                selectedValue={selectionSwitchOutputType}
+                                onValueChange={(itemValue, itemIndex) =>
+                                    setSelectionSwitchOutputType(itemValue)
+                                }>
+                                <Picker.Item label="Off" value="Off" />
+                                <Picker.Item label="Conductivity" value="Conductivity" />
+                                <Picker.Item label="Concentration" value="Concentration" />
+                                <Picker.Item label="Temperature" value="Temperature" />
+                                {/* {pickerPossibleValues} */}
+
+                            </Picker>
+                        </View>
+
+
+                    </View>
+                )
+                //   Current Output Seçiliyken Renderlanacak
+            }
+
+
+
+
+            {
+                
+                (true) &&
+
+                <Button
+                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Identification", "Set Parameters": {"18":"${text}"}}`, contextConfigurationValues) }}
+                    title="Save"
+                    color="#841584"
+                />
+
+
+
+
+            }
+
         </SafeAreaView>
     );
 };
@@ -246,6 +366,15 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: 'black',
     },
+    picker: {
+        alignItems: "center",
+        borderWidth:2,
+        borderColor: '#000',
+        // backgroundColor: "#9A348E",
+        padding: 8,
+        marginRight: 3,
+        borderRadius: 2,
+    },
     buttonBar: {
         alignItems: "center",
         backgroundColor: "#9A348E",
@@ -267,6 +396,15 @@ const styles = StyleSheet.create({
         borderBottomWidth: StyleSheet.hairlineWidth,
         justifyContent: 'center'
     },
+    pickerText: {
+        backgroundColor: '#ffffff',
+        padding: 8,
+        marginVertical: 0,
+        marginHorizontal: 0,
+        flexDirection: 'column',
+
+        justifyContent: 'center'
+    },
     myText: {
         color: 'black',
         fontSize: 25,
@@ -285,6 +423,15 @@ const styles = StyleSheet.create({
         // marginTop: StatusBar.currentHeight || 0,
         paddingTop: 0,
     },
+    // picker: {
+    //     flex: 1,
+    //     alignItems: "center",
+    //     borderBottomColor: 'black',
+    //     borderBottomWidth: StyleSheet.hairlineWidth,
+    //     flexDirection: 'column',
+    //     backgroundColor:'white'
+
+    //   },
     containerSlider: {
         flex: 1,
         marginLeft: 30,
