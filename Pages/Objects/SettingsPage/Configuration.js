@@ -10,14 +10,12 @@ import react from 'react';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import { ContextConfigurationValues } from '../../../App';
+import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions/HandleGroup'
+import HandleWriteCommand from '../../../Utilities/BLEFunctions/HandleSingle'
+
 const renderItem = ({ item, navigation, context = null }) => (
   Item(item.Tag, item.Value, navigation, context = context)
 );
-const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
-  BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
-  console.log("In Button Function")
-  ///If anything else is to be done, it will be done here!
-}
 
 
 let peripheralID = '0'
@@ -58,6 +56,7 @@ const CheckButtoned = (selectedValue, sentValue) => {
   }
 }
 const ReferenceTemperatureScreen = ({ route, navigation }) => {
+  const context = useContext(ContextConfigurationValues) 
   const valSystemUnits = Values.filter(row => row.Tag == 'System Units');
   const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Unit Temperature');
   const possibleValues = val[0].PossibleValues;
@@ -78,7 +77,7 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
     if (selection != val[0].Value) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'System Units', 'Set Parameters': {'6D':'${possibleValues.filter(row => row.Tag == selection)[0].Enum}'}}`)) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Setup Menu", "Set Parameters": {"102":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`,context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -146,11 +145,14 @@ const ChangedButton = (initialValue, newValue, navigation) => {
   }
 }
 const ActiveConfigurationScreen = ({ route, navigation }) => {
+  const context = useContext(ContextConfigurationValues) 
   const { Tag } = route.params
   const valSystemUnits = Values.filter(row => row.Tag == 'Setup Menu')[0].menu;
   const val = valSystemUnits.filter(row => row.Tag == Tag)[0];
   const possibleValues = val.PossibleValues;
-  const [selection, setSelection] = React.useState(val.Value);
+  const index = "101"
+  const [selection, setSelection] = React.useState(val.Value); // Buraya Initital Value Gelecek
+ 
   let hexIndex
   switch (selection) {
     case "Configuration 1":
@@ -186,7 +188,7 @@ const ActiveConfigurationScreen = ({ route, navigation }) => {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
-            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output2', 'Set Parameters': {'AF':'${hexIndex}'}}`)) }}
+            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100",`{"Tag":"Setup Menu","Set Parameters": {"${index}":"${hexIndex}"}}`,context) }}
 
           >
             <View style={styles.buttonBar}>

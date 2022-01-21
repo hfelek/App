@@ -82,81 +82,21 @@ const CheckButtoned = (selectedValue, sentValue) => {
 }
 function Item(title, value, navigation = null, context = null, parent = null) {
   switch (title) {
-    case 'Access Code':
-      return (
-        <TouchableOpacity
-          style={styles.itemButton}
-          onPress={() =>
-            navigation.navigate('Write Screen', { Tag: title, Value: value,name:title })
-          }>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      );
-      break;
-    case 'Set Access Code':
-      return (
-        <TouchableOpacity
-          style={styles.itemButton}
-          onPress={() =>
-            navigation.navigate('Write Screen', { Tag: title, Value: value,name:title })
-          }>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      );
-      break;
-      case 'Language':
-        return (
-          <TouchableOpacity
-            style={styles.itemButton}
-            onPress={() =>
-              navigation.navigate('Language', { Tag: title, Value: value })
-            }>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.value}>{value}</Text>
-          </TouchableOpacity>
-        );
-        break;
-    case 'Auto-Calibrate':
-      return (
-        <TouchableOpacity
-          style={styles.itemButton}
-          onPress={() =>
-            navigation.navigate('Write Screen', { Tag: title, Value: value,name:title })
-          }>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      );
-    case 'Device Reset':
-      return (
-        <TouchableOpacity
-          style={styles.itemButton}
-          onPress={() =>
-            navigation.navigate('Device Reset', { Tag: title, Value: value })
-          }>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      );
-      break;
-    case 'Cancel':
-      return (
-        <TouchableOpacity
-          style={styles.itemButton}
-          onPress={() => createTwoButtonAlert(
-            'Alert',
-            'Are you sure to cancel ongoing action?',
-            title,
-            '0'
-          ) 
 
+
+    case 'Conductivity Ranges':
+      return (
+        <TouchableOpacity
+          style={styles.itemButton}
+          onPress={() =>
+            navigation.navigate('Calibration Parameters', { Tag: title, Value: value,name:title })
           }>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.value}>{value}</Text>
         </TouchableOpacity>
       );
+
+
       break;
     case 'Device Auto Calibration':
       return (
@@ -173,67 +113,26 @@ function Item(title, value, navigation = null, context = null, parent = null) {
         </TouchableOpacity>
       );
       break;
-    case 'Device Restore Factory':
-      return (
-        <TouchableOpacity
-          style={styles.itemButton}
-          onPress={() => createTwoButtonAlert(
-            'Alert',
-            'Are you sure to restore Factory Settings?',
-            title,
-            '1'
-          )}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      );
-      break;
-
-    case 'Wifi Parameters Restore':
-      return (
-        <TouchableOpacity
-          style={styles.itemButton}
-          onPress={() => createTwoButtonAlert(
-            'Alert',
-            'Are you sure to restore WiFi parameters?',
-            title,
-            '3'
-          )}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      );
-      break;
-    case 'Restart':
-      return (
-        <TouchableOpacity
-          style={styles.itemButton}
-          onPress={() => createTwoButtonAlert(
-            'Alert',
-            'Are you sure to restart the device?',
-            title,
-            '4'
-          )}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      );
-      break;
-    case 'User Role':
-      return (
-        <View style={styles.item}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </View>
-      );
-      break;
+      default:
+        return (
+          <TouchableOpacity
+            style={styles.itemButton}
+            onPress={() =>
+              navigation.navigate('Write Screen', { Tag: title, Value: value,name: title.split('cm ')[1] })
+            }>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.value}>{value}</Text>
+          </TouchableOpacity>
+        );
   }
 }
 
 const WriteScreen = ({ route, navigation }) => {
   const { Tag } = route.params;
   const { Value } = route.params;
-  const [text, setText] = React.useState('');
+  const [text, setText] = React.useState(Value);
+  var slug = Tag.split('/')[0]; 
+
   // useEffect(() => {
 
   // navigation.setOptions({ title: Tag });
@@ -241,7 +140,9 @@ const WriteScreen = ({ route, navigation }) => {
   return (
     <View>
       <TextInput
-        label={(Tag=='Access Code' ? 'Write The Device Access Code!' : 'Set Your Access Code!' )}
+        // label={(Tag=='' ? 'Write The Device Access Code!' : 'Set Your Access Code!' )}
+        label={"Set "+slug}
+
         value={text}
         selectionColor="#000"
         underlineColor="#000"
@@ -280,12 +181,32 @@ const DeviceResetScreen = () => {
   const valCalibrationUnits = Values.filter(row => row.Tag == 'Calibration');
   const val = valCalibrationUnits[0].menu.filter(row => row.Tag == 'Device Reset');
   const possibleValues = val[0].PossibleValues;
+  console.log(possibleValues)
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={possibleValues}
-        renderItem={renderItem}
+        renderItem={({ item, index, separators }) => (renderItem({ item, navigation }))}       
         keyExtractor={item => item.Tag}
+      />
+    </SafeAreaView>
+  );
+};
+
+const CalibrationParameters = ({route,navigation}) => {
+  const valCalibrationUnits = Values.filter(row => row.Tag == 'Calibration');
+  const val = valCalibrationUnits[0].menu.filter(row => row.Tag == 'Conductivity Ranges');
+  const possibleValues = val[0].menu;
+  const lenght = Object.keys(possibleValues).length
+  console.log(possibleValues)
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={possibleValues}
+        renderItem={({ item, index, separators }) => (renderItem(item, navigation))}
+        keyExtractor={item => item.Tag}
+        initialNumToRender={lenght}
       />
     </SafeAreaView>
   );
@@ -339,6 +260,8 @@ const CalibrationScreen = ({ route, navigation }) => {
       />
       <StackCalibration.Screen name="Write Screen" component={WriteScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
       <StackCalibration.Screen name="Device Reset" component={DeviceResetScreen} />
+      <StackCalibration.Screen name="Calibration Parameters" component={CalibrationParameters} />
+
     </StackCalibration.Navigator>
   );
 };

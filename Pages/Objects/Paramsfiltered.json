@@ -2782,7 +2782,6 @@
             }
         ]
     },
-
     {
         "Tag": "Digital Input",
         "Icon": "expand-outline",
@@ -2796,7 +2795,6 @@
                     {
                         "Tag": "D-IN State:Low"
                     }
-
                 ]
             },
             {
@@ -2811,37 +2809,56 @@
                         "Tag": "Status Control",
                         "Enum": "1"
                     }
-
                 ],
                 "SubMenu": [{
                     "Tag": "Configuration Control",
                     "menu": [{
                             "Tag": "D-IN State:High",
                             "Value": "Configuration 1",
-                            "PossibleValues": [
-                                { "Tag": "Configuration 1", "Enum": "0" },
-                                { "Tag": "Configuration 2", "Enum": "1" },
-                                { "Tag": "Configuration 3", "Enum": "2" },
-                                { "Tag": "Configuration 4", "Enum": "3" }
+                            "PossibleValues": [{
+                                    "Tag": "Configuration 1",
+                                    "Enum": "0"
+                                },
+                                {
+                                    "Tag": "Configuration 2",
+                                    "Enum": "1"
+                                },
+                                {
+                                    "Tag": "Configuration 3",
+                                    "Enum": "2"
+                                },
+                                {
+                                    "Tag": "Configuration 4",
+                                    "Enum": "3"
+                                }
                             ]
                         },
                         {
                             "Tag": "D-IN State:Low",
                             "Value": "Configuration 1",
-                            "PossibleValues": [
-                                { "Tag": "Configuration 1", "Enum": "0" },
-                                { "Tag": "Configuration 2", "Enum": "1" },
-                                { "Tag": "Configuration 3", "Enum": "2" },
-                                { "Tag": "Configuration 4", "Enum": "3" }
+                            "PossibleValues": [{
+                                    "Tag": "Configuration 1",
+                                    "Enum": "0"
+                                },
+                                {
+                                    "Tag": "Configuration 2",
+                                    "Enum": "1"
+                                },
+                                {
+                                    "Tag": "Configuration 3",
+                                    "Enum": "2"
+                                },
+                                {
+                                    "Tag": "Configuration 4",
+                                    "Enum": "3"
+                                }
                             ]
                         }
                     ]
-
                 }]
             }
         ]
     },
-
     {
         "Tag": "Output1",
         "Icon": "md-play-outline",
@@ -3376,34 +3393,98 @@
             }
         ]
     },
-
-
     {
         "Tag": "Calibration",
         "Icon": "cog-outline",
         "menu": [{
-                "Tag": "Set Access Code",
-                "Access": "W"
-            },
-            {
-                "Tag": "Access Code",
-                "Access": "W"
-            },
-            {
-                "Tag": "Device Restore Factory"
+                "Tag": "Conductivity Ranges",
+                "Access": "W",
+                "menu": [{
+                        "Tag": "Conductivtiy Range: 0 to 2000 mS/cm Mounting Factor",
+                        "Value": "15",
+                        "MaxValue": 0.9,
+                        "MinValue": 1.1,
+                        "Unit": "µS/cm"
+                    },
+                    {
+                        "Tag": "Conductivtiy Range: 0 to 2000 mS/cm Zero Point",
+                        "Value": "15",
+                        "MaxValue": 100,
+                        "MinValue": -100,
+                        "Unit": "µS/cm"
+                    },
+                    {
+                        "Tag": "Conductivtiy Range: 0 to 1000 mS/cm Mounting Factor",
+                        "Value": "15",
+                        "MaxValue": 0.9,
+                        "MinValue": 1.1
+                    },
+                    {
+                        "Tag": "Conductivtiy Range: 0 to 1000 mS/cm Zero Point",
+                        "Value": "15",
+                        "MaxValue": 1,
+                        "MinValue": -1,
+                        "Unit": "mS/cm"
+                    },
+                    {
+                        "Tag": "Conductivtiy Range: 0 to 500 mS/cm Mounting Factor",
+                        "Value": "15",
+                        "MaxValue": 0.9,
+                        "MinValue": 1.1
+                    },
+                    {
+                        "Tag": "Conductivtiy Range: 0 to 500 mS/cm Zero Point",
+                        "Value": "15",
+                        "MaxValue": 10,
+                        "MinValue": -10,
+                        "Unit": "mS/cm"
+                    },
+                    {
+                        "Tag": "Conductivtiy Range: 0 to 200 mS/cm Mounting Factor",
+                        "Value": "15",
+                        "MaxValue": 0.9,
+                        "MinValue": 1.1
+                    },
+                    {
+                        "Tag": "Conductivtiy Range: 0 to 200 mS/cm Zero Point",
+                        "Value": "15",
+                        "MaxValue": 25,
+                        "MinValue": -25,
+                        "Unit": "mS/cm"
+                    },
+                    {
+                        "Tag": "Conductivtiy Range: 0 to 20 mS/cm Mounting Factor",
+                        "Value": "15",
+                        "MaxValue": 0.9,
+                        "MinValue": 1.1
+                    },
+                    {
+                        "Tag": "Conductivtiy Range: 0 to 20 mS/cm Zero Point",
+                        "Value": "15",
+                        "MaxValue": 50,
+                        "MinValue": -50,
+                        "Unit": "mS/cm"
+                    },
+                    {
+                        "Tag": "Conductivtiy Range: 0 to 2000 µS/cm Mounting Factor",
+                        "Value": "15",
+                        "MaxValue": 0.9,
+                        "MinValue": 1.1
+                    },
+                    {
+                        "Tag": "Conductivtiy Range: 0 to 2000 µS/cm Zero Point",
+                        "Value": "15",
+                        "MaxValue": 100,
+                        "MinValue": -100,
+                        "Unit": "mS/cm"
+                    }
+                ]
             },
             {
                 "Tag": "Device Auto Calibration"
-            },
-            {
-                "Tag": "Wifi Parameters Restore"
-            },
-            {
-                "Tag": "Restart"
             }
         ]
     },
-
     {
         "Tag": "System",
         "Icon": "md-hammer-sharp",
