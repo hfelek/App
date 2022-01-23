@@ -8,6 +8,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="28"
         tools:ignore="GoogleAppIndexingWarning">
+              <!-- <activity 
+              android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+              > -->
+
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
     </application>
 </manifest>

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity, ScrollView } from 'react-native'
+import React, { useEffect, useState,useContext } from 'react'
+import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity, ScrollView,KeyboardAvoidingView } from 'react-native'
 // import Values from '../Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
@@ -11,6 +11,10 @@ import { Slider } from "@miblanchard/react-native-slider";
 import ScrollViewNativeComponent from 'react-native/Libraries/Components/ScrollView/ScrollViewNativeComponent';
 import { color, or, round } from 'react-native-reanimated';
 import { RectButton } from 'react-native-gesture-handler';
+import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
+import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
+import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
+
 // import Slider from '@react-native-community/slider';
 //import MultiSlider from 'react-native-multi-slider';
 
@@ -24,11 +28,6 @@ let MenuParams = nonLinearCoeffParams.menu;
 const StackTempCoeffNonLinear = createStackNavigator();
 
 
-const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
-  BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
-  console.log("In Button Function")
-  ///If anything else is to be done, it will be done here!
-}
 
 function renderItem(item, navigation = null, context = null, parent) {
   return (Item(item.Tag, item.Value, navigation, context, parent))
@@ -128,6 +127,7 @@ function ConfigurationNumScreen({ route, navigation }) {
 
 
 const TemperatureCoefficientScreen = ({ route, navigation }) => {
+  const context = useContext(ContextConfigurationValues);
   const { Tag } = route.params;
   console.log(Tag)
   const { ConfigNum } = route.params;
@@ -136,7 +136,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'78':'${nonLinearParamT1}','79':'${nonLinearParamC1}','7A':'${nonLinearParamT2}'},'7B':'${nonLinearParamC2}','7C':'${nonLinearParamT3}','7D':'${nonLinearParamC3}','7E':'${nonLinearParamT4}','7F':'${nonLinearParamC4}','80':'${nonLinearParamT5}','81':'${nonLinearParamC5}'}`)) }}>
+        <TouchableOpacity onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Conductivity", "Set Parameters": {"78":"${nonLinearParamT1}","79":"${nonLinearParamC1}","7A":"${nonLinearParamT2}","7B":"${nonLinearParamC2}","7C":"${nonLinearParamT3}","7D":"${nonLinearParamC3}","7E":"${nonLinearParamT4}","7F":"${nonLinearParamC4}","80":"${nonLinearParamT5}","81":"${nonLinearParamC5}"}}`,context) }}>
           <View style={styles.buttonBar}>
             <Text>Save</Text>
           </View>
@@ -166,8 +166,8 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
   // console.log()
   return (
     // <ReturnMenu param={compensationVal} />
-    <SafeAreaView style={[styles.container, { flex: 1, flexDirection: "row" }]}>
-      {/* <ScrollView style={{ flex: 1, flexDirection: "row" }}> */}
+    <ScrollView>
+
       <View style={{ flex: 1, paddingTop: 5 }}>
         <Text style={styles.basicText}>  Temperature Point 1 (°C)   </Text>
         <TextInput style={styles.input}
@@ -238,7 +238,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
         />
       </View>
       <View style={{ flex: 1, paddingTop: 5 }}>
-        <Text style={styles.basicText}>  Temperature Coefficient 1 (%/°C)  </Text>
+        <Text style={styles.basicText}>  Coefficient 1 (%/°C)  </Text>
         <TextInput style={styles.input}
           value={nonLinearParamC1}
           // placeholder={nonLinearParamT1}
@@ -249,7 +249,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
           keyboardType="numeric"
         />
-        <Text style={styles.basicText}> Temperature Coefficient 2 (%/°C)  </Text>
+        <Text style={styles.basicText}> Coefficient 2 (%/°C)  </Text>
         <TextInput style={styles.input}
           value={nonLinearParamC2}
           // placeholder={nonLinearParamT1}
@@ -260,7 +260,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
           keyboardType="numeric"
         />
-        <Text style={styles.basicText}>  Temperature Coefficient 3 (%/°C)  </Text>
+        <Text style={styles.basicText}>  Coefficient 3 (%/°C)  </Text>
         <TextInput style={styles.input}
           value={nonLinearParamC3}
           // placeholder={nonLinearParamT1}
@@ -271,7 +271,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
           keyboardType="numeric"
         />
-        <Text style={styles.basicText}>  Temperature Coefficient 4 (%/°C)  </Text>
+        <Text style={styles.basicText}>  Coefficient 4 (%/°C)  </Text>
         <TextInput style={styles.input}
           value={nonLinearParamC4}
           // placeholder={nonLinearParamT1}
@@ -282,7 +282,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
           keyboardType="numeric"
         />
-        <Text style={styles.basicText}>  Temperature Coefficient 5 (%/°C)  </Text>
+        <Text style={styles.basicText}>  Coefficient 5 (%/°C)  </Text>
         <TextInput style={styles.input}
           value={nonLinearParamC5}
           // placeholder={nonLinearParamT1}
@@ -293,7 +293,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
           keyboardType="numeric"
         />
-        <Text style={styles.basicText}>  Temperature Coefficient 6 (%/°C) </Text>
+        <Text style={styles.basicText}>  Coefficient 6 (%/°C) </Text>
         <TextInput style={styles.input}
           value={nonLinearParamC6}
           // placeholder={nonLinearParamT1}
@@ -305,8 +305,8 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
           keyboardType="numeric"
         />
       </View>
-      {/* </ScrollView> */}
-    </SafeAreaView>
+    
+     </ScrollView>
   )
 };
 

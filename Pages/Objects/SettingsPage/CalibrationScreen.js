@@ -15,17 +15,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
 import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
-import react, { useEffect } from 'react';
+import react, { useEffect,useContext } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
+import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
+import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
+import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 let peripheralID='0'
 
-const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
-  BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
-  console.log("In Button Function")
-  ///If anything else is to be done, it will be done here!
-}
 let CalibrationParams = Paramsfiltered.find(
   CalibrationParams => CalibrationParams.Tag === 'Calibration',
 );
@@ -34,29 +32,32 @@ const StackCalibration = createStackNavigator();
 
 var filtered;
 var filteredAT;
-const createTwoButtonAlert = (title, msg,object,hexValue) =>
+const createTwoButtonAlert = (title, msg,object,hexValue,context) =>
 Alert.alert(title, msg, [
   {
     text: 'Cancel',
     onPress: () => console.log(object+ "cancelled"),
     style: 'cancel',
   },
-  { text: 'Yes', onPress: () => functionWriteBle('DB',`'${hexValue}'`) },
+  { text: 'Yes', onPress: () => functionWriteBle("DB",`"${hexValue}"`,context) },
 ]);
 
 
-function functionWriteBle(indexKey,indexValue) {
-  HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Calibration', 'Set Parameters': {'${indexKey}':'${indexValue}'}}`))
+function functionWriteBle(indexKey,indexValue,context) {
+  console.log(`{"Tag":"Calibration","Set Parameters": {"${indexKey}":${indexValue}}}`)
+  HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Calibration","Set Parameters": {"${indexKey}":${indexValue}}}`,context)
 }
-const CalibrationMainScreen = ({ navigation }) => (
+function CalibrationMainScreen  ({ navigation })  {
+  const context = useContext(ContextConfigurationValues);
+return(
   <SafeAreaView style={styles.container}>
     <FlatList
       data={MenuParams}
-      renderItem={({ item, index, separators }) => (renderItem(item, navigation, "hello", item.Tag))}
+      renderItem={({ item, index, separators }) => (renderItem(item, navigation, context, item.Tag))}
       keyExtractor={item => item.Tag}
     />
-  </SafeAreaView>
-);
+  </SafeAreaView>)
+};
 
 const CheckButtoned = (selectedValue, sentValue) => {
   if (selectedValue === sentValue) {
@@ -106,7 +107,8 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             'Alert',
             'Are you sure to start Auto Calibration?',
             title,
-            '2'
+            '2',
+            context
           )}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.value}>{value}</Text>
@@ -128,6 +130,8 @@ function Item(title, value, navigation = null, context = null, parent = null) {
 }
 
 const WriteScreen = ({ route, navigation }) => {
+  const context = useContext(ContextConfigurationValues);
+
   const { Tag } = route.params;
   const { Value } = route.params;
   const [text, setText] = React.useState(Value);
@@ -140,7 +144,7 @@ const WriteScreen = ({ route, navigation }) => {
   return (
     <View>
       <TextInput
-        // label={(Tag=='' ? 'Write The Device Access Code!' : 'Set Your Access Code!' )}
+        // label={(Tag=='' ? 'Enter The Device Access Code!' : 'Set Your Access Code!' )}
         label={"Set "+slug}
 
         value={text}
@@ -148,6 +152,7 @@ const WriteScreen = ({ route, navigation }) => {
         underlineColor="#000"
         activeOutlineColor="#000"
         outlineColor="#000"
+        keyboardType='numeric'
         // activeUnderlineColor='#000'
         error={false}
         right={
@@ -161,9 +166,8 @@ const WriteScreen = ({ route, navigation }) => {
       {/* <LenghtChecker lenght={32} /> */}
 
       <Button
-        onPress={() => {
-          // console.log(typeof text);
-        }}
+        onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Calibration", "Set Parameters": {"123":"${text}"}}`,context) }}
+
         title="Save"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
@@ -177,7 +181,10 @@ function renderItem(item, navigation = null, context = null, parent) {
   return (Item(item.Tag, item.Value, navigation, context, parent))
 }
 
-const DeviceResetScreen = () => {
+const DeviceResetScreen = ({route,navigation}) => {
+  console.log("I am in Device  Reset")
+
+  const context = useContext(ContextConfigurationValues);
   const valCalibrationUnits = Values.filter(row => row.Tag == 'Calibration');
   const val = valCalibrationUnits[0].menu.filter(row => row.Tag == 'Device Reset');
   const possibleValues = val[0].PossibleValues;
@@ -187,7 +194,7 @@ const DeviceResetScreen = () => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={possibleValues}
-        renderItem={({ item, index, separators }) => (renderItem({ item, navigation }))}       
+        renderItem={({ item, index, separators}) => (renderItem({ item, navigation,context }))}       
         keyExtractor={item => item.Tag}
       />
     </SafeAreaView>
@@ -195,6 +202,9 @@ const DeviceResetScreen = () => {
 };
 
 const CalibrationParameters = ({route,navigation}) => {
+  console.log("I am in Calibration PAramters")
+  const context = useContext(ContextConfigurationValues);
+
   const valCalibrationUnits = Values.filter(row => row.Tag == 'Calibration');
   const val = valCalibrationUnits[0].menu.filter(row => row.Tag == 'Conductivity Ranges');
   const possibleValues = val[0].menu;
@@ -204,7 +214,7 @@ const CalibrationParameters = ({route,navigation}) => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={possibleValues}
-        renderItem={({ item, index, separators }) => (renderItem(item, navigation))}
+        renderItem={({ item, index, separators }) => (renderItem(item, navigation,context))}
         keyExtractor={item => item.Tag}
         initialNumToRender={lenght}
       />
@@ -213,6 +223,10 @@ const CalibrationParameters = ({route,navigation}) => {
 };
 
 const CalibrationScreen = ({ route, navigation }) => {
+  console.log("I am in Calibration Screen")
+
+  const context = useContext(ContextConfigurationValues);
+
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
     // Success code
     console.log(JSON.stringify(peripheralsArray[0].id));
@@ -260,7 +274,7 @@ const CalibrationScreen = ({ route, navigation }) => {
       />
       <StackCalibration.Screen name="Write Screen" component={WriteScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
       <StackCalibration.Screen name="Device Reset" component={DeviceResetScreen} />
-      <StackCalibration.Screen name="Calibration Parameters" component={CalibrationParameters} />
+      <StackCalibration.Screen name="Calibration Parameters" component={CalibrationParameters}  />
 
     </StackCalibration.Navigator>
   );

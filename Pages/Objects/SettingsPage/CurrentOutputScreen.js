@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useContext } from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -9,13 +9,12 @@ import react from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
+import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
+import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
+import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 let peripheralID = '0'
 
-const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
-    BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
-    console.log("In Button Function")
-    ///If anything else is to be done, it will be done here!
-}
+
 let Output1Params = Paramsfiltered.find(Output1Params => Output1Params.Tag === "Current Output");
 let MenuParams = Output1Params.menu;
 const StackOutput1 = createStackNavigator();
@@ -180,6 +179,7 @@ const CurrentOutputMainScreen = ({route,navigation}) => {
 
 
 const CurrentOutputSettingsScreen = ({ route, navigation }) => {
+    const context = useContext(ContextConfigurationValues);
     const { Tag } = route.params
     const {ConfigNum} = route.params
     console.log("ConfigNum")
@@ -257,7 +257,7 @@ const CurrentOutputSettingsScreen = ({ route, navigation }) => {
             {/* <LenghtChecker lenght={32} /> */}
             {text != filteredAT[0].Value &&
                 <Button
-                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Current Output', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
+                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${Tag}":"${text}"}}`,context) }}
                     title="Save"
                     color="#841584"
                 />}

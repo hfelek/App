@@ -15,17 +15,16 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
 import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
-import react, { useEffect } from 'react';
+import react, { useEffect,useContext } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
+import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
+import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
+import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 let peripheralID='0'
 
-const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
-  BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
-  console.log("In Button Function")
-  ///If anything else is to be done, it will be done here!
-}
+
 let SystemParams = Paramsfiltered.find(
   SystemParams => SystemParams.Tag === 'System',
 );
@@ -34,29 +33,32 @@ const StackSystem = createStackNavigator();
 
 var filtered;
 var filteredAT;
-const createTwoButtonAlert = (title, msg,object,hexValue) =>
+const createTwoButtonAlert = (title, msg,object,hexValue,context) =>
 Alert.alert(title, msg, [
   {
     text: 'Cancel',
     onPress: () => console.log(object+ "cancelled"),
     style: 'cancel',
   },
-  { text: 'Yes', onPress: () => functionWriteBle('DB',`'${hexValue}'`) },
+  { text: 'Yes', onPress: () => functionWriteBle('DB',`'${hexValue}'`,context) },
 ]);
 
 
-function functionWriteBle(indexKey,indexValue) {
-  HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'System', 'Set Parameters': {'${indexKey}':'${indexValue}'}}`))
+function functionWriteBle(indexKey,indexValue,context) {
+  HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"System", "Set Parameters": {"${indexKey}":"${indexValue}"}}`,context)
 }
-const SystemMainScreen = ({ navigation }) => (
+function SystemMainScreen({ navigation }) {
+  const context = useContext(ContextConfigurationValues);
+  console.log("here")
+  return(
   <SafeAreaView style={styles.container}>
     <FlatList
       data={MenuParams}
-      renderItem={({ item, index, separators }) => (renderItem(item, navigation, "hello", item.Tag))}
+      renderItem={({ item, index, separators }) => (renderItem(item, navigation, context, item.Tag))}
       keyExtractor={item => item.Tag}
     />
-  </SafeAreaView>
-);
+  </SafeAreaView>)
+};
 
 const CheckButtoned = (selectedValue, sentValue) => {
   if (selectedValue === sentValue) {
@@ -106,29 +108,8 @@ function Item(title, value, navigation = null, context = null, parent = null) {
         </TouchableOpacity>
       );
       break;
-      case 'Language':
-        return (
-          <TouchableOpacity
-            style={styles.itemButton}
-            onPress={() =>
-              navigation.navigate('Language', { Tag: title, Value: value })
-            }>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.value}>{value}</Text>
-          </TouchableOpacity>
-        );
-        break;
-    case 'Auto-Calibrate':
-      return (
-        <TouchableOpacity
-          style={styles.itemButton}
-          onPress={() =>
-            navigation.navigate('Write Screen', { Tag: title, Value: value,name:title })
-          }>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      );
+
+
     case 'Device Reset':
       return (
         <TouchableOpacity
@@ -141,23 +122,23 @@ function Item(title, value, navigation = null, context = null, parent = null) {
         </TouchableOpacity>
       );
       break;
-    case 'Cancel':
-      return (
-        <TouchableOpacity
-          style={styles.itemButton}
-          onPress={() => createTwoButtonAlert(
-            'Alert',
-            'Are you sure to cancel ongoing action?',
-            title,
-            '0'
-          ) 
+    // case 'Cancel':
+    //   return (
+    //     <TouchableOpacity
+    //       style={styles.itemButton}
+    //       onPress={() => createTwoButtonAlert(
+    //         'Alert',
+    //         'Are you sure to cancel ongoing action?',
+    //         title,
+    //         '0'
+    //       ) 
 
-          }>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      );
-      break;
+    //       }>
+    //       <Text style={styles.title}>{title}</Text>
+    //       <Text style={styles.value}>{value}</Text>
+    //     </TouchableOpacity>
+    //   );
+    //   break;
     case 'Device Auto Calibration':
       return (
         <TouchableOpacity
@@ -166,7 +147,8 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             'Alert',
             'Are you sure to start Auto Calibration?',
             title,
-            '2'
+            '2',
+            context
           )}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.value}>{value}</Text>
@@ -181,7 +163,8 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             'Alert',
             'Are you sure to restore Factory Settings?',
             title,
-            '1'
+            '1',
+            context
           )}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.value}>{value}</Text>
@@ -210,7 +193,8 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             'Alert',
             'Are you sure to restore WiFi parameters?',
             title,
-            '3'
+            '3',
+            context
           )}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.value}>{value}</Text>
@@ -225,25 +209,21 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             'Alert',
             'Are you sure to restart the device?',
             title,
-            '4'
+            '4',
+            context
           )}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.value}>{value}</Text>
         </TouchableOpacity>
       );
       break;
-    case 'User Role':
-      return (
-        <View style={styles.item}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </View>
-      );
-      break;
+
   }
 }
 
 const WriteScreen = ({ route, navigation }) => {
+  const context = useContext(ContextConfigurationValues);
+
   const { Tag } = route.params;
   const { Value } = route.params;
   const [text, setText] = React.useState('');
@@ -254,10 +234,10 @@ const WriteScreen = ({ route, navigation }) => {
   return (
     <View>
       <TextInput
-        label={(Tag=='Access Code' ? 'Write The Device Access Code!' : 'Set Your Access Code!' )}
+        label={(Tag=='Access Code' ? 'Enter The Device Access Code!' : 'Set Your Access Code!' )}
         value={text}
-        selectionColor="#000"
-        underlineColor="#000"
+        // selectionColor="#000"
+        // underlineColor="#000"
         activeOutlineColor="#000"
         outlineColor="#000"
         // activeUnderlineColor='#000'
@@ -273,9 +253,8 @@ const WriteScreen = ({ route, navigation }) => {
       {/* <LenghtChecker lenght={32} /> */}
 
       <Button
-        onPress={() => {
-          // console.log(typeof text);
-        }}
+        onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Calibration", "Set Parameters": {"123":"${text}"}}`,context) }}
+
         title="Save"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
@@ -290,6 +269,7 @@ function renderItem(item, navigation = null, context = null, parent) {
 }
 
 const DeviceResetScreen = () => {
+  console.log("here in main screeeeeeeeeeeeeeeeeen")
   const valSystemUnits = Values.filter(row => row.Tag == 'System');
   const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Device Reset');
   const possibleValues = val[0].PossibleValues;

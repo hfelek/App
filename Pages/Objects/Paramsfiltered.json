@@ -420,18 +420,11 @@
                         "Access": "R",
                         "Value": "0.0",
                         "PossibleValues": [{
-                                "Tag": "°C",
-                                "Value": 25.0,
-                                "RangeUpper": 30.0,
-                                "RangeLower": 15.0
-                            },
-                            {
-                                "Tag": "°F",
-                                "Value": 77.0,
-                                "RangeUpper": 86.0,
-                                "RangeLower": 59.0
-                            }
-                        ]
+                            "Tag": "°C",
+                            "Value": 25.0,
+                            "RangeUpper": 30.0,
+                            "RangeLower": 15.0
+                        }]
                     },
                     {
                         "Tag": "Filter Time Constant",

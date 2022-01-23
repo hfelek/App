@@ -276,8 +276,17 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
     <SafeAreaView style={[styles.container, { flex: 1, flexDirection: "row" }]}>
       {/* <ScrollView style={{ flex: 1, flexDirection: "row" }}> */}
       <View style={{ flex: 1, paddingTop: 5 }}>
-        
-        {Coeffs("hello",nonLinearParamC1,setNonLinearParamC1)}
+      <Text style={styles.basicText}>  Temperature Point 2 (°C)   </Text>
+        <TextInput style={styles.input}
+          value={nonLinearParamT2}
+          // placeholder={nonLinearParamT1}
+          onChangeText={(text) => (setNonLinearParamT1(text))}
+          // onBlur={(text) =>handleTextChangeEnd(text,item)}
+          maxLength={5}
+          editable
+
+          keyboardType="numeric"
+        />
         <Text style={styles.basicText}>  Temperature Point 2 (°C)   </Text>
         <TextInput style={styles.input}
           value={nonLinearParamT2}

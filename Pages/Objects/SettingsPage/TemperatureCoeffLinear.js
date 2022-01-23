@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity, ScrollView } from 'react-native'
 // import Values from '../Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -11,11 +11,14 @@ import { Slider } from "@miblanchard/react-native-slider";
 import ScrollViewNativeComponent from 'react-native/Libraries/Components/ScrollView/ScrollViewNativeComponent';
 import { color, or, round } from 'react-native-reanimated';
 import { RectButton } from 'react-native-gesture-handler';
+import { ContextConfigurationValues } from '../../../App';
 // import Slider from '@react-native-community/slider';
 //import MultiSlider from 'react-native-multi-slider';
 
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
+import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
+import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 let peripheralID = '0'
 
 let linearCoeffParams = Values.filter(item => item.Tag === "Temperature Coefficient Linear")[0];
@@ -24,11 +27,7 @@ let MenuParams = linearCoeffParams.menu;
 const StackConductivity = createStackNavigator();
 
 
-const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
-  BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
-  console.log("In Button Function")
-  ///If anything else is to be done, it will be done here!
-}
+
 
 function renderItem(item, navigation = null, context = null, parent) {
   return (Item(item.Tag, item.Value, navigation, context, parent))
@@ -136,7 +135,7 @@ function ConfigurationNumScreen({ route, navigation }) {
 
 
 const TemperatureCoefficientScreen = ({ route, navigation }) => {
-    // const context = useContext(ContextConfigurationValues)
+    const context = useContext(ContextConfigurationValues)
 
     const { Tag } = route.params;
     const { ConfigNum } = route.params;
@@ -170,7 +169,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
           />
           {/* <LenghtChecker lenght={32} /> */}
             <Button
-              onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${HexIndex}":"${text}"}}`, context) }}
+              onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"250":"${text}"}}`, context) }}
               title="Save"
               color="#841584"
               accessibilityLabel="Learn more about this purple button"

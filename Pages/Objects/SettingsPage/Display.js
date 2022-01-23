@@ -9,12 +9,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import react from 'react';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
-import { ContextConfigurationValues } from '../../../App';
-const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
-  BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
-  console.log("In Button Function")
-  ///If anything else is to be done, it will be done here!
-}
+import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
+import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
+import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 
 
 let peripheralID='0'
@@ -123,7 +120,7 @@ const DisplayScreen = ({ route, navigation }) => {
         headerRight: () => (
         <TouchableOpacity 
         
-        onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Display', 'Set Parameters': {'C3':'${indexValue}'}}`)) }}
+        onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Display", "Set Parameters": {"C3":"${indexValue}"}}`) }}
         >
           <View style={styles.buttonBar}>
             <Text>Save</Text>
@@ -142,17 +139,18 @@ const DisplayScreen = ({ route, navigation }) => {
   });
     return (
       <View>
-        <TouchableOpacity style={styles.itemButton} onPress={() => setText("On")} >
+        <TouchableOpacity style={[styles.itemButton,{paddingTop:16}]} onPress={() => setText("On")} >
           {CheckButtoned(text,"On")}
         </TouchableOpacity>
         {/* <TouchableOpacity style={styles.itemButton} onPress={() => setText("Off")} > */}
-        <TouchableOpacity style={styles.itemButton} onPress={() => context.setValueByKey("10","ELiar AHJAS")} >
+        <TouchableOpacity style={[styles.itemButton,{paddingTop:16}]} onPress={() => setText("Off")} >
  
           {CheckButtoned(text,"Off")}
+
         </TouchableOpacity>
+
         {ChangedButton(Value,text,navigation)}
-        <Text>{context["6A"]}</Text>
-        <Text>{JSON.stringify(context)}</Text>
+ 
       </View>
     );
   };

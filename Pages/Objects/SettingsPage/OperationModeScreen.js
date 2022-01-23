@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity, ScrollView } from 'react-native'
 // import Values from '../Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,7 +12,9 @@ import ScrollViewNativeComponent from 'react-native/Libraries/Components/ScrollV
 import { color, or, round } from 'react-native-reanimated';
 import { RectButton } from 'react-native-gesture-handler';
 import { Picker } from '@react-native-picker/picker';
-
+import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
+import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
+import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 // import Slider from '@react-native-community/slider';
 //import MultiSlider from 'react-native-multi-slider';
 
@@ -26,11 +28,7 @@ let MenuParams = OperationModeParams.menu;
 const StackConductivity = createStackNavigator();
 
 
-const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
-    BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
-    console.log("In Button Function")
-    ///If anything else is to be done, it will be done here!
-}
+
 
 function renderItem(item, navigation = null, context = null, parent) {
     return (Item(item.Tag, item.Value, navigation, context, parent))
@@ -120,7 +118,7 @@ function renderItemPicker(item) {
 
 
 const OperationSelectionScreen = ({ route, navigation }) => {
-    // const context = useContext(ContextConfigurationValues)
+    const context = useContext(ContextConfigurationValues)
 
     const { Tag } = route.params;
     const { ConfigNum } = route.params;
@@ -164,7 +162,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
     return (
         <SafeAreaView style={[styles.container1, { alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
             <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                <Text style={[styles.title,{borderBottomWidth:2,borderBottomColor:"black"}]}>{"Choose The Output Type of IOU" + " for " + ConfigNum}</Text>
+                <Text style={[styles.title, { borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose The Output Type of OU" + " for " + ConfigNum}</Text>
             </View>
 
 
@@ -200,15 +198,15 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                 selection == "Switch Output" && (
                     <View style={[styles.container1, { alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                            <Text style={[styles.title,{borderBottomWidth:2,borderBottomColor:"black"}]}>{"Choose the Output Assign for Switch Output"}</Text>
+                            <Text style={[styles.title, { borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose the Output Assign for Switch Output"}</Text>
                         </View>
 
                         <View style={styles.pickerText} >
 
                             <Picker style={[styles.picker, { textAlign: 'center' }]}
-                                selectedValue={selectionSwitchOutputType}
+                                selectedValue={selectionSwitchAssign}
                                 onValueChange={(itemValue, itemIndex) =>
-                                    setSelectionSwitchOutputType(itemValue)
+                                    setSelectionSwitchAssign(itemValue)
                                 }>
                                 <Picker.Item label="Off" value="Off" />
                                 <Picker.Item label="Conductivity" value="Conductivity" />
@@ -219,14 +217,14 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                             </Picker>
                         </View>
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                            <Text style={[styles.title,{borderBottomWidth:2,borderBottomColor:"black"}]}>{"Choose the Function Type for Switch Output"}</Text>
+                            <Text style={[styles.title, { borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose the Function Type for Switch Output"}</Text>
                         </View>
                         <View style={styles.pickerText} >
 
                             <Picker style={styles.picker}
-                                selectedValue={selectionSwitchOutputType}
+                                selectedValue={selectionSwitchFunction}
                                 onValueChange={(itemValue, itemIndex) =>
-                                    setSelectionSwitchOutputType(itemValue)
+                                    setSelectionSwitchFunction(itemValue)
                                 }>
                                 <Picker.Item label="Alarm" value="Alarm" />
                                 <Picker.Item label="Off" value="Off" />
@@ -242,7 +240,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                             </Picker>
                         </View>
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                            <Text style={[styles.title,{borderBottomWidth:2,borderBottomColor:"black"}]}>{"Choose The Output Type for Switch Output"}</Text>
+                            <Text style={[styles.title, { borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose The Output Type for Switch Output"}</Text>
                         </View>
                         <View style={styles.pickerText} >
 
@@ -259,6 +257,20 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                             </Picker>
                         </View>
 
+                        {
+
+                            (true) && /////// Condition For Switch Output
+
+                            <Button
+                            onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode", "Set Parameters": {"OM":"${selection}","OA":"${selectionSwitchAssign}","FO":"${selectionSwitchFunction}","OT":"${selectionSwitchOutputType}"}}`, context) }}
+                            title="Save"
+                            color="#841584"
+                            />
+
+
+
+
+                        }
                     </View>
 
 
@@ -271,15 +283,15 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                     <View style={[styles.container1, { alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
 
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                            <Text style={[styles.title,{borderBottomWidth:2,borderBottomColor:"black"}]}>{"Choose the Output Assign for Switch Output"}</Text>
+                            <Text style={[styles.title, { borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose the Output Assign for Current Output"}</Text>
                         </View>
 
                         <View style={styles.pickerText} >
 
                             <Picker style={[styles.picker, { textAlign: 'center' }]}
-                                selectedValue={selectionSwitchOutputType}
+                                selectedValue={selectionCurrentAssign}
                                 onValueChange={(itemValue, itemIndex) =>
-                                    setSelectionSwitchOutputType(itemValue)
+                                    setSelectionCurrentAssign(itemValue)
                                 }>
                                 <Picker.Item label="Off" value="Off" />
                                 <Picker.Item label="Conductivity" value="Conductivity" />
@@ -290,8 +302,26 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                             </Picker>
                         </View>
 
+                        {
 
+                            (true) && /////// Condition For Current Output
+
+                            <Button
+                                onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode", "Set Parameters": {"${ConfigNum}":"${selection}","${ConfigNum}":"${selectionCurrentAssign}"}}`, context) }}
+                                title="Save"
+                                color="#841584"
+                            />
+
+
+
+
+                        }
                     </View>
+
+
+
+
+
                 )
                 //   Current Output Seçiliyken Renderlanacak
             }
@@ -300,11 +330,11 @@ const OperationSelectionScreen = ({ route, navigation }) => {
 
 
             {
-                
-                (true) &&
+
+                (false) &&
 
                 <Button
-                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Identification", "Set Parameters": {"18":"${text}"}}`, contextConfigurationValues) }}
+                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Identification", "Set Parameters": {"18":"${"15"}"}}`, context) }}
                     title="Save"
                     color="#841584"
                 />
@@ -368,7 +398,7 @@ const styles = StyleSheet.create({
     },
     picker: {
         alignItems: "center",
-        borderWidth:2,
+        borderWidth: 2,
         borderColor: '#000',
         // backgroundColor: "#9A348E",
         padding: 8,

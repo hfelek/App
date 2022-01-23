@@ -111,7 +111,6 @@ const ApplicationTagScreen = () => {
       {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
       
 
-      <Text>{JSON.stringify(contextConfigurationValues)}</Text>
 
     </View>
   );

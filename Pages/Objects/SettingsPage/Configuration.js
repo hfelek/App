@@ -10,8 +10,8 @@ import react from 'react';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import { ContextConfigurationValues } from '../../../App';
-import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions/HandleGroup'
-import HandleWriteCommand from '../../../Utilities/BLEFunctions/HandleSingle'
+import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
+import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 
 const renderItem = ({ item, navigation, context = null }) => (
   Item(item.Tag, item.Value, navigation, context = context)
