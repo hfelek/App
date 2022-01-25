@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Button, Alert, SafeAreaView, FlatList, StatusBar, TouchableOpacity, ScrollView } from 'react-native'
 // import Values from '../Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
@@ -12,6 +12,7 @@ import ScrollViewNativeComponent from 'react-native/Libraries/Components/ScrollV
 import { color, or, round } from 'react-native-reanimated';
 import { RectButton } from 'react-native-gesture-handler';
 import { Picker } from '@react-native-picker/picker';
+import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 
 // import Slider from '@react-native-community/slider';
 //import MultiSlider from 'react-native-multi-slider';
@@ -131,21 +132,21 @@ const PickerItems = (arr) => (
   <Text></Text>
 )
 
-function Coeffs (title,value,setValue)  {
-  return(
-  <View>
-  <Text style={styles.basicText}>  {title}  </Text>
-  <TextInput style={styles.input}
-    value={value}
-    // placeholder={nonLinearParamT1}
-    onChangeText={(text) => (setValue(text))}
-    // onBlur={(text) =>handleTextChangeEnd(text,item)}
-    maxLength={5}
-    editable
+function Coeffs(title, value, setValue) {
+  return (
+    <View>
+      <Text style={styles.basicText}>  {title}  </Text>
+      <TextInput style={styles.input}
+        value={value}
+        // placeholder={nonLinearParamT1}
+        onChangeText={(text) => (setValue(text))}
+        // onBlur={(text) =>handleTextChangeEnd(text,item)}
+        maxLength={5}
+        editable
 
-    keyboardType="numeric"
-  />
-  </View>)
+        keyboardType="numeric"
+      />
+    </View>)
 }
 function CustomConfigurationScreen({ route, navigation }) {
   const { Tag } = route.params;
@@ -202,7 +203,7 @@ function CustomConfigurationScreen({ route, navigation }) {
       </Picker>
 
 
-      <TouchableOpacity style={[styles.itemButton,{backgroundColor:"#9A348E"}]} onPress={() => navigation.navigate('Custom Temperature Coefficient', { Tag:ConfigNum, ConfigNum:ConfigNum,  name: "Custom Temperature Coefficient" })}>
+      <TouchableOpacity style={[styles.itemButton, { backgroundColor: "#9A348E" }]} onPress={() => navigation.navigate('Custom Temperature Coefficient', { Tag: ConfigNum, ConfigNum: ConfigNum, name: "Custom Temperature Coefficient", ConcentrationPoints: nrOfConcPoints, TemperaturePoints: nrOfTempPoints })}>
         <Text style={[styles.title, { textAlign: "center" }]}>Configure the Custom Parameters</Text>
       </TouchableOpacity>
 
@@ -231,471 +232,137 @@ function ConfigurationNumScreen({ route, navigation }) {
   )
 }
 
+function zeros(dimensions) {
+  var array = [];
 
+  for (var i = 0; i < dimensions[0]; ++i) {
+    array.push(dimensions.length == 1 ? "0" : zeros(dimensions.slice(1)));
+  }
 
-
+  return array;
+}
+function element(data, index, cellIndex, value, setValue) {
+  return (<View style={[styles.btn5, { alignContent: "center", backgroundColor: 'white', paddingBottom: 5 }]}>
+    <TextInput
+      style={[styles.input1, { textAlign: 'center', paddingBottom: 10 }]}
+      value={value[index][cellIndex]}
+      placeholder="1"
+      keyboardType="numeric"
+      backgroundColor="white"
+      scrollEnabled={true}
+      onChangeText={(val) => { updateCell(val, index, cellIndex, value, setValue) }}
+      textAlign={'center'} />
+  </View>)
+}
+const updateCell = (value, i, j, array, func) => {
+  let newMatrix = array.slice(); // just to create a copy of the matrix
+  newMatrix[i][j] = value;
+  func(newMatrix); // this call will trigger a new draw
+}
+const text = (data, index) => (
+  <View style={[styles.btn5, { alignContent: "center", backgroundColor: 'white', paddingBottom: 5 }]}>
+    <Text>{"value"}</Text>
+  </View>
+);
 const TemperatureCoefficientScreen = ({ route, navigation }) => {
   const { Tag } = route.params;
-  console.log(Tag)
+  const { ConcentrationPoints } = route.params;
+  const { TemperaturePoints } = route.params;
   const { ConfigNum } = route.params;
-  console.log(ConfigNum)
+  const temperaturePoints = parseInt(TemperaturePoints)
+  const concentrationPoints = parseInt(ConcentrationPoints)
+  const emptyArr = zeros([temperaturePoints, concentrationPoints])
+  const concentrationArray = ["0", "10", "20", "30", "40", "50"]
+  const temperatureArray = ["-20", "0", "30", "40", "50", "60"]
+  const tableHead = []; tableHead[0] = "Configuration Points"
+  const widthArr = [150]
+  for (let i = 1; i < concentrationPoints + 1; i += 1) {
+    tableHead[i] = "Concentration Point" + `${i}`
+    widthArr[i] = 150
+  }
+  //  const  tableHead=  ['Head', 'Head2', 'Head3', 'Head4', 'Head5', 'Head6', 'Head7', 'Head8', 'Head9']
+  //  const  widthArr= [200, 200, 200, 200, 200, 200, 200, 200, 200]
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Conductivity', 'Set Parameters': {'78':'${nonLinearParamT1}','79':'${nonLinearParamC1}','7A':'${nonLinearParamT2}'},'7B':'${nonLinearParamC2}','7C':'${nonLinearParamT3}','7D':'${nonLinearParamC3}','7E':'${nonLinearParamT4}','7F':'${nonLinearParamC4}','80':'${nonLinearParamT5}','81':'${nonLinearParamC5}'}`)) }}>
-          <View style={styles.buttonBar}>
-            <Text>Save</Text>
-          </View>
-        </TouchableOpacity>
-      ),
-    })
-  })
+
+  const tableData = [];
+  for (let i = 0; i < temperaturePoints; i += 1) {
+    const rowData = []
+    for (let j = 0; j < concentrationPoints + 1; j += 1) {
+      if (j == 0) {
+        rowData.push(temperatureArray[i])
+
+      }
+      else {
+        rowData.push(emptyArr[i][j - 1])
+      }
+    }
 
 
-  const initialNonLinearParams = MenuParams.filter(row => row.Tag == ConfigNum)[0].menu
-  const [nonLinearParams, setNonLinearParams] = useState(initialNonLinearParams)
-  // const [linearParam, setLinearParam] = useState(initialLinearParams)
-  const [nonLinearParams1, setNonLinearParams1] = useState(nonLinearParams)
-  const [nonLinearParamT1, setNonLinearParamT1] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Conductivity Point 1")[0].Value)
-  const [nonLinearParamT2, setNonLinearParamT2] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Conductivity Point 2")[0].Value)
-  const [nonLinearParamT3, setNonLinearParamT3] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Conductivity Point 3")[0].Value)
-  const [nonLinearParamT4, setNonLinearParamT4] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Conductivity Point 4")[0].Value)
-  const [nonLinearParamT5, setNonLinearParamT5] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Conductivity Point 5")[0].Value)
-  const [nonLinearParamT6, setNonLinearParamT6] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Conductivity Point 6")[0].Value)
-  const [nonLinearParamC1, setNonLinearParamC1] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Conductivity Point 7")[0].Value)
-  const [nonLinearParamC2, setNonLinearParamC2] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Conductivity Point 8")[0].Value)
-  const [nonLinearParamC3, setNonLinearParamC3] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Conductivity Point 9")[0].Value)
-  const [nonLinearParamC4, setNonLinearParamC4] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Conductivity Point 10")[0].Value)
-  const [nonLinearParamC5, setNonLinearParamC5] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Conductivity Point 11")[0].Value)
-  const [nonLinearParamC6, setNonLinearParamC6] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Conductivity Point 12")[0].Value)
-  // console.log(nonLinearParamT1)
-  // console.log()
+    tableData.push(rowData);
+  }
+  console.log(tableData)
+  const [hookArray, setHookArray] = react.useState(tableData);
+
+  console.log(tableData)
+  console.log("hookArray")
+  console.log(hookArray.length)
+  console.log(hookArray)
+
+  console.log("hookArray")
+
+
+
+
   return (
-    // <ReturnMenu param={compensationVal} />
-    <SafeAreaView style={[styles.container, { flex: 1, flexDirection: "row" }]}>
-      {/* <ScrollView style={{ flex: 1, flexDirection: "row" }}> */}
-      <View style={{ flex: 1, paddingTop: 5 }}>
-      <Text style={styles.basicText}>  Temperature Point 2 (°C)   </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamT2}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamT1(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
+    <View style={[styles.container4, { alignItems: 'center' }]}>
+      <ScrollView horizontal={false} >
 
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Point 2 (°C)   </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamT2}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamT2(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
+        <ScrollView horizontal={true} >
+          <View>
+            <Table borderStyle={{ borderWidth: 1, borderColor: '#000000' }}>
+              <Row data={tableHead} widthArr={widthArr} style={styles.header5} textStyle={styles.text5} />
+            </Table>
+            <ScrollView style={styles.dataWrapper4}>
+              <Table borderStyle={{ borderWidth: 1, borderColor: '#000000' }}>
+                {
+                  tableData.map((rowData, index) => (
+                    <TableWrapper key={index} style={styles.row5}>
+                      {
+                        rowData.map((cellData, cellIndex) => (
+                          <Cell key={cellIndex} data={element(cellData, index, cellIndex, hookArray, setHookArray)} textStyle={styles.text5} />
+                        ))
+                      }
+                    </TableWrapper>
+                  ))
+                }
 
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Point 3 (°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamT3}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamT3(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Point 4 (°C)   </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamT4}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamT4(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Point 5 (°C)   </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamT5}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamT5(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Point 6 (°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamT6}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamT6(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-      </View>
-      <View style={{ flex: 1, paddingTop: 5 }}>
-        <Text style={styles.basicText}>  Temperature Coefficient 1 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC1}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC1(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
+                {/* Right Wrapper */}
+                {/* <TableWrapper style={{ flex: 1 }}>
+                <Cols data={tableData} heightArr={[40, 30, 30, 30, 30]} textStyle={styles.text5} />
+              </TableWrapper> */}
 
 
-        <Text style={styles.basicText}> Temperature Coefficient 2 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC2}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC2(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
 
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 3 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC3}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC3(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 4 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC4}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC4(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 5 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC5}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC5(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 6 (%/°C) </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC6}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC6(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-      </View>
-      <View style={{ flex: 1, paddingTop: 5 }}>
-        <Text style={styles.basicText}>  Temperature Coefficient 1 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC1}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC1(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
+              </Table>
+            </ScrollView>
+          </View>
+        </ScrollView>
+        {true &&
+          <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
+            <Button
+              onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${Tag}":"${text}"}}`, context) }}
+              title="Save"
+              color="#841584"
+            />
+          </View>
+        }
+      </ScrollView>
 
 
-        <Text style={styles.basicText}> Temperature Coefficient 2 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC2}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC2(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
+    </View>
 
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 3 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC3}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC3(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 4 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC4}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC4(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 5 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC5}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC5(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 6 (%/°C) </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC6}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC6(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-      </View>
-      <View style={{ flex: 1, paddingTop: 5 }}>
-        <Text style={styles.basicText}>  Temperature Coefficient 1 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC1}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC1(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-
-
-        <Text style={styles.basicText}> Temperature Coefficient 2 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC2}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC2(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 3 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC3}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC3(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 4 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC4}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC4(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 5 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC5}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC5(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 6 (%/°C) </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC6}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC6(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-      </View>
-      <View style={{ flex: 1, paddingTop: 5 }}>
-        <Text style={styles.basicText}>  Temperature Coefficient 1 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC1}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC1(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-
-
-        <Text style={styles.basicText}> Temperature Coefficient 2 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC2}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC2(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 3 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC3}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC3(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 4 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC4}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC4(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 5 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC5}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC5(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 6 (%/°C) </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC6}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC6(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-      </View>
-      <View style={{ flex: 1, paddingTop: 5 }}>
-        <Text style={styles.basicText}>  Temperature Coefficient 1 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC1}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC1(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-
-
-        <Text style={styles.basicText}> Temperature Coefficient 2 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC2}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC2(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 3 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC3}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC3(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 4 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC4}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC4(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 5 (%/°C)  </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC5}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC5(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-        <Text style={styles.basicText}>  Temperature Coefficient 6 (%/°C) </Text>
-        <TextInput style={styles.input}
-          value={nonLinearParamC6}
-          // placeholder={nonLinearParamT1}
-          onChangeText={(text) => (setNonLinearParamC6(text))}
-          // onBlur={(text) =>handleTextChangeEnd(text,item)}
-          maxLength={5}
-          editable
-
-          keyboardType="numeric"
-        />
-      </View>
-      {/* </ScrollView> */}
-    </SafeAreaView>
   )
+
 };
 
 
@@ -808,6 +475,12 @@ const styles = StyleSheet.create({
     borderColor: '#7a42f4',
     borderWidth: 1
   },
+  input1: {
+    // margin: 15,
+    height: 30,
+    // borderColor: '#7a42f4',
+    // borderWidth: 1
+  },
   containerSlider: {
     flex: 1,
     marginLeft: 30,
@@ -815,5 +488,35 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: "flex-start",
   },
+  container2: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
+  head2: { height: 40, backgroundColor: '#808B97' },
+  text2: { margin: 6 },
+  row2: { flexDirection: 'row', backgroundColor: '#ffffff' },
+  btn2: { width: 58, height: 18, backgroundColor: '#005555', borderRadius: 2 },
+  btnText2: { textAlign: 'center', color: '#fff' },
+  container3: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
+  singleHead3: { width: 80, height: 40, backgroundColor: '#c8e1ff' },
+  head3: { flex: 1, backgroundColor: '#c8e1ff' },
+  title3: { flex: 2, backgroundColor: '#f6f8fa' },
+  titleText3: { marginRight: 6, textAlign: 'right' },
+  text3: { textAlign: 'center' },
+  btn3: { width: 58, height: 18, marginLeft: 15, backgroundColor: '#c8e1ff', borderRadius: 2 },
+  btnText3: { textAlign: 'center' },
+
+  container4: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
+  header4: { height: 50, backgroundColor: '#808B97', borderRadius: 1 },
+  text4: { textAlign: 'center' },
+  dataWrapper4: { marginTop: -1 },
+  row4: { height: 40, backgroundColor: '#ffffff' },
+
+
+  container5: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
+  header5: { height: 50, backgroundColor: '#808B97', borderRadius: 1 },
+
+  head5: { height: 50, backgroundColor: '#808B97', borderRadius: 1 },
+  text5: { margin: 6, backgroundColor: "#9A348E" },
+  row5: { flexDirection: 'row', backgroundColor: "#808B97", borderRadius: 1 },
+  btn5: { width: 149, height: 50, backgroundColor: '#white', borderRightWidth: 1 },
+  btnText5: { textAlign: 'center', color: '#000' }
 });
 

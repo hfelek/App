@@ -1,39 +1,42 @@
-import React,{useEffect,useContext} from 'react'
+import React, { useEffect, useContext } from 'react'
 import react from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Settings, Image, Dimensions, TouchableOpacity,TouchableHighlight } from 'react-native';
+import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Settings, Image, Dimensions, TouchableOpacity, TouchableHighlight } from 'react-native';
 import Values from './Objects/Paramsfiltered.json';
 import { List } from 'react-native-paper';
-import { ContextConfigurationValues,ContextSensorValues } from '../App'
+import { ContextConfigurationValues, ContextSensorValues } from '../App'
 
 let IdentificationParams;
 let MenuParams;
 var filtered;
 var filteredAT;
-const demoConnection = [{ Tag: "Application Tag", Value: "id1" }, { Tag: "Device Name", Value: "id2" }, { Tag: "Device Serial No", Value: "id3" }, { Tag: "Device Type", Value: "id4" },{ Tag: "Random Tag", Value: "Random Value" }]
+const demoConnection = [{ Tag: "Application Tag", Value: "id1" }, { Tag: "Device Name", Value: "id2" }, { Tag: "Device Serial No", Value: "id3" }, { Tag: "Device Type", Value: "id4" }, { Tag: "Random Tag", Value: "Random Value" }]
 
 DeviceScreen = () => {
-  const contextConfiguration = useContext(ContextConfigurationValues) 
-  const contextValues = useContext(ContextSensorValues) 
-  const bottomValues = [{ "Tag": "Connection", "Value": "Connected" }, { "Tag": "Conductivity", "Value": `${contextValues["Value"]["5F"]}`  }, { "Tag": "Concentration", "Value": `${contextValues["Value"]["60"]}` },{ "Tag": "Temperature", "Value":`${contextValues["Value"]["61"]}`  }]
+  const contextConfiguration = useContext(ContextConfigurationValues)
+  const contextValues = useContext(ContextSensorValues)
+  const bottomValues = [{ "Tag": "Conductivity", "Value": `${contextValues["Value"]["5F"]}` }, { "Tag": "Concentration", "Value": `${contextValues["Value"]["60"]}` }, { "Tag": "Temperature", "Value": `${contextValues["Value"]["61"]}` }]
 
-  console.log(JSON.stringify(contextValues))
   const Item = ({ item }) => (
     <View style={styles.itemTab} >
-      <Text style={styles.titleTab}>{item.Tag}</Text>
+      <Text style={[styles.titleTab, { textAlign: 'center' }]}>{item.Tag}</Text>
       <Text style={styles.titleTab1}>{item.Value}</Text>
     </View>
   );
-  const ItemBottom = ({ item }) => (
+  const ItemBottom = ({ item, index, seperators }) => (
     <View style={styles.itemTab} >
-      <Text style={styles.titleTab}>{item.Tag}</Text>
-        <View style={[styles.titleTabButton]}>
-          <Text >{item.Value}</Text>
-        </View>
+      {index == 0 ? <Text style={[styles.titleTab, { textAlign: 'center', borderTopWidth: 1 }]}>{item.Tag}</Text> : <Text style={[styles.titleTab, { textAlign: 'center'}]}>{item.Tag}</Text>
+
+      }
+      {/* <Text style={[styles.titleTab, { textAlign: 'center', borderTopWidth: StyleSheet.hairlineWidth }]}>{item.Tag}</Text> */}
+      <View style={[styles.titleTabButton, { textAlign: 'center' }]}>
+        <Text style={{ textAlign: 'center' }} >{item.Value}</Text>
+      </View>
     </View>
   );
 
   const ValuesTab = () => (
-    <View style={{ flex: 1.5 }}>
+
+    <View style={{ flex: 1 }}>
       <FlatList
         data={demoConnection}
         renderItem={({ item }) => (<Item item={item} />)}
@@ -42,11 +45,11 @@ DeviceScreen = () => {
     </View>
   );
   const ValuesTabBottom = () => (
-    <View style={{ flex: 1.5 }}>
+    <View style={{}}>
       <FlatList
         data={bottomValues}
-        renderItem={({ item }) => (<ItemBottom item={item} />)}
-      keyExtractor={item => item.Tag}
+        renderItem={({ item, index, separators }) => (<ItemBottom item={item} index={index} />)}
+        keyExtractor={item => item.Tag}
       />
     </View>
   );
@@ -66,33 +69,31 @@ DeviceScreen = () => {
 
 
       {/* Top Component of Settings Page */}
-      <View style={{ flex: 1.5, flexDirection: 'row', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#000000' }} >
-        <Image
+      <View style={{ flexDirection: 'column', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#000000' }} >
+        {/* <Image
           source={require("../Media/sensorimage.png")}
           style={{
-            width: windowWidth / 10,
-            height: windowHeight / 10,
+             width: 40,
+             height: 120,
             // borderRadius: 40,
-            flex: 1
           }}
-        />
-        <ValuesTab />
+        /> */}
+        <View style={{ alignItems: 'center' }}>
+          <Text style={{ padding: 25, fontSize: 25, color: '#000000', fontWeight: 'bold', marginVertical: 0, marginHorizontal: 10, borderTopWidth: StyleSheet.hairlineWidth }}> Values</Text>
+        </View>
+        <ValuesTabBottom />
 
 
       </View>
 
       {/* Bottom Componenent of Settings Page */}
-      <SafeAreaView style={{ flex: 2, backgroundColor: "#ffffff" }} >
-        <View style={{ alignItems: 'center' }}>
-          <Text style={{    padding: 25, fontSize: 25, color: '#000000',fontWeight: 'bold',marginVertical: 0,marginHorizontal: 10,}}> Values</Text>
-        </View>
-     {/* Values are rendered here. */}
-        
+      <SafeAreaView style={{ backgroundColor: "#ffffff" }} >
 
-      <ValuesTabBottom/>
-      <Text>{JSON.stringify(contextValues)}</Text>
+        {/* Values are rendered here. */}
+
+
       </SafeAreaView>
-
+      {/* <ValuesTab/> */}
 
     </SafeAreaView>
   );
@@ -100,7 +101,6 @@ DeviceScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     // marginTop: StatusBar.currentHeight || 0,
     marginTop: 0,
   },
@@ -147,17 +147,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 12,
   },
-  noDevice:{
+  noDevice: {
     // backgroundColor:'rgba(255,255,255,0.26)',
-    marginTop:'50%',
-    margin:'10%',
-    borderRadius:3,
-    width: '80%' ,
+    marginTop: '50%',
+    margin: '10%',
+    borderRadius: 3,
+    width: '80%',
     height: '35%',
     alignItems: 'center',
     justifyContent: 'center',
 
-}
+  }
 });
 
 export default DeviceScreen;
