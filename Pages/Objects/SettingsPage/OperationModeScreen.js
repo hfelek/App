@@ -160,15 +160,15 @@ const OperationSelectionScreen = ({ route, navigation }) => {
 
     console.log(PossibleValues)
     return (
-        <SafeAreaView style={[styles.container1, { alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
+        <ScrollView style={[styles.container2, { backgroundColor: "#ffffff" }]}>
             <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                <Text style={[styles.title, { borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose The Output Type of OU" + " for " + ConfigNum}</Text>
+                <Text style={[styles.title, { textAlign:'center', borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose The Output Type of OU" + " for " + ConfigNum}</Text>
             </View>
 
 
             <View style={styles.pickerText} >
 
-                <Picker style={{ textAlign: '' }}
+                <Picker style={styles.picker}
                     selectedValue={selection}
                     onValueChange={(itemValue, itemIndex) =>
                         setSelection(itemValue)
@@ -203,7 +203,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
 
                         <View style={styles.pickerText} >
 
-                            <Picker style={[styles.picker, { textAlign: 'center' }]}
+                            <Picker itemStyle={{}} style={[styles.picker, { textAlign: 'center',alignItems:'center' }]}
                                 selectedValue={selectionSwitchAssign}
                                 onValueChange={(itemValue, itemIndex) =>
                                     setSelectionSwitchAssign(itemValue)
@@ -283,17 +283,17 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                     <View style={[styles.container1, { alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
 
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                            <Text style={[styles.title, { borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose the Output Assign for Current Output"}</Text>
+                            <Text style={[styles.title, {textAlign:'center', borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose the Output Assign for Current Output"}</Text>
                         </View>
 
                         <View style={styles.pickerText} >
 
-                            <Picker style={[styles.picker, { textAlign: 'center' }]}
+                            <Picker  style={[styles.picker, { textAlign: 'center' }] }
                                 selectedValue={selectionCurrentAssign}
                                 onValueChange={(itemValue, itemIndex) =>
                                     setSelectionCurrentAssign(itemValue)
                                 }>
-                                <Picker.Item label="Off" value="Off" />
+                                <Picker.Item style={{}} label="Off" value="Off" />
                                 <Picker.Item label="Conductivity" value="Conductivity" />
                                 <Picker.Item label="Concentration" value="Concentration" />
                                 <Picker.Item label="Temperature" value="Temperature" />
@@ -344,7 +344,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
 
             }
 
-        </SafeAreaView>
+        </ScrollView>
     );
 };
 
@@ -397,13 +397,12 @@ const styles = StyleSheet.create({
         color: 'black',
     },
     picker: {
+        // flex: 1,
+        backgroundColor:'#D8D8D8',
         alignItems: "center",
-        borderWidth: 2,
-        borderColor: '#000',
-        // backgroundColor: "#9A348E",
-        padding: 8,
-        marginRight: 3,
-        borderRadius: 2,
+        borderBottomColor: 'black',
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        flexDirection: 'column',
     },
     buttonBar: {
         alignItems: "center",
@@ -429,6 +428,9 @@ const styles = StyleSheet.create({
     pickerText: {
         backgroundColor: '#ffffff',
         padding: 8,
+        paddingLeft:25,
+        paddingRight:25,
+
         marginVertical: 0,
         marginHorizontal: 0,
         flexDirection: 'column',
@@ -448,6 +450,12 @@ const styles = StyleSheet.create({
     },
     container1: {
         justifyContent: "center", // 
+        padding: 0,
+        flexDirection: "column",
+        // marginTop: StatusBar.currentHeight || 0,
+        paddingTop: 0,
+    },
+    container2: {
         padding: 0,
         flexDirection: "column",
         // marginTop: StatusBar.currentHeight || 0,

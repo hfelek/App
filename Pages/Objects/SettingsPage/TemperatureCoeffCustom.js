@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, Button, Alert, SafeAreaView, FlatList, StatusBar, TouchableOpacity, ScrollView } from 'react-native'
+import React, { useEffect, useState, useRef } from 'react'
+import { StyleSheet, Pressable, Text, Modal, View, Button, Alert, SafeAreaView, FlatList, StatusBar, TouchableOpacity, ScrollView, Image, KeyboardAvoidingView } from 'react-native'
 // import Values from '../Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
@@ -13,6 +13,7 @@ import { color, or, round } from 'react-native-reanimated';
 import { RectButton } from 'react-native-gesture-handler';
 import { Picker } from '@react-native-picker/picker';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import InputScrollView from 'react-native-input-scroll-view';
 
 // import Slider from '@react-native-community/slider';
 //import MultiSlider from 'react-native-multi-slider';
@@ -161,61 +162,57 @@ function CustomConfigurationScreen({ route, navigation }) {
 
 
   return (
-    <SafeAreaView style={[styles.container1]}>
-      <View style={[styles.itemButton, { paddingTop: 80, alignItems: "center" }]} >
-        <Text style={styles.title}>Number of Temperature Points in the Custom Table</Text>
+    <ScrollView style={styles.container2}>
+      <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]}  >
+        <Text style={[styles.title, { textAlign: 'center', color: 'black', borderBottomWidth: 1, borderBottomColor: "black" }]}>Number of Temperature Points in the Custom Table</Text>
       </View>
 
 
 
-      <Picker style={styles.picker}
-        selectedValue={nrOfTempPoints}
-        onValueChange={(itemValue, itemIndex) =>
-          setNrOfTempPoints(itemValue)
-        }>
-
-        <Picker.Item label="1" value="1" />
-        <Picker.Item label="2" value="2" />
-        <Picker.Item label="3" value="3" />
-        <Picker.Item label="4" value="4" />
-        <Picker.Item label="5" value="5" />
-        <Picker.Item label="6" value="6" />
-      </Picker>
-      {/* </View>
-
-      <View style={styles.picker}> */}
-      <View style={[styles.itemButton, { paddingTop: 40, alignItems: "center" }]} >
-        <Text style={styles.title}>Number of Concentration Points in the Custom Table</Text>
+      <View style={styles.pickerText} >
+        <Picker style={styles.picker}
+          selectedValue={nrOfTempPoints}
+          onValueChange={(itemValue, itemIndex) =>
+            setNrOfTempPoints(itemValue)
+          }>
+          <Picker.Item label="1" value="1" />
+          <Picker.Item label="2" value="2" />
+          <Picker.Item label="3" value="3" />
+          <Picker.Item label="4" value="4" />
+          <Picker.Item label="5" value="5" />
+          <Picker.Item label="6" value="6" />
+        </Picker>
       </View>
 
-      <Picker style={styles.picker}
-        selectedValue={nrOfConcPoints}
-        onValueChange={(itemValue, itemIndex) =>
-          setNrOfConcPoints(itemValue)
-        }>
-
-        <Picker.Item label="1" value="1" />
-        <Picker.Item label="2" value="2" />
-        <Picker.Item label="3" value="3" />
-        <Picker.Item label="4" value="4" />
-        <Picker.Item label="5" value="5" />
-        <Picker.Item label="6" value="6" />
-      </Picker>
+      <View style={[styles.itemButton, { paddingTop: 15, alignItems: "center" }]} >
+        <Text style={[styles.title, { textAlign: 'center', color: 'black', borderBottomWidth: 1, borderBottomColor: "black" }]}>Number of Concentration Points in the Custom Table</Text>
+      </View>
 
 
-      <TouchableOpacity style={[styles.itemButton, { backgroundColor: "#9A348E" }]} onPress={() => navigation.navigate('Custom Temperature Coefficient', { Tag: ConfigNum, ConfigNum: ConfigNum, name: "Custom Temperature Coefficient", ConcentrationPoints: nrOfConcPoints, TemperaturePoints: nrOfTempPoints })}>
-        <Text style={[styles.title, { textAlign: "center" }]}>Configure the Custom Parameters</Text>
-      </TouchableOpacity>
+
+      <View style={styles.pickerText} >
+        <Picker style={styles.picker}
+          selectedValue={nrOfConcPoints}
+          onValueChange={(itemValue, itemIndex) =>
+            setNrOfConcPoints(itemValue)
+          }>
+
+          <Picker.Item label="1" value="1" />
+          <Picker.Item label="2" value="2" />
+          <Picker.Item label="3" value="3" />
+          <Picker.Item label="4" value="4" />
+          <Picker.Item label="5" value="5" />
+          <Picker.Item label="6" value="6" />
+        </Picker>
+      </View>
 
 
-      {/* </View> */}
-      {/* <FlatList
-        data={MenuParams}
-        renderItem={({ item, index, separators }) => (renderItem(item, navigation, "hello", item.Tag))}
-        keyExtractor={item => item.Tag}
-        initialNumToRender={MenuParams.length}
-      /> */}
-    </SafeAreaView>
+      <Button
+        onPress={() => navigation.navigate('Custom Temperature Coefficient', { Tag: ConfigNum, ConfigNum: ConfigNum, name: "Custom Temperature Coefficient", ConcentrationPoints: nrOfConcPoints, TemperaturePoints: nrOfTempPoints })}
+        title="Save"
+        color="#841584"
+      />
+    </ScrollView>
   )
 }
 function ConfigurationNumScreen({ route, navigation }) {
@@ -229,6 +226,7 @@ function ConfigurationNumScreen({ route, navigation }) {
         initialNumToRender={MenuParams.length}
       />
     </SafeAreaView>
+
   )
 }
 
@@ -236,23 +234,43 @@ function zeros(dimensions) {
   var array = [];
 
   for (var i = 0; i < dimensions[0]; ++i) {
-    array.push(dimensions.length == 1 ? "0" : zeros(dimensions.slice(1)));
+    array.push(dimensions.length == 1 ? "0.0" : zeros(dimensions.slice(1)));
   }
 
   return array;
 }
-function element(data, index, cellIndex, value, setValue) {
-  return (<View style={[styles.btn5, { alignContent: "center", backgroundColor: 'white', paddingBottom: 5 }]}>
-    <TextInput
-      style={[styles.input1, { textAlign: 'center', paddingBottom: 10 }]}
-      value={value[index][cellIndex]}
-      placeholder="1"
-      keyboardType="numeric"
-      backgroundColor="white"
-      scrollEnabled={true}
-      onChangeText={(val) => { updateCell(val, index, cellIndex, value, setValue) }}
-      textAlign={'center'} />
-  </View>)
+const element = (data, index, cellIndex, value, setValue) => {
+  const [focused, setFocused] = react.useState(false)
+  const [modalVisible, setModalVisible] = useState(false);
+
+  return (
+    // <TouchableOpacity onPress={()=>{focused? setFocused(false):setFocused(true)}}>
+    <View >
+
+      {/* <View style={[styles.btn6, {alignItems:'center', alignContent: "center", backgroundColor:(cellIndex==0 || index==0)? "#808B97" : 'white'}]}></View> */}
+      <View style={[styles.btn5, { alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? "#808B97" : 'white', paddingBottom: 0, borderRadius: 0, borderBottomWidth: 0, borderBottomEndRadius: 0 }]}>
+
+        <View style={[styles.btn5, { alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? "#808B97" : 'white', paddingBottom: 0, borderRadius: 0, borderBottomWidth: 0, borderBottomEndRadius: 0 }]}>
+
+          <TextInput
+            disabled={false}
+            style={[styles.input1, { borderWidth: 0, borderBottomWidth: 0 }]}
+            value={value[index][cellIndex]}
+            placeholder=""
+            keyboardType="numeric"
+            maxLength={7}
+            underlineColorAndroid="transparent"
+            backgroundColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
+            scrollEnabled={false}
+            onChangeText={(val) => { updateCell(val, index, cellIndex, value, setValue) }}
+            textAlign='center' />
+        </View>
+        {/* <View style={[styles.btn6, { alignContent: "center", backgroundColor:(cellIndex==0 || index==0)? "#808B97" : 'white'}]}></View> */}
+      </View>
+
+    </View>
+
+  )
 }
 const updateCell = (value, i, j, array, func) => {
   let newMatrix = array.slice(); // just to create a copy of the matrix
@@ -260,7 +278,7 @@ const updateCell = (value, i, j, array, func) => {
   func(newMatrix); // this call will trigger a new draw
 }
 const text = (data, index) => (
-  <View style={[styles.btn5, { alignContent: "center", backgroundColor: 'white', paddingBottom: 5 }]}>
+  <View style={[styles.btn5, { alignContent: "center", backgroundColor: 'white', paddingBottom: 0 }]}>
     <Text>{"value"}</Text>
   </View>
 );
@@ -285,15 +303,28 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
 
   const tableData = [];
-  for (let i = 0; i < temperaturePoints; i += 1) {
+  for (let i = 0; i < temperaturePoints + 1; i += 1) {
     const rowData = []
     for (let j = 0; j < concentrationPoints + 1; j += 1) {
-      if (j == 0) {
-        rowData.push(temperatureArray[i])
+      if (i == 0) {
+        if (j == 0) {
+          rowData.push("Empty")
+          console.log("I am Here")
+        }
+        else {
+          rowData.push(concentrationArray[j - 1])
+        }
 
       }
       else {
-        rowData.push(emptyArr[i][j - 1])
+
+        if (j == 0) {
+          rowData.push(temperatureArray[i - 1])
+
+        }
+        else {
+          rowData.push(emptyArr[i - 1][j - 1])
+        }
       }
     }
 
@@ -314,57 +345,59 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
 
   return (
-    <View style={[styles.container4, { alignItems: 'center' }]}>
-      <ScrollView horizontal={false} >
+    <ScrollView style={{ paddingBottom: 40, backgroundColor: 'white' }} horizontal={false} >
 
-        <ScrollView horizontal={true} >
-          <View>
-            <Table borderStyle={{ borderWidth: 1, borderColor: '#000000' }}>
+      <ScrollView style={{ backgroundColor: 'white' }} horizontal={true} >
+        <View style={{ backgroundColor: 'white' }}>
+          {/* <Table borderStyle={{ borderWidth: 1, borderColor: '#000000', shadowColor:'white' }}>
               <Row data={tableHead} widthArr={widthArr} style={styles.header5} textStyle={styles.text5} />
-            </Table>
-            <ScrollView style={styles.dataWrapper4}>
-              <Table borderStyle={{ borderWidth: 1, borderColor: '#000000' }}>
-                {
-                  tableData.map((rowData, index) => (
-                    <TableWrapper key={index} style={styles.row5}>
-                      {
-                        rowData.map((cellData, cellIndex) => (
-                          <Cell key={cellIndex} data={element(cellData, index, cellIndex, hookArray, setHookArray)} textStyle={styles.text5} />
-                        ))
-                      }
-                    </TableWrapper>
-                  ))
-                }
+            </Table> */}
+          <InputScrollView style={[styles.dataWrapper4, { backgroundColor: '#fff' }]}>
+            <Table borderStyle={{ borderWidth: 1, borderTopWidth: 1, paddingTop: 50, borderColor: '#000000' }}>
+              {
+                tableData.map((rowData, index) => (
+                  <TableWrapper key={index} style={[styles.row5, { paddingTop: 1 }]}>
+                    {
+                      rowData.map((cellData, cellIndex) => (
+                        <Cell key={cellIndex} data={(cellIndex == 0 && index == 0) ? tableIndex() : element(cellData, index, cellIndex, hookArray, setHookArray)} />
+                      ))
+                    }
+                  </TableWrapper>
+                ))
+              }
 
-                {/* Right Wrapper */}
-                {/* <TableWrapper style={{ flex: 1 }}>
+              {/* Right Wrapper */}
+              {/* <TableWrapper style={{ flex: 1 }}>
                 <Cols data={tableData} heightArr={[40, 30, 30, 30, 30]} textStyle={styles.text5} />
               </TableWrapper> */}
 
 
 
-              </Table>
-            </ScrollView>
-          </View>
-        </ScrollView>
-        {true &&
-          <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
-            <Button
-              onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${Tag}":"${text}"}}`, context) }}
-              title="Save"
-              color="#841584"
-            />
-          </View>
-        }
+            </Table>
+          </InputScrollView>
+        </View>
       </ScrollView>
+      {true &&
+        <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
+          <Button
+            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${Tag}":"${text}"}}`, context) }}
+            title="Save"
+            color="#841584"
+          />
+        </View>
+      }
+    </ScrollView>
 
 
-    </View>
 
   )
 
 };
-
+const tableIndex = () => (
+  <Image
+    source={require("../../../Media/Index.png")}
+    style={styles.img}
+  />)
 
 const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
@@ -420,15 +453,21 @@ const styles = StyleSheet.create({
     // marginTop: StatusBar.currentHeight || 0,
     paddingTop: 0,
   },
+  container2: {
+    padding: 0,
+    flexDirection: "column",
+    // marginTop: StatusBar.currentHeight || 0,
+    paddingTop: 0,
+  },
   picker: {
-    flex: 1,
+    backgroundColor: '#D8D8D8',
     alignItems: "center",
     borderBottomColor: 'black',
     borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: 'column',
-
+    paddingLeft: 25,
+    paddingRight: 25
   },
-
   item: {
     backgroundColor: '#ffffff',
     padding: 8,
@@ -455,6 +494,7 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   itemButton: {
+    flex: 1,
     backgroundColor: '#ffffff',
     padding: 8,
     marginVertical: 0,
@@ -462,6 +502,18 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     borderBottomColor: 'black',
     borderBottomWidth: StyleSheet.hairlineWidth,
+    justifyContent: 'center'
+  },
+  pickerText: {
+    backgroundColor: '#ffffff',
+    padding: 8,
+    paddingLeft: 25,
+    paddingRight: 25,
+
+    marginVertical: 0,
+    marginHorizontal: 0,
+    flexDirection: 'column',
+
     justifyContent: 'center'
   },
   myText: {
@@ -488,7 +540,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: "flex-start",
   },
-  container2: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
+  container2: {  padding: 0, paddingTop: 0, backgroundColor: '#fff' },
   head2: { height: 40, backgroundColor: '#808B97' },
   text2: { margin: 6 },
   row2: { flexDirection: 'row', backgroundColor: '#ffffff' },
@@ -509,14 +561,20 @@ const styles = StyleSheet.create({
   dataWrapper4: { marginTop: -1 },
   row4: { height: 40, backgroundColor: '#ffffff' },
 
+  container1: {
+    justifyContent: "center", // 
+    padding: 0,
+    flexDirection: "column",
+    // marginTop: StatusBar.currentHeight || 0,
+    paddingTop: 0,
+},
 
-  container5: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-  header5: { height: 50, backgroundColor: '#808B97', borderRadius: 1 },
+  row5: { flexDirection: 'row', backgroundColor: "#808B97", borderRightWidth: 1 },
+  btn5: { width: 149, height: 50, backgroundColor: '#white', borderRadius: 1 },
+  btn6: { width: 149, height: 10, backgroundColor: '#white', borderRadius: 1, borderBottomColor: 'white' },
 
-  head5: { height: 50, backgroundColor: '#808B97', borderRadius: 1 },
-  text5: { margin: 6, backgroundColor: "#9A348E" },
-  row5: { flexDirection: 'row', backgroundColor: "#808B97", borderRadius: 1 },
-  btn5: { width: 149, height: 50, backgroundColor: '#white', borderRightWidth: 1 },
+  img: { width: 149, height: 50, borderRightWidth: 1 },
+
   btnText5: { textAlign: 'center', color: '#000' }
 });
 

@@ -34,7 +34,7 @@ const CheckButtoned = (selectedValue, sentValue) => {
         marginVertical: 0,
         marginHorizontal: 0, justifyContent: "space-between", flexDirection: "row"
       }}>
-        <Text>{sentValue}</Text>
+        <Text style={{color:'black'}}>{sentValue}</Text>
         <Icon
           name="checkmark-outline"
           size={20}

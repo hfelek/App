@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity, ScrollView } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
@@ -108,20 +108,22 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
     );
 
     return (
-        <SafeAreaView style={{
-            justifyContent: "center", // 
+        <ScrollView style={{
+            // justifyContent: "center", // 
             padding: 0,
             // marginTop: StatusBar.currentHeight || 0,
             paddingTop: 0,
         }}>
-            <FlatList
-                data={possibleValues}
-                renderItem={renderItemSelectable}
-                keyExtractor={item => item.Tag}
-            />
+            <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection("Configuration Control") }}>
+                {CheckButtoned(selection, "Configuration Control")}
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection("Status Control") }}>
+                {CheckButtoned(selection, "Status Control")}
+            </TouchableOpacity>
+            
             {
                 selection == "Configuration Control" && (
-                    <View style={[styles.container1, { paddingTop: 10, alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
+                    <View style={[styles.container1, {  alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
                             <Text style={[styles.title, { borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose Digital Input Assign for D-IN STATE:LOW"}</Text>
                         </View>
@@ -162,12 +164,11 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
                             </Picker>
                         </View>
  
-                        {selection == "Configuration Control" &&
                             <Button
                                 onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Digital Input", "Set Parameters": {"OM":"${selection}","High":"${selectionDINHIGH}","Low":"${selectionLOW}"}}`, context) }}
                                 title="Save"
                                 color="#841584"
-                            />}
+                            />
 
                     </View>
 
@@ -177,7 +178,7 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
                 )
 
                 //   Current Output Seçiliyken Renderlanacak
-            }
+                            }
             {
                               
                                 selection == "Status Control" &&(
@@ -188,7 +189,7 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
                                 />)
                         
             }
-        </SafeAreaView>
+        </ScrollView>
     );
 };
 
@@ -299,13 +300,12 @@ const styles = StyleSheet.create({
         color: 'black',
     },
     picker: {
+        // flex: 1,
+        backgroundColor:'#D8D8D8',
         alignItems: "center",
-        borderWidth: 2,
-        borderColor: '#000',
-        // backgroundColor: "#9A348E",
-        padding: 8,
-        marginRight: 3,
-        borderRadius: 2,
+        borderBottomColor: 'black',
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        flexDirection: 'column',
     },
     buttonBar: {
         alignItems: "center",
@@ -331,6 +331,9 @@ const styles = StyleSheet.create({
     pickerText: {
         backgroundColor: '#ffffff',
         padding: 8,
+        paddingLeft:25,
+        paddingRight:25,
+
         marginVertical: 0,
         marginHorizontal: 0,
         flexDirection: 'column',
