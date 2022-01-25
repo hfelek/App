@@ -29,7 +29,38 @@ let CalibrationParams = Paramsfiltered.find(
 );
 let MenuParams = CalibrationParams.menu;
 const StackCalibration = createStackNavigator();
+const ItemBar = ({ item }) => (
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
+      <View style={{ height: 40, justifyContent: 'center' }}>
+          <Text style={styles.title}>{item}</Text>
+      </View>
+      <View style={{ justifyContent: 'center' }}>
+          <Icon
+              name="chevron-forward-outline"
+              size={20}
+              color="#000"
+          />
+      </View>
+  </View>
+)
+const ItemValueBar = ({ item, value }) => (
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+      <View style={{ justifyContent: 'center' }}>
+          <Text style={styles.title}>{item}</Text>
+          <Text style={styles.value}>{value}</Text>
+
+      </View>
+      <View style={{ justifyContent: 'center' }}>
+          <Icon
+              name="chevron-forward-outline"
+              size={20}
+              color="#000"
+          />
+      </View>
+  </View>
+)
 var filtered;
 var filteredAT;
 const createTwoButtonAlert = (title, msg,object,hexValue,context) =>
@@ -92,8 +123,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
           onPress={() =>
             navigation.navigate('Calibration Parameters', { Tag: title, Value: value,name:title })
           }>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+             <ItemBar item={title} />
         </TouchableOpacity>
       );
 
@@ -110,8 +140,8 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             '2',
             context
           )}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+             <ItemBar item={title} />
+
         </TouchableOpacity>
       );
       break;
@@ -122,6 +152,8 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             onPress={() =>
               navigation.navigate('Write Screen', { Tag: title, Value: value,name: title.split('cm ')[1] })
             }>
+            {/* <ItemValueBar item={title} value={value}/> */}
+
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </TouchableOpacity>
@@ -202,7 +234,6 @@ const DeviceResetScreen = ({route,navigation}) => {
 };
 
 const CalibrationParameters = ({route,navigation}) => {
-  console.log("I am in Calibration PAramters")
   const context = useContext(ContextConfigurationValues);
 
   const valCalibrationUnits = Values.filter(row => row.Tag == 'Calibration');

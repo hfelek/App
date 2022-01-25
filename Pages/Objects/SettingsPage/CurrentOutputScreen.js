@@ -1,4 +1,4 @@
-import React, { useEffect,useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -18,10 +18,42 @@ let peripheralID = '0'
 let Output1Params = Paramsfiltered.find(Output1Params => Output1Params.Tag === "Current Output");
 let MenuParams = Output1Params.menu;
 const StackOutput1 = createStackNavigator();
+const ItemBar = ({ item }) => (
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+        <View style={{ height: 40, justifyContent: 'center' }}>
+            <Text style={styles.title}>{item}</Text>
+        </View>
+        <View style={{ justifyContent: 'center' }}>
+            <Icon
+                name="chevron-forward-outline"
+                size={20}
+                color="#000"
+            />
+        </View>
+    </View>
+)
+const ItemValueBar = ({ item, value }) => (
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+        <View style={{ justifyContent: 'center' }}>
+            <Text style={styles.title}>{item}</Text>
+            <Text style={styles.value}>{value}</Text>
+
+        </View>
+        <View style={{ justifyContent: 'center' }}>
+            <Icon
+                name="chevron-forward-outline"
+                size={20}
+                color="#000"
+            />
+        </View>
+    </View>
+)
 
 var filtered = Values.filter(row => row.Tag == 'Current Output');
 var filteredAT = filtered.filter(row => row.Tag == 'Switch Output');
-function Item(title, value, navigation = null, context = null, parent = null){
+function Item(title, value, navigation = null, context = null, parent = null) {
     console.log("I am in Item")
     switch (title) {
 
@@ -34,30 +66,27 @@ function Item(title, value, navigation = null, context = null, parent = null){
             )
         case 'Configuration 1':
             return (
-                <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Cuurent Sub',{ Tag: title, name: title, ConfigNum: parent })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Cuurent Sub', { Tag: title, name: title, ConfigNum: parent })}>
+                    <ItemBar item={title} />
                 </TouchableOpacity>
             )
         case 'Configuration 2':
             return (
-                <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Cuurent Sub',{ Tag: title, name: title, ConfigNum: parent })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Cuurent Sub', { Tag: title, name: title, ConfigNum: parent })}>
+                    <ItemBar item={title} />
+
                 </TouchableOpacity>
             )
         case 'Configuration 3':
             return (
-                <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Cuurent Sub',{ Tag: title, name: title, ConfigNum: parent })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Cuurent Sub', { Tag: title, name: title, ConfigNum: parent })}>
+                    <ItemBar item={title} />
                 </TouchableOpacity>
             )
         case 'Configuration 4':
             return (
-                <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Cuurent Sub',{ Tag: title, name: title, ConfigNum: parent })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Cuurent Sub', { Tag: title, name: title, ConfigNum: parent })}>
+                <ItemBar item={title} />
                 </TouchableOpacity>
             )
         case 'Conductivity - 4mA Set Point':
@@ -67,8 +96,8 @@ function Item(title, value, navigation = null, context = null, parent = null){
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                      <ItemValueBar item={title} value={value} />
+
                 </TouchableOpacity>
             )
         case 'Conductivity - 20mA Set Point':
@@ -78,8 +107,8 @@ function Item(title, value, navigation = null, context = null, parent = null){
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                      <ItemValueBar item={title} value={value} />
+
                 </TouchableOpacity>
             )
 
@@ -91,19 +120,18 @@ function Item(title, value, navigation = null, context = null, parent = null){
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                      <ItemValueBar item={title} value={value} />
+
                 </TouchableOpacity>
             )
         case 'Concentration - 20mA Set Point':
-            return ( 
+            return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
                     Tag: title,
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                      <ItemValueBar item={title} value={value} />
                 </TouchableOpacity>
             )
 
@@ -114,8 +142,7 @@ function Item(title, value, navigation = null, context = null, parent = null){
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                      <ItemValueBar item={title} value={value} />
                 </TouchableOpacity>
             )
         case 'Temperature - 20mA Set Point':
@@ -125,8 +152,7 @@ function Item(title, value, navigation = null, context = null, parent = null){
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                      <ItemValueBar item={title} value={value} />
                 </TouchableOpacity>
             )
         default:
@@ -143,8 +169,8 @@ const renderItem1 = ({ item }) => (
     Item(item.Tag, item.Value)
 );
 
-const CurrentOutputSubScreen = ({route,navigation}) => {
-    const {ConfigNum}= route.params
+const CurrentOutputSubScreen = ({ route, navigation }) => {
+    const { ConfigNum } = route.params
     console.log(ConfigNum)
     const valSystemUnits = Values.filter(row => row.Tag == 'Current Output');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Configuration 1');
@@ -161,8 +187,8 @@ const CurrentOutputSubScreen = ({route,navigation}) => {
         </SafeAreaView>
     );
 };
-const CurrentOutputMainScreen = ({route,navigation}) => {
-  
+const CurrentOutputMainScreen = ({ route, navigation }) => {
+
 
 
     return (
@@ -181,7 +207,7 @@ const CurrentOutputMainScreen = ({route,navigation}) => {
 const CurrentOutputSettingsScreen = ({ route, navigation }) => {
     const context = useContext(ContextConfigurationValues);
     const { Tag } = route.params
-    const {ConfigNum} = route.params
+    const { ConfigNum } = route.params
     console.log("ConfigNum")
 
     console.log(ConfigNum)
@@ -257,7 +283,7 @@ const CurrentOutputSettingsScreen = ({ route, navigation }) => {
             {/* <LenghtChecker lenght={32} /> */}
             {text != filteredAT[0].Value &&
                 <Button
-                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${Tag}":"${text}"}}`,context) }}
+                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${Tag}":"${text}"}}`, context) }}
                     title="Save"
                     color="#841584"
                 />}
@@ -316,8 +342,8 @@ const CurrentOutputScreen = ({ route, navigation }) => {
 
     return (
         <StackOutput1.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-            <StackOutput1.Screen name='Current Output1' component={CurrentOutputMainScreen}   options={{ headerTitle: "Current Output Settings" }}/>
-            <StackOutput1.Screen name='Cuurent Sub' component={CurrentOutputSubScreen} options={({ route }) => ({ headerTitle: route.params.name })}  />
+            <StackOutput1.Screen name='Current Output1' component={CurrentOutputMainScreen} options={{ headerTitle: "Current Output Settings" }} />
+            <StackOutput1.Screen name='Cuurent Sub' component={CurrentOutputSubScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
             <StackOutput1.Screen name='Current Output Settings' component={CurrentOutputSettingsScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
 
         </StackOutput1.Navigator>

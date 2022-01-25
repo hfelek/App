@@ -1,5 +1,6 @@
-import React,{useContext} from 'react'
-import { StyleSheet, Text, View, Button, SafeAreaView, FlatList,Alert, StatusBar, TouchableOpacity } from 'react-native'
+import React, { useContext } from 'react'
+import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, Alert, StatusBar, TouchableOpacity } from 'react-native'
+import Icon from 'react-native-vector-icons/Ionicons';
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
@@ -22,70 +23,70 @@ var filteredAT;
 const IdentificationParams = Paramsfiltered.find(IdentificationParams => IdentificationParams.Tag === "Identification");
 const MenuParams = IdentificationParams.menu;
 const ITEMSINPAGE = {
-  "Application Tag":"18",
-  "Device Name":"12",
-  "Device ID1":"09",
-   "Device ID2":"0A",
-  "Device ID3":"0B",
-  "Vendor Name":"10",
-  "Vendor ID1":"07",
-  "Vendor ID2":"08",
-  "Device Serial No":"15",
-  "Hardware Version":"16",
-  "Firmware Version":"17",
-  "Order Code":"41",
-  "Device Type":"42",
-  "User Role":"43"
+  "Application Tag": "18",
+  "Device Name": "12",
+  "Device ID1": "09",
+  "Device ID2": "0A",
+  "Device ID3": "0B",
+  "Vendor Name": "10",
+  "Vendor ID1": "07",
+  "Vendor ID2": "08",
+  "Device Serial No": "15",
+  "Hardware Version": "16",
+  "Firmware Version": "17",
+  "Order Code": "41",
+  "Device Type": "42",
+  "User Role": "43"
 }
-let peripheralID='0'
-const AlertLocal =() => {
+let peripheralID = '0'
+const AlertLocal = () => {
   console.log("I am Here")
-  return(
-  Toast.show({
-    type: ALERT_TYPE.SUCCESS,
-    title: 'Success',
-    textBody:'Congrats! this is toast notification success',
-  })
+  return (
+    Toast.show({
+      type: ALERT_TYPE.SUCCESS,
+      title: 'Success',
+      textBody: 'Congrats! this is toast notification success',
+    })
   )
 }
-const HandleWriteCommand = (peripheralId,serviceUUID,characteristicUUID,value,context,maxbytesize=512)=>{
-  
-  BleManager.write(peripheralId,serviceUUID,characteristicUUID, BufferArray(value),maxbytesize)  .then(() => {
+const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, context, maxbytesize = 512) => {
+
+  BleManager.write(peripheralId, serviceUUID, characteristicUUID, BufferArray(value), maxbytesize).then(() => {
     console.log("data written")
     // Command is written from BLEAPP to ESP32, Global Object in APP will be changed
-     let setParameters= JSON.parse(value)["Set Parameters"]
+    let setParameters = JSON.parse(value)["Set Parameters"]
     console.log(setParameters)
 
     for (const item in setParameters) {
-       context.setValueByKey(item,setParameters[item])
-       console.log(context["18"])
+      context.setValueByKey(item, setParameters[item])
+      console.log(context["18"])
     }
-  // AlertLocal()
+    // AlertLocal()
     Alert.alert("Configuration Successfull!")
   })
-  .catch((error) => {
-    // Failure code
-    Alert.alert("Couldn't Handle Configuration. Please, Check Your Connection!")
+    .catch((error) => {
+      // Failure code
+      Alert.alert("Couldn't Handle Configuration. Please, Check Your Connection!")
 
-    console.log("error")
-    console.log(error);
-  });///////////Here Writes to the BLE Peripheral
-  
+      console.log("error")
+      console.log(error);
+    });///////////Here Writes to the BLE Peripheral
+
   console.log("In Button Function")
   ///If anything else is to be done, it will be done here!
 }
 
 
 const ApplicationTagScreen = () => {
-  const contextConfigurationValues = useContext(ContextConfigurationValues) 
+  const contextConfigurationValues = useContext(ContextConfigurationValues)
 
   // React.useEffect(() => {  
   filtered = Values.filter(row => row.Tag == 'Identification');
   filteredAT = filtered[0].menu.filter(row => row.Tag == 'Application Tag');
-  
+
   // },[]);
   const [text, setText] = React.useState(contextConfigurationValues["18"]);
- 
+
   return (
     <View>
       <TextInput
@@ -100,24 +101,24 @@ const ApplicationTagScreen = () => {
         right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
         onChangeText={text => setText(text)}
       />
-        {/* <LenghtChecker lenght={32} /> */}
-        {(contextConfigurationValues["18"] !=  text) &&
+      {/* <LenghtChecker lenght={32} /> */}
+      {(contextConfigurationValues["18"] != text) &&
         <Button
-        onPress={() =>{ HandleWriteCommand(peripheralID,"a65373b2-6942-11ec-90d6-024200120000","a65373b2-6942-11ec-90d6-024200120100",`{"Tag":"Identification", "Set Parameters": {"18":"${text}"}}`,contextConfigurationValues)}} 
-        title="Save"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-      />}
+          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Identification", "Set Parameters": {"18":"${text}"}}`, contextConfigurationValues) }}
+          title="Save"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
+        />}
       {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
-      
+
 
 
     </View>
   );
 };
-function IdentificationMainScreen  ({ navigation }){
+function IdentificationMainScreen({ navigation }) {
   const context = useContext(ContextConfigurationValues)
-  return(<SafeAreaView style={styles.container}>
+  return (<SafeAreaView style={styles.container}>
     <FlatList
       initialNumToRender={MenuParams.length}
       data={MenuParams}
@@ -131,13 +132,25 @@ function Item(title, value, navigation = null, context = null) {
     case 'Application Tag':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Application Tag')}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+          <View style={{ flexDirection: 'row',justifyContent:'space-between' }}>
+
+            <View>
+              <Text style={styles.title}>{title}</Text>
+              <Text style={styles.value}>{value}</Text>
+            </View>
+            <View style={{justifyContent:'center'}}>
+              <Icon
+                name="chevron-forward-outline"
+                size={20}
+                color="#000"
+              />
+            </View>
+          </View>
         </TouchableOpacity>
       )
     default:
       return (
-        <View style={styles.item}>
+        <View style={styles.itemButton}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.value}>{value}</Text>
         </View>
@@ -150,21 +163,21 @@ const renderItem = ({ item, navigation, context = null }) => (
 );
 const IdentificationScreen = ({ route, navigation }) => {
 
-  
-  const contextConfigurationValues = useContext(ContextConfigurationValues) 
+
+  const contextConfigurationValues = useContext(ContextConfigurationValues)
 
   React.useEffect(() => {
     BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
       // Success code
-    
+
       console.log(JSON.stringify(peripheralsArray[0].id));
-      peripheralID=peripheralsArray[0].id
+      peripheralID = peripheralsArray[0].id
     }).catch(() => {
       console.log("Couldnt Find A peripheral");
       // expected output: "Success!"
     });
-    },[]);
-  
+  }, []);
+
 
 
 
@@ -181,7 +194,7 @@ const IdentificationScreen = ({ route, navigation }) => {
 
   return (
     <StackIdentification.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-      <StackIdentification.Screen name='Identification Main' component={IdentificationMainScreen} options={{headerTitle:"Identification"}} />
+      <StackIdentification.Screen name='Identification Main' component={IdentificationMainScreen} options={{ headerTitle: "Identification" }} />
       <StackIdentification.Screen name='Application Tag' component={ApplicationTagScreen} />
     </StackIdentification.Navigator>
 

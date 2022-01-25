@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity, ScrollView } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -29,8 +29,38 @@ const StackConductivity = createStackNavigator();
 
 var filtered = Values.filter(row => row.Tag == 'Conductivity Input');
 var filteredAT = filtered.filter(row => row.Tag == 'Range');
+const ItemBar = ({item})=>(
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
+  <View style={{height:40 ,justifyContent:'center'}}> 
+    <Text style={styles.title}>{item}</Text>
+  </View>
+  <View style={{ justifyContent: 'center' }}>
+    <Icon
+      name="chevron-forward-outline"
+      size={20}
+      color="#000"
+    />
+  </View>
+</View>
+)
+const ItemValueBar = ({item,value})=>(
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
+  <View style={{justifyContent:'center'}}> 
+    <Text style={styles.title}>{item}</Text>
+    <Text style={styles.value}>{value}</Text>
+
+  </View>
+  <View style={{ justifyContent: 'center' }}>
+    <Icon
+      name="chevron-forward-outline"
+      size={20}
+      color="#000"
+    />
+  </View>
+</View>
+)
 function renderItem(item, navigation = null, context = null, parent) {
   return (Item(item.Tag, item.Value, navigation, context, parent))
 }
@@ -40,51 +70,47 @@ function Item(title, value, navigation = null, context = null, parent = null) {
     case 'Configuration 1':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+        <ItemBar item={title}/>
         </TouchableOpacity>
       )
     case 'Configuration 2':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+        <ItemBar item={title}/>
         </TouchableOpacity>
       )
     case 'Configuration 3':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+        <ItemBar item={title}/>
+
         </TouchableOpacity>
       )
     case 'Configuration 4':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+        <ItemBar item={title}/>
         </TouchableOpacity>
       )
     case 'Conductivity Range':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Conductivity Range', { Tag: title, ConfigNum: parent })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+        <ItemValueBar item={title} value={value}/>
         </TouchableOpacity>
       )
     case 'Temperature Compensation':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Temperature Compensation', { Tag: title, ConfigNum: parent })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+        <ItemValueBar item={title} value={value}/>
+
         </TouchableOpacity>
       )
 
     case 'Reference Temperature':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Reference Temperature', { Tag: title, ConfigNum: parent })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+                  <ItemValueBar item={title} value={value}/>
+
         </TouchableOpacity>
       )
 
@@ -92,8 +118,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
     case 'Filter Time Constant':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Filter Time Constant', { Tag: title, ConfigNum: parent })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+        <ItemValueBar item={title} value={value}/>
         </TouchableOpacity>
       )
     default:
@@ -128,7 +153,7 @@ const CheckButtoned = (selectedValue, sentValue) => {
         marginVertical: 0,
         marginHorizontal: 0, justifyContent: "space-between", flexDirection: "row"
       }}>
-        <Text style={{color:'black'}}>{sentValue}</Text>
+        <Text style={{ color: 'black' }}>{sentValue}</Text>
         <Icon
           name="checkmark-outline"
           size={20}
@@ -198,7 +223,7 @@ const RangeScreen = ({ route, navigation }) => {
     if (selection != subval.Value) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"${ConfigNum}","Set Parameters": {"73":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`,context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"${ConfigNum}","Set Parameters": {"73":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -606,8 +631,8 @@ const RangeScreen = ({ route, navigation }) => {
 const TemperatureCompensationScreen = ({ route, navigation }) => {
   const context = useContext(ContextConfigurationValues);
   const { Tag } = route.params;
- 
-  
+
+
   console.log(Tag)
   const { ConfigNum } = route.params;
   console.log(ConfigNum)
@@ -635,7 +660,7 @@ const TemperatureCompensationScreen = ({ route, navigation }) => {
     if (selection != subval.Value) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"${ConfigNum}", "Set Parameters": {"74":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`,context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"${ConfigNum}", "Set Parameters": {"74":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -684,7 +709,7 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
       // console.log({ temperatureF, initialValF, temperatureC, initialValC })
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"82":"${temperatureC}"}}`,context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"82":"${temperatureC}"}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -712,7 +737,7 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
         maximumValue={limitsC[1]}
         onSlidingComplete={() => callBackSlider()}
       />
-      <Text style={{fontSize:25, textAlign:'center',alignContent: "center" }}> Value : {temperatureC} °C</Text>
+      <Text style={{ fontSize: 25,color:'black', textAlign: 'center', alignContent: "center" }}> Value : {temperatureC} °C</Text>
 
 
     </View>
@@ -774,7 +799,7 @@ const FilterCountConstantScreen = ({ route, navigation }) => {
         maximumValue={limitsFFC[1]}
         onSlidingComplete={() => callBackSlider()}
       />
-      <Text style={{fontSize:25, textAlign:'center', alignContent: "center" }}>Value: {filterCC}</Text>
+      <Text style={{ fontSize: 25,color:'black', textAlign: 'center', alignContent: "center" }}>Value: {filterCC}</Text>
     </View>
 
 

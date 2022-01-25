@@ -20,6 +20,38 @@ import InputScrollView from 'react-native-input-scroll-view';
 
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
+const ItemBar = ({item})=>(
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+  <View style={{height:40 ,justifyContent:'center'}}> 
+    <Text style={styles.title}>{item}</Text>
+  </View>
+  <View style={{ justifyContent: 'center' }}>
+    <Icon
+      name="chevron-forward-outline"
+      size={20}
+      color="#000"
+    />
+  </View>
+</View>
+)
+const ItemValueBar = ({item,value})=>(
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+  <View style={{justifyContent:'center'}}> 
+    <Text style={styles.title}>{item}</Text>
+    <Text style={styles.value}>{value}</Text>
+
+  </View>
+  <View style={{ justifyContent: 'center' }}>
+    <Icon
+      name="chevron-forward-outline"
+      size={20}
+      color="#000"
+    />
+  </View>
+</View>
+)
 let peripheralID = '0'
 
 const CustomCoeffParams = Values.filter(item => item.Tag === "Temperature Coefficient Custom")[0];
@@ -42,29 +74,28 @@ function Item(title, value, navigation = null, context = null, parent = null) {
     case 'Configuration 1':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+        <ItemBar item={title} />
+
         </TouchableOpacity>
       )
     case 'Configuration 2':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+        <ItemBar item={title} />
         </TouchableOpacity>
       )
     case 'Configuration 3':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+        <ItemBar item={title} />
+
         </TouchableOpacity>
       )
     case 'Configuration 4':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+        <ItemBar item={title} />
+
         </TouchableOpacity>
       )
     case 'Configure Table':
@@ -156,15 +187,15 @@ function CustomConfigurationScreen({ route, navigation }) {
   const initialObjConfig = initialObj.Config;
   const initialNrofTemperaturePoints = initialObjConfig.filter(item => item.Tag === "Number of Temperature Points in the Custom Table")[0];
   const initialNrofConcentrationPoints = initialObjConfig.filter(item => item.Tag === "Number of Concentration Points in the Custom Table")[0];
-  const [nrOfTempPoints, setNrOfTempPoints] = useState(initialNrofTemperaturePoints)
-  const [nrOfConcPoints, setNrOfConcPoints] = useState(initialNrofTemperaturePoints)
+  const [nrOfTempPoints, setNrOfTempPoints] = useState("1")
+  const [nrOfConcPoints, setNrOfConcPoints] = useState("1")
 
 
 
   return (
     <ScrollView style={styles.container2}>
       <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]}  >
-        <Text style={[styles.title, { textAlign: 'center', color: 'black', borderBottomWidth: 1, borderBottomColor: "black" }]}>Number of Temperature Points in the Custom Table</Text>
+        <Text style={[styles.title, { textAlign: 'center', color: 'black' }]}>Number of Temperature Points in the Custom Table</Text>
       </View>
 
 
@@ -183,13 +214,10 @@ function CustomConfigurationScreen({ route, navigation }) {
           <Picker.Item label="6" value="6" />
         </Picker>
       </View>
-
-      <View style={[styles.itemButton, { paddingTop: 15, alignItems: "center" }]} >
-        <Text style={[styles.title, { textAlign: 'center', color: 'black', borderBottomWidth: 1, borderBottomColor: "black" }]}>Number of Concentration Points in the Custom Table</Text>
+      <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]}  >
+        <Text style={[styles.title, { textAlign: 'center', color: 'black' }]}>Number of Concentration Points in the Custom Table</Text>
       </View>
-
-
-
+ 
       <View style={styles.pickerText} >
         <Picker style={styles.picker}
           selectedValue={nrOfConcPoints}
@@ -209,7 +237,8 @@ function CustomConfigurationScreen({ route, navigation }) {
 
       <Button
         onPress={() => navigation.navigate('Custom Temperature Coefficient', { Tag: ConfigNum, ConfigNum: ConfigNum, name: "Custom Temperature Coefficient", ConcentrationPoints: nrOfConcPoints, TemperaturePoints: nrOfTempPoints })}
-        title="Save"
+        
+        title="Configure Coefficients"
         color="#841584"
       />
     </ScrollView>

@@ -18,7 +18,38 @@ let peripheralID = '0'
 let Output1Params = Paramsfiltered.find(Output1Params => Output1Params.Tag === "Switch Output");
 let MenuParams = Output1Params.menu;
 const StackSwitchOutput = createStackNavigator();
+const ItemBar = ({ item }) => (
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
+        <View style={{ height: 40, justifyContent: 'center' }}>
+            <Text style={styles.title}>{item}</Text>
+        </View>
+        <View style={{ justifyContent: 'center' }}>
+            <Icon
+                name="chevron-forward-outline"
+                size={20}
+                color="#000"
+            />
+        </View>
+    </View>
+)
+const ItemValueBar = ({ item, value }) => (
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+        <View style={{ justifyContent: 'center' }}>
+            <Text style={styles.title}>{item}</Text>
+            <Text style={styles.value}>{value}</Text>
+
+        </View>
+        <View style={{ justifyContent: 'center' }}>
+            <Icon
+                name="chevron-forward-outline"
+                size={20}
+                color="#000"
+            />
+        </View>
+    </View>
+)
 var filtered = Values.filter(row => row.Tag == 'Switch Output');
 var filteredAT = filtered.filter(row => row.Tag == 'Switch Output');
 function Item(title, value, navigation = null, context = null, parent = null){
@@ -35,29 +66,25 @@ function Item(title, value, navigation = null, context = null, parent = null){
         case 'Configuration 1':
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Sub',{ Tag: title, name: title, ConfigNum: parent })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                    <ItemBar item={title} />
                 </TouchableOpacity>
             )
         case 'Configuration 2':
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Sub',{ Tag: title, name: title, ConfigNum: parent })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                    <ItemBar item={title} />
                 </TouchableOpacity>
             )
         case 'Configuration 3':
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Sub',{ Tag: title, name: title, ConfigNum: parent })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                    <ItemBar item={title} />
                 </TouchableOpacity>
             )
         case 'Configuration 4':
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Sub',{ Tag: title, name: title, ConfigNum: parent })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                    <ItemBar item={title} />
                 </TouchableOpacity>
             )
         case 'Conductivity - ON-Value Set Point':
@@ -67,8 +94,8 @@ function Item(title, value, navigation = null, context = null, parent = null){
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+
+<ItemValueBar item={title} value={value} />
                 </TouchableOpacity>
             )
         case 'Conductivity - OFF-Value Set Point':
@@ -78,8 +105,7 @@ function Item(title, value, navigation = null, context = null, parent = null){
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                      <ItemValueBar item={title} value={value} />
                 </TouchableOpacity>
             )
 
@@ -91,8 +117,7 @@ function Item(title, value, navigation = null, context = null, parent = null){
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                      <ItemValueBar item={title} value={value} />
                 </TouchableOpacity>
             )
         case 'Concentration - OFF-Value Set Point':
@@ -102,8 +127,7 @@ function Item(title, value, navigation = null, context = null, parent = null){
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                      <ItemValueBar item={title} value={value} />
                 </TouchableOpacity>
             )
 
@@ -114,8 +138,7 @@ function Item(title, value, navigation = null, context = null, parent = null){
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                      <ItemValueBar item={title} value={value} />
                 </TouchableOpacity>
             )
         case 'Temperature - OFF-Value Set Point':
@@ -125,8 +148,7 @@ function Item(title, value, navigation = null, context = null, parent = null){
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                      <ItemValueBar item={title} value={value} />
                 </TouchableOpacity>
             )
         default:

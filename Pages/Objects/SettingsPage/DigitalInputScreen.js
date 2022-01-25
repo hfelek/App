@@ -22,7 +22,23 @@ var filteredAT = filtered.filter(row => row.Tag == 'Digital Input Function');
 function renderItem(item, navigation = null, context = null, parent) {
     return (Item(item.Tag, item.Value, navigation, context, parent))
 }
+const ItemValueBar = ({ item, value }) => (
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
+        <View style={{ justifyContent: 'center' }}>
+            <Text style={styles.title}>{item}</Text>
+            <Text style={styles.value}>{value}</Text>
+
+        </View>
+        <View style={{ justifyContent: 'center' }}>
+            <Icon
+                name="chevron-forward-outline"
+                size={20}
+                color="#000"
+            />
+        </View>
+    </View>
+)
 const CheckButtoned = (selectedValue, sentValue) => {
     if (selectedValue === sentValue) {
         return (
@@ -58,8 +74,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
         case 'Digital Input Function':
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Digital Input Function')}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+                      <ItemValueBar item={title} value={value} />
                 </TouchableOpacity>
             )
 
@@ -125,7 +140,7 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
                 selection == "Configuration Control" && (
                     <View style={[styles.container1, {  alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                            <Text style={[styles.title, { borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose Digital Input Assign for D-IN STATE:LOW"}</Text>
+                            <Text style={[styles.title]}>{"Choose Digital Input Assign for D-IN STATE:LOW"}</Text>
                         </View>
 
                         <View style={styles.pickerText} >
@@ -145,7 +160,7 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
                         </View>
 
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                            <Text style={[styles.title, { borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose Digital Input Assign for D-IN STATE:HIGH"}</Text>
+                            <Text style={[styles.title]}>{"Choose Digital Input Assign for D-IN STATE:HIGH"}</Text>
                         </View>
 
                         <View style={styles.pickerText} >

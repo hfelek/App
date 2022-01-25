@@ -22,12 +22,12 @@ import BleManager, { isPeripheralConnected } from 'react-native-ble-manager';
 
 import IdentificationScreen from './Objects/SettingsPage/Identification'
 import DiagnosticsScreen from './Objects/SettingsPage/Diagnostics'
-import MeasuredValuesScreen from './Objects/SettingsPage/Measured_Values'
-import SystemUnitsScreen from './Objects/SettingsPage/System_Units'
+// import MeasuredValuesScreen from './Objects/SettingsPage/Measured_Values'
+// import SystemUnitsScreen from './Objects/SettingsPage/System_Units'
 import ConductivityScreen from './Objects/SettingsPage/ConductivityScreen'
-import ConcentrationScreen from './Objects/SettingsPage/ConcentrationScreen'
-import Output1MainScreen from './Objects/SettingsPage/Output1'
-import Output2Screen from './Objects/SettingsPage/Output2'
+// import ConcentrationScreen from './Objects/SettingsPage/ConcentrationScreen'
+// import Output1MainScreen from './Objects/SettingsPage/Output1'
+// import Output2Screen from './Objects/SettingsPage/Output2'
 import DisplayScreen from './Objects/SettingsPage/Display'
 import CommunicationScreen from './Objects/SettingsPage/CommunicationScreen'
 import SystemScreen from './Objects/SettingsPage/System'
@@ -112,18 +112,14 @@ console.log("I am here Settings Screen")
         <StackSettings.Screen name='Identification' component={IdentificationScreen} />
         <StackSettings.Screen name='Setup Menu' component={ConfigurationScreen} />
         <StackSettings.Screen name='Diagnostics' component={DiagnosticsScreen} />
-        <StackSettings.Screen name='Measured Values' component={MeasuredValuesScreen} />
         <StackSettings.Screen name='Temperature Coefficient Non-Linear' component={TemperatureCoeffNonLinearScreen} />
         <StackSettings.Screen name='Temperature Coefficient Linear' component={TemperatureCoeffLinearScreen} />
         <StackSettings.Screen name='Temperature Coefficient Custom' component={TemperatureCoeffCustomScreen} />
         <StackSettings.Screen name='Operation Mode IO' component={OperationModeScreen} />
         <StackSettings.Screen name='Conductivity Input' component={ConductivityScreen} />
-        <StackSettings.Screen name='Concentration' component={ConcentrationScreen} />
-        <StackSettings.Screen name='Output1' component={Output1MainScreen} />
-        <StackSettings.Screen name='Output2' component={Output2Screen} />
+
         <StackSettings.Screen name='Display' component={DisplayScreen} />
         <StackSettings.Screen name='Communication' component={CommunicationScreen} />
-        <StackSettings.Screen name='System Units' component={SystemUnitsScreen} />
         <StackSettings.Screen name='Current Output' component={CurrentOutputScreen} />
         <StackSettings.Screen name='System' component={SystemScreen} />
         <StackSettings.Screen name='Calibration' component={CalibrationScreen} />

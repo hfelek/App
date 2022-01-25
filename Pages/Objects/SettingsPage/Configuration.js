@@ -34,7 +34,7 @@ const CheckButtoned = (selectedValue, sentValue) => {
         marginVertical: 0,
         marginHorizontal: 0, justifyContent: "space-between", flexDirection: "row"
       }}>
-        <Text style={{color:'black'}}>{sentValue}</Text>
+        <Text style={{ color: 'black' }}>{sentValue}</Text>
         <Icon
           name="checkmark-outline"
           size={20}
@@ -55,8 +55,40 @@ const CheckButtoned = (selectedValue, sentValue) => {
     )
   }
 }
+const ItemBar = ({item})=>(
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+  <View style={{height:40 ,justifyContent:'center'}}> 
+    <Text style={styles.title}>{item}</Text>
+  </View>
+  <View style={{ justifyContent: 'center' }}>
+    <Icon
+      name="chevron-forward-outline"
+      size={20}
+      color="#000"
+    />
+  </View>
+</View>
+)
+const ItemValueBar = ({item,value})=>(
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+  <View style={{justifyContent:'center'}}> 
+    <Text style={styles.title}>{item}</Text>
+    <Text style={styles.value}>{value}</Text>
+
+  </View>
+  <View style={{ justifyContent: 'center' }}>
+    <Icon
+      name="chevron-forward-outline"
+      size={20}
+      color="#000"
+    />
+  </View>
+</View>
+)
 const ReferenceTemperatureScreen = ({ route, navigation }) => {
-  const context = useContext(ContextConfigurationValues) 
+  const context = useContext(ContextConfigurationValues)
   const valSystemUnits = Values.filter(row => row.Tag == 'System Units');
   const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Unit Temperature');
   const possibleValues = val[0].PossibleValues;
@@ -77,7 +109,7 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
     if (selection != val[0].Value) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Setup Menu", "Set Parameters": {"102":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`,context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Setup Menu", "Set Parameters": {"102":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -109,15 +141,14 @@ function Item(title, value, navigation = null, context = null) {
     case 'Active Configuration':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Active Configuration', { Tag: title, Value: value })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+        <ItemValueBar item={title} value={value}/>
+
         </TouchableOpacity>
       )
     case 'Reference Temperature':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Reference Temperature', { Tag: title, Value: value })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+        <ItemValueBar item={title} value={value}/>
         </TouchableOpacity>
       )
     default:
@@ -145,14 +176,14 @@ const ChangedButton = (initialValue, newValue, navigation) => {
   }
 }
 const ActiveConfigurationScreen = ({ route, navigation }) => {
-  const context = useContext(ContextConfigurationValues) 
+  const context = useContext(ContextConfigurationValues)
   const { Tag } = route.params
   const valSystemUnits = Values.filter(row => row.Tag == 'Setup Menu')[0].menu;
   const val = valSystemUnits.filter(row => row.Tag == Tag)[0];
   const possibleValues = val.PossibleValues;
   const index = "101"
   const [selection, setSelection] = React.useState(val.Value); // Buraya Initital Value Gelecek
- 
+
   let hexIndex
   switch (selection) {
     case "Configuration 1":
@@ -188,7 +219,7 @@ const ActiveConfigurationScreen = ({ route, navigation }) => {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
-            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100",`{"Tag":"Setup Menu","Set Parameters": {"${index}":"${hexIndex}"}}`,context) }}
+            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Setup Menu","Set Parameters": {"${index}":"${hexIndex}"}}`, context) }}
 
           >
             <View style={styles.buttonBar}>

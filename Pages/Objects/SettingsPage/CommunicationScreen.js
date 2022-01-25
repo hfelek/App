@@ -22,15 +22,49 @@ const renderItem1 = ({ item }) => (
   Item(item.Tag)
 );
 const WiFiFunctionEnums = { "WiFi Fucntion": "CC", "WiFi Mode": "CD", "SSID": "CE", "Password": "CF", "IP Adress": "D1", "Subnet Adress": "D2", "Router Adress": "D3", "Configure IPv4": "D0" }
+const ItemBar = ({ item }) => (
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+      <View style={{ height: 40, justifyContent: 'center' }}>
+          <Text style={styles.title}>{item}</Text>
+      </View>
+      <View style={{ justifyContent: 'center' }}>
+          <Icon
+              name="chevron-forward-outline"
+              size={20}
+              color="#000"
+          />
+      </View>
+  </View>
+)
+const ItemValueBar = ({ item, value }) => (
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+      <View style={{ justifyContent: 'center' }}>
+          <Text style={styles.title}>{item}</Text>
+          <Text style={styles.value}>{value}</Text>
+
+      </View>
+      <View style={{ justifyContent: 'center' }}>
+          <Icon
+              name="chevron-forward-outline"
+              size={20}
+              color="#000"
+          />
+      </View>
+  </View>
+)
 
 const CheckButtoned = (selectedValue, sentValue) => {
   if (selectedValue === sentValue) {
     return (
 
-      <View style={{        padding: 8,
+      <View style={{
+        padding: 8,
         marginVertical: 0,
-        marginHorizontal: 0, justifyContent: "space-between", flexDirection: "row" }}>
-        <Text style={{color:'black'}}>{sentValue}</Text>
+        marginHorizontal: 0, justifyContent: "space-between", flexDirection: "row"
+      }}>
+        <Text style={{ color: 'black' }}>{sentValue}</Text>
         <Icon
           name="checkmark-outline"
           size={20}
@@ -182,15 +216,14 @@ function Item(title, value, navigation = null, context = null) {
     case 'Bluetooth':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => { navigation.navigate('Bluetooth') }}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+<ItemBar item={title} />
         </TouchableOpacity>
       )
     case 'WiFi':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi')}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+<ItemBar item={title} />
+
         </TouchableOpacity>
       )
     case 'Communication Type':
@@ -207,16 +240,14 @@ function Item(title, value, navigation = null, context = null) {
 
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Communication Type', { Tag: title, HexIndex: "C8" })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{val}</Text>
+          <ItemValueBar item={title} value={val}/>
         </TouchableOpacity>
       )
     case 'Bluetooth Function':
       val = context["C9"] == "0" ? "Off" : "On"
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Bluetooth Function', { Tag: title, HexIndex: "C9" })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{val}</Text>
+          <ItemValueBar item={title} value={val}/>
         </TouchableOpacity>
       )
     case 'Bluetooth Tx Power Level':
@@ -238,8 +269,7 @@ function Item(title, value, navigation = null, context = null) {
       val = context["CC"] == "0" ? "Off" : "On"
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title, HexIndex: "CC", name: title })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{val}</Text>
+          <ItemValueBar item={title} value={val}/>
         </TouchableOpacity>
       )
     case 'WiFi Mode':
@@ -247,22 +277,19 @@ function Item(title, value, navigation = null, context = null) {
 
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title, HexIndex: "CD", name: title })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{val}</Text>
+          <ItemValueBar item={title} value={val}/>
         </TouchableOpacity>
       )
     case 'SSID':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('SSID Screen', { Tag: title, HexIndex: "CE" })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{context["CE"]}</Text>
+          <ItemValueBar item={title} value={context["CE"]}/>
         </TouchableOpacity>
       )
     case 'Password':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Password Screen', { Tag: title, HexIndex: "CF" })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{ }</Text>
+          <ItemBar item={title}/>
         </TouchableOpacity>
       )
     case 'Configure IPv4':
@@ -270,29 +297,25 @@ function Item(title, value, navigation = null, context = null) {
 
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configure IPv4', { Tag: title, HexIndex: "D0", name: title })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{val}</Text>
+          <ItemValueBar item={title} value={val}/>
         </TouchableOpacity>
       )
     case 'IP Address':
       return (
         <View style={styles.itemButton} >
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{context["D1"]}</Text>
+          <ItemValueBar item={title} value={context["D1"]}/>
         </View>
       )
     case 'Router Adress':
       return (
         <View style={styles.itemButton} >
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{context["D3"]}</Text>
+          <ItemValueBar item={title} value={context["D3"]}/>
         </View>
       )
     case 'Subnet Address':
       return (
         <View style={styles.itemButton}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{context["D2"]}</Text>
+          <ItemValueBar item={title} value={context["D2"]}/>
         </View>
       )
 
@@ -604,14 +627,20 @@ const IPV4 = ({ route, navigation }) => {
     }
   });
   return (
-    <SafeAreaView style={styles.containerIPv4}>
-      <FlatList
+    <ScrollView style={styles.containerIPv4}>
+      {/* <FlatList
         data={possibleValues}
         renderItem={renderItemSelectable}
         keyExtractor={item => item.Tag}
-      />
+      /> */}
+      <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection("Manual") }}>
+        {CheckButtoned(selection, "Manual")}
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection("DHCP") }}>
+        {CheckButtoned(selection, "DHCP")}
+      </TouchableOpacity>
       {selection == "Manual" && (
-        <ScrollView style={{ paddingTop: 0, backgroundColor: "#ffffff" }}>
+        <ScrollView style={{ paddingTop: 15, backgroundColor: "#ffffff" }}>
           <Text style={styles.myText}>Configure Your Connection IPs Manually</Text>
           <TextInput
             label={"Set Your  WiFi " + "Static IP Adress"}
@@ -667,7 +696,7 @@ const IPV4 = ({ route, navigation }) => {
 
 
 
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 const WiFiFunctionScreen = ({ route, navigation }) => {
@@ -972,7 +1001,6 @@ const styles = StyleSheet.create({
   },
   containerIPv4: {
 
-    justifyContent: "center", // 
     padding: 0,
     // alignItems:"flex-end",
     // alignContent:"flex-start",

@@ -26,7 +26,38 @@ let OperationModeParams = Values.filter(item => item.Tag === "Operation Mode IO"
 let MenuParams = OperationModeParams.menu;
 // let subMenuParams = MenuParams.filter(row => row.Tag == 'Configuration 1')[0].menu;
 const StackConductivity = createStackNavigator();
-
+const ItemBar = ({item})=>(
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+  
+    <View style={{height:40 ,justifyContent:'center'}}> 
+      <Text style={styles.title}>{item}</Text>
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
+  </View>
+  )
+  const ItemValueBar = ({item,value})=>(
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+  
+    <View style={{justifyContent:'center'}}> 
+      <Text style={styles.title}>{item}</Text>
+      <Text style={styles.value}>{value}</Text>
+  
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
+  </View>
+  )
 
 
 
@@ -39,15 +70,14 @@ function Item(title, value, navigation = null, context = null, parent = null) {
         case 'Operation Mode IO 1':
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Operation Selection', { Tag: title, name: title, ConfigNum: parent })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+        <ItemValueBar item={title} value={value}/>
                 </TouchableOpacity>
             )
         case 'Operation Mode IO 2':
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Operation Selection', { Tag: title, name: title, ConfigNum: parent })}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{value}</Text>
+        <ItemValueBar item={title} value={value}/>
+
                 </TouchableOpacity>
             )
         case 'Configuration':
@@ -162,7 +192,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
     return (
         <ScrollView style={[styles.container2, { backgroundColor: "#ffffff" }]}>
             <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                <Text style={[styles.title, { textAlign:'center', borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose The Output Type of OU" + " for " + ConfigNum}</Text>
+                <Text style={[styles.title, { textAlign:'center' }]}>{"Choose The Output Type of OU" + " for " + ConfigNum}</Text>
             </View>
 
 
@@ -198,7 +228,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                 selection == "Switch Output" && (
                     <View style={[styles.container1, { alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                            <Text style={[styles.title, { borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose the Output Assign for Switch Output"}</Text>
+                            <Text style={[styles.title]}>{"Choose the Output Assign for Switch Output"}</Text>
                         </View>
 
                         <View style={styles.pickerText} >
@@ -217,7 +247,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                             </Picker>
                         </View>
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                            <Text style={[styles.title, { borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose the Function Type for Switch Output"}</Text>
+                            <Text style={[styles.title]}>{"Choose the Function Type for Switch Output"}</Text>
                         </View>
                         <View style={styles.pickerText} >
 
@@ -240,7 +270,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                             </Picker>
                         </View>
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                            <Text style={[styles.title, { borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose The Output Type for Switch Output"}</Text>
+                            <Text style={[styles.title]}>{"Choose The Output Type for Switch Output"}</Text>
                         </View>
                         <View style={styles.pickerText} >
 

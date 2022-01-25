@@ -28,7 +28,38 @@ let MenuParams = nonLinearCoeffParams.menu;
 // let subMenuParams = MenuParams.filter(row => row.Tag == 'Configuration 1')[0].menu;
 const StackTempCoeffNonLinear = createStackNavigator();
 
+const ItemBar = ({item})=>(
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
+  <View style={{height:40 ,justifyContent:'center'}}> 
+    <Text style={styles.title}>{item}</Text>
+  </View>
+  <View style={{ justifyContent: 'center' }}>
+    <Icon
+      name="chevron-forward-outline"
+      size={20}
+      color="#000"
+    />
+  </View>
+</View>
+)
+const ItemValueBar = ({item,value})=>(
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+  <View style={{justifyContent:'center'}}> 
+    <Text style={styles.title}>{item}</Text>
+    <Text style={styles.value}>{value}</Text>
+
+  </View>
+  <View style={{ justifyContent: 'center' }}>
+    <Icon
+      name="chevron-forward-outline"
+      size={20}
+      color="#000"
+    />
+  </View>
+</View>
+)
 
 function renderItem(item, navigation = null, context = null, parent) {
   return (Item(item.Tag, item.Value, navigation, context, parent))
@@ -39,30 +70,26 @@ function Item(title, value, navigation = null, context = null, parent = null) {
     case 'Configuration 1':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Non-Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+        <ItemBar item={title} />
         </TouchableOpacity>
       )
     case 'Configuration 2':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Non-Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+        <ItemBar item={title} />
         </TouchableOpacity>
       )
     case 'Configuration 3':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Non-Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
+        <ItemBar item={title} />
+               </TouchableOpacity>
       )
     case 'Configuration 4':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Non-Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
+        <ItemBar item={title} />
+                </TouchableOpacity>
       )
     case 'Configuration':
       return (

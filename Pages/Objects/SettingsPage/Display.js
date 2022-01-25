@@ -22,7 +22,23 @@ const StackDisplay = createStackNavigator();
 var filtered = Values.filter(row => row.Tag == 'Display');
 var filteredAT = filtered.filter(row => row.Tag == 'Backlight');
 
+const ItemValueBar = ({item,value})=>(
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
+  <View style={{justifyContent:'center'}}> 
+    <Text style={styles.title}>{item}</Text>
+    <Text style={styles.value}>{value}</Text>
+
+  </View>
+  <View style={{ justifyContent: 'center' }}>
+    <Icon
+      name="chevron-forward-outline"
+      size={20}
+      color="#000"
+    />
+  </View>
+</View>
+)
 const DisplayScreen = ({ route, navigation }) => {
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
     // Success code
@@ -38,13 +54,13 @@ const DisplayScreen = ({ route, navigation }) => {
       case 'Backlight':
         return (
           <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Backlight', { Tag: title, Value: value })}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.value}>{value}</Text>
+                      <ItemValueBar item={title} value={value} />
+
           </TouchableOpacity>
         )
       default:
         return (
-          <View style={styles.item}>
+          <View style={styles.itemButton}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.value}>{value}</Text>
           </View>
@@ -53,23 +69,31 @@ const DisplayScreen = ({ route, navigation }) => {
     };
   }
 
-  const CheckButtoned=(selectedValue, sentValue )=> {
-    if(selectedValue===sentValue){
-      return(
-
-          <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-            <Text>{sentValue}</Text>
-            <Icon
-              name="checkmark-outline"
-              size={20}
-              color="#f54"
-            />
-          </View>
-        )
+  const CheckButtoned = (selectedValue, sentValue) => {
+    if (selectedValue === sentValue) {
+      return (
+  
+        <View style={{
+          padding: 8,
+          marginVertical: 0,
+          marginHorizontal: 0, justifyContent: "space-between", flexDirection: "row"
+        }}>
+          <Text style={{color:'black'}}>{sentValue}</Text>
+          <Icon
+            name="checkmark-outline"
+            size={20}
+            color="#f54"
+          />
+        </View>
+      )
     }
-    else{
-      return(
-        <View style={{ flexDirection: "row" }}>
+    else {
+      return (
+        <View style={{
+          padding: 8,
+          marginVertical: 0,
+          marginHorizontal: 0, flexDirection: "row"
+        }}>
           <Text>{sentValue}</Text>
         </View>
       )
