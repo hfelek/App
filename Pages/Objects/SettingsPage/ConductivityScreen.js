@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity, ScrollView } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -32,199 +32,241 @@ var filteredAT = filtered.filter(row => row.Tag == 'Range');
 
 
 function renderItem(item, navigation = null, context = null, parent) {
-  return (Item(item.Tag, item.Value, navigation, context, parent))
+    return (Item(item.Tag, item.Value, navigation, context, parent))
 }
 
 function Item(title, value, navigation = null, context = null, parent = null) {
-  switch (title) {
-    case 'Configuration 1':
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      )
-    case 'Configuration 2':
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      )
-    case 'Configuration 3':
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      )
-    case 'Configuration 4':
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      )
-    case 'Conductivity Range':
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Conductivity Range', { Tag: title, ConfigNum: parent })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      )
-    case 'Temperature Compensation':
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Temperature Compensation', { Tag: title, ConfigNum: parent })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      )
+    switch (title) {
+        case 'Configuration 1':
+            return ( <
+                TouchableOpacity style = { styles.itemButton }
+                onPress = {
+                    () => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title }) } >
+                <
+                Text style = { styles.title } > { title } < /Text> <
+                Text style = { styles.value } > { value } < /Text> <
+                /TouchableOpacity>
+            )
+        case 'Configuration 2':
+            return ( <
+                TouchableOpacity style = { styles.itemButton }
+                onPress = {
+                    () => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title }) } >
+                <
+                Text style = { styles.title } > { title } < /Text> <
+                Text style = { styles.value } > { value } < /Text> <
+                /TouchableOpacity>
+            )
+        case 'Configuration 3':
+            return ( <
+                TouchableOpacity style = { styles.itemButton }
+                onPress = {
+                    () => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title }) } >
+                <
+                Text style = { styles.title } > { title } < /Text> <
+                Text style = { styles.value } > { value } < /Text> <
+                /TouchableOpacity>
+            )
+        case 'Configuration 4':
+            return ( <
+                TouchableOpacity style = { styles.itemButton }
+                onPress = {
+                    () => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title }) } >
+                <
+                Text style = { styles.title } > { title } < /Text> <
+                Text style = { styles.value } > { value } < /Text> <
+                /TouchableOpacity>
+            )
+        case 'Conductivity Range':
+            return ( <
+                TouchableOpacity style = { styles.itemButton }
+                onPress = {
+                    () => navigation.navigate('Conductivity Range', { Tag: title, ConfigNum: parent }) } >
+                <
+                Text style = { styles.title } > { title } < /Text> <
+                Text style = { styles.value } > { value } < /Text> <
+                /TouchableOpacity>
+            )
+        case 'Temperature Compensation':
+            return ( <
+                TouchableOpacity style = { styles.itemButton }
+                onPress = {
+                    () => navigation.navigate('Temperature Compensation', { Tag: title, ConfigNum: parent }) } >
+                <
+                Text style = { styles.title } > { title } < /Text> <
+                Text style = { styles.value } > { value } < /Text> <
+                /TouchableOpacity>
+            )
 
-    case 'Reference Temperature':
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Reference Temperature', { Tag: title, ConfigNum: parent })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      )
+        case 'Reference Temperature':
+            return ( <
+                TouchableOpacity style = { styles.itemButton }
+                onPress = {
+                    () => navigation.navigate('Reference Temperature', { Tag: title, ConfigNum: parent }) } >
+                <
+                Text style = { styles.title } > { title } < /Text> <
+                Text style = { styles.value } > { value } < /Text> <
+                /TouchableOpacity>
+            )
 
 
-    case 'Filter Time Constant':
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Filter Time Constant', { Tag: title, ConfigNum: parent })}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </TouchableOpacity>
-      )
-    default:
-      return (
-        <View style={styles.item}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
-        </View>
+        case 'Filter Time Constant':
+            return ( <
+                TouchableOpacity style = { styles.itemButton }
+                onPress = {
+                    () => navigation.navigate('Filter Time Constant', { Tag: title, ConfigNum: parent }) } >
+                <
+                Text style = { styles.title } > { title } < /Text> <
+                Text style = { styles.value } > { value } < /Text> <
+                /TouchableOpacity>
+            )
+        default:
+            return ( <
+                View style = { styles.item } >
+                <
+                Text style = { styles.title } > { title } < /Text> <
+                Text style = { styles.value } > { value } < /Text> <
+                /View>
 
-      )
-  };
+            )
+    };
 }
 
 const ConductivityMainScreen = ({ navigation }) => (
 
-  <SafeAreaView style={styles.container}>
-    <FlatList
-      data={MenuParams}
-      renderItem={({ item, index, separators }) => (renderItem(item, navigation))}
-      keyExtractor={item => item.Tag}
-      initialNumToRender={MenuParams.length}
-    />
-  </SafeAreaView>
+    <
+    SafeAreaView style = { styles.container } >
+    <
+    FlatList data = { MenuParams }
+    renderItem = {
+        ({ item, index, separators }) => (renderItem(item, navigation)) }
+    keyExtractor = { item => item.Tag }
+    initialNumToRender = { MenuParams.length }
+    /> <
+    /SafeAreaView>
 )
 
 const CheckButtoned = (selectedValue, sentValue) => {
-  if (selectedValue === sentValue) {
-    return (
+    if (selectedValue === sentValue) {
+        return (
 
-      <View style={{
-        padding: 8,
-        marginVertical: 0,
-        marginHorizontal: 0, justifyContent: "space-between", flexDirection: "row"
-      }}>
-        <Text>{sentValue}</Text>
-        <Icon
-          name="checkmark-outline"
-          size={20}
-          color="#f54"
-        />
-      </View>
-    )
-  }
-  else {
-    return (
-      <View style={{
-        padding: 8,
-        marginVertical: 0,
-        marginHorizontal: 0, flexDirection: "row"
-      }}>
-        <Text>{sentValue}</Text>
-      </View>
-    )
-  }
+            <
+            View style = {
+                {
+                    padding: 8,
+                    marginVertical: 0,
+                    marginHorizontal: 0,
+                    justifyContent: "space-between",
+                    flexDirection: "row"
+                }
+            } >
+            <
+            Text style = {
+                { color: 'black' } } > { sentValue } < /Text> <
+            Icon name = "checkmark-outline"
+            size = { 20 }
+            color = "#f54" /
+            >
+            <
+            /View>
+        )
+    } else {
+        return ( <
+            View style = {
+                {
+                    padding: 8,
+                    marginVertical: 0,
+                    marginHorizontal: 0,
+                    flexDirection: "row"
+                }
+            } >
+            <
+            Text > { sentValue } < /Text> <
+            /View>
+        )
+    }
 }
 
 
 
 function ConfigurationNumScreen({ route, navigation }) {
-  const { Tag } = route.params;
-  const subMenuParams = MenuParams.filter(row => row.Tag == Tag)[0].menu;
+    const { Tag } = route.params;
+    const subMenuParams = MenuParams.filter(row => row.Tag == Tag)[0].menu;
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={subMenuParams}
-        renderItem={({ item, index, separators }) => (renderItem(item, navigation, "hello", Tag))}
-        keyExtractor={item => item.Tag}
-        initialNumToRender={MenuParams.length}
-      />
-    </SafeAreaView>
-  )
+    return ( <
+        SafeAreaView style = { styles.container } >
+        <
+        FlatList data = { subMenuParams }
+        renderItem = {
+            ({ item, index, separators }) => (renderItem(item, navigation, "hello", Tag)) }
+        keyExtractor = { item => item.Tag }
+        initialNumToRender = { MenuParams.length }
+        /> <
+        /SafeAreaView>
+    )
 }
 
 
 
 const RangeScreen = ({ route, navigation }) => {
-  const context = useContext(ContextConfigurationValues);
-  const { Tag } = route.params;
-  console.log(Tag)
-  const { ConfigNum } = route.params;
+    const context = useContext(ContextConfigurationValues);
+    const { Tag } = route.params;
+    console.log(Tag)
+    const { ConfigNum } = route.params;
 
-  const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity Input');
-  const val = valSystemUnits[0].menu.filter(row => row.Tag == ConfigNum)[0];
-  const subval = val.menu.filter(row => row.Tag == Tag)[0];
-  const possibleValues = subval.PossibleValues;
-  const [selection, setSelection] = React.useState(subval.Value);
-  const renderItemSelectable = ({ item }) => (
-    ItemSelectable(item.Tag)
-  );
-  function ItemSelectable(title) {
+    const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity Input');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == ConfigNum)[0];
+    const subval = val.menu.filter(row => row.Tag == Tag)[0];
+    const possibleValues = subval.PossibleValues;
+    const [selection, setSelection] = React.useState(subval.Value);
+    const renderItemSelectable = ({ item }) => (
+        ItemSelectable(item.Tag)
+    );
 
-    return (
-      <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
-        {CheckButtoned(selection, title)}
-      </TouchableOpacity>
-    )
-  }
+    function ItemSelectable(title) {
 
-  useEffect(() => {
-
-    if (selection != subval.Value) {
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"${ConfigNum}","Set Parameters": {"73":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`,context) }}>
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
+        return ( <
+            TouchableOpacity style = { styles.itemButton }
+            onPress = {
+                () => { setSelection(title) } } > { CheckButtoned(selection, title) } <
+            /TouchableOpacity>
+        )
     }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-  });
-  return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={possibleValues}
-        renderItem={renderItemSelectable}
-        keyExtractor={item => item.Tag}
-        initialNumToRender={possibleValues.lenght}
 
-      />
-    </SafeAreaView>
-  );
+    useEffect(() => {
+
+        if (selection != subval.Value) {
+            navigation.setOptions({
+                headerRight: () => ( <
+                    TouchableOpacity onPress = {
+                        () => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"${ConfigNum}","Set Parameters": {"73":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) } } >
+                    <
+                    View style = { styles.buttonBar } >
+                    <
+                    Text > Save < /Text> <
+                    /View> <
+                    /TouchableOpacity>
+                ),
+            });
+        } else {
+            navigation.setOptions({
+                headerRight: () => ( <
+                    > < />
+                ),
+            });
+        }
+    });
+    return ( <
+        SafeAreaView style = { styles.container } >
+        <
+        FlatList data = { possibleValues }
+        renderItem = { renderItemSelectable }
+        keyExtractor = { item => item.Tag }
+        initialNumToRender = { possibleValues.lenght }
+
+        /> <
+        /SafeAreaView>
+    );
 };
 // const TemperatureCoefficientScreen = ({ route, navigation }) => {
 //   const context =useContext(ContextConfigurationValues);
@@ -604,122 +646,134 @@ const RangeScreen = ({ route, navigation }) => {
 
 
 const TemperatureCompensationScreen = ({ route, navigation }) => {
-  const context = useContext(ContextConfigurationValues);
-  const { Tag } = route.params;
- 
-  
-  console.log(Tag)
-  const { ConfigNum } = route.params;
-  console.log(ConfigNum)
-  const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity Input');
-  const val = valSystemUnits[0].menu.filter(row => row.Tag == ConfigNum)[0];
-  const subval = val.menu.filter(row => row.Tag == Tag)[0];
-  const possibleValues = subval.PossibleValues;
-  const possibleValLenght = Object.keys(possibleValues).length
+    const context = useContext(ContextConfigurationValues);
+    const { Tag } = route.params;
 
-  console.log(subval)
-  const [selection, setSelection] = React.useState(val.Value);
-  function ItemSelectable(title) {
 
-    return (
-      <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
-        {CheckButtoned(selection, title)}
-      </TouchableOpacity>
-    )
-  }
-  const renderItemSelectable = ({ item }) => (
-    ItemSelectable(item.Tag)
-  );
-  useEffect(() => {
+    console.log(Tag)
+    const { ConfigNum } = route.params;
+    console.log(ConfigNum)
+    const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity Input');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == ConfigNum)[0];
+    const subval = val.menu.filter(row => row.Tag == Tag)[0];
+    const possibleValues = subval.PossibleValues;
+    const possibleValLenght = Object.keys(possibleValues).length
 
-    if (selection != subval.Value) {
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"${ConfigNum}", "Set Parameters": {"74":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`,context) }}>
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
+    console.log(subval)
+    const [selection, setSelection] = React.useState(val.Value);
+
+    function ItemSelectable(title) {
+
+        return ( <
+            TouchableOpacity style = { styles.itemButton }
+            onPress = {
+                () => { setSelection(title) } } > { CheckButtoned(selection, title) } <
+            /TouchableOpacity>
+        )
     }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-  });
-  return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={possibleValues}
-        renderItem={renderItemSelectable}
-        keyExtractor={item => item.Tag}
-        initialNumToRender={possibleValLenght}
-      />
-    </SafeAreaView>
-  );
+    const renderItemSelectable = ({ item }) => (
+        ItemSelectable(item.Tag)
+    );
+    useEffect(() => {
+
+        if (selection != subval.Value) {
+            navigation.setOptions({
+                headerRight: () => ( <
+                    TouchableOpacity onPress = {
+                        () => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"${ConfigNum}", "Set Parameters": {"74":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) } } >
+                    <
+                    View style = { styles.buttonBar } >
+                    <
+                    Text > Save < /Text> <
+                    /View> <
+                    /TouchableOpacity>
+                ),
+            });
+        } else {
+            navigation.setOptions({
+                headerRight: () => ( <
+                    > < />
+                ),
+            });
+        }
+    });
+    return ( <
+        SafeAreaView style = { styles.container } >
+        <
+        FlatList data = { possibleValues }
+        renderItem = { renderItemSelectable }
+        keyExtractor = { item => item.Tag }
+        initialNumToRender = { possibleValLenght }
+        /> <
+        /SafeAreaView>
+    );
 };
 
 
 
 const ReferenceTemperatureScreen = ({ route, navigation }) => {
-  const context = useContext(ContextConfigurationValues);
-  const { Tag } = route.params;
-  const { ConfigNum } = route.params;
-  const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity Input')[0];
-  const val = valSystemUnits.menu.filter(row => row.Tag == ConfigNum)[0];
-  const subval = val.menu.filter(row => row.Tag == Tag)[0];
+    const context = useContext(ContextConfigurationValues);
+    const { Tag } = route.params;
+    const { ConfigNum } = route.params;
+    const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity Input')[0];
+    const val = valSystemUnits.menu.filter(row => row.Tag == ConfigNum)[0];
+    const subval = val.menu.filter(row => row.Tag == Tag)[0];
 
-  const possibleValues = subval.PossibleValues;
-  const initialValC = possibleValues.filter(row => row.Tag == '°C')[0].Value
+    const possibleValues = subval.PossibleValues;
+    const initialValC = possibleValues.filter(row => row.Tag == '°C')[0].Value
 
-  const [temperatureC, setTemperatureC] = React.useState(initialValC);
-  const limitsC = [possibleValues.filter(row => row.Tag == '°C')[0].RangeLower, possibleValues.filter(row => row.Tag == '°C')[0].RangeUpper]
-  function callBackSlider() {
+    const [temperatureC, setTemperatureC] = React.useState(initialValC);
+    const limitsC = [possibleValues.filter(row => row.Tag == '°C')[0].RangeLower, possibleValues.filter(row => row.Tag == '°C')[0].RangeUpper]
 
-    if ((temperatureC != initialValC)) {
-      // console.log({ temperatureF, initialValF, temperatureC, initialValC })
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"82":"${temperatureC}"}}`,context) }}>
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
+    function callBackSlider() {
+
+        if ((temperatureC != initialValC)) {
+            // console.log({ temperatureF, initialValF, temperatureC, initialValC })
+            navigation.setOptions({
+                headerRight: () => ( <
+                    TouchableOpacity onPress = {
+                        () => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"82":"${temperatureC}"}}`, context) } } >
+                    <
+                    View style = { styles.buttonBar } >
+                    <
+                    Text > Save < /Text> <
+                    /View> <
+                    /TouchableOpacity>
+                ),
+            });
+        } else {
+            navigation.setOptions({
+                headerRight: () => ( <
+                    > < />
+                ),
+            });
+        }
+
     }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
+    return (
 
-  }
-  return (
+        <
+        View style = { styles.containerSlider } >
 
-    <View style={styles.containerSlider}>
-
-      <Slider
-        value={temperatureC}
-        onValueChange={value => setTemperatureC(value[0].toFixed(1))}
-        minimumValue={limitsC[0]}
-        maximumValue={limitsC[1]}
-        onSlidingComplete={() => callBackSlider()}
-      />
-      <Text style={{fontSize:25, textAlign:'center',alignContent: "center" }}> Value : {temperatureC} °C</Text>
+        <
+        Slider value = { temperatureC }
+        onValueChange = { value => setTemperatureC(value[0].toFixed(1)) }
+        minimumValue = { limitsC[0] }
+        maximumValue = { limitsC[1] }
+        onSlidingComplete = {
+            () => callBackSlider() }
+        /> <
+        Text style = {
+            { fontSize: 25, textAlign: 'center', alignContent: "center" } } > Value: { temperatureC }°
+        C < /Text>
 
 
-    </View>
+        <
+        /View>
 
 
 
-  );
+    );
 
 
 
@@ -728,58 +782,64 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
 
 
 const FilterCountConstantScreen = ({ route, navigation }) => {
-  const { Tag } = route.params;
-  const { ConfigNum } = route.params;
+    const { Tag } = route.params;
+    const { ConfigNum } = route.params;
 
-  const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity Input');
-  const val = valSystemUnits[0].menu.filter(row => row.Tag == ConfigNum)[0];
-  const subval = val.menu.filter(row => row.Tag == Tag)[0];
+    const valSystemUnits = Values.filter(row => row.Tag == 'Conductivity Input');
+    const val = valSystemUnits[0].menu.filter(row => row.Tag == ConfigNum)[0];
+    const subval = val.menu.filter(row => row.Tag == Tag)[0];
 
-  const possibleValues = subval.PossibleValues;
-  const initalFCCValue = subval.Value;
-  const limitsFFC = [possibleValues.RangeLower, possibleValues.RangeUpper]
-  const [filterCC, setFilterCC] = React.useState(initalFCCValue);
-  function callBackSlider() {
-    // useEffect(() =>{
-    if ((initalFCCValue != filterCC)) {
+    const possibleValues = subval.PossibleValues;
+    const initalFCCValue = subval.Value;
+    const limitsFFC = [possibleValues.RangeLower, possibleValues.RangeUpper]
+    const [filterCC, setFilterCC] = React.useState(initalFCCValue);
 
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Communication', 'Set Parameters': {'8C':'${filterCC}'}}`)) }} >
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
+    function callBackSlider() {
+        // useEffect(() =>{
+        if ((initalFCCValue != filterCC)) {
+
+            navigation.setOptions({
+                headerRight: () => ( <
+                    TouchableOpacity onPress = {
+                        () => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Communication', 'Set Parameters': {'8C':'${filterCC}'}}`)) } } >
+                    <
+                    View style = { styles.buttonBar } >
+                    <
+                    Text > Save < /Text> <
+                    /View> <
+                    /TouchableOpacity>
+                ),
+            });
+        } else {
+            navigation.setOptions({
+                headerRight: () => ( <
+                    > < />
+                ),
+            });
+        }
+        // });
+
     }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-    // });
+    return (
 
-  }
-  return (
+        <
+        View style = { styles.containerSlider } >
 
-    <View style={styles.containerSlider}>
-
-      <Slider
-        value={filterCC}
-        onValueChange={value => setFilterCC(value[0].toFixed(0))}
-        minimumValue={limitsFFC[0]}
-        maximumValue={limitsFFC[1]}
-        onSlidingComplete={() => callBackSlider()}
-      />
-      <Text style={{fontSize:25, textAlign:'center', alignContent: "center" }}>Value: {filterCC}</Text>
-    </View>
+        <
+        Slider value = { filterCC }
+        onValueChange = { value => setFilterCC(value[0].toFixed(0)) }
+        minimumValue = { limitsFFC[0] }
+        maximumValue = { limitsFFC[1] }
+        onSlidingComplete = {
+            () => callBackSlider() }
+        /> <
+        Text style = {
+            { fontSize: 25, textAlign: 'center', alignContent: "center" } } > Value: { filterCC } < /Text> <
+        /View>
 
 
 
-  );
+    );
 };
 
 
@@ -858,94 +918,112 @@ const FilterCountConstantScreen = ({ route, navigation }) => {
 
 
 const ConductivityScreen = ({ route, navigation }) => {
-  BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
-    // Success code
+    BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+        // Success code
 
-    console.log(JSON.stringify(peripheralsArray[0].id));
-    peripheralID = peripheralsArray[0].id
-  }).catch(() => {
-    console.log("Couldnt Find A peripheral");
-    // expected output: "Success!"
-  });
-
-
-  return (
-    <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-      <StackConductivity.Screen name='Conductivity Main' component={ConductivityMainScreen} options={{ headerTitle: "Conductivity Input" }} />
-      <StackConductivity.Screen name='Conductivity Range' component={RangeScreen} />
-      <StackConductivity.Screen name='Temperature Compensation' component={TemperatureCompensationScreen} />
-      <StackConductivity.Screen name='Reference Temperature' component={ReferenceTemperatureScreen} />
-      <StackConductivity.Screen name='Filter Time Constant' component={FilterCountConstantScreen} />
-      <StackConductivity.Screen name='Configuration' component={ConfigurationNumScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
+        console.log(JSON.stringify(peripheralsArray[0].id));
+        peripheralID = peripheralsArray[0].id
+    }).catch(() => {
+        console.log("Couldnt Find A peripheral");
+        // expected output: "Success!"
+    });
 
 
-    </StackConductivity.Navigator>
+    return ( <
+        StackConductivity.Navigator screenOptions = {
+            { headerShown: true, headerTitleAlign: 'center' } } >
+        <
+        StackConductivity.Screen name = 'Conductivity Main'
+        component = { ConductivityMainScreen }
+        options = {
+            { headerTitle: "Conductivity Input" } }
+        /> <
+        StackConductivity.Screen name = 'Conductivity Range'
+        component = { RangeScreen }
+        /> <
+        StackConductivity.Screen name = 'Temperature Compensation'
+        component = { TemperatureCompensationScreen }
+        /> <
+        StackConductivity.Screen name = 'Reference Temperature'
+        component = { ReferenceTemperatureScreen }
+        /> <
+        StackConductivity.Screen name = 'Filter Time Constant'
+        component = { FilterCountConstantScreen }
+        /> <
+        StackConductivity.Screen name = 'Configuration'
+        component = { ConfigurationNumScreen }
+        options = {
+            ({ route }) => ({ headerTitle: route.params.name }) }
+        />
 
-  );
+
+        <
+        /StackConductivity.Navigator>
+
+    );
 }
 
 export default ConductivityScreen
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center", // 
-    padding: 0,
-    // marginTop: StatusBar.currentHeight || 0,
-    paddingTop: 0,
-  },
-  item: {
-    backgroundColor: '#ffffff',
-    padding: 8,
-    flexDirection: 'column',
-    paddingTop: 0,
-    borderBottomColor: 'black',
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    container: {
+        flex: 1,
+        justifyContent: "center", // 
+        padding: 0,
+        // marginTop: StatusBar.currentHeight || 0,
+        paddingTop: 0,
+    },
+    item: {
+        backgroundColor: '#ffffff',
+        padding: 8,
+        flexDirection: 'column',
+        paddingTop: 0,
+        borderBottomColor: 'black',
+        borderBottomWidth: StyleSheet.hairlineWidth,
 
-  },
-  basicText: { color: "#000", textAlign: "center" },
-  title: {
-    fontSize: 15,
-    color: 'black',
-  },
-  buttonBar: {
-    alignItems: "center",
-    backgroundColor: "#9A348E",
-    padding: 8,
-    marginRight: 3,
-    borderRadius: 10,
-  },
-  value: {
-    fontSize: 12,
-    color: 'gray',
-  },
-  itemButton: {
-    backgroundColor: '#ffffff',
-    padding: 8,
-    marginVertical: 0,
-    marginHorizontal: 0,
-    flexDirection: 'column',
-    borderBottomColor: 'black',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    justifyContent: 'center'
-  },
-  myText: {
-    color: 'black',
-    fontSize: 25,
-    textAlign: 'center'
-  },
-  input: {
-    margin: 15,
-    height: 40,
-    borderColor: '#7a42f4',
-    borderWidth: 1
-  },
-  containerSlider: {
-    flex: 1,
-    marginLeft: 30,
-    marginRight: 30,
-    alignItems: 'stretch',
-    justifyContent: "flex-start",
-  },
+    },
+    basicText: { color: "#000", textAlign: "center" },
+    title: {
+        fontSize: 15,
+        color: 'black',
+    },
+    buttonBar: {
+        alignItems: "center",
+        backgroundColor: "#9A348E",
+        padding: 8,
+        marginRight: 3,
+        borderRadius: 10,
+    },
+    value: {
+        fontSize: 12,
+        color: 'gray',
+    },
+    itemButton: {
+        backgroundColor: '#ffffff',
+        padding: 8,
+        marginVertical: 0,
+        marginHorizontal: 0,
+        flexDirection: 'column',
+        borderBottomColor: 'black',
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        justifyContent: 'center'
+    },
+    myText: {
+        color: 'black',
+        fontSize: 25,
+        textAlign: 'center'
+    },
+    input: {
+        margin: 15,
+        height: 40,
+        borderColor: '#7a42f4',
+        borderWidth: 1
+    },
+    containerSlider: {
+        flex: 1,
+        marginLeft: 30,
+        marginRight: 30,
+        alignItems: 'stretch',
+        justifyContent: "flex-start",
+    },
 });
-
