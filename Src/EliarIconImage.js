@@ -8,8 +8,8 @@ const ActionBarImage = () => {
     <Image
         source={require("../Media/eliar.png")}
         style={{
-          width: 40,
-          height: 40,
+          width: 36,
+          height: 36,
           borderRadius: 40 ,
           marginRight:15
         }}

@@ -2870,79 +2870,79 @@
                 "Tag": "Conductivity Ranges",
                 "Access": "W",
                 "menu": [{
-                        "Tag": "Conductivtiy Range: 0 to 2000 mS/cm Mounting Factor",
+                        "Tag": "Conductivtiy : 0 to 2000 mS/cm Mounting Factor",
                         "Value": "15",
                         "MaxValue": 0.9,
                         "MinValue": 1.1,
                         "Unit": "µS/cm"
                     },
                     {
-                        "Tag": "Conductivtiy Range: 0 to 2000 mS/cm Zero Point",
+                        "Tag": "Conductivtiy : 0 to 2000 mS/cm Zero Point",
                         "Value": "15",
                         "MaxValue": 100,
                         "MinValue": -100,
                         "Unit": "µS/cm"
                     },
                     {
-                        "Tag": "Conductivtiy Range: 0 to 1000 mS/cm Mounting Factor",
+                        "Tag": "Conductivtiy : 0 to 1000 mS/cm Mounting Factor",
                         "Value": "15",
                         "MaxValue": 0.9,
                         "MinValue": 1.1
                     },
                     {
-                        "Tag": "Conductivtiy Range: 0 to 1000 mS/cm Zero Point",
+                        "Tag": "Conductivtiy : 0 to 1000 mS/cm Zero Point",
                         "Value": "15",
                         "MaxValue": 1,
                         "MinValue": -1,
                         "Unit": "mS/cm"
                     },
                     {
-                        "Tag": "Conductivtiy Range: 0 to 500 mS/cm Mounting Factor",
+                        "Tag": "Conductivtiy : 0 to 500 mS/cm Mounting Factor",
                         "Value": "15",
                         "MaxValue": 0.9,
                         "MinValue": 1.1
                     },
                     {
-                        "Tag": "Conductivtiy Range: 0 to 500 mS/cm Zero Point",
+                        "Tag": "Conductivtiy : 0 to 500 mS/cm Zero Point",
                         "Value": "15",
                         "MaxValue": 10,
                         "MinValue": -10,
                         "Unit": "mS/cm"
                     },
                     {
-                        "Tag": "Conductivtiy Range: 0 to 200 mS/cm Mounting Factor",
+                        "Tag": "Conductivtiy : 0 to 200 mS/cm Mounting Factor",
                         "Value": "15",
                         "MaxValue": 0.9,
                         "MinValue": 1.1
                     },
                     {
-                        "Tag": "Conductivtiy Range: 0 to 200 mS/cm Zero Point",
+                        "Tag": "Conductivtiy : 0 to 200 mS/cm Zero Point",
                         "Value": "15",
                         "MaxValue": 25,
                         "MinValue": -25,
                         "Unit": "mS/cm"
                     },
                     {
-                        "Tag": "Conductivtiy Range: 0 to 20 mS/cm Mounting Factor",
+                        "Tag": "Conductivtiy : 0 to 20 mS/cm Mounting Factor",
                         "Value": "15",
                         "MaxValue": 0.9,
                         "MinValue": 1.1
                     },
                     {
-                        "Tag": "Conductivtiy Range: 0 to 20 mS/cm Zero Point",
+                        "Tag": "Conductivtiy : 0 to 20 mS/cm Zero Point",
                         "Value": "15",
                         "MaxValue": 50,
                         "MinValue": -50,
                         "Unit": "mS/cm"
                     },
                     {
-                        "Tag": "Conductivtiy Range: 0 to 2000 µS/cm Mounting Factor",
+                        "Tag": "Conductivtiy : 0 to 2000 µS/cm Mounting Factor",
                         "Value": "15",
                         "MaxValue": 0.9,
                         "MinValue": 1.1
                     },
                     {
-                        "Tag": "Conductivtiy Range: 0 to 2000 µS/cm Zero Point",
+                        "Tag": "Conductivtiy : 0 to 2000 µS/cm Zero Point",
                         "Value": "15",
                         "MaxValue": 100,
                         "MinValue": -100,

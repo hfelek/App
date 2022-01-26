@@ -14,7 +14,11 @@ import { RectButton } from 'react-native-gesture-handler';
 import { Picker } from '@react-native-picker/picker';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import InputScrollView from 'react-native-input-scroll-view';
-
+import {
+  TextField,
+  FilledTextField,
+  OutlinedTextField,
+} from 'react-native-material-textfield';
 // import Slider from '@react-native-community/slider';
 //import MultiSlider from 'react-native-multi-slider';
 
@@ -57,7 +61,6 @@ let peripheralID = '0'
 const CustomCoeffParams = Values.filter(item => item.Tag === "Temperature Coefficient Custom")[0];
 let MenuParams = CustomCoeffParams.menu;
 const StackConductivity = createStackNavigator();
-
 
 const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
   BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
@@ -122,7 +125,6 @@ function Item(title, value, navigation = null, context = null, parent = null) {
       )
   };
 }
-
 
 
 const CheckButtoned = (selectedValue, sentValue) => {
@@ -191,16 +193,14 @@ function CustomConfigurationScreen({ route, navigation }) {
   const [nrOfConcPoints, setNrOfConcPoints] = useState("1")
 
 
-
   return (
     <ScrollView style={styles.container2}>
       <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]}  >
-        <Text style={[styles.title, { textAlign: 'center', color: 'black' }]}>Number of Temperature Points in the Custom Table</Text>
+        <Text style={[styles.title, { textAlign: 'center', color: 'black' }]}>Number of Temperature Points in the Table</Text>
       </View>
 
 
-
-      <View style={styles.pickerText} >
+      <View style={[styles.pickerText]} >
         <Picker style={styles.picker}
           selectedValue={nrOfTempPoints}
           onValueChange={(itemValue, itemIndex) =>
@@ -215,7 +215,7 @@ function CustomConfigurationScreen({ route, navigation }) {
         </Picker>
       </View>
       <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]}  >
-        <Text style={[styles.title, { textAlign: 'center', color: 'black' }]}>Number of Concentration Points in the Custom Table</Text>
+        <Text style={[styles.title, { textAlign: 'center', color: 'black' }]}>Number of Concentration Points in the Table</Text>
       </View>
  
       <View style={styles.pickerText} >
@@ -233,7 +233,6 @@ function CustomConfigurationScreen({ route, navigation }) {
           <Picker.Item label="6" value="6" />
         </Picker>
       </View>
-
 
       <Button
         onPress={() => navigation.navigate('Custom Temperature Coefficient', { Tag: ConfigNum, ConfigNum: ConfigNum, name: "Custom Temperature Coefficient", ConcentrationPoints: nrOfConcPoints, TemperaturePoints: nrOfTempPoints })}
@@ -274,30 +273,24 @@ const element = (data, index, cellIndex, value, setValue) => {
 
   return (
     // <TouchableOpacity onPress={()=>{focused? setFocused(false):setFocused(true)}}>
-    <View >
-
-      {/* <View style={[styles.btn6, {alignItems:'center', alignContent: "center", backgroundColor:(cellIndex==0 || index==0)? "#808B97" : 'white'}]}></View> */}
-      <View style={[styles.btn5, { alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? "#808B97" : 'white', paddingBottom: 0, borderRadius: 0, borderBottomWidth: 0, borderBottomEndRadius: 0 }]}>
 
         <View style={[styles.btn5, { alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? "#808B97" : 'white', paddingBottom: 0, borderRadius: 0, borderBottomWidth: 0, borderBottomEndRadius: 0 }]}>
 
           <TextInput
             disabled={false}
-            style={[styles.input1, { borderWidth: 0, borderBottomWidth: 0 }]}
+            style={styles.input1}
             value={value[index][cellIndex]}
-            placeholder=""
             keyboardType="numeric"
             maxLength={7}
-            underlineColorAndroid="transparent"
+            underlineColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
+            selectionColor='black'
+            activeUnderlineColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
             backgroundColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
+            textAlign='center'
             scrollEnabled={false}
             onChangeText={(val) => { updateCell(val, index, cellIndex, value, setValue) }}
-            textAlign='center' />
+             />
         </View>
-        {/* <View style={[styles.btn6, { alignContent: "center", backgroundColor:(cellIndex==0 || index==0)? "#808B97" : 'white'}]}></View> */}
-      </View>
-
-    </View>
 
   )
 }
@@ -330,7 +323,6 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
   //  const  tableHead=  ['Head', 'Head2', 'Head3', 'Head4', 'Head5', 'Head6', 'Head7', 'Head8', 'Head9']
   //  const  widthArr= [200, 200, 200, 200, 200, 200, 200, 200, 200]
 
-
   const tableData = [];
   for (let i = 0; i < temperaturePoints + 1; i += 1) {
     const rowData = []
@@ -357,7 +349,6 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
       }
     }
 
-
     tableData.push(rowData);
   }
   console.log(tableData)
@@ -372,20 +363,18 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
 
 
-
   return (
-    <ScrollView style={{ paddingBottom: 40, backgroundColor: 'white' }} horizontal={false} >
+    <ScrollView contentContainerStyle={{alignSelf:'center'}}  style={{ paddingBottom: 40, backgroundColor: 'white' }} horizontal={false} >
 
-      <ScrollView style={{ backgroundColor: 'white' }} horizontal={true} >
-        <View style={{ backgroundColor: 'white' }}>
+      <ScrollView contentContainerStyle={{justifyContent:'center'}} style={{ backgroundColor: 'white' }} horizontal={true} >
+        <View style={{ backgroundColor: 'white', }}>
           {/* <Table borderStyle={{ borderWidth: 1, borderColor: '#000000', shadowColor:'white' }}>
               <Row data={tableHead} widthArr={widthArr} style={styles.header5} textStyle={styles.text5} />
             </Table> */}
-          <InputScrollView style={[styles.dataWrapper4, { backgroundColor: '#fff' }]}>
-            <Table borderStyle={{ borderWidth: 1, borderTopWidth: 1, paddingTop: 50, borderColor: '#000000' }}>
+            <Table borderStyle={{ borderWidth: 1, borderTopWidth: 1, paddingTop: 50, borderColor: '#000000'}}>
               {
                 tableData.map((rowData, index) => (
-                  <TableWrapper key={index} style={[styles.row5, { paddingTop: 1 }]}>
+                  <TableWrapper key={index} style={[styles.row5, { paddingTop: 1}]}>
                     {
                       rowData.map((cellData, cellIndex) => (
                         <Cell key={cellIndex} data={(cellIndex == 0 && index == 0) ? tableIndex() : element(cellData, index, cellIndex, hookArray, setHookArray)} />
@@ -401,9 +390,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
               </TableWrapper> */}
 
 
-
             </Table>
-          </InputScrollView>
         </View>
       </ScrollView>
       {true &&
@@ -416,7 +403,6 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
         </View>
       }
     </ScrollView>
-
 
 
   )
@@ -439,7 +425,6 @@ const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
     // expected output: "Success!"
   });
 
-
   return (
     <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
       <StackConductivity.Screen name='Configuration' component={ConfigurationNumScreen} options={{ headerTitle: "Custom Temperature Coefficient" }} />
@@ -448,12 +433,10 @@ const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
       <StackConductivity.Screen name='Custom Temperature Coefficient' component={TemperatureCoefficientScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
       {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
 
-
     </StackConductivity.Navigator>
 
   );
 }
-
 
 
 
@@ -600,10 +583,11 @@ const styles = StyleSheet.create({
 
   row5: { flexDirection: 'row', backgroundColor: "#808B97", borderRightWidth: 1 },
   btn5: { width: 149, height: 50, backgroundColor: '#white', borderRadius: 1 },
-  btn6: { width: 149, height: 10, backgroundColor: '#white', borderRadius: 1, borderBottomColor: 'white' },
+  btn6: { width: 149, height: 50, backgroundColor: '#white', borderRadius: 1, borderBottomColor: 'white' },
 
   img: { width: 149, height: 50, borderRightWidth: 1 },
 
   btnText5: { textAlign: 'center', color: '#000' }
 });
+
 

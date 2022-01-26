@@ -179,11 +179,9 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
           <TextInput
             label={"Set Your Linear Coefficient for " + ConfigNum + " in %/°C"}
             value={text}
-            selectionColor='#000'
-            underlineColor='#000'
+            underlineColorAndroid="transparent"
             keyboardType="numeric"
-            activeOutlineColor='#000'
-            outlineColor='#000'          // activeUnderlineColor='#000'
+         // activeUnderlineColor='#000'
             error={false}
             right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
             onChangeText={text => setText(text)}

@@ -154,8 +154,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             }>
             {/* <ItemValueBar item={title} value={value}/> */}
 
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.value}>{value}</Text>
+<ItemValueBar value={value} item={title}/>
           </TouchableOpacity>
         );
   }

@@ -141,6 +141,10 @@ function ConfigurationNumScreen({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={[{flexDirection:'row',padding:8, backgroundColor:'"#808B97"',borderRadius:15,justifyContent:'space-evenly'}]}>
+      <Text style={[styles.title,{textAlign:'center',fontSize:12}]}>{"Device → ICT200-C50"}</Text>
+          <Text style={[styles.title,{textAlign:'center',fontSize:12}]}>{"Active Configuration : Configuration 1"}</Text>
+        </View>
       <FlatList
         data={MenuParams}
         renderItem={({ item, index, separators }) => (renderItem(item, navigation, "hello", item.Tag))}
@@ -352,30 +356,26 @@ const [modalVisible, setModalVisible] = useState(false);
   
 return (
   // <TouchableOpacity onPress={()=>{focused? setFocused(false):setFocused(true)}}>
-   <View >
-
- {/* <View style={[styles.btn6, {alignItems:'center', alignContent: "center", backgroundColor:(cellIndex==0 || index==0)? "#808B97" : 'white'}]}></View> */}
- <View   style={[styles.btn5, {alignItems:'center',alignContent: "center", backgroundColor:(cellIndex==0 || index==0)? "#808B97" : 'white', paddingBottom: 0,borderRadius:0,borderBottomWidth:0,borderBottomEndRadius:0 }]}>
-
-  <View   style={[styles.btn5, {alignItems:'center',alignContent: "center", backgroundColor:(cellIndex==0 || index==0)? "#808B97" : 'white', paddingBottom: 0,borderRadius:0,borderBottomWidth:0,borderBottomEndRadius:0 }]}>
+  
+  <View   style={[styles.btn5, {alignItems:'center',alignContent: "center", backgroundColor:'#fff', paddingBottom: 0,borderRadius:0,borderBottomWidth:0,borderBottomEndRadius:0 }]}>
     
     <TextInput
       disabled={false}
-      style={[styles.input1,{borderWidth:0,borderBottomWidth:0}]}
+      style={[styles.input1]}
       value={value[index][cellIndex]}
       placeholder=""
       keyboardType="numeric"
       maxLength={7}
-      underlineColorAndroid="transparent"
-      backgroundColor={(cellIndex==0 || index==0)? "#808B97" : 'white'}
+      underlineColorAndroid="red"
+      activeUnderlineColor='#fff'
+      selectionColor='black'
+      underlineColor='#fff'
+      backgroundColor='#fff'
       scrollEnabled={false}
       onChangeText={(val) => { updateCell(val, index, cellIndex, value, setValue) }}
       textAlign='center' />
   </View>
-  {/* <View style={[styles.btn6, { alignContent: "center", backgroundColor:(cellIndex==0 || index==0)? "#808B97" : 'white'}]}></View> */}
-  </View>
 
-  </View>
 
   )
 }
@@ -390,8 +390,8 @@ const text = (data, index) => (
   </View>
 );
 const tableIndex = (text)=>(     
-  <View   style={[styles.btn5, {alignItems:'center',alignContent:'center', backgroundColor: "#808B97" , paddingBottom: 0,borderRadius:0,borderBottomWidth:0,borderBottomEndRadius:0 }]}>
-    <Text style={{textAlign:'center',paddingTop:15,color:'black'}}>{text}</Text>
+  <View   style={[styles.btn5, {flexDirection:'row', backgroundColor: "#53565A",justifyContent:'center',borderTopLeftRadius:(text=="Temperature (°C)"? 5 : 0 ),borderTopRadius:(text=="Temperature (°F)"? 5 : 0 ) }]}>
+    <Text style={{textAlign:'center',paddingTop:15,color:'white'}}>{text}</Text>
   </View>
 
 
@@ -467,14 +467,13 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
             {/* <Table borderStyle={{ borderWidth: 1, borderColor: '#000000', shadowColor:'white' }}>
               <Row data={tableHead} widthArr={widthArr} style={styles.header5} textStyle={styles.text5} />
             </Table> */}
-            <InputScrollView style={[styles.dataWrapper4,{backgroundColor:'#fff'}]}>
               <Table  borderStyle={{ borderWidth: 1,borderTopWidth:1,paddingTop:50, borderColor: '#000000' }}>
                 {
                   tableData.map((rowData, index) => (
                     <TableWrapper  key={index} style={[styles.row5,{paddingTop:1}]}>
                       {
                         rowData.map((cellData, cellIndex) => (
-                          <Cell key={cellIndex} data={ (index==0) ? tableIndex((cellIndex==0 ? "Temperature Points (°C)" : "Concentration Points (%)")) :element(cellData, index, cellIndex, hookArray, setHookArray)}  />
+                          <Cell key={cellIndex} data={ (index==0) ? tableIndex((cellIndex==0 ? "Temperature (°C)" : "Concentration (%)")) :element(cellData, index, cellIndex, hookArray, setHookArray)}  />
                         ))
                       }
                     </TableWrapper>
@@ -489,7 +488,6 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
 
               </Table>
-            </InputScrollView>
           </View>
         </ScrollView>
         {true &&
@@ -592,7 +590,7 @@ const styles = StyleSheet.create({
   },
   input1: {
     // margin: 15,
-    height: 30,
+    height: 29,
     // borderColor: '#7a42f4',
     // borderWidth: 1
   },
@@ -625,8 +623,8 @@ const styles = StyleSheet.create({
 
 
   row5: { flexDirection: 'row', backgroundColor: "#808B97",borderRightWidth:1 },
-  btn5: { width: 149, height: 50, backgroundColor: '#white',borderRadius:1},
-  btn6: { width: 149, height: 10, backgroundColor: '#white',borderRadius:1,borderBottomColor:'white' },
+  btn5: { width: 149, height: 50, backgroundColor: '#white'},
+  btn6: { width: 149, height: 10, backgroundColor: '#white',borderBottomColor:'white' },
 
   img: { width: 149, height: 50, borderRightWidth: 1 },
 

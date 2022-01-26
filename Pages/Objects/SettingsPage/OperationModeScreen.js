@@ -192,7 +192,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
     return (
         <ScrollView style={[styles.container2, { backgroundColor: "#ffffff" }]}>
             <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                <Text style={[styles.title, { textAlign:'center' }]}>{"Choose The Output Type of OU" + " for " + ConfigNum}</Text>
+                <Text style={[styles.title, { textAlign:'center' }]}>{"Output Type of IO" + " for " + ConfigNum}</Text>
             </View>
 
 
@@ -205,7 +205,8 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                     }>
                     <Picker.Item label="Current Output" value="Current Output" />
                     <Picker.Item label="Switch Output" value="Switch Output" />
-                    <Picker.Item label="Digital Input" value="Digital Input" />
+                    {Tag=="Operation Mode IO 1" &&<Picker.Item label="Digital Input" value="Digital Input" />}
+                    {Tag=="Operation Mode IO 2" &&<Picker.Item label="IO-LINK" value="IO-LINK" />}
                     <Picker.Item label="Off" value="Off" />
                     {/* {pickerPossibleValues} */}
 
@@ -228,7 +229,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                 selection == "Switch Output" && (
                     <View style={[styles.container1, { alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                            <Text style={[styles.title]}>{"Choose the Output Assign for Switch Output"}</Text>
+                            <Text style={[styles.title]}>{"Output Assign for Switch Output"}</Text>
                         </View>
 
                         <View style={styles.pickerText} >
@@ -247,7 +248,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                             </Picker>
                         </View>
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                            <Text style={[styles.title]}>{"Choose the Function Type for Switch Output"}</Text>
+                            <Text style={[styles.title]}>{"Function Type for Switch Output"}</Text>
                         </View>
                         <View style={styles.pickerText} >
 
@@ -270,7 +271,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                             </Picker>
                         </View>
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                            <Text style={[styles.title]}>{"Choose The Output Type for Switch Output"}</Text>
+                            <Text style={[styles.title]}>{"Output Type for Switch Output"}</Text>
                         </View>
                         <View style={styles.pickerText} >
 
@@ -313,7 +314,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                     <View style={[styles.container1, { alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
 
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                            <Text style={[styles.title, {textAlign:'center', borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Choose the Output Assign for Current Output"}</Text>
+                            <Text style={[styles.title, {textAlign:'center', borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Output Assign for Current Output"}</Text>
                         </View>
 
                         <View style={styles.pickerText} >

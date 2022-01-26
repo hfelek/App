@@ -12,6 +12,7 @@ import BufferArray from '../../../Navigation/Functions/BufferArray';
 import { ContextConfigurationValues } from '../../../App';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
+import { ScrollView } from 'react-native-gesture-handler';
 
 const renderItem = ({ item, navigation, context = null }) => (
   Item(item.Tag, item.Value, navigation, context = context)
@@ -89,10 +90,7 @@ const ItemValueBar = ({item,value})=>(
 )
 const ReferenceTemperatureScreen = ({ route, navigation }) => {
   const context = useContext(ContextConfigurationValues)
-  const valSystemUnits = Values.filter(row => row.Tag == 'System Units');
-  const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Unit Temperature');
-  const possibleValues = val[0].PossibleValues;
-  const [selection, setSelection] = React.useState(val[0].Value);
+  const [selection, setSelection] = React.useState("°C");
 
   const renderItemSelectable = ({ item }) => (
     ItemSelectable(item.Tag)
@@ -106,7 +104,7 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
     )
   }
   React.useEffect(() => {
-    if (selection != val[0].Value) {
+    if (selection != "°C") {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Setup Menu", "Set Parameters": {"102":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) }}>
@@ -127,13 +125,14 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
   })
 
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={possibleValues}
-        renderItem={renderItemSelectable}
-        keyExtractor={item => item.Tag}
-      />
-    </SafeAreaView>
+    <ScrollView style={styles.containerScroll}>
+      <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection("°C") }}>
+        {CheckButtoned(selection, "°C")}
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection("°F") }}>
+        {CheckButtoned(selection, "°F")}
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 function Item(title, value, navigation = null, context = null) {
@@ -295,6 +294,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center", // 
+    padding: 0,
+    // marginTop: StatusBar.currentHeight || 0,
+    paddingTop: 0,
+  },
+  containerScroll: {
+    flex: 1,
     padding: 0,
     // marginTop: StatusBar.currentHeight || 0,
     paddingTop: 0,

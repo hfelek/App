@@ -29,38 +29,56 @@ const StackConductivity = createStackNavigator();
 
 var filtered = Values.filter(row => row.Tag == 'Conductivity Input');
 var filteredAT = filtered.filter(row => row.Tag == 'Range');
-const ItemBar = ({item})=>(
+const ItemBar = ({ item }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-  <View style={{height:40 ,justifyContent:'center'}}> 
-    <Text style={styles.title}>{item}</Text>
+    <View style={{ height: 40, justifyContent: 'center' }}>
+      <Text style={styles.title}>{item}</Text>
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
   </View>
-  <View style={{ justifyContent: 'center' }}>
-    <Icon
-      name="chevron-forward-outline"
-      size={20}
-      color="#000"
-    />
-  </View>
-</View>
 )
-const ItemValueBar = ({item,value})=>(
+const ItemValueBar = ({ item, value }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-  <View style={{justifyContent:'center'}}> 
-    <Text style={styles.title}>{item}</Text>
-    <Text style={styles.value}>{value}</Text>
+    <View style={{ justifyContent: 'center' }}>
+      <Text style={styles.title}>{item}</Text>
+      <Text style={styles.value}>{value}</Text>
 
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
   </View>
-  <View style={{ justifyContent: 'center' }}>
-    <Icon
-      name="chevron-forward-outline"
-      size={20}
-      color="#000"
-    />
-  </View>
-</View>
 )
+const ConfigurationBar = ({ config, activeConfig }) => (
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+
+    <View style={{ justifyContent: 'center',height:40 }}>
+      <Text style={styles.title}>{config}</Text>
+     { config==activeConfig && <Text style={{fontSize:12,color:'black'}}>{"Active"}</Text>}
+
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
+  </View>
+
+  )
 function renderItem(item, navigation = null, context = null, parent) {
   return (Item(item.Tag, item.Value, navigation, context, parent))
 }
@@ -69,39 +87,39 @@ function Item(title, value, navigation = null, context = null, parent = null) {
   switch (title) {
     case 'Configuration 1':
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
-        <ItemBar item={title}/>
+        <TouchableOpacity style={title=="Configuration 1" ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
+            <ConfigurationBar activeConfig={"Configuration 1"} config={"Configuration 1"}/>
         </TouchableOpacity>
       )
     case 'Configuration 2':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
-        <ItemBar item={title}/>
+          <ItemBar item={title} />
         </TouchableOpacity>
       )
     case 'Configuration 3':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
-        <ItemBar item={title}/>
+          <ItemBar item={title} />
 
         </TouchableOpacity>
       )
     case 'Configuration 4':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
-        <ItemBar item={title}/>
+          <ItemBar item={title} />
         </TouchableOpacity>
       )
     case 'Conductivity Range':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Conductivity Range', { Tag: title, ConfigNum: parent })}>
-        <ItemValueBar item={title} value={value}/>
+          <ItemValueBar item={title} value={value} />
         </TouchableOpacity>
       )
     case 'Temperature Compensation':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Temperature Compensation', { Tag: title, ConfigNum: parent })}>
-        <ItemValueBar item={title} value={value}/>
+          <ItemValueBar item={title} value={value} />
 
         </TouchableOpacity>
       )
@@ -109,7 +127,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
     case 'Reference Temperature':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Reference Temperature', { Tag: title, ConfigNum: parent })}>
-                  <ItemValueBar item={title} value={value}/>
+          <ItemValueBar item={title} value={value} />
 
         </TouchableOpacity>
       )
@@ -118,7 +136,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
     case 'Filter Time Constant':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Filter Time Constant', { Tag: title, ConfigNum: parent })}>
-        <ItemValueBar item={title} value={value}/>
+          <ItemValueBar item={title} value={value} />
         </TouchableOpacity>
       )
     default:
@@ -132,17 +150,21 @@ function Item(title, value, navigation = null, context = null, parent = null) {
   };
 }
 
-const ConductivityMainScreen = ({ navigation }) => (
-
-  <SafeAreaView style={styles.container}>
-    <FlatList
-      data={MenuParams}
-      renderItem={({ item, index, separators }) => (renderItem(item, navigation))}
-      keyExtractor={item => item.Tag}
-      initialNumToRender={MenuParams.length}
-    />
-  </SafeAreaView>
-)
+const ConductivityMainScreen = ({ navigation }) => {
+  const context = useContext(ContextConfigurationValues);
+  return (
+    <SafeAreaView style={styles.container}>
+      {/* <View style={[styles.itemActiveConfig,{backgroundColor:'green',borderRadius:15}]}>
+          <Text style={[styles.title,{textAlign:'center'}]}>{"Active Configuration : Configuration 1"}</Text>
+        </View> */}
+      <FlatList
+        data={MenuParams}
+        renderItem={({ item, index, separators }) => (renderItem(item, navigation, context))}
+        keyExtractor={item => item.Tag}
+        initialNumToRender={MenuParams.length}
+      />
+    </SafeAreaView>)
+}
 
 const CheckButtoned = (selectedValue, sentValue) => {
   if (selectedValue === sentValue) {
@@ -737,7 +759,7 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
         maximumValue={limitsC[1]}
         onSlidingComplete={() => callBackSlider()}
       />
-      <Text style={{ fontSize: 25,color:'black', textAlign: 'center', alignContent: "center" }}> Value : {temperatureC} °C</Text>
+      <Text style={{ fontSize: 25, color: 'black', textAlign: 'center', alignContent: "center" }}> Value : {temperatureC} °C</Text>
 
 
     </View>
@@ -799,7 +821,7 @@ const FilterCountConstantScreen = ({ route, navigation }) => {
         maximumValue={limitsFFC[1]}
         onSlidingComplete={() => callBackSlider()}
       />
-      <Text style={{ fontSize: 25,color:'black', textAlign: 'center', alignContent: "center" }}>Value: {filterCC}</Text>
+      <Text style={{ fontSize: 25, color: 'black', textAlign: 'center', alignContent: "center" }}>Value: {filterCC}</Text>
     </View>
 
 
@@ -919,6 +941,9 @@ const styles = StyleSheet.create({
     // marginTop: StatusBar.currentHeight || 0,
     paddingTop: 0,
   },
+  containerScroll: {
+    flex: 1,
+  },
   item: {
     backgroundColor: '#ffffff',
     padding: 8,
@@ -927,6 +952,11 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
     borderBottomWidth: StyleSheet.hairlineWidth,
 
+  },
+  itemActiveConfig: {
+    backgroundColor: '#008000',
+    justifyContent: 'center',
+    padding: 8,
   },
   basicText: { color: "#000", textAlign: "center" },
   title: {

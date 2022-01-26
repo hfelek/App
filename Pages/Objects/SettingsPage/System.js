@@ -23,7 +23,38 @@ import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGr
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 let peripheralID='0'
+const ItemBar = ({ item }) => (
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
+      <View style={{ height: 40, justifyContent: 'center' }}>
+          <Text style={styles.title}>{item}</Text>
+      </View>
+      <View style={{ justifyContent: 'center' }}>
+          <Icon
+              name="chevron-forward-outline"
+              size={20}
+              color="#000"
+          />
+      </View>
+  </View>
+)
+const ItemValueBar = ({ item, value }) => (
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+      <View style={{ justifyContent: 'center' }}>
+          <Text style={styles.title}>{item}</Text>
+          <Text style={styles.value}>{value}</Text>
+
+      </View>
+      <View style={{ justifyContent: 'center' }}>
+          <Icon
+              name="chevron-forward-outline"
+              size={20}
+              color="#000"
+          />
+      </View>
+  </View>
+)
 
 let SystemParams = Paramsfiltered.find(
   SystemParams => SystemParams.Tag === 'System',
@@ -91,8 +122,8 @@ function Item(title, value, navigation = null, context = null, parent = null) {
           onPress={() =>
             navigation.navigate('Write Screen', { Tag: title, Value: value,name:title })
           }>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+
+<ItemBar item={title}/>
         </TouchableOpacity>
       );
       break;
@@ -103,8 +134,8 @@ function Item(title, value, navigation = null, context = null, parent = null) {
           onPress={() =>
             navigation.navigate('Write Screen', { Tag: title, Value: value,name:title })
           }>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+<ItemBar item={title}/>
+
         </TouchableOpacity>
       );
       break;
@@ -117,8 +148,8 @@ function Item(title, value, navigation = null, context = null, parent = null) {
           onPress={() =>
             navigation.navigate('Device Reset', { Tag: title, Value: value })
           }>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+<ItemBar item={title}/>
+
         </TouchableOpacity>
       );
       break;
@@ -150,8 +181,8 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             '2',
             context
           )}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+<ItemBar item={title}/>
+
         </TouchableOpacity>
       );
       break;
@@ -166,8 +197,8 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             '1',
             context
           )}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+<ItemBar item={title}/>
+
         </TouchableOpacity>
       );
       break;
@@ -196,8 +227,8 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             '3',
             context
           )}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+<ItemBar item={title}/>
+
         </TouchableOpacity>
       );
       break;
@@ -212,8 +243,8 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             '4',
             context
           )}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+<ItemBar item={title}/>
+
         </TouchableOpacity>
       );
       break;

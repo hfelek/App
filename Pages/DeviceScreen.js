@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react'
 import react from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Settings, Image, Dimensions, TouchableOpacity, TouchableHighlight } from 'react-native';
+import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Settings, Image, Dimensions, TouchableOpacity, TouchableHighlight, ScrollView } from 'react-native';
 import Values from './Objects/Paramsfiltered.json';
 import { List } from 'react-native-paper';
 import { ContextConfigurationValues, ContextSensorValues } from '../App'
@@ -10,7 +10,11 @@ let MenuParams;
 var filtered;
 var filteredAT;
 const demoConnection = [{ Tag: "Application Tag", Value: "id1" }, { Tag: "Device Name", Value: "id2" }, { Tag: "Device Serial No", Value: "id3" }, { Tag: "Device Type", Value: "id4" }, { Tag: "Random Tag", Value: "Random Value" }]
-
+const TableIndex = () => (
+  <Image
+    source={require("../Media/ICT200-C50.png")}
+    style={styles.imgSensor}
+  />)
 DeviceScreen = () => {
   const contextConfiguration = useContext(ContextConfigurationValues)
   const contextValues = useContext(ContextSensorValues)
@@ -25,7 +29,6 @@ DeviceScreen = () => {
   const ItemBottom = ({ item, index, seperators }) => (
     <View style={styles.itemTab} >
       {index == 0 ? <Text style={[styles.titleTab, { textAlign: 'center', borderTopWidth: 1 }]}>{item.Tag}</Text> : <Text style={[styles.titleTab, { textAlign: 'center'}]}>{item.Tag}</Text>
-
       }
       {/* <Text style={[styles.titleTab, { textAlign: 'center', borderTopWidth: StyleSheet.hairlineWidth }]}>{item.Tag}</Text> */}
       <View style={[styles.titleTabButton, { textAlign: 'center' }]}>
@@ -46,11 +49,30 @@ DeviceScreen = () => {
   );
   const ValuesTabBottom = () => (
     <View style={{}}>
-      <FlatList
-        data={bottomValues}
-        renderItem={({ item, index, separators }) => (<ItemBottom item={item} index={index} />)}
-        keyExtractor={item => item.Tag}
-      />
+    <View style={styles.itemTab} >
+      {<Text style={[styles.titleTab, { textAlign: 'center' }]}>{"Conductivity"}</Text> 
+      }
+      {/* <Text style={[styles.titleTab, { textAlign: 'center', borderTopWidth: StyleSheet.hairlineWidth }]}>{item.Tag}</Text> */}
+      <View style={[styles.titleTabButton, { textAlign: 'center' }]}>
+        <Text style={{ textAlign: 'center' }} >{"0000.000000"}</Text>
+      </View>
+    </View>
+    <View style={styles.itemTab} >
+    {<Text style={[styles.titleTab, { textAlign: 'center'}]}>{"Concentration"}</Text> 
+      }
+      {/* <Text style={[styles.titleTab, { textAlign: 'center', borderTopWidth: StyleSheet.hairlineWidth }]}>{item.Tag}</Text> */}
+      <View style={[styles.titleTabButton, { textAlign: 'center' }]}>
+        <Text style={{ textAlign: 'center' }} >{"0000.000000"}</Text>
+      </View>
+    </View>
+    <View style={styles.itemTab} >
+    {<Text style={[styles.titleTab, { textAlign: 'center', borderTopWidth: 1 }]}>{"Temperature"}</Text> 
+      }
+      {/* <Text style={[styles.titleTab, { textAlign: 'center', borderTopWidth: StyleSheet.hairlineWidth }]}>{item.Tag}</Text> */}
+      <View style={[styles.titleTabButton, { textAlign: 'center' }]}>
+        <Text style={{ textAlign: 'center' }} >{"0000.000000"}</Text>
+      </View>
+    </View>
     </View>
   );
 
@@ -65,24 +87,20 @@ DeviceScreen = () => {
 
   console.log(MenuParams)
   return (
-    <SafeAreaView style={[styles.container, { flexDirection: 'column', backgroundColor: '#ffffff' }]}>
+    <ScrollView style={[styles.container, { flexDirection: 'column', backgroundColor: '#ffffff' }]}>
 
 
       {/* Top Component of Settings Page */}
-      <View style={{ flexDirection: 'column', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#000000' }} >
-        {/* <Image
-          source={require("../Media/sensorimage.png")}
-          style={{
-             width: 40,
-             height: 120,
-            // borderRadius: 40,
-          }}
-        /> */}
-        <View style={{ alignItems: 'center' }}>
+      <View style={{ flexDirection: 'row',alignalgItems:'space-between', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#000000' }} >
+      <View>
+      <TableIndex/>
+      </View>
+        {/* <View style={{ alignItems: 'center' }}>
           <Text style={{ padding: 25, fontSize: 25, color: '#000000', fontWeight: 'bold', marginVertical: 0, marginHorizontal: 10, borderTopWidth: StyleSheet.hairlineWidth }}> Values</Text>
-        </View>
+        </View> */}
+           <View>
         <ValuesTabBottom />
-
+        </View>
 
       </View>
 
@@ -95,7 +113,7 @@ DeviceScreen = () => {
       </SafeAreaView>
       {/* <ValuesTab/> */}
 
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 
@@ -110,6 +128,8 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
   },
+  imgSensor: { width: 150, height: 225, borderRightWidth: 1 },
+
   titleTab: {
     backgroundColor: '#ffffff',
     padding: 6,
