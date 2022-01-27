@@ -24,37 +24,37 @@ import {
 
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
-const ItemBar = ({item})=>(
+const ItemBar = ({ item }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-  <View style={{height:40 ,justifyContent:'center'}}> 
-    <Text style={styles.title}>{item}</Text>
+    <View style={{ height: 40, justifyContent: 'center' }}>
+      <Text style={styles.title}>{item}</Text>
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
   </View>
-  <View style={{ justifyContent: 'center' }}>
-    <Icon
-      name="chevron-forward-outline"
-      size={20}
-      color="#000"
-    />
-  </View>
-</View>
 )
-const ItemValueBar = ({item,value})=>(
+const ItemValueBar = ({ item, value }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-  <View style={{justifyContent:'center'}}> 
-    <Text style={styles.title}>{item}</Text>
-    <Text style={styles.value}>{value}</Text>
+    <View style={{ justifyContent: 'center' }}>
+      <Text style={styles.title}>{item}</Text>
+      <Text style={styles.value}>{value}</Text>
 
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
   </View>
-  <View style={{ justifyContent: 'center' }}>
-    <Icon
-      name="chevron-forward-outline"
-      size={20}
-      color="#000"
-    />
-  </View>
-</View>
 )
 let peripheralID = '0'
 
@@ -77,27 +77,27 @@ function Item(title, value, navigation = null, context = null, parent = null) {
     case 'Configuration 1':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
-        <ItemBar item={title} />
+          <ItemBar item={title} />
 
         </TouchableOpacity>
       )
     case 'Configuration 2':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
-        <ItemBar item={title} />
+          <ItemBar item={title} />
         </TouchableOpacity>
       )
     case 'Configuration 3':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
-        <ItemBar item={title} />
+          <ItemBar item={title} />
 
         </TouchableOpacity>
       )
     case 'Configuration 4':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
-        <ItemBar item={title} />
+          <ItemBar item={title} />
 
         </TouchableOpacity>
       )
@@ -217,7 +217,7 @@ function CustomConfigurationScreen({ route, navigation }) {
       <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]}  >
         <Text style={[styles.title, { textAlign: 'center', color: 'black' }]}>Number of Concentration Points in the Table</Text>
       </View>
- 
+
       <View style={styles.pickerText} >
         <Picker style={styles.picker}
           selectedValue={nrOfConcPoints}
@@ -236,7 +236,7 @@ function CustomConfigurationScreen({ route, navigation }) {
 
       <Button
         onPress={() => navigation.navigate('Custom Temperature Coefficient', { Tag: ConfigNum, ConfigNum: ConfigNum, name: "Custom Temperature Coefficient", ConcentrationPoints: nrOfConcPoints, TemperaturePoints: nrOfTempPoints })}
-        
+
         title="Configure Coefficients"
         color="#841584"
       />
@@ -274,23 +274,23 @@ const element = (data, index, cellIndex, value, setValue) => {
   return (
     // <TouchableOpacity onPress={()=>{focused? setFocused(false):setFocused(true)}}>
 
-        <View style={[styles.btn5, { alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? "#808B97" : 'white', paddingBottom: 0, borderRadius: 0, borderBottomWidth: 0, borderBottomEndRadius: 0 }]}>
+    <View style={[styles.btn5, { alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? "#808B97" : 'white', paddingBottom: 0, borderRadius: 0, borderBottomWidth: 0, borderBottomEndRadius: 0 }]}>
 
-          <TextInput
-            disabled={false}
-            style={styles.input1}
-            value={value[index][cellIndex]}
-            keyboardType="numeric"
-            maxLength={7}
-            underlineColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
-            selectionColor='black'
-            activeUnderlineColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
-            backgroundColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
-            textAlign='center'
-            scrollEnabled={false}
-            onChangeText={(val) => { updateCell(val, index, cellIndex, value, setValue) }}
-             />
-        </View>
+      <TextInput
+        disabled={false}
+        style={styles.input1}
+        value={value[index][cellIndex]}
+        keyboardType="numeric"
+        maxLength={7}
+        underlineColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
+        selectionColor='black'
+        activeUnderlineColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
+        backgroundColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
+        textAlign='center'
+        scrollEnabled={false}
+        onChangeText={(val) => { updateCell(val, index, cellIndex, value, setValue) }}
+      />
+    </View>
 
   )
 }
@@ -364,33 +364,36 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
 
   return (
-    <ScrollView contentContainerStyle={{alignSelf:'center'}}  style={{ paddingBottom: 40, backgroundColor: 'white' }} horizontal={false} >
+    <ScrollView contentContainerStyle={{ alignSelf: 'center' }} style={{ paddingBottom: 40, backgroundColor: 'white' }} horizontal={false} >
 
-      <ScrollView contentContainerStyle={{justifyContent:'center'}} style={{ backgroundColor: 'white' }} horizontal={true} >
+      <ScrollView contentContainerStyle={{ justifyContent: 'center' }} style={{ backgroundColor: 'white' }} horizontal={true} >
         <View style={{ backgroundColor: 'white', }}>
-          {/* <Table borderStyle={{ borderWidth: 1, borderColor: '#000000', shadowColor:'white' }}>
-              <Row data={tableHead} widthArr={widthArr} style={styles.header5} textStyle={styles.text5} />
-            </Table> */}
-            <Table borderStyle={{ borderWidth: 1, borderTopWidth: 1, paddingTop: 50, borderColor: '#000000'}}>
-              {
-                tableData.map((rowData, index) => (
-                  <TableWrapper key={index} style={[styles.row5, { paddingTop: 1}]}>
-                    {
-                      rowData.map((cellData, cellIndex) => (
-                        <Cell key={cellIndex} data={(cellIndex == 0 && index == 0) ? tableIndex() : element(cellData, index, cellIndex, hookArray, setHookArray)} />
-                      ))
-                    }
-                  </TableWrapper>
-                ))
-              }
+          <Table borderStyle={{ borderWidth: 1, borderColor: '#000000', shadowColor: 'white' }}>
+          <Row data={["","Concentration Points"]} widthArr={[150,900]} style={[styles.header5,{paddingLeft:0}]} textStyle={styles.text5} />
+          </Table>
+          <Table borderStyle={{ borderWidth: 1, borderColor: '#000000', shadowColor: 'white' }}>
+            <Row data={tableHead} widthArr={widthArr} style={styles.header5} textStyle={styles.text5} />
+          </Table>
+          <Table borderStyle={{ borderWidth: 1, borderTopWidth: 1, paddingTop: 50, borderColor: '#000000' }}>
+            {
+              tableData.map((rowData, index) => (
+                <TableWrapper key={index} style={[styles.row5, { paddingTop: 1 }]}>
+                  {
+                    rowData.map((cellData, cellIndex) => (
+                      <Cell key={cellIndex} data={(cellIndex == 0 && index == 0) ? tableIndex() : element(cellData, index, cellIndex, hookArray, setHookArray)} />
+                    ))
+                  }
+                </TableWrapper>
+              ))
+            }
 
-              {/* Right Wrapper */}
-              {/* <TableWrapper style={{ flex: 1 }}>
+            {/* Right Wrapper */}
+            {/* <TableWrapper style={{ flex: 1 }}>
                 <Cols data={tableData} heightArr={[40, 30, 30, 30, 30]} textStyle={styles.text5} />
               </TableWrapper> */}
 
 
-            </Table>
+          </Table>
         </View>
       </ScrollView>
       {true &&
@@ -552,7 +555,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: "flex-start",
   },
-  container2: {  padding: 0, paddingTop: 0, backgroundColor: '#fff' },
+  container2: { padding: 0, paddingTop: 0, backgroundColor: '#fff' },
   head2: { height: 40, backgroundColor: '#808B97' },
   text2: { margin: 6 },
   row2: { flexDirection: 'row', backgroundColor: '#ffffff' },
@@ -569,7 +572,7 @@ const styles = StyleSheet.create({
 
   container4: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
   header4: { height: 50, backgroundColor: '#808B97', borderRadius: 1 },
-  text4: { textAlign: 'center' },
+  text5: { textAlign: 'center' },
   dataWrapper4: { marginTop: -1 },
   row4: { height: 40, backgroundColor: '#ffffff' },
 
@@ -579,7 +582,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     // marginTop: StatusBar.currentHeight || 0,
     paddingTop: 0,
-},
+  },
+  header5: { height: 50, backgroundColor: 'red', borderRadius: 1 },
 
   row5: { flexDirection: 'row', backgroundColor: "#808B97", borderRightWidth: 1 },
   btn5: { width: 149, height: 50, backgroundColor: '#white', borderRadius: 1 },
