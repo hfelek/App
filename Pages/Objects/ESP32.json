@@ -1,37 +1,29 @@
 [{
         "Tag": "Identification",
         "menu": {
-            "18": "EliarBLExxxxxxxxxxxxxxxxxxxxxxxx",
-            "12": "ICT-1234xxxxxxxx",
-            "09": "12345678",
-            "0A": "122345678",
-            "0B": "12345678",
-            "10": "EliarAGxxxxxxxxxxxxxxxxxxxxxxxx",
-            "07": "12345678",
-            "08": "12345678",
-            "15": "xxxxxxxxxx",
-            "16": "xxxxxxxxxx",
-            "17": "xxxxxxxxxx",
-            "41": "xxxxxxxxxxxxx",
-            "42": "16777216",
-            "43": "256"
+            "18": "Product Namexxxxxxxxxxxxxxxxxxxx",
+            "12": "Product ID",
+            "09": "Product Text",
+            "0A": "Specific Application Tag",
+            "0B": "Hardware Revision"
         }
     },
+
     {
         "Tag": "Diagnostics",
         "menu": {
-            "50": "xxxx",
-            "51": "xxxx",
+            "50": "Actual Diagnostics",
+            "51": "Last Diagnostics",
             "52": 1,
-            "53": "429496.7296",
-            "54": "429496.7296",
-            "55": "429496.7296"
+            "53": 13.05,
+            "54": 128.35,
+            "55": 17.852
         }
     },
     {
         "Tag": "MeasuredValues",
         "menu": {
-            "5F": "429496.7296",
+            "5F": 1245,
             "60": "429496.7296",
             "61": "429496.7296"
         }

@@ -371,9 +371,9 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
           <Table borderStyle={{ borderWidth: 1, borderColor: '#000000', shadowColor: 'white' }}>
           <Row data={["","Concentration Points"]} widthArr={[150,900]} style={[styles.header5,{paddingLeft:0}]} textStyle={styles.text5} />
           </Table>
-          <Table borderStyle={{ borderWidth: 1, borderColor: '#000000', shadowColor: 'white' }}>
+          {/* <Table borderStyle={{ borderWidth: 1, borderColor: '#000000', shadowColor: 'white' }}>
             <Row data={tableHead} widthArr={widthArr} style={styles.header5} textStyle={styles.text5} />
-          </Table>
+          </Table> */}
           <Table borderStyle={{ borderWidth: 1, borderTopWidth: 1, paddingTop: 50, borderColor: '#000000' }}>
             {
               tableData.map((rowData, index) => (

@@ -82,7 +82,7 @@ const ApplicationTagScreen = () => {
 
   // React.useEffect(() => {  
   filtered = Values.filter(row => row.Tag == 'Identification');
-  filteredAT = filtered[0].menu.filter(row => row.Tag == 'Application Tag');
+  filteredAT = filtered[0].menu.filter(row => row.Tag == 'Specific Application Tag');
 
   // },[]);
   const [text, setText] = React.useState(contextConfigurationValues["18"]);
@@ -138,7 +138,7 @@ function IdentificationMainScreen({ navigation }) {
 }
 function Item(title, value, navigation = null, context = null) {
   switch (title) {
-    case 'Application Tag':
+    case 'Specific Application Tag':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Application Tag')}>
           <View style={{ flexDirection: 'row',justifyContent:'space-between' }}>

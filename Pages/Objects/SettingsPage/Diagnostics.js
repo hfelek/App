@@ -121,7 +121,7 @@ function Item(title, value, navigation, context = context) {
 
   }
   else if (SwitchComponents.includes(title)) {
-    var switchValues = (Values.filter(row => row.Tag == 'Diagnostics'))[0].menu.filter(row => row.Tag == title)[0]["Assignable Values"];
+    var switchValues = (Values.filter(row => row.Tag == 'Diagnostics'))[0].menu.filter(row => row.Tag == title)[0]["Possible Values"];
     return (
       <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switchable Components', { Tag: title, Value: value, SwitchableValues: switchValues, name: title })}>
  
