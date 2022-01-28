@@ -12,13 +12,14 @@ import React, {
   useContext
 } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { ContextConfigurationValues,ContextSensorValues } from '../App';
+import { ContextConfigurationValues, ContextSensorValues } from '../App';
 
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   RefreshControl,
+  Image,
   View,
   Text,
   Platform,
@@ -29,6 +30,7 @@ import {
   PermissionsAndroid,
   FlatList,
   TouchableHighlight,
+  Pressable,
 } from 'react-native';
 import SignalLevelIndicator from '../Navigation/Functions/signalLevelIndicator';
 import { bytesToString } from "convert-string";
@@ -37,8 +39,9 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import BleManager from 'react-native-ble-manager';
 import { List } from 'react-native-paper';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-function printCoordinate (){
+function printCoordinate() {
   console.log(this.a)
 }
 // let consoleobject = printCoordinate.bind(storageObject)
@@ -56,7 +59,7 @@ notifyCharacteristicsMap.set("Output2", { "ServiceUUID": "a65373b2-6942-11ec-90d
 notifyCharacteristicsMap.set("Display", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200140900" })
 notifyCharacteristicsMap.set("Communication", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200141000" })
 notifyCharacteristicsMap.set("System", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200141100" })
-notifyCharacteristicsMap.set("Values",{ "ServiceUUID": "a65373b2-6942-11ec-90d6-024200110000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200110100" })
+notifyCharacteristicsMap.set("Values", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200110000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200110100" })
 
 // const configurationCharacteristics = [
 //                                       { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000",
@@ -78,7 +81,7 @@ const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 const Buffer = require('buffer/').Buffer;
 
 const ConnectionScreen = () => {
-  const contextValues = useContext(ContextSensorValues) 
+  const contextValues = useContext(ContextSensorValues)
   const contextConfiguration = useContext(ContextConfigurationValues)
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -97,7 +100,7 @@ const ConnectionScreen = () => {
 
   const startScan = () => {
     if (!isScanning) {
-      BleManager.scan([], 10, true).then((results) => {
+      BleManager.scan([], 2, true).then((results) => {
         console.log('Scanning...');
         setIsScanning(true);
       }).catch(err => {
@@ -138,33 +141,33 @@ const ConnectionScreen = () => {
     setConnectedPeripheral(null)
     console.log('Disconnected from ' + data.peripheral);
   }
-
+  let a=""
   const handleUpdateValueForCharacteristic = ({ value, peripheral, characteristic, service }) => {
     // Convert bytes array to string
     const data = bytesToString(value);
     console.log("Update Has Been Made From Characteristic")
     console.log(characteristic)
     let parsedObject = JSON.parse(data)
-    switch(characteristic) {
+    switch (characteristic) {
       case "a65373b2-6942-11ec-90d6-024200110100":
         contextValues.setSensorValue(parsedObject)
         console.log("Data Has Been Handled. Data:")
-        console.log(JSON.stringify(contextValues)) 
+        console.log(JSON.stringify(contextValues))
         break;
 
-        
+
       default:
         contextConfiguration.setValueTotal(parsedObject["menu"])
         parsedObject["menu"]
         console.log(parsedObject["menu"])
 
         console.log("Data Has Been Handled. Data:")
- 
-      
-        
+
+
+
     }
 
-   
+
   }
 
   // const retrieveConnected = () => {
@@ -184,6 +187,20 @@ const ConnectionScreen = () => {
   // }
 
   const handleDiscoverPeripheral = (peripheral) => {
+    console.log(typeof(peripheral))
+      if(peripheral.name == 'ELIAR-ICT-2-V2'){
+        console.log(peripheral.advertising.manufacturerData.bytes)
+        const buffer = Buffer.from(peripheral.advertising.manufacturerData.bytes);
+        const data1 = buffer.toString();
+        if (a!=data1){
+          a=data1
+          console.log(data1)
+          console.log("console.log(a) ")
+
+            
+          
+        }
+      }
     if (peripheral.name) {
       peripherals.set(peripheral.id, peripheral);
       setList(Array.from(peripherals.values()));
@@ -207,7 +224,7 @@ const ConnectionScreen = () => {
           console.log(peripheral.id)
           console.log("request öncesi")
 
-        console.log("request sonrası")
+          console.log("request sonrası")
           console.log(peripherals);
           if (p) {
             p.connected = true;
@@ -228,7 +245,7 @@ const ConnectionScreen = () => {
           console.log('Connected1 to ' + peripheral.id);
           console.log("deviceConnected:");
           console.log(deviceConnected);
-      
+
 
         }).catch((error) => {
           console.log('Connection error', error);
@@ -312,35 +329,35 @@ const ConnectionScreen = () => {
 
         if (Platform.OS === 'android') {
           BleManager.requestMTU(peripheralInfo.id, 512)
-              .then((mtu) => {
-                  // Success code
-                  console.log()
-                  console.log("MTU size changed to " + mtu + " bytes");
-              })
-              .catch((error) => {
-                  // Failure code
-                  console.log("Error kodu")
-                  console.log(peripheral.id)
-                  console.log(error);
-              });
-       }
+            .then((mtu) => {
+              // Success code
+              console.log()
+              console.log("MTU size changed to " + mtu + " bytes");
+            })
+            .catch((error) => {
+              // Failure code
+              console.log("Error kodu")
+              console.log(peripheral.id)
+              console.log(error);
+            });
+        }
         console.log("peripheralInfo")
 
         console.log(peripheralInfo)
 
         //setTimeout(() => {
-          for (let [key, value] of notifyCharacteristicsMap) {
-            
-        BleManager.startNotification(peripheralInfo.id, value["ServiceUUID"],value["CharacteristicUUID"]).then(() => {
-          console.log('Notification Succesfull for' + JSON.stringify(value));
+        for (let [key, value] of notifyCharacteristicsMap) {
+
+          BleManager.startNotification(peripheralInfo.id, value["ServiceUUID"], value["CharacteristicUUID"]).then(() => {
+            console.log('Notification Succesfull for' + JSON.stringify(value));
 
 
-        }).catch((error) => {
-          console.log('Notification error', error);
-        });
+          }).catch((error) => {
+            console.log('Notification error', error);
+          });
         }
-            
-            
+
+
 
         // BleManager.startNotification(peripheralInfo.id, "a65373b2-6942-11ec-90d6-024200110000", "a65373b2-6942-11ec-90d6-024200110100").then(() => {
         //   console.log('Read Data');
@@ -423,27 +440,31 @@ const ConnectionScreen = () => {
   const renderItem = (item) => {
     const color = '#fff';
 
-      return (
-        <TouchableHighlight onPress={() => ConnectPeripheral(item)}>
-          <View style={[styles.row, { backgroundColor: color, flexDirection:'row',justifyContent:'space-evenly' }]}>
-            <Text style={{ fontSize: 20, textAlign: 'center', color: '#333333', paddingTop: 25}}>{item.name}</Text>
-            <View style={{alignItems:'center',paddingBottom:20}}>
-            <SignalLevelIndicator signalStrength={item.rssi}/>
-     
-            </View>
-            <View style={{alignItems:'center',paddingTop:20}}>
-             <Icon
-            name="checkmark-outline"
-            size={40}
-            color={item.id === connectedPeripheral?"green" : 'white'}
-            
-          /> 
-            </View>
- 
-            {/* <Text style={{ fontSize: 8, textAlign: 'center', color: '#333333', padding: 2, paddingBottom: 20 }}>{item.id}</Text> */}
+    return (
+      <Pressable  style={{borderBottomWidth:StyleSheet.hairlineWidth}} onPress={() => ConnectPeripheral(item)}>
+
+        <View style={[styles.row, { backgroundColor: color, flexDirection: 'row', justifyContent: 'space-evenly' }]}>
+          <Image
+            source={require("../Media/ICT200-C50.png")}
+            style={[styles.imgSensor,{flex:1}]}
+          />
+          <Text style={{ flex:1, fontSize: 20, textAlign: 'center', color: '#333333', paddingTop: 25 }}>{item.name}</Text>
+          <View style={{flex:1, alignItems: 'center', paddingBottom: 20 }}>
+            <SignalLevelIndicator signalStrength={item.rssi} />
+
           </View>
-        </TouchableHighlight>
-      );
+          <View style={{flex:1, alignItems: 'center', paddingTop: 20 }}>
+            <Icon
+              name="checkmark-outline"
+              size={40}
+              color={item.id === connectedPeripheral ? "green" : 'white'}
+
+            />
+          </View>
+
+        </View>
+      </Pressable>
+    );
 
 
 
@@ -471,6 +492,7 @@ const ConnectionScreen = () => {
 
   // }
 
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -478,16 +500,16 @@ const ConnectionScreen = () => {
         <ScrollView
           refreshControl={
             <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
 
           }
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}
-          
-          
-          >
+
+
+        >
           {/* {global.HermesInternal == null ? null : (
             <View style={styles.engine}>
               <Text style={styles.footer}>Engine: Hermes</Text>
@@ -495,7 +517,7 @@ const ConnectionScreen = () => {
           )} */}
           <View style={styles.body}>
 
-            <View style={{ margin: 10,  }}>
+            <View style={{ margin: 10, }}>
               {/* <TouchableHighlight
               title={'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}
               onPress={() => startScan()}
@@ -508,7 +530,7 @@ const ConnectionScreen = () => {
                 onPress={() => startScan()}
               />
             </View>
-{/* 
+            {/* 
             {(connectedPeripheral != null) &&
               <View style={{ flex: 1, margin: 20 }}>
                 <Text >Connected Devices</Text>
@@ -528,7 +550,7 @@ const ConnectionScreen = () => {
             } */}
 
           </View>
-          
+
         </ScrollView>
         {/* <FlatList
           data={list}
@@ -554,7 +576,6 @@ const ConnectionScreen = () => {
           renderItem={({ item }) => renderItem(item)}
           keyExtractor={item => item.id}
         /> */}
-        <Text>{JSON.stringify(contextValues)}</Text>
       </SafeAreaView>
     </>
   );
@@ -599,6 +620,8 @@ const styles = StyleSheet.create({
     paddingRight: 12,
     textAlign: 'right',
   },
+  imgSensor: { width: 60, height: 75,resizeMode:'contain'},
+
 });
 
 export default ConnectionScreen;

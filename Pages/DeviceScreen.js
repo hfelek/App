@@ -4,6 +4,7 @@ import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Settings, Im
 import Values from './Objects/Paramsfiltered.json';
 import { List } from 'react-native-paper';
 import { ContextConfigurationValues, ContextSensorValues } from '../App'
+import Icon from 'react-native-vector-icons/Ionicons';
 
 let IdentificationParams;
 let MenuParams;
@@ -28,7 +29,7 @@ DeviceScreen = () => {
   );
   const ItemBottom = ({ item, index, seperators }) => (
     <View style={styles.itemTab} >
-      {index == 0 ? <Text style={[styles.titleTab, { textAlign: 'center', borderTopWidth: 1 }]}>{item.Tag}</Text> : <Text style={[styles.titleTab, { textAlign: 'center'}]}>{item.Tag}</Text>
+      {index == 0 ? <Text style={[styles.titleTab, { textAlign: 'center', borderTopWidth: 1 }]}>{item.Tag}</Text> : <Text style={[styles.titleTab, { textAlign: 'center' }]}>{item.Tag}</Text>
       }
       {/* <Text style={[styles.titleTab, { textAlign: 'center', borderTopWidth: StyleSheet.hairlineWidth }]}>{item.Tag}</Text> */}
       <View style={[styles.titleTabButton, { textAlign: 'center' }]}>
@@ -48,31 +49,27 @@ DeviceScreen = () => {
     </View>
   );
   const ValuesTabBottom = () => (
-    <View style={{}}>
-    <View style={styles.itemTab} >
-      {<Text style={[styles.titleTab, { textAlign: 'center' }]}>{"Conductivity"}</Text> 
-      }
-      {/* <Text style={[styles.titleTab, { textAlign: 'center', borderTopWidth: StyleSheet.hairlineWidth }]}>{item.Tag}</Text> */}
-      <View style={[styles.titleTabButton, { textAlign: 'center' }]}>
-        <Text style={{ textAlign: 'center' }} >{"0000.000000"}</Text>
-      </View>
-    </View>
-    <View style={styles.itemTab} >
-    {<Text style={[styles.titleTab, { textAlign: 'center'}]}>{"Concentration"}</Text> 
-      }
-      {/* <Text style={[styles.titleTab, { textAlign: 'center', borderTopWidth: StyleSheet.hairlineWidth }]}>{item.Tag}</Text> */}
-      <View style={[styles.titleTabButton, { textAlign: 'center' }]}>
-        <Text style={{ textAlign: 'center' }} >{"0000.000000"}</Text>
-      </View>
-    </View>
-    <View style={styles.itemTab} >
-    {<Text style={[styles.titleTab, { textAlign: 'center', borderTopWidth: 1 }]}>{"Temperature"}</Text> 
-      }
-      {/* <Text style={[styles.titleTab, { textAlign: 'center', borderTopWidth: StyleSheet.hairlineWidth }]}>{item.Tag}</Text> */}
-      <View style={[styles.titleTabButton, { textAlign: 'center' }]}>
-        <Text style={{ textAlign: 'center' }} >{"0000.000000"}</Text>
-      </View>
-    </View>
+    <View style={{ height: 220, paddingTop: 8, width: 155, justifyContent: 'center' }}>
+
+      <TouchableOpacity style={{paddingTop:5}}>
+        <View style={{ backgroundColor:'#808B97',borderRadius:5 }}>
+          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1,textAlign:'center'}}>12 mS/cm</Text>
+        </View>
+        </TouchableOpacity>
+
+      <TouchableOpacity style={{paddingTop:5}}>
+        <View style={{ backgroundColor:'#808B97',borderRadius:5 }}>
+          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1,textAlign:'center'}}>1.2 Baume</Text>
+        </View>
+      </TouchableOpacity>
+      
+        <TouchableOpacity style={{paddingTop:5}}>
+        <View style={{ backgroundColor:'#808B97',borderRadius:5 }}>
+          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1,textAlign:'center'}}>25 °C</Text>
+        </View>
+        </TouchableOpacity>
+
+
     </View>
   );
 
@@ -88,18 +85,13 @@ DeviceScreen = () => {
   console.log(MenuParams)
   return (
     <ScrollView style={[styles.container, { flexDirection: 'column', backgroundColor: '#ffffff' }]}>
-
-
       {/* Top Component of Settings Page */}
-      <View style={{ flexDirection: 'row',alignalgItems:'space-between', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#000000' }} >
-      <View>
-      <TableIndex/>
-      </View>
-        {/* <View style={{ alignItems: 'center' }}>
-          <Text style={{ padding: 25, fontSize: 25, color: '#000000', fontWeight: 'bold', marginVertical: 0, marginHorizontal: 10, borderTopWidth: StyleSheet.hairlineWidth }}> Values</Text>
-        </View> */}
-           <View>
-        <ValuesTabBottom />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#000000' }} >
+        <View style={{}}>
+          <TableIndex />
+        </View>
+        <View style={{ paddingTop: 5 }}>
+          <ValuesTabBottom />
         </View>
 
       </View>
@@ -107,7 +99,52 @@ DeviceScreen = () => {
       {/* Bottom Componenent of Settings Page */}
       <SafeAreaView style={{ backgroundColor: "#ffffff" }} >
 
-        {/* Values are rendered here. */}
+        <View style={[styles.titleTab1, { paddingTop: 5 }]}>
+          <Text style={{ color: 'black', fontSize: 15 }}  >Alarm Status</Text>
+          <View style={{ backgroundColor: '#D8E1E9', flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{true ? "No Alarm Detected" : "Alarm Detected"}</Text>
+            <Icon
+              name={true ? "checkmark-outline" : "alert-outline"}
+              size={20}
+              color={true ? "black" : "black"}
+              style={{ backgroundColor: true ? "green" : "red", width: 20, height: 20 }}
+            />
+          </View>
+        </View>
+        <View style={styles.titleTab1}>
+          <Text style={{ color: 'black', fontSize: 15 }} >Active Configuration</Text>
+          <View style={{ backgroundColor: '#D8E1E9' }}>
+            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>Configuration 1</Text>
+          </View>
+        </View>
+
+      </SafeAreaView>
+      <SafeAreaView style={{ backgroundColor: "#ffffff" }} >
+
+        <View style={styles.titleTab1}>
+          <Text style={{ color: 'black', fontSize: 15 }} >Device Name</Text>
+          <View style={{ backgroundColor: '#D8E1E9' }}>
+            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>ICT-200</Text>
+          </View>
+        </View>
+        <View style={styles.titleTab1}>
+          <Text style={{ color: 'black', fontSize: 15 }} >Hardware Version</Text>
+          <View style={{ backgroundColor: '#D8E1E9' }}>
+            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>HW-V1.0</Text>
+          </View>
+        </View>
+        <View style={[styles.titleTab1, { paddingTop: 2 }]}>
+          <Text style={{ color: 'black', fontSize: 15 }}  >Firmware Version</Text>
+          <View style={{ backgroundColor: '#D8E1E9' }}>
+            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>FW-V1.0</Text>
+          </View>
+        </View>
+        <View style={[styles.titleTab1, { paddingTop: 2 }]}>
+          <Text style={{ color: 'black', fontSize: 15 }}  >Product Serial Number</Text>
+          <View style={{ backgroundColor: '#D8E1E9' }}>
+            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>151561531</Text>
+          </View>
+        </View>
 
 
       </SafeAreaView>
@@ -128,34 +165,32 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
   },
-  imgSensor: { width: 150, height: 225, borderRightWidth: 1 },
+  imgSensor: { width: 150, height: 225, borderRightWidth: 1, paddingLeft: 10 },
 
   titleTab: {
     backgroundColor: '#ffffff',
     padding: 6,
-    fontSize: 13,
+    fontSize: 15,
     color: '#000000',
-    fontWeight: 'bold',
     marginVertical: 0,
-    marginHorizontal: 10,
-    borderBottomColor: 'black',
-    borderBottomWidth: StyleSheet.hairlineWidth
+    marginHorizontal: 10
+
   },
   titleTab1: {
     backgroundColor: '#ffffff',
-    padding: 6,
+
+    fontSize: 17,
+    color: '#000000',
     marginVertical: 0,
-    marginHorizontal: 10,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1
+    marginHorizontal: 10
+
   },
   titleTabButton: {
     backgroundColor: '#ffffff',
     padding: 6,
     marginVertical: 0,
     marginHorizontal: 10,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1
+
   },
   itemTab: {
     backgroundColor: '#ffffff',

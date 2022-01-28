@@ -88,31 +88,33 @@ const ApplicationTagScreen = () => {
   const [text, setText] = React.useState(contextConfigurationValues["18"]);
 
   return (
-    <View style={{ paddingLeft:10,paddingTop:10, paddingRight:10,backgroundColor:'white'}} >
+    <View style={{ paddingLeft:8,paddingTop:10, paddingRight:8,backgroundColor:'white'}} >
       <TextInput
         // label="Set Your Application Tag"
         value={text}
         selectionColor='gray'
         outlineColor='gray'
+        maxLength={32}
         underlineColor='transparent'
         activeUnderlineColor='transparent'
-        style={{backgroundColor:'white',borderWidth:1,height:50,textAlign:'center'}}
+        style={{ fontSize:14,backgroundColor:'white',borderWidth:1,height:50,borderRadius:20,borderTopLeftRadius:20,borderTopRightRadius:20, textAlign:'center',paddingLeft:35}}
         error={false}
-        right={<TextInput.Icon name="close" onPress={text => setText("")} />}
+        right={<TextInput.Icon name="close" size={15} style={{}} onPress={text => setText("")} />}
         onChangeText={text => setText(text)}
         
       />
       {/* <LenghtChecker lenght={32} /> */}
-    
+        <View style={{paddingTop:15,borderRadius:20}}>
         <Button
           onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Identification", "Set Parameters": {"18":"${text}"}}`, contextConfigurationValues) }}
           title="Save"
-          color="#841584"
+          // color="#841584"
           disabled={contextConfigurationValues["18"] == text}
 
           
           accessibilityLabel="Learn more about this purple button"
         />
+        </View>
         <View style={{paddingLeft:3}}>
         <Text style={{color:'gray'}} >Set Your Application Tag with Maximum of 32 Characters</Text>
         </View>
