@@ -1,80 +1,54 @@
 [{
         "Tag": "Identification",
         "Icon": "create-outline",
+        "Index": "1",
         "menu": [{
-                "Tag": "Application Tag",
+                "Tag": "Product Name",
                 "Access": "R/W",
-                "Value": "EliarBLE"
+                "Value": "ICT-200",
+                "Index": "2"
             },
             {
-                "Tag": "Device Name",
+                "Tag": "Product ID",
                 "Access": "R",
-                "Value": "10"
+                "Value": "10",
+                "Index": "3"
             },
             {
-                "Tag": "Device ID1",
+                "Tag": "Product Text",
                 "Access": "R",
-                "Value": "10"
+                "Value": "ICT-200",
+                "Index": "5"
             },
             {
-                "Tag": "Device ID2",
+                "Tag": "Specific Application Tag",
                 "Access": "R",
-                "Value": "10"
+                "Value": "10",
+                "Index": "6"
             },
             {
-                "Tag": "Device ID3",
+                "Tag": "Hardware Revision",
                 "Access": "R",
-                "Value": "10"
+                "Value": "10",
+                "Index": "7"
             },
             {
-                "Tag": "Vendor Name",
+                "Tag": "Firmware Revision",
                 "Access": "R",
-                "Value": "10"
-            },
-            {
-                "Tag": "Vendor ID1",
-                "Access": "R",
-                "Value": "10"
-            },
-            {
-                "Tag": "Device Serial No",
-                "Access": "R",
-                "Value": "10"
-            },
-            {
-                "Tag": "Hardware Version",
-                "Access": "R",
-                "Value": "10"
-            },
-            {
-                "Tag": "Firmware Version",
-                "Access": "R",
-                "Value": "10"
-            },
-            {
-                "Tag": "Order Code",
-                "Access": "R",
-                "Value": "10"
-            },
-            {
-                "Tag": "Device Type",
-                "Access": "R",
-                "Value": "10"
-            },
-            {
-                "Tag": "User Role",
-                "Access": "R",
-                "Value": "10"
+                "Value": "10",
+                "Index": "8"
             }
         ]
     },
     {
         "Tag": "Setup Menu",
         "Icon": "ios-build-outline",
+        "Index": "9",
         "menu": [{
                 "Tag": "Active Configuration",
-                "Access": "R",
-                "Value": "0",
+                "Access": "R/W",
+                "Value": "Configuration 1",
+                "Index": "10",
                 "PossibleValues": [{
                         "Tag": "Configuration 1",
                         "Enum": "0"
@@ -95,8 +69,9 @@
             },
             {
                 "Tag": "Reference Temperature",
-                "Access": "R",
-                "Value": "0",
+                "Access": "R/W",
+                "Value": "°C",
+                "Index": "11",
                 "PossibleValues": [{
                         "Tag": "°C",
                         "Enum": "0"
@@ -112,21 +87,25 @@
     {
         "Tag": "Diagnostics",
         "Icon": "map-outline",
+        "Index": "12",
         "menu": [{
                 "Tag": "Actual Diagnostics",
                 "Access": "R",
-                "Value": "EliarBLE"
+                "Value": "EliarBLE",
+                "Index": "13"
             },
             {
                 "Tag": "Last Diagnostics",
                 "Access": "R",
-                "Value": "10"
+                "Value": "10",
+                "Index": "14"
             },
             {
                 "Tag": "Simulation Process Variable",
-                "Access": "R",
+                "Access": "R/W",
                 "Value": "Enabled",
-                "Assignable Values": [{
+                "Index": "15",
+                "Possible Values": [{
                         "Tag": "Enabled",
                         "Enum": 1
                     },
@@ -138,31 +117,36 @@
             },
             {
                 "Tag": "Simulation Process Variable Value Conductivity",
-                "Access": "R",
-                "Value": "10"
+                "Access": "R/W",
+                "Value": "10",
+                "Index": "16"
             },
             {
                 "Tag": "Simulation Process Variable Value Concentration",
                 "Access": "R",
-                "Value": "10"
+                "Value": "10",
+                "Index": "17"
             },
             {
                 "Tag": "Simulation Process Variable Value Temperature",
                 "Access": "R",
-                "Value": "10"
+                "Value": "10",
+                "Index": "17"
             }
         ]
     },
-
     {
         "Tag": "Conductivity Input",
         "Icon": "ios-barcode-sharp",
+        "Index": "18",
         "menu": [{
                 "Tag": "Configuration 1",
+                "Index": "29",
                 "menu": [{
                         "Tag": "Conductivity Range",
                         "Access": "R",
                         "Value": "20 mS/cm",
+                        "Index": "19",
                         "PossibleValues": [{
                                 "Tag": "2000 µS/cm",
                                 "Enum": 0
@@ -193,6 +177,7 @@
                         "Tag": "Temperature Compensation",
                         "Access": "R/W",
                         "Value": "Non-Linear",
+                        "Index": "20",
                         "PossibleValues": [{
                                 "Tag": "Linear",
                                 "Enum": "0"
@@ -307,6 +292,7 @@
                         "Tag": "Reference Temperature",
                         "Access": "R",
                         "Value": "0.0",
+                        "Index": "21",
                         "PossibleValues": [{
                             "Tag": "°C",
                             "Value": 25.0,
@@ -318,6 +304,7 @@
                         "Tag": "Filter Time Constant",
                         "Access": "R/W",
                         "Value": 20,
+                        "Index": "22",
                         "PossibleValues": {
                             "RangeUpper": 100,
                             "RangeLower": 0
@@ -327,10 +314,12 @@
             },
             {
                 "Tag": "Configuration 2",
+                "Index": "23",
                 "menu": [{
                         "Tag": "Conductivity Range",
                         "Access": "R",
                         "Value": "20 mS/cm",
+                        "Index": "24",
                         "PossibleValues": [{
                                 "Tag": "2000 µS/cm",
                                 "Enum": 0
@@ -361,6 +350,7 @@
                         "Tag": "Temperature Compensation",
                         "Access": "R/W",
                         "Value": "Non-Linear",
+                        "Index": "25",
                         "PossibleValues": [{
                                 "Tag": "Linear",
                                 "Enum": "0"
@@ -475,6 +465,7 @@
                         "Tag": "Reference Temperature",
                         "Access": "R",
                         "Value": "0.0",
+                        "Index": "26",
                         "PossibleValues": [{
                                 "Tag": "°C",
                                 "Value": 25.0,
@@ -493,6 +484,7 @@
                         "Tag": "Filter Time Constant",
                         "Access": "R/W",
                         "Value": 20,
+                        "Index": "27",
                         "PossibleValues": {
                             "RangeUpper": 100,
                             "RangeLower": 0
@@ -502,10 +494,12 @@
             },
             {
                 "Tag": "Configuration 3",
+                "Index": "28",
                 "menu": [{
                         "Tag": "Conductivity Range",
                         "Access": "R",
                         "Value": "20 mS/cm",
+                        "Index": "29",
                         "PossibleValues": [{
                                 "Tag": "2000 µS/cm",
                                 "Enum": 0
@@ -536,6 +530,7 @@
                         "Tag": "Temperature Compensation",
                         "Access": "R/W",
                         "Value": "Non-Linear",
+                        "Index": "30",
                         "PossibleValues": [{
                                 "Tag": "Linear",
                                 "Enum": "0"
@@ -650,6 +645,7 @@
                         "Tag": "Reference Temperature",
                         "Access": "R",
                         "Value": "0.0",
+                        "Index": "31",
                         "PossibleValues": [{
                                 "Tag": "°C",
                                 "Value": 25.0,
@@ -668,6 +664,7 @@
                         "Tag": "Filter Time Constant",
                         "Access": "R/W",
                         "Value": 20,
+                        "Index": "32",
                         "PossibleValues": {
                             "RangeUpper": 100,
                             "RangeLower": 0
@@ -677,10 +674,12 @@
             },
             {
                 "Tag": "Configuration 4",
+                "Index": "33",
                 "menu": [{
                         "Tag": "Conductivity Range",
                         "Access": "R",
                         "Value": "20 mS/cm",
+                        "Index": "34",
                         "PossibleValues": [{
                                 "Tag": "2000 µS/cm",
                                 "Enum": 0
@@ -711,6 +710,7 @@
                         "Tag": "Temperature Compensation",
                         "Access": "R/W",
                         "Value": "Non-Linear",
+                        "Index": "35",
                         "PossibleValues": [{
                                 "Tag": "Linear",
                                 "Enum": "0"
@@ -825,24 +825,19 @@
                         "Tag": "Reference Temperature",
                         "Access": "R",
                         "Value": "0.0",
+                        "Index": "36",
                         "PossibleValues": [{
-                                "Tag": "°C",
-                                "Value": 25.0,
-                                "RangeUpper": 30.0,
-                                "RangeLower": 15.0
-                            },
-                            {
-                                "Tag": "°F",
-                                "Value": 77.0,
-                                "RangeUpper": 86.0,
-                                "RangeLower": 59.0
-                            }
-                        ]
+                            "Tag": "°C",
+                            "Value": 25.0,
+                            "RangeUpper": 30.0,
+                            "RangeLower": 15.0
+                        }]
                     },
                     {
                         "Tag": "Filter Time Constant",
                         "Access": "R/W",
                         "Value": 20,
+                        "Index": "37",
                         "PossibleValues": {
                             "RangeUpper": 100,
                             "RangeLower": 0
@@ -855,27 +850,32 @@
     {
         "Tag": "Temperature Coefficient Linear",
         "Icon": "analytics",
+        "Index": "352",
         "menu": [{
                 "Tag": "Configuration 1",
                 "Value": "0.0",
+                "Index": "38",
                 "RangeUpper": 130.0,
                 "RangeLower": -10.0
             },
             {
                 "Tag": "Configuration 2",
                 "Value": "0.0",
+                "Index": "39",
                 "RangeUpper": 130.0,
                 "RangeLower": -10.0
             },
             {
                 "Tag": "Configuration 3",
                 "Value": "0.0",
+                "Index": "40",
                 "RangeUpper": 130.0,
                 "RangeLower": -10.0
             },
             {
                 "Tag": "Configuration 4",
                 "Value": "0.0",
+                "Index": "41",
                 "RangeUpper": 130.0,
                 "RangeLower": -10.0
             }
@@ -883,78 +883,92 @@
     },
     {
         "Tag": "Temperature Coefficient Non-Linear",
+        "Index": "353",
         "Icon": "pulse-outline",
         "menu": [{
                 "Tag": "Configuration 1",
+                "Index": "42",
                 "menu": [{
                         "Tag": "Temperature Point 1",
                         "Value": "0.0",
+                        "Index": "43",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 2",
                         "Value": "10.0",
+                        "Index": "44",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 3",
                         "Value": "20.0",
+                        "Index": "45",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 4",
                         "Value": "50.0",
+                        "Index": "46",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 5",
                         "Value": "60.0",
+                        "Index": "47",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 6",
                         "Value": "70.0",
+                        "Index": "48",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Coefficient 1",
                         "Value": "1.8",
+                        "Index": "49",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 2",
                         "Value": "1.9",
+                        "Index": "50",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 3",
                         "Value": "2.0",
+                        "Index": "51",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 4",
                         "Value": "2.1",
+                        "Index": "52",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 5",
                         "Value": "2.2",
+                        "Index": "53",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 6",
                         "Value": "2.3",
+                        "Index": "54",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     }
@@ -962,75 +976,88 @@
             },
             {
                 "Tag": "Configuration 2",
+                "Index": "55",
                 "menu": [{
                         "Tag": "Temperature Point 1",
                         "Value": "0.0",
+                        "Index": "56",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 2",
                         "Value": "10.0",
+                        "Index": "57",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 3",
                         "Value": "20.0",
+                        "Index": "58",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 4",
                         "Value": "50.0",
+                        "Index": "59",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 5",
                         "Value": "60.0",
+                        "Index": "60",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 6",
                         "Value": "70.0",
+                        "Index": "61",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Coefficient 1",
                         "Value": "1.8",
+                        "Index": "62",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 2",
                         "Value": "1.9",
+                        "Index": "63",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 3",
                         "Value": "2.0",
+                        "Index": "64",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 4",
                         "Value": "2.1",
+                        "Index": "65",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 5",
                         "Value": "2.2",
+                        "Index": "66",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 6",
                         "Value": "2.3",
+                        "Index": "67",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     }
@@ -1038,75 +1065,88 @@
             },
             {
                 "Tag": "Configuration 3",
+                "Index": "68",
                 "menu": [{
                         "Tag": "Temperature Point 1",
                         "Value": "0.0",
+                        "Index": "69",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 2",
                         "Value": "10.0",
+                        "Index": "70",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 3",
                         "Value": "20.0",
+                        "Index": "71",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 4",
                         "Value": "50.0",
+                        "Index": "72",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 5",
                         "Value": "60.0",
+                        "Index": "73",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 6",
                         "Value": "70.0",
+                        "Index": "74",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Coefficient 1",
                         "Value": "1.8",
+                        "Index": "75",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 2",
                         "Value": "1.9",
+                        "Index": "76",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 3",
                         "Value": "2.0",
+                        "Index": "77",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 4",
                         "Value": "2.1",
+                        "Index": "78",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 5",
                         "Value": "2.2",
+                        "Index": "79",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 6",
                         "Value": "2.3",
+                        "Index": "78",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     }
@@ -1114,75 +1154,88 @@
             },
             {
                 "Tag": "Configuration 4",
+                "Index": "79",
                 "menu": [{
                         "Tag": "Temperature Point 1",
                         "Value": "0.0",
+                        "Index": "80",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 2",
                         "Value": "10.0",
+                        "Index": "80",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 3",
                         "Value": "20.0",
+                        "Index": "81",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 4",
                         "Value": "50.0",
+                        "Index": "82",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 5",
                         "Value": "60.0",
+                        "Index": "83",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Point 6",
                         "Value": "70.0",
+                        "Index": "84",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Temperature Coefficient 1",
                         "Value": "1.8",
+                        "Index": "85",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 2",
                         "Value": "1.9",
+                        "Index": "86",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 3",
                         "Value": "2.0",
+                        "Index": "87",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 4",
                         "Value": "2.1",
+                        "Index": "88",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 5",
                         "Value": "2.2",
+                        "Index": "89",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Temperature Coefficient 6",
                         "Value": "2.3",
+                        "Index": "90",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     }
@@ -1195,206 +1248,241 @@
         "Icon": "document-text-outline",
         "menu": [{
                 "Tag": "Configuration 1",
+                "Index": "91",
                 "Config": [{
                         "Tag": "Number of Temperature Points in the Custom Table",
                         "Value": "3",
+                        "Index": "92",
                         "RangeUpper": "6"
                     },
                     {
                         "Tag": "Number of Concentration Points in the Custom Table",
                         "Value": "3",
+                        "Index": "93",
                         "RangeUpper": "6"
                     }
                 ],
                 "menu": [{
                         "Tag": "Conductivity Point 1",
                         "Value": "0.0",
+                        "Index": "94",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 2",
                         "Value": "10.0",
+                        "Index": "95",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 3",
                         "Value": "20.0",
+                        "Index": "96",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 4",
                         "Value": "50.0",
+                        "Index": "97",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 5",
                         "Value": "60.0",
+                        "Index": "98",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 6",
                         "Value": "70.0",
+                        "Index": "99",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 7",
                         "Value": "1.8",
+                        "Index": "100",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 8",
                         "Value": "1.9",
+                        "Index": "101",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 9",
                         "Value": "0.0",
+                        "Index": "102",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 10",
                         "Value": "10.0",
+                        "Index": "103",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 11",
                         "Value": "20.0",
+                        "Index": "104",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 12",
                         "Value": "50.0",
+                        "Index": "105",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 13",
                         "Value": "60.0",
+                        "Index": "106",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 14",
                         "Value": "70.0",
+                        "Index": "107",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 15",
                         "Value": "1.8",
+                        "Index": "108",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 16",
                         "Value": "1.9",
+                        "Index": "109",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 17",
                         "Value": "2.0",
+                        "Index": "110",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 18",
                         "Value": "2.1",
+                        "Index": "111",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 19",
                         "Value": "2.2",
+                        "Index": "112",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 20",
                         "Value": "2.3",
+                        "Index": "113",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 21",
                         "Value": "1.8",
+                        "Index": "114",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 22",
                         "Value": "1.9",
+                        "Index": "115",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 23",
                         "Value": "0.0",
+                        "Index": "116",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 24",
                         "Value": "10.0",
+                        "Index": "117",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 25",
                         "Value": "20.0",
+                        "Index": "118",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 26",
                         "Value": "50.0",
+                        "Index": "119",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 27",
                         "Value": "60.0",
+                        "Index": "120",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 28",
                         "Value": "70.0",
+                        "Index": "121",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 29",
                         "Value": "1.8",
+                        "Index": "122",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 30",
                         "Value": "1.9",
+                        "Index": "123",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 31",
                         "Value": "2.0",
+                        "Index": "124",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 32",
                         "Value": "2.1",
+                        "Index": "125",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     }
@@ -1402,206 +1490,241 @@
             },
             {
                 "Tag": "Configuration 2",
+                "Index": "254",
                 "Config": [{
                         "Tag": "Number of Temperature Points in the Custom Table",
+                        "Index": "126",
                         "Value": "3",
                         "RangeUpper": "6"
                     },
                     {
                         "Tag": "Number of Concentration Points in the Custom Table",
                         "Value": "3",
+                        "Index": "127",
                         "RangeUpper": "6"
                     }
                 ],
                 "menu": [{
                         "Tag": "Conductivity Point 1",
                         "Value": "0.0",
+                        "Index": "128",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 2",
                         "Value": "10.0",
+                        "Index": "129",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 3",
                         "Value": "20.0",
+                        "Index": "130",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 4",
                         "Value": "50.0",
+                        "Index": "131",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 5",
                         "Value": "60.0",
+                        "Index": "132",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 6",
                         "Value": "70.0",
+                        "Index": "133",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 7",
                         "Value": "1.8",
+                        "Index": "134",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 8",
                         "Value": "1.9",
+                        "Index": "135",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 9",
                         "Value": "0.0",
+                        "Index": "136",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 10",
                         "Value": "10.0",
+                        "Index": "137",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 11",
                         "Value": "20.0",
+                        "Index": "138",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 12",
                         "Value": "50.0",
+                        "Index": "139",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 13",
                         "Value": "60.0",
+                        "Index": "140",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 14",
                         "Value": "70.0",
+                        "Index": "141",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 15",
                         "Value": "1.8",
+                        "Index": "142",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 16",
                         "Value": "1.9",
+                        "Index": "143",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 17",
                         "Value": "2.0",
+                        "Index": "144",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 18",
                         "Value": "2.1",
+                        "Index": "145",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 19",
                         "Value": "2.2",
+                        "Index": "146",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 20",
                         "Value": "2.3",
+                        "Index": "147",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 21",
                         "Value": "1.8",
+                        "Index": "148",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 22",
                         "Value": "1.9",
+                        "Index": "149",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 23",
                         "Value": "0.0",
+                        "Index": "150",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 24",
                         "Value": "10.0",
+                        "Index": "151",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 25",
                         "Value": "20.0",
+                        "Index": "152",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 26",
                         "Value": "50.0",
+                        "Index": "153",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 27",
                         "Value": "60.0",
+                        "Index": "154",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 28",
                         "Value": "70.0",
+                        "Index": "155",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 29",
                         "Value": "1.8",
+                        "Index": "156",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 30",
                         "Value": "1.9",
+                        "Index": "157",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 31",
                         "Value": "2.0",
+                        "Index": "158",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 32",
                         "Value": "2.1",
+                        "Index": "159",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     }
@@ -1609,206 +1732,241 @@
             },
             {
                 "Tag": "Configuration 3",
+                "Index": "160",
                 "Config": [{
                         "Tag": "Number of Temperature Points in the Custom Table",
                         "Value": "3",
+                        "Index": "161",
                         "RangeUpper": "6"
                     },
                     {
                         "Tag": "Number of Concentration Points in the Custom Table",
                         "Value": "3",
+                        "Index": "162",
                         "RangeUpper": "6"
                     }
                 ],
                 "menu": [{
                         "Tag": "Conductivity Point 1",
                         "Value": "0.0",
+                        "Index": "163",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 2",
                         "Value": "10.0",
+                        "Index": "164",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 3",
                         "Value": "20.0",
+                        "Index": "165",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 4",
                         "Value": "50.0",
+                        "Index": "166",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 5",
                         "Value": "60.0",
+                        "Index": "167",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 6",
                         "Value": "70.0",
+                        "Index": "168",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 7",
                         "Value": "1.8",
+                        "Index": "169",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 8",
                         "Value": "1.9",
+                        "Index": "170",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 9",
                         "Value": "0.0",
+                        "Index": "171",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 10",
                         "Value": "10.0",
+                        "Index": "172",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 11",
                         "Value": "20.0",
+                        "Index": "173",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 12",
                         "Value": "50.0",
+                        "Index": "174",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 13",
                         "Value": "60.0",
+                        "Index": "175",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 14",
                         "Value": "70.0",
+                        "Index": "176",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 15",
                         "Value": "1.8",
+                        "Index": "177",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 16",
                         "Value": "1.9",
+                        "Index": "178",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 17",
                         "Value": "2.0",
+                        "Index": "179",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 18",
                         "Value": "2.1",
+                        "Index": "180",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 19",
                         "Value": "2.2",
+                        "Index": "181",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 20",
                         "Value": "2.3",
+                        "Index": "182",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 21",
                         "Value": "1.8",
+                        "Index": "183",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 22",
                         "Value": "1.9",
+                        "Index": "184",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 23",
                         "Value": "0.0",
+                        "Index": "185",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 24",
                         "Value": "10.0",
+                        "Index": "186",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 25",
                         "Value": "20.0",
+                        "Index": "187",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 26",
                         "Value": "50.0",
+                        "Index": "188",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 27",
                         "Value": "60.0",
+                        "Index": "189",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 28",
                         "Value": "70.0",
+                        "Index": "190",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 29",
                         "Value": "1.8",
+                        "Index": "191",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 30",
                         "Value": "1.9",
+                        "Index": "192",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 31",
                         "Value": "2.0",
+                        "Index": "193",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 32",
                         "Value": "2.1",
+                        "Index": "194",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     }
@@ -1816,206 +1974,241 @@
             },
             {
                 "Tag": "Configuration 4",
+                "Index": "195",
                 "Config": [{
                         "Tag": "Number of Temperature Points in the Custom Table",
                         "Value": "3",
+                        "Index": "196",
                         "RangeUpper": "6"
                     },
                     {
                         "Tag": "Number of Concentration Points in the Custom Table",
                         "Value": "3",
+                        "Index": "197",
                         "RangeUpper": "6"
                     }
                 ],
                 "menu": [{
                         "Tag": "Conductivity Point 1",
                         "Value": "0.0",
+                        "Index": "198",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 2",
                         "Value": "10.0",
+                        "Index": "199",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 3",
                         "Value": "20.0",
+                        "Index": "200",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 4",
                         "Value": "50.0",
+                        "Index": "201",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 5",
                         "Value": "60.0",
+                        "Index": "202",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 6",
                         "Value": "70.0",
+                        "Index": "203",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 7",
                         "Value": "1.8",
+                        "Index": "204",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 8",
                         "Value": "1.9",
+                        "Index": "205",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 9",
                         "Value": "0.0",
+                        "Index": "206",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 10",
                         "Value": "10.0",
+                        "Index": "207",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 11",
                         "Value": "20.0",
+                        "Index": "208",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 12",
                         "Value": "50.0",
+                        "Index": "209",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 13",
                         "Value": "60.0",
+                        "Index": "210",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 14",
                         "Value": "70.0",
+                        "Index": "211",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 15",
                         "Value": "1.8",
+                        "Index": "212",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 16",
                         "Value": "1.9",
+                        "Index": "213",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 17",
                         "Value": "2.0",
+                        "Index": "214",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 18",
                         "Value": "2.1",
+                        "Index": "215",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 19",
                         "Value": "2.2",
+                        "Index": "216",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 20",
                         "Value": "2.3",
+                        "Index": "217",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 21",
                         "Value": "1.8",
+                        "Index": "218",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 22",
                         "Value": "1.9",
+                        "Index": "219",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 23",
                         "Value": "0.0",
+                        "Index": "220",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 24",
                         "Value": "10.0",
+                        "Index": "221",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 25",
                         "Value": "20.0",
+                        "Index": "222",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 26",
                         "Value": "50.0",
+                        "Index": "223",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 27",
                         "Value": "60.0",
+                        "Index": "224",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 28",
                         "Value": "70.0",
+                        "Index": "225",
                         "RangeUpper": 130.0,
                         "RangeLower": -10.0
                     },
                     {
                         "Tag": "Conductivity Point 29",
                         "Value": "1.8",
+                        "Index": "226",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 30",
                         "Value": "1.9",
+                        "Index": "227",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 31",
                         "Value": "2.0",
+                        "Index": "228",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     },
                     {
                         "Tag": "Conductivity Point 32",
                         "Value": "2.1",
+                        "Index": "229",
                         "RangeUpper": 5.4,
                         "RangeLower": 0.0
                     }
@@ -2026,9 +2219,11 @@
     {
         "Tag": "Operation Mode IO",
         "Icon": "ios-play-forward-outline",
+        "Index": "230",
         "menu": [{
                 "Tag": "Operation Mode IO 1",
                 "Value": "Off",
+                "Index": "231",
                 "PossibleValues": [{
                         "Tag": "Current Output",
                         "Enum": "0"
@@ -2048,10 +2243,12 @@
                 ],
                 "subMenu": [{
                         "Tag": "Current Output",
+                        "Index": "239",
                         "Enum": "0",
                         "menu": [{
                             "Tag": "Output-Assign",
                             "Value": "Off",
+                            "Index": "240",
                             "PossibleValues": [{
                                     "Tag": "Off",
                                     "Enum": "0"
@@ -2074,9 +2271,11 @@
                     {
                         "Tag": "Switch Output",
                         "Enum": "1",
+                        "Index": "241",
                         "menu": [{
                                 "Tag": "Output Type",
                                 "value": "P-Switching",
+                                "Index": "242",
                                 "PossibleValues": [{
                                         "Tag": "P-Switching",
                                         "Enum": "0"
@@ -2094,6 +2293,7 @@
                             {
                                 "Tag": "Output-Assign",
                                 "Value": "",
+                                "Index": "243",
                                 "PossibleValues": [{
                                         "Tag": "Off",
                                         "Enum": "0"
@@ -2115,6 +2315,7 @@
                             {
                                 "Tag": "Function",
                                 "Value": "Off",
+                                "Index": "244",
                                 "PossibleValues": [{
                                         "Tag": "Alarm",
                                         "Enum": "0"
@@ -2160,6 +2361,7 @@
             {
                 "Tag": "Operation Mode IO 2",
                 "Value": "Off",
+                "Index": "245",
                 "PossibleValues": [{
                         "Tag": "Current Output",
                         "Enum": "0"
@@ -2180,9 +2382,11 @@
                 "subMenu": [{
                         "Tag": "Current Output",
                         "Enum": "0",
+                        "Index": "246",
                         "menu": [{
                             "Tag": "Output-Assign",
                             "Value": "Off",
+                            "Index": "247",
                             "PossibleValues": [{
                                     "Tag": "Off",
                                     "Enum": "0"
@@ -2205,9 +2409,11 @@
                     {
                         "Tag": "Switch Output",
                         "Enum": "1",
+                        "Index": "248",
                         "menu": [{
                                 "Tag": "Output Type",
                                 "value": "P-Switching",
+                                "Index": "248",
                                 "PossibleValues": [{
                                         "Tag": "P-Switching",
                                         "Enum": "0"
@@ -2225,6 +2431,7 @@
                             {
                                 "Tag": "Output-Assign",
                                 "Value": "",
+                                "Index": "249",
                                 "PossibleValues": [{
                                         "Tag": "Off",
                                         "Enum": "0"
@@ -2246,6 +2453,7 @@
                             {
                                 "Tag": "Function",
                                 "Value": "Off",
+                                "Index": "250",
                                 "PossibleValues": [{
                                         "Tag": "Alarm",
                                         "Enum": "0"
@@ -2290,47 +2498,54 @@
             }
         ]
     },
-
     {
         "Tag": "Current Output",
+        "Index": "251",
         "Icon": "md-swap-vertical-sharp",
         "menu": [{
                 "Tag": "Configuration 1",
                 "Access": "R",
+                "Index": "252",
                 "menu": [{
                         "Tag": "Conductivity - 4mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "253",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Conductivity - 20mA Set Point",
                         "Access": "R",
                         "Value": "10",
+                        "Index": "254",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Concentration - 4mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "255",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Concentration - 20mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "256",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Temperature - 4mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "257",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Temperature - 20mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "258",
                         "Limit": "100"
                     }
                 ]
@@ -2338,40 +2553,47 @@
             {
                 "Tag": "Configuration 2",
                 "Access": "R",
+                "Index": "259",
                 "menu": [{
                         "Tag": "Conductivity - 4mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "260",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Conductivity - 20mA Set Point",
                         "Access": "R",
                         "Value": "10",
+                        "Index": "261",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Concentration - 4mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "262",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Concentration - 20mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "263",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Temperature - 4mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "264",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Temperature - 20mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "265",
                         "Limit": "100"
                     }
                 ]
@@ -2379,81 +2601,95 @@
             {
                 "Tag": "Configuration 3",
                 "Access": "R",
+                "Index": "266",
                 "menu": [{
                         "Tag": "Conductivity - 4mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "267",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Conductivity - 20mA Set Point",
                         "Access": "R",
                         "Value": "10",
+                        "Index": "268",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Concentration - 4mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "269",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Concentration - 20mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "270",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Temperature - 4mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "271",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Temperature - 20mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "272",
                         "Limit": "100"
                     }
                 ]
             },
             {
                 "Tag": "Configuration 4",
+                "Index": "273",
                 "Access": "R",
                 "menu": [{
                         "Tag": "Conductivity - 4mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "274",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Conductivity - 20mA Set Point",
                         "Access": "R",
                         "Value": "10",
+                        "Index": "275",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Concentration - 4mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "276",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Concentration - 20mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "277",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Temperature - 4mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "278",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Temperature - 20mA Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "279",
                         "Limit": "100"
                     }
                 ]
@@ -2462,126 +2698,148 @@
     },
     {
         "Tag": "Switch Output",
+        "Index": "280",
         "Icon": "crop-outline",
         "menu": [{
                 "Tag": "Configuration 1",
                 "Access": "R",
+                "Index": "281",
                 "menu": [{
                         "Tag": "Conductivity - ON-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "282",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Conductivity - OFF-Value Set Point",
                         "Access": "R",
                         "Value": "10",
+                        "Index": "283",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Concentration - ON-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "284",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Concentration - OFF-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "285",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Temperature - ON-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "286",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Temperature - OFF-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "287",
                         "Limit": "100"
                     }
                 ]
             },
             {
                 "Tag": "Configuration 2",
+                "Index": "288",
                 "Access": "R",
                 "menu": [{
                         "Tag": "Conductivity - ON-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "289",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Conductivity - OFF-Value Set Point",
                         "Access": "R",
                         "Value": "10",
+                        "Index": "290",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Concentration - ON-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "291",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Concentration - OFF-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "292",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Temperature - ON-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "293",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Temperature - OFF-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "294",
                         "Limit": "100"
                     }
                 ]
             },
             {
                 "Tag": "Configuration 3",
+                "Index": "295",
                 "Access": "R",
                 "menu": [{
                         "Tag": "Conductivity - ON-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "296",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Conductivity - OFF-Value Set Point",
                         "Access": "R",
                         "Value": "10",
+                        "Index": "297",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Concentration - ON-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "298",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Concentration - OFF-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "299",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Temperature - ON-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "300",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Temperature - OFF-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "301",
                         "Limit": "100"
                     }
                 ]
@@ -2589,40 +2847,47 @@
             {
                 "Tag": "Configuration 4",
                 "Access": "R",
+                "Index": "302",
                 "menu": [{
                         "Tag": "Conductivity - ON-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "303",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Conductivity - OFF-Value Set Point",
                         "Access": "R",
                         "Value": "10",
+                        "Index": "304",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Concentration - ON-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "305",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Concentration - OFF-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "306",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Temperature - ON-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "307",
                         "Limit": "100"
                     },
                     {
                         "Tag": "Temperature - OFF-Value Set Point",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "308",
                         "Limit": "100"
                     }
                 ]
@@ -2631,11 +2896,13 @@
     },
     {
         "Tag": "Digital Input",
+        "Index": "309",
         "Icon": "expand-outline",
         "menu": [{
                 "Tag": "Digital Input Status",
                 "Access": "R",
                 "Value": "High",
+                "Index": "310",
                 "PossibleValues": [{
                         "Tag": "D-IN State:High"
                     },
@@ -2648,6 +2915,7 @@
                 "Tag": "Digital Input Function",
                 "Access": "R",
                 "Value": "Configuration Control",
+                "Index": "311",
                 "PossibleValues": [{
                         "Tag": "Configuration Control",
                         "Enum": "0"
@@ -2659,9 +2927,11 @@
                 ],
                 "SubMenu": [{
                     "Tag": "Configuration Control",
+                    "Index": "312",
                     "menu": [{
                             "Tag": "D-IN State:High",
                             "Value": "Configuration 1",
+                            "Index": "313",
                             "PossibleValues": [{
                                     "Tag": "Configuration 1",
                                     "Enum": "0"
@@ -2683,6 +2953,7 @@
                         {
                             "Tag": "D-IN State:Low",
                             "Value": "Configuration 1",
+                            "Index": "314",
                             "PossibleValues": [{
                                     "Tag": "Configuration 1",
                                     "Enum": "0"
@@ -2706,14 +2977,15 @@
             }
         ]
     },
-
     {
         "Tag": "Display",
+        "Index": "315",
         "Icon": "md-easel-outline",
         "menu": [{
             "Tag": "Backlight",
             "Access": "R",
             "Value": "On",
+            "Index": "316",
             "PossibleValues": [{
                     "Tag": "Off"
                 },
@@ -2726,10 +2998,12 @@
     {
         "Tag": "Communication",
         "Icon": "md-radio",
+        "Index": "317",
         "menu": [{
                 "Tag": "Communication Type",
                 "Access": "R",
                 "Value": "Off",
+                "Index": "318",
                 "PossibleValues": [{
                         "Tag": "Off",
                         "Enum": 0
@@ -2747,10 +3021,12 @@
             {
                 "Tag": "Bluetooth",
                 "Access": "R",
+                "Index": "1111",
                 "menu": [{
                         "Tag": "Bluetooth Function",
                         "Access": "R/W",
                         "Value": "On",
+                        "Index": "319",
                         "PossibleValues": [{
                                 "Tag": "Off",
                                 "Enum": 0
@@ -2765,6 +3041,7 @@
                         "Tag": "Bluetooth Tx Power Level",
                         "Access": "R",
                         "Value": "1",
+                        "Index": "320",
                         "PossibleValues": [{
                                 "Tag": "0"
                             },
@@ -2777,6 +3054,7 @@
                         "Tag": "Bluetooth Connection Status",
                         "Access": "R/W",
                         "Value": "On",
+                        "Index": "321",
                         "PossibleValues": [{
                                 "Tag": "Off",
                                 "Enum": 0
@@ -2792,10 +3070,12 @@
             {
                 "Tag": "WiFi",
                 "Access": "R",
+                "Index": "322",
                 "menu": [{
                         "Tag": "WiFi Function",
                         "Access": "R/W",
                         "Value": "On",
+                        "Index": "323",
                         "PossibleValues": [{
                                 "Tag": "Off",
                                 "Enum": "0"
@@ -2810,6 +3090,7 @@
                         "Tag": "WiFi Mode",
                         "Access": "R/W",
                         "Value": "Access Point Mode",
+                        "Index": "324",
                         "PossibleValues": [{
                                 "Tag": "Access Point Mode",
                                 "Enum": 1
@@ -2823,16 +3104,21 @@
                     {
                         "Tag": "SSID",
                         "Access": "R/W",
-                        "Value": "ICT-12345678"
+                        "Value": "ICT-12345678",
+                        "Index": "325"
+
                     },
                     {
                         "Tag": "Password",
-                        "Access": "W"
+                        "Access": "W",
+                        "Index": "326"
+
                     },
                     {
                         "Tag": "Configure IPv4",
                         "Access": "R/W",
                         "Value": "Manual",
+                        "Index": "326",
                         "PossibleValues": [{
                                 "Tag": "Manual",
                                 "Enum": 0
@@ -2846,17 +3132,20 @@
                     {
                         "Tag": "IP Address",
                         "Access": "R/W",
+                        "Index": "327",
                         "Value": "132.152.266"
                     },
                     {
                         "Tag": "Subnet Address",
                         "Access": "R/W",
+                        "Index": "328",
                         "Value": "15"
                     },
                     {
                         "Tag": "Router Adress",
                         "Access": "R/W",
                         "Value": "15",
+                        "Index": "329",
                         "Limit": "100"
                     }
                 ]
@@ -2865,13 +3154,15 @@
     },
     {
         "Tag": "Calibration",
+        "Index": "330",
         "Icon": "cog-outline",
         "menu": [{
                 "Tag": "Conductivity Ranges",
-                "Access": "W",
+                "Index": "331",
                 "menu": [{
                         "Tag": "Conductivtiy : 0 to 2000 mS/cm Mounting Factor",
                         "Value": "15",
+                        "Index": "332",
                         "MaxValue": 0.9,
                         "MinValue": 1.1,
                         "Unit": "µS/cm"
@@ -2879,6 +3170,7 @@
                     {
                         "Tag": "Conductivtiy : 0 to 2000 mS/cm Zero Point",
                         "Value": "15",
+                        "Index": "333",
                         "MaxValue": 100,
                         "MinValue": -100,
                         "Unit": "µS/cm"
@@ -2886,12 +3178,14 @@
                     {
                         "Tag": "Conductivtiy : 0 to 1000 mS/cm Mounting Factor",
                         "Value": "15",
+                        "Index": "334",
                         "MaxValue": 0.9,
                         "MinValue": 1.1
                     },
                     {
                         "Tag": "Conductivtiy : 0 to 1000 mS/cm Zero Point",
                         "Value": "15",
+                        "Index": "335",
                         "MaxValue": 1,
                         "MinValue": -1,
                         "Unit": "mS/cm"
@@ -2899,12 +3193,14 @@
                     {
                         "Tag": "Conductivtiy : 0 to 500 mS/cm Mounting Factor",
                         "Value": "15",
+                        "Index": "336",
                         "MaxValue": 0.9,
                         "MinValue": 1.1
                     },
                     {
                         "Tag": "Conductivtiy : 0 to 500 mS/cm Zero Point",
                         "Value": "15",
+                        "Index": "337",
                         "MaxValue": 10,
                         "MinValue": -10,
                         "Unit": "mS/cm"
@@ -2912,12 +3208,14 @@
                     {
                         "Tag": "Conductivtiy : 0 to 200 mS/cm Mounting Factor",
                         "Value": "15",
+                        "Index": "338",
                         "MaxValue": 0.9,
                         "MinValue": 1.1
                     },
                     {
                         "Tag": "Conductivtiy : 0 to 200 mS/cm Zero Point",
                         "Value": "15",
+                        "Index": "339",
                         "MaxValue": 25,
                         "MinValue": -25,
                         "Unit": "mS/cm"
@@ -2925,12 +3223,14 @@
                     {
                         "Tag": "Conductivtiy : 0 to 20 mS/cm Mounting Factor",
                         "Value": "15",
+                        "Index": "340",
                         "MaxValue": 0.9,
                         "MinValue": 1.1
                     },
                     {
                         "Tag": "Conductivtiy : 0 to 20 mS/cm Zero Point",
                         "Value": "15",
+                        "Index": "341",
                         "MaxValue": 50,
                         "MinValue": -50,
                         "Unit": "mS/cm"
@@ -2938,12 +3238,14 @@
                     {
                         "Tag": "Conductivtiy : 0 to 2000 µS/cm Mounting Factor",
                         "Value": "15",
+                        "Index": "342",
                         "MaxValue": 0.9,
                         "MinValue": 1.1
                     },
                     {
                         "Tag": "Conductivtiy : 0 to 2000 µS/cm Zero Point",
                         "Value": "15",
+                        "Index": "343",
                         "MaxValue": 100,
                         "MinValue": -100,
                         "Unit": "mS/cm"
@@ -2951,32 +3253,47 @@
                 ]
             },
             {
-                "Tag": "Device Auto Calibration"
+                "Tag": "Device Auto Calibration",
+                "Access": "W",
+                "Index": "344"
+
             }
         ]
     },
     {
         "Tag": "System",
         "Icon": "md-hammer-sharp",
+        "Index": "345",
         "menu": [{
                 "Tag": "Set Access Code",
-                "Access": "W"
+                "Access": "W",
+                "Index": "346"
+
             },
             {
                 "Tag": "Access Code",
-                "Access": "W"
+                "Access": "W",
+                "Index": "347"
+
             },
             {
-                "Tag": "Device Restore Factory"
+                "Tag": "Device Restore Factory",
+                "Index": "348"
+
             },
             {
-                "Tag": "Device Auto Calibration"
+                "Tag": "Device Auto Calibration",
+                "Index": "349"
+
             },
             {
-                "Tag": "Wifi Parameters Restore"
+                "Tag": "Wifi Parameters Restore",
+                "Index": "350"
             },
             {
-                "Tag": "Restart"
+                "Tag": "Restart",
+                "Index": "351"
+
             }
         ]
     }
