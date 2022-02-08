@@ -1,4 +1,4 @@
-import React, { useEffect,useContext} from 'react'
+import React, { useEffect, useContext } from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -13,7 +13,27 @@ import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 let peripheralID = '0'
+const activeConfigurationMenu = Paramsfiltered.filter(CondInp => CondInp.Tag === "Setup Menu")[0].menu;
+const activeConfigurationIndex = activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].Index
 
+const ConfigurationBar = ({ config, activeConfig }) => (
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+        <View style={{ justifyContent: 'center', height: 40 }}>
+            <Text style={styles.title}>{config}</Text>
+            {config == activeConfig && <Text style={{ fontSize: 12, color: 'black' }}>{"Active"}</Text>}
+
+        </View>
+        <View style={{ justifyContent: 'center' }}>
+            <Icon
+                name="chevron-forward-outline"
+                size={20}
+                color="#000"
+            />
+        </View>
+    </View>
+
+)
 
 let Output1Params = Paramsfiltered.find(Output1Params => Output1Params.Tag === "Switch Output");
 let MenuParams = Output1Params.menu;
@@ -52,7 +72,9 @@ const ItemValueBar = ({ item, value }) => (
 )
 var filtered = Values.filter(row => row.Tag == 'Switch Output');
 var filteredAT = filtered.filter(row => row.Tag == 'Switch Output');
-function Item(title, value, navigation = null, context = null, parent = null){
+function Item(title, value, navigation = null, context = null, parent = null) {
+    let index = null
+
     console.log("I am in Item")
     switch (title) {
 
@@ -65,29 +87,31 @@ function Item(title, value, navigation = null, context = null, parent = null){
             )
         case 'Configuration 1':
             return (
-                <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Sub',{ Tag: title, name: title, ConfigNum: parent })}>
-                    <ItemBar item={title} />
+                <TouchableOpacity style={title == context[activeConfigurationIndex] ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Switch Sub', { Tag: title, name: title, ConfigNum: parent })}>
+                    <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 1"} />
                 </TouchableOpacity>
             )
         case 'Configuration 2':
             return (
-                <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Sub',{ Tag: title, name: title, ConfigNum: parent })}>
-                    <ItemBar item={title} />
+                <TouchableOpacity style={title == context[activeConfigurationIndex] ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Switch Sub', { Tag: title, name: title, ConfigNum: parent })}>
+                    <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 2"} />
                 </TouchableOpacity>
             )
         case 'Configuration 3':
             return (
-                <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Sub',{ Tag: title, name: title, ConfigNum: parent })}>
-                    <ItemBar item={title} />
+                <TouchableOpacity style={title == context[activeConfigurationIndex] ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Switch Sub', { Tag: title, name: title, ConfigNum: parent })}>
+                    <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 3"} />
                 </TouchableOpacity>
             )
         case 'Configuration 4':
             return (
-                <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Sub',{ Tag: title, name: title, ConfigNum: parent })}>
-                    <ItemBar item={title} />
+                <TouchableOpacity style={title == context[activeConfigurationIndex] ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Switch Sub', { Tag: title, name: title, ConfigNum: parent })}>
+                    <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 4"} />
                 </TouchableOpacity>
             )
         case 'Conductivity - ON-Value Set Point':
+            index = (MenuParams.filter(config => config.Tag == parent)[0].menu).filter(tag => tag.Tag == title)[0].Index
+
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
                     Tag: title,
@@ -95,60 +119,70 @@ function Item(title, value, navigation = null, context = null, parent = null){
                     ConfigNum: parent
                 })}>
 
-<ItemValueBar item={title} value={value} />
+                    <ItemValueBar item={title} value={context[index]} />
                 </TouchableOpacity>
             )
         case 'Conductivity - OFF-Value Set Point':
+            index = (MenuParams.filter(config => config.Tag == parent)[0].menu).filter(tag => tag.Tag == title)[0].Index
+
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
                     Tag: title,
                     name: title,
                     ConfigNum: parent
                 })}>
-                      <ItemValueBar item={title} value={value} />
+                    <ItemValueBar item={title} value={context[index]} />
                 </TouchableOpacity>
             )
 
 
         case 'Concentration - ON-Value Set Point':
+            index = (MenuParams.filter(config => config.Tag == parent)[0].menu).filter(tag => tag.Tag == title)[0].Index
+
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
                     Tag: title,
                     name: title,
                     ConfigNum: parent
                 })}>
-                      <ItemValueBar item={title} value={value} />
+                    <ItemValueBar item={title} value={context[index]} />
                 </TouchableOpacity>
             )
         case 'Concentration - OFF-Value Set Point':
-            return ( 
+            index = (MenuParams.filter(config => config.Tag == parent)[0].menu).filter(tag => tag.Tag == title)[0].Index
+
+            return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
                     Tag: title,
                     name: title,
                     ConfigNum: parent
                 })}>
-                      <ItemValueBar item={title} value={value} />
+                    <ItemValueBar item={title} value={context[index]} />
                 </TouchableOpacity>
             )
 
         case 'Temperature - ON-Value Set Point':
+            index = (MenuParams.filter(config => config.Tag == parent)[0].menu).filter(tag => tag.Tag == title)[0].Index
+
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
                     Tag: title,
                     name: title,
                     ConfigNum: parent
                 })}>
-                      <ItemValueBar item={title} value={value} />
+                    <ItemValueBar item={title} value={context[index]} />
                 </TouchableOpacity>
             )
         case 'Temperature - OFF-Value Set Point':
+            index = (MenuParams.filter(config => config.Tag == parent)[0].menu).filter(tag => tag.Tag == title)[0].Index
+
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switch Output Settings', {
                     Tag: title,
                     name: title,
                     ConfigNum: parent
                 })}>
-                      <ItemValueBar item={title} value={value} />
+                    <ItemValueBar item={title} value={context[index]} />
                 </TouchableOpacity>
             )
         default:
@@ -165,9 +199,9 @@ const renderItem1 = ({ item }) => (
     Item(item.Tag, item.Value)
 );
 
-const SwitchOutputSubScreen = ({route,navigation}) => {
-    const {ConfigNum}= route.params
-    console.log(ConfigNum)
+const SwitchOutputSubScreen = ({ route, navigation }) => {
+    const context = useContext(ContextConfigurationValues);
+    const { ConfigNum } = route.params
     const valSystemUnits = Values.filter(row => row.Tag == 'Switch Output');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Configuration 1');
     const possibleValues = val[0].menu;
@@ -177,21 +211,22 @@ const SwitchOutputSubScreen = ({route,navigation}) => {
         <SafeAreaView style={styles.container}>
             <FlatList
                 data={possibleValues}
-                renderItem={({ item, index, separators }) => (renderItem(item, navigation, "hello", ConfigNum))}
+                renderItem={({ item, index, separators }) => (renderItem(item, navigation, context, ConfigNum))}
                 keyExtractor={item => item.Tag}
             />
         </SafeAreaView>
     );
 };
-const SwitchOutputMainScreen = ({route,navigation}) => {
-  
+const SwitchOutputMainScreen = ({ route, navigation }) => {
+    const context = useContext(ContextConfigurationValues);
+
 
 
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
                 data={MenuParams}
-                renderItem={({ item, index, separators }) => (renderItem(item, navigation, "hello", item.Tag))}
+                renderItem={({ item, index, separators }) => (renderItem(item, navigation, context, item.Tag))}
                 keyExtractor={item => item.Tag}
             />
         </SafeAreaView>
@@ -203,68 +238,15 @@ const SwitchOutputMainScreen = ({route,navigation}) => {
 const SwitchOutputSettingsScreen = ({ route, navigation }) => {
     const context = useContext(ContextConfigurationValues);
     const { Tag } = route.params
-    const {ConfigNum} = route.params
-    console.log("ConfigNum")
+    const { ConfigNum } = route.params
+    const index = (MenuParams.filter(tag => tag.Tag == ConfigNum)[0].menu).filter(tag => tag.Tag == Tag)[0].Index
+    const [text, setText] = React.useState(context[index]);
+    console.log("I am here Current Output")
 
-    console.log(ConfigNum)
-    const filtered = Values.filter(row => row.Tag == 'Switch Output')[0].menu;
-    const filteredSub = filtered.filter(row => row.Tag == 'Configuration 1')[0].menu;
-    const filteredAT = filteredSub.filter(row => row.Tag == Tag);
-    const [text, setText] = React.useState(filteredAT[0].Value);
-    console.log("I am here Switch Output")
-    let hexIndexKey
-    switch (Tag) {
-        case "Conduction Start Value":
-            hexIndexKey = "9D"
-            break;
-        case "Conduction End Value":
-            hexIndexKey = "9E"
-            break;
-        case "Concentration Start Value":
-            hexIndexKey = "9F"
-            break;
-        case "Concentration End Value":
-            hexIndexKey = "A0"
-            break;
-        case "Temperature Start Value":
-            hexIndexKey = "A1"
-            break;
-        case "Temperature End Value":
-            hexIndexKey = "A2"
-            break;
-
-        default:
-            break;
-    }
-    // useEffect(() => {
-    //   navigation.setOptions({ title: Tag })
-    // })
-    //   if (text != filteredAT[0].Value) {
-    //     navigation.setOptions({
-    //       headerRight: () => (
-    //         <TouchableOpacity
-    //           onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
-
-    //         >
-    //           <View style={styles.buttonBar}>
-    //             <Text>Save</Text>
-    //           </View>
-    //         </TouchableOpacity>
-    //       ),
-    //     });
-    //   }
-    //   else {
-    //     navigation.setOptions({
-    //       headerRight: () => (
-    //         <></>
-    //       ),
-    //     });
-    //   }
-    // });
     return (
         <View>
             <TextInput
-                label={"Set " + Tag + " As a Percentage of Full-Scale"}
+                label={"Set " + " As a Percentage of Full-Scale"}
                 value={text}
                 selectionColor='#000'
                 underlineColor='#000'
@@ -277,9 +259,9 @@ const SwitchOutputSettingsScreen = ({ route, navigation }) => {
                 onChangeText={text => setText(text)}
             />
             {/* <LenghtChecker lenght={32} /> */}
-            {text != filteredAT[0].Value &&
+            {text != context[index] &&
                 <Button
-                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${Tag}":"${text}"}}`,context) }}
+                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Switch Output", "Set Parameters": {"${index}":"${text}"}}`, context) }}
                     title="Save"
                     color="#841584"
                 />}
@@ -295,7 +277,6 @@ const SwitchOutputScreen = ({ route, navigation }) => {
     BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
         // Success code
 
-        console.log(JSON.stringify(peripheralsArray[0].id));
         peripheralID = peripheralsArray[0].id
     }).catch(() => {
         console.log("Couldnt Find A peripheral");
@@ -338,8 +319,8 @@ const SwitchOutputScreen = ({ route, navigation }) => {
 
     return (
         <StackSwitchOutput.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-            <StackSwitchOutput.Screen name='Switch Output1' component={SwitchOutputMainScreen}   options={{ headerTitle: "Switch Output Settings" }}/>
-            <StackSwitchOutput.Screen name='Switch Sub' component={SwitchOutputSubScreen} options={({ route }) => ({ headerTitle: route.params.name })}  />
+            <StackSwitchOutput.Screen name='Switch Output1' component={SwitchOutputMainScreen} options={{ headerTitle: "Switch Output Settings" }} />
+            <StackSwitchOutput.Screen name='Switch Sub' component={SwitchOutputSubScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
             <StackSwitchOutput.Screen name='Switch Output Settings' component={SwitchOutputSettingsScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
 
         </StackSwitchOutput.Navigator>
@@ -384,7 +365,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: StyleSheet.hairlineWidth,
         justifyContent: 'center'
     },
-
+    itemActiveConfig: {
+        backgroundColor: '#008000',
+        justifyContent: 'center',
+        padding: 8,
+    },
     buttonBar: {
         alignItems: "center",
         backgroundColor: "#9A348E",

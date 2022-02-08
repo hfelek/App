@@ -12,15 +12,14 @@ import BufferArray from '../../../Navigation/Functions/BufferArray';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
-
+function renderItem(item, navigation = null, context = null, parent) {
+  return (Item(item.Tag, item.Value, navigation, context, parent))
+}
 
 let peripheralID='0'
-let DisplayParams = Paramsfiltered.find(DisplayParams => DisplayParams.Tag === "Display");
+let DisplayParams = Paramsfiltered.filter(DisplayParams => DisplayParams.Tag === "Display")[0];
 let MenuParams = DisplayParams.menu;
 const StackDisplay = createStackNavigator();
-
-var filtered = Values.filter(row => row.Tag == 'Display');
-var filteredAT = filtered.filter(row => row.Tag == 'Backlight');
 
 const ItemValueBar = ({item,value})=>(
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -39,6 +38,25 @@ const ItemValueBar = ({item,value})=>(
   </View>
 </View>
 )
+function Item(title, value, navigation = null, context = null, parent = null) {
+  switch (title) {
+    case 'Backlight':
+      return (
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Backlight', { Tag: title, Value: value })}>
+                    <ItemValueBar item={title} value={context[MenuParams.filter(tag=>tag.Tag==title)[0].Index]} />
+
+        </TouchableOpacity>
+      )
+    default:
+      return (
+        <View style={styles.itemButton}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.value}>{value}</Text>
+        </View>
+
+      )
+  };
+}
 const DisplayScreen = ({ route, navigation }) => {
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
     // Success code
@@ -49,25 +67,7 @@ const DisplayScreen = ({ route, navigation }) => {
     console.log("Couldnt Find A peripheral");
     // expected output: "Success!"
   });
-  function Item(title, value) {
-    switch (title) {
-      case 'Backlight':
-        return (
-          <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Backlight', { Tag: title, Value: value })}>
-                      <ItemValueBar item={title} value={value} />
 
-          </TouchableOpacity>
-        )
-      default:
-        return (
-          <View style={styles.itemButton}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.value}>{value}</Text>
-          </View>
-
-        )
-    };
-  }
 
   const CheckButtoned = (selectedValue, sentValue) => {
     if (selectedValue === sentValue) {
@@ -116,27 +116,28 @@ const DisplayScreen = ({ route, navigation }) => {
 
   
 
-  const DisplayMainScreen = ({ navigation }) => (
-
+  const DisplayMainScreen = ({ navigation }) => {
+    const context = useContext(ContextConfigurationValues);
+    return(
     <SafeAreaView style={styles.container}>
       <FlatList
         data={MenuParams}
-        renderItem={renderItem}
+        renderItem={({ item, index, separators }) => (renderItem(item, navigation, context, item.Tag))}
         keyExtractor={item => item.Tag}
       />
-    </SafeAreaView>
-  )
+    </SafeAreaView>)
+  }
 
   const BacklightScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
+    const context = useContext(ContextConfigurationValues) 
+    const index = MenuParams.filter(tag=> tag.Tag=='Backlight')[0].Index
     const { Value } = route.params;
-    const [text, setText] = React.useState(Value);
+    const [text, setText] = React.useState(context[index]);
 
     //Context Addition
-    const context = useContext(ContextConfigurationValues) 
 
     //
-    let indexValue = (text=='On') ? '0':'1'
     useEffect(() => {
     
     if(text!=Value){
@@ -144,7 +145,7 @@ const DisplayScreen = ({ route, navigation }) => {
         headerRight: () => (
         <TouchableOpacity 
         
-        onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Display", "Set Parameters": {"C3":"${indexValue}"}}`) }}
+        onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Display", "Set Parameters": {${index}:"${text}"}}`) }}
         >
           <View style={styles.buttonBar}>
             <Text>Save</Text>
@@ -178,9 +179,7 @@ const DisplayScreen = ({ route, navigation }) => {
       </View>
     );
   };
-  const renderItem = ({ item }) => (
-    Item(item.Tag, item.Value)
-  );
+
 
   return (
     <StackDisplay.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>

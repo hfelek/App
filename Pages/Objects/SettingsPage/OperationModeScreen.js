@@ -70,13 +70,13 @@ function Item(title, value, navigation = null, context = null, parent = null) {
         case 'Operation Mode IO 1':
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Operation Selection', { Tag: title, name: title, ConfigNum: parent })}>
-        <ItemValueBar item={title} value={value}/>
+        <ItemValueBar item={title} value={context["231"]}/>
                 </TouchableOpacity>
             )
         case 'Operation Mode IO 2':
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Operation Selection', { Tag: title, name: title, ConfigNum: parent })}>
-        <ItemValueBar item={title} value={value}/>
+        <ItemValueBar item={title} value={context["245"]}/>
 
                 </TouchableOpacity>
             )
@@ -126,13 +126,12 @@ const CheckButtoned = (selectedValue, sentValue) => {
 
 
 function OperationScreen({ route, navigation }) {
-    // const { Tag } = route.params;
-
+    const context = useContext(ContextConfigurationValues);
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
                 data={MenuParams}
-                renderItem={({ item, index, separators }) => (renderItem(item, navigation, "hello", item.Tag))}
+                renderItem={({ item, index, separators }) => (renderItem(item, navigation, context, item.Tag))}
                 keyExtractor={item => item.Tag}
                 initialNumToRender={MenuParams.length}
             />
@@ -152,12 +151,14 @@ const OperationSelectionScreen = ({ route, navigation }) => {
 
     const { Tag } = route.params;
     const { ConfigNum } = route.params;
-    console.log(ConfigNum)
-    const Operation = MenuParams.filter(item => item.Tag == ConfigNum)[0]
-    const value = Operation.Value
-    const PossibleValues = Operation.PossibleValues
-    console.log("here")
-
+    const Menu = MenuParams.filter(item => item.Tag == ConfigNum)[0]
+    const PossibleValues = Menu.PossibleValues
+    const indexSelection = Menu.Index
+    const indexSelectionCurrentAssign = ConfigNum== "Operation Mode IO 1" ? "239" :"247"  ///////////Burayı Şimdilik Genel Objeden Çekmeden Yaptım
+    const indexSelectionSwitchOutputType = ConfigNum== "Operation Mode IO 1" ? "242" :"248"  ///////////Burayı Şimdilik Genel Objeden Çekmeden Yaptım
+    const indexSelectionSwitchAssign = ConfigNum== "Operation Mode IO 1" ? "243" :"249"  ///////////Burayı Şimdilik Genel Objeden Çekmeden Yaptım
+    const indexSelectionSwitchFunction = ConfigNum== "Operation Mode IO 1" ? "244" :"250"  ///////////Burayı Şimdilik Genel Objeden Çekmeden Yaptım
+    
     // const currentPossibleValues = Operation.subMenu.filter(item => item.Tag == "Current Output")[0].menu[0].PossibleValues
     // console.log("here1")
     // const switchPossibleValues = Operation.subMenu.filter(item => item.Tag == "Switch Output")[0]
@@ -174,11 +175,18 @@ const OperationSelectionScreen = ({ route, navigation }) => {
     // const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
     // const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
 
-    const [selection, setSelection] = React.useState(value);
-    const [selectionCurrentAssign, setSelectionCurrentAssign] = React.useState(value);
-    const [selectionSwitchOutputType, setSelectionSwitchOutputType] = React.useState("P-Switching")
-    const [selectionSwitchAssign, setSelectionSwitchAssign] = React.useState("Condcutivitity")
-    const [selectionSwitchFunction, setSelectionSwitchFunction] = React.useState("Off")
+    const [selection, setSelection] = React.useState(context[indexSelection]);
+    const [selectionCurrentAssign, setSelectionCurrentAssign] = React.useState(context[indexSelectionCurrentAssign]);
+    const [selectionSwitchOutputType, setSelectionSwitchOutputType] = React.useState(context[indexSelectionSwitchOutputType])
+    const [selectionSwitchAssign, setSelectionSwitchAssign] = React.useState(context[indexSelectionSwitchAssign])
+    const [selectionSwitchFunction, setSelectionSwitchFunction] = React.useState(context[indexSelectionSwitchFunction])
+    console.log(selectionCurrentAssign)
+    console.log(selectionSwitchOutputType)
+
+    console.log(selectionSwitchAssign)
+
+    console.log(selectionSwitchFunction)
+
     // console.log("PossibleValues")
     // console.log(PossibleValues)
 
@@ -188,7 +196,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
     // const picketcurrentPossibleValues = currentPossibleValues.map(possiblevalue => (<Picker.Item label={possiblevalue.Tag} value={possiblevalue.Tag} />))
     // console.log("here3")
 
-    console.log(PossibleValues)
+    // console.log(PossibleValues)
     return (
         <ScrollView style={[styles.container2, { backgroundColor: "#ffffff" }]}>
             <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
@@ -293,7 +301,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                             (true) && /////// Condition For Switch Output
 
                             <Button
-                            onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode", "Set Parameters": {"OM":"${selection}","OA":"${selectionSwitchAssign}","FO":"${selectionSwitchFunction}","OT":"${selectionSwitchOutputType}"}}`, context) }}
+                            onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode", "Set Parameters": {"${indexSelection}":"${selection}","${indexSelectionSwitchAssign}":"${selectionSwitchAssign}","${indexSelectionSwitchFunction}":"${selectionSwitchFunction}","${indexSelectionSwitchOutputType}":"${selectionSwitchOutputType}"}}`, context) }}
                             title="Save"
                             color="#841584"
                             />
@@ -314,7 +322,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                     <View style={[styles.container1, { alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
 
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                            <Text style={[styles.title, {textAlign:'center', borderBottomWidth: 1, borderBottomColor: "black" }]}>{"Output Assign for Current Output"}</Text>
+                            <Text style={[styles.title, {textAlign:'center', borderBottomColor: "black" }]}>{"Output Assign for Current Output"}</Text>
                         </View>
 
                         <View style={styles.pickerText} >
@@ -338,7 +346,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                             (true) && /////// Condition For Current Output
 
                             <Button
-                                onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode", "Set Parameters": {"${ConfigNum}":"${selection}","${ConfigNum}":"${selectionCurrentAssign}"}}`, context) }}
+                                onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode", "Set Parameters": {"${indexSelection}":"${selection}","${indexSelectionCurrentAssign}":"${selectionCurrentAssign}"}}`, context) }}
                                 title="Save"
                                 color="#841584"
                             />

@@ -15,8 +15,6 @@ import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGr
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 
-// import Slider from '@react-native-community/slider';
-//import MultiSlider from 'react-native-multi-slider';
 
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
@@ -25,13 +23,12 @@ const activeConfigurationMenu = Paramsfiltered.filter(SetupMenu => SetupMenu.Tag
 const activeConfigurationIndex =activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].Index
 const activeConfigurationPossibleValues =activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].PossibleValues
 
-let ConductivityParams = Paramsfiltered.find(ConductivityParams => ConductivityParams.Tag === "Conductivity Input");
-let MenuParams = ConductivityParams.menu;
+let TempCoeffParams = Paramsfiltered.find(ConductivityParams => ConductivityParams.Tag === "Temperature Coefficients");
+let MenuParams = TempCoeffParams.menu;
 // let subMenuParams = MenuParams.filter(row => row.Tag == 'Configuration 1')[0].menu;
 const StackConductivity = createStackNavigator();
 
-var filtered = Values.filter(row => row.Tag == 'Conductivity Input');
-var filteredAT = filtered.filter(row => row.Tag == 'Range');
+var filtered = Values.filter(row => row.Tag == 'Temperature Coefficients');
 const ItemBar = ({ item }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
@@ -231,236 +228,15 @@ function ConfigurationNumScreen({ route, navigation }) {
 
 
 
-const RangeScreen = ({ route, navigation }) => {
-  const context = useContext(ContextConfigurationValues);
-  const { Tag } = route.params;
-  const { ConfigNum } = route.params;
-
-  const val = MenuParams.filter(row => row.Tag == ConfigNum)[0];
-  const subval = val.menu.filter(row => row.Tag == Tag)[0];
-  const index = subval.Index
-  const possibleValues = subval.PossibleValues;
-  const [selection, setSelection] = React.useState(context[index]);
-  const renderItemSelectable = ({ item }) => (
-    ItemSelectable(item.Tag)
-  );
-  function ItemSelectable(title) {
-
-    return (
-      <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
-        {CheckButtoned(selection, title)}
-      </TouchableOpacity>
-    )
-  }
-
-  useEffect(() => {
-
-    if (selection !=context[index] ) {
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Conductivity Input","Set Parameters": {"${index}":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) }}>
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
-    }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-  });
-  return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={possibleValues}
-        renderItem={renderItemSelectable}
-        keyExtractor={item => item.Tag}
-        initialNumToRender={possibleValues.lenght}
-
-      />
-    </SafeAreaView>
-  );
-};
-
-
-
-const TemperatureCompensationScreen = ({ route, navigation }) => {
-  const context = useContext(ContextConfigurationValues);
-  const { Tag } = route.params;
-  const { ConfigNum } = route.params;
-  const index = (MenuParams.filter(config=> config.Tag ==ConfigNum)[0].menu).filter(tag=>tag.Tag==Tag)[0].Index
-  const possibleValues = (MenuParams.filter(config=> config.Tag ==ConfigNum)[0].menu).filter(tag=>tag.Tag==Tag)[0].PossibleValues
-  const possibleValLenght = Object.keys(possibleValues).length
-  const [selection, setSelection] = React.useState(context[index]);
-  function ItemSelectable(title) {
-
-    return (
-      <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
-        {CheckButtoned(selection, title)}
-      </TouchableOpacity>
-    )
-  }
-  const renderItemSelectable = ({ item }) => (
-    ItemSelectable(item.Tag)
-  );
-  useEffect(() => {
-
-    if (selection !=context[index] ) {
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Conductivity Input", "Set Parameters": {"${index}":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) }}>
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
-    }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-  });
-  return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={possibleValues}
-        renderItem={renderItemSelectable}
-        keyExtractor={item => item.Tag}
-        initialNumToRender={possibleValLenght}
-      />
-    </SafeAreaView>
-  );
-};
-
-
-
-const ReferenceTemperatureScreen = ({ route, navigation }) => {
-  const context = useContext(ContextConfigurationValues);
-  const { Tag } = route.params;
-  const { ConfigNum } = route.params;
-  const index = (MenuParams.filter(config=> config.Tag ==ConfigNum)[0].menu).filter(tag=>tag.Tag==Tag)[0].Index
-  console.log(index)
-  const val = MenuParams.filter(row => row.Tag == ConfigNum)[0];
-  const subval = val.menu.filter(row => row.Tag == Tag)[0];
-
-  const possibleValues = subval.PossibleValues;
-
-  const [temperatureC, setTemperatureC] = React.useState(context[index]);
-  const limitsC = [possibleValues.filter(row => row.Tag == '°C')[0].RangeLower, possibleValues.filter(row => row.Tag == '°C')[0].RangeUpper]
-  function callBackSlider() {
-
-    if ((temperatureC != context[index])) {
-      // console.log({ temperatureF, initialValF, temperatureC, initialValC })
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${temperatureC}"}}`, context) }}>
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
-    }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-
-  }
-  return (
-
-    <View style={styles.containerSlider}>
-
-      <Slider
-        value={temperatureC}
-        onValueChange={value => setTemperatureC(value[0].toFixed(1))}
-        minimumValue={limitsC[0]}
-        maximumValue={limitsC[1]}
-        onSlidingComplete={() => callBackSlider()}
-      />
-      <Text style={{ fontSize: 25, color: 'black', textAlign: 'center', alignContent: "center" }}> Value : {temperatureC} °C</Text>
-
-
-    </View>
-
-
-
-  );
 
 
 
 
-};
-
-
-const FilterCountConstantScreen = ({ route, navigation }) => {
-  const { Tag } = route.params;
-  const { ConfigNum } = route.params;
-  const index = (MenuParams.filter(config=> config.Tag ==ConfigNum)[0].menu).filter(tag=>tag.Tag==Tag)[0].Index
-  const context = useContext(ContextConfigurationValues);
-
-  const val =MenuParams.filter(row => row.Tag == ConfigNum)[0];
-  const subval = val.menu.filter(row => row.Tag == Tag)[0];
-
-  const possibleValues = subval.PossibleValues;
-  const limitsFFC = [possibleValues.RangeLower, possibleValues.RangeUpper]
-  const [filterCC, setFilterCC] = React.useState(context[index]);
-  function callBackSlider() {
-    // useEffect(() =>{
-    if ((context[index] != filterCC)) {
-
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Conductivity Input", "Set Parameters": {"${index}":"${filterCC}"}}`, context) }}>
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
-    }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-    // });
-
-  }
-  return (
-
-    <View style={styles.containerSlider}>
-
-      <Slider
-        value={filterCC}
-        onValueChange={value => setFilterCC(value[0].toFixed(0))}
-        minimumValue={limitsFFC[0]}
-        maximumValue={limitsFFC[1]}
-        onSlidingComplete={() => callBackSlider()}
-      />
-      <Text style={{ fontSize: 25, color: 'black', textAlign: 'center', alignContent: "center" }}>Value: {filterCC}</Text>
-    </View>
 
 
 
-  );
-};
 
-const ConductivityScreen = ({ route, navigation }) => {
+const TemperatureCoeffScreen = ({ route, navigation }) => {
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
     // Success code
 
@@ -475,10 +251,6 @@ const ConductivityScreen = ({ route, navigation }) => {
   return (
     <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
       <StackConductivity.Screen name='Conductivity Main' component={ConductivityMainScreen} options={{ headerTitle: "Conductivity Input" }} />
-      <StackConductivity.Screen name='Conductivity Range' component={RangeScreen} />
-      <StackConductivity.Screen name='Temperature Compensation' component={TemperatureCompensationScreen} />
-      <StackConductivity.Screen name='Reference Temperature' component={ReferenceTemperatureScreen} />
-      <StackConductivity.Screen name='Filter Time Constant' component={FilterCountConstantScreen} />
       <StackConductivity.Screen name='Configuration' component={ConfigurationNumScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
 
 
@@ -487,7 +259,7 @@ const ConductivityScreen = ({ route, navigation }) => {
   );
 }
 
-export default ConductivityScreen
+export default TemperatureCoeffScreen
 
 const styles = StyleSheet.create({
   container: {

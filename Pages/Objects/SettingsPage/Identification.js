@@ -4,7 +4,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
-import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
 import react from 'react';
 import BleManager from 'react-native-ble-manager';
@@ -13,7 +12,6 @@ import { ContextConfigurationValues } from '../../../App';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { ALERT_TYPE, Dialog, Root, Toast } from 'react-native-alert-notification';
 import KeyValueJSON from '../../KeyNames.json'
-
 const StackIdentification = createStackNavigator();
 
 var filtered;
@@ -22,22 +20,7 @@ var filteredAT;
 
 const IdentificationParams = Paramsfiltered.find(IdentificationParams => IdentificationParams.Tag === "Identification");
 const MenuParams = IdentificationParams.menu;
-const ITEMSINPAGE = {
-  "Application Tag": "18",
-  "Device Name": "12",
-  "Device ID1": "09",
-  "Device ID2": "0A",
-  "Device ID3": "0B",
-  "Vendor Name": "10",
-  "Vendor ID1": "07",
-  "Vendor ID2": "08",
-  "Device Serial No": "15",
-  "Hardware Version": "16",
-  "Firmware Version": "17",
-  "Order Code": "41",
-  "Device Type": "42",
-  "User Role": "43"
-}
+
 let peripheralID = '0'
 const AlertLocal = () => {
   console.log("I am Here")
@@ -81,14 +64,13 @@ const ApplicationTagScreen = () => {
   const contextConfigurationValues = useContext(ContextConfigurationValues)
 
   // React.useEffect(() => {  
-  filtered = Values.filter(row => row.Tag == 'Identification');
-  filteredAT = filtered[0].menu.filter(row => row.Tag == 'Specific Application Tag');
+  filteredAT = MenuParams.filter(row => row.Tag == 'Specific Application Tag')[0];
 
   // },[]);
-  const [text, setText] = React.useState(contextConfigurationValues["18"]);
+  const [text, setText] = React.useState(contextConfigurationValues[filteredAT["Index"]]);
 
   return (
-    <View style={{ paddingLeft:8,paddingTop:10, paddingRight:8,backgroundColor:'white'}} >
+    <View style={{ paddingLeft: 8, paddingTop: 10, paddingRight: 8, backgroundColor: 'white' }} >
       <TextInput
         // label="Set Your Application Tag"
         value={text}
@@ -97,27 +79,27 @@ const ApplicationTagScreen = () => {
         maxLength={32}
         underlineColor='transparent'
         activeUnderlineColor='transparent'
-        style={{ fontSize:14,backgroundColor:'white',borderWidth:1,height:50,borderRadius:20,borderTopLeftRadius:20,borderTopRightRadius:20, textAlign:'center',paddingLeft:35}}
+        style={{ fontSize: 14, backgroundColor: 'white', borderWidth: 1, height: 50, borderRadius: 20, borderTopLeftRadius: 20, borderTopRightRadius: 20, textAlign: 'center', paddingLeft: 35 }}
         error={false}
         right={<TextInput.Icon name="close" size={15} style={{}} onPress={text => setText("")} />}
         onChangeText={text => setText(text)}
-        
+
       />
       {/* <LenghtChecker lenght={32} /> */}
-        <View style={{paddingTop:15,borderRadius:20}}>
+      <View style={{ paddingTop: 15, borderRadius: 20 }}>
         <Button
-          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Identification", "Set Parameters": {"18":"${text}"}}`, contextConfigurationValues) }}
+          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Identification", "Set Parameters": {"${filteredAT["Index"]}":"${text}"}}`, contextConfigurationValues) }}
           title="Save"
           // color="#841584"
-          disabled={contextConfigurationValues["18"] == text}
+          disabled={contextConfigurationValues[filteredAT["Index"]] == text}
 
-          
+
           accessibilityLabel="Learn more about this purple button"
         />
-        </View>
-        <View style={{paddingLeft:3}}>
-        <Text style={{color:'gray'}} >Set Your Application Tag with Maximum of 32 Characters</Text>
-        </View>
+      </View>
+      <View style={{ paddingLeft: 3 }}>
+        <Text style={{ color: 'gray' }} >Set Your Application Tag with Maximum of 32 Characters</Text>
+      </View>
       {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
 
 
@@ -141,13 +123,13 @@ function Item(title, value, navigation = null, context = null) {
     case 'Specific Application Tag':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Application Tag')}>
-          <View style={{ flexDirection: 'row',justifyContent:'space-between' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
             <View>
               <Text style={styles.title}>{title}</Text>
-              <Text style={styles.value}>{value}</Text>
+              <Text style={styles.value}>{context[filteredAT = MenuParams.filter(row => row.Tag == 'Specific Application Tag')[0].Index]}</Text>
             </View>
-            <View style={{justifyContent:'center'}}>
+            <View style={{ justifyContent: 'center' }}>
               <Icon
                 name="chevron-forward-outline"
                 size={20}
@@ -161,7 +143,7 @@ function Item(title, value, navigation = null, context = null) {
       return (
         <View style={styles.itemButton}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{value}</Text>
+          <Text style={styles.value}>{context[filteredAT = MenuParams.filter(row => row.Tag == title)[0].Index]}</Text>
         </View>
 
       )
@@ -203,8 +185,8 @@ const IdentificationScreen = ({ route, navigation }) => {
 
   return (
     <StackIdentification.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-      <StackIdentification.Screen name='Identification Main' component={IdentificationMainScreen} options={{ headerTitle: "Identification",headerStyle:{shadowColor:'black'}}} />
-      <StackIdentification.Screen name='Application Tag' component={ApplicationTagScreen} options={{headerStyle:{borderBottomWidth:1,borderBottomColor:'black'}}} />
+      <StackIdentification.Screen name='Identification Main' component={IdentificationMainScreen} options={{ headerTitle: "Identification", headerStyle: { shadowColor: 'black' } }} />
+      <StackIdentification.Screen name='Application Tag' component={ApplicationTagScreen} options={{ headerStyle: { borderBottomWidth: 1, borderBottomColor: 'black' } }} />
     </StackIdentification.Navigator>
 
   );

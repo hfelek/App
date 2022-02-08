@@ -13,11 +13,31 @@ import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 let peripheralID = '0'
+const activeConfigurationMenu = Paramsfiltered.filter(CondInp => CondInp.Tag === "Setup Menu")[0].menu;
+const activeConfigurationIndex =activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].Index
 
-
-let Output1Params = Paramsfiltered.find(Output1Params => Output1Params.Tag === "Current Output");
+let Output1Params = Paramsfiltered.filter(Output1Params => Output1Params.Tag === "Current Output")[0];
 let MenuParams = Output1Params.menu;
 const StackOutput1 = createStackNavigator();
+const ConfigurationBar = ({ config, activeConfig }) => (
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+  
+      <View style={{ justifyContent: 'center',height:40 }}>
+        <Text style={styles.title}>{config}</Text>
+       { config==activeConfig && <Text style={{fontSize:12,color:'black'}}>{"Active"}</Text>}
+  
+      </View>
+      <View style={{ justifyContent: 'center' }}>
+        <Icon
+          name="chevron-forward-outline"
+          size={20}
+          color="#000"
+        />
+      </View>
+    </View>
+  
+    )
+
 const ItemBar = ({ item }) => (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
@@ -55,6 +75,8 @@ var filtered = Values.filter(row => row.Tag == 'Current Output');
 var filteredAT = filtered.filter(row => row.Tag == 'Switch Output');
 function Item(title, value, navigation = null, context = null, parent = null) {
     console.log("I am in Item")
+    let index= null
+
     switch (title) {
 
         case 'Current Output':
@@ -64,95 +86,108 @@ function Item(title, value, navigation = null, context = null, parent = null) {
                     <Text style={styles.value}>{value}</Text>
                 </TouchableOpacity>
             )
-        case 'Configuration 1':
-            return (
-                <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Cuurent Sub', { Tag: title, name: title, ConfigNum: parent })}>
-                    <ItemBar item={title} />
-                </TouchableOpacity>
-            )
-        case 'Configuration 2':
-            return (
-                <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Cuurent Sub', { Tag: title, name: title, ConfigNum: parent })}>
-                    <ItemBar item={title} />
-
-                </TouchableOpacity>
-            )
-        case 'Configuration 3':
-            return (
-                <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Cuurent Sub', { Tag: title, name: title, ConfigNum: parent })}>
-                    <ItemBar item={title} />
-                </TouchableOpacity>
-            )
-        case 'Configuration 4':
-            return (
-                <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Cuurent Sub', { Tag: title, name: title, ConfigNum: parent })}>
-                <ItemBar item={title} />
-                </TouchableOpacity>
-            )
+            case 'Configuration 1':
+    
+                return (
+                  <TouchableOpacity style={title== context[activeConfigurationIndex] ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Current Sub', { Tag: title,ConfigNum: parent, name: title })}>
+                      <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 1"}/>
+                  </TouchableOpacity>
+                )
+              case 'Configuration 2':
+                return (
+                  <TouchableOpacity style={title==context[activeConfigurationIndex]? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Current Sub',{ Tag: title,ConfigNum: parent, name: title })}>
+                      <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 2"}/>
+                  </TouchableOpacity>
+                )
+              case 'Configuration 3':
+                return (
+                  <TouchableOpacity style={title==context[activeConfigurationIndex]? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Current Sub', { Tag: title,ConfigNum: parent, name: title })}>
+                      <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 3"}/>
+          
+                  </TouchableOpacity>
+                )
+              case 'Configuration 4':
+                return (
+                  <TouchableOpacity style={title==context[activeConfigurationIndex]? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Current Sub', { Tag: title,ConfigNum: parent, name: title })}>
+                      <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 4"}/>
+                  </TouchableOpacity>
+                )
         case 'Conductivity - 4mA Set Point':
+            index = (MenuParams.filter(config=> config.Tag ==parent)[0].menu).filter(tag=>tag.Tag==title)[0].Index
+ 
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
                     Tag: title,
                     name: title,
                     ConfigNum: parent
                 })}>
-                      <ItemValueBar item={title} value={value} />
+                      <ItemValueBar item={title} value={context[index]} />
 
                 </TouchableOpacity>
             )
         case 'Conductivity - 20mA Set Point':
+            index = (MenuParams.filter(config=> config.Tag ==parent)[0].menu).filter(tag=>tag.Tag==title)[0].Index
+
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
                     Tag: title,
                     name: title,
                     ConfigNum: parent
                 })}>
-                      <ItemValueBar item={title} value={value} />
+                      <ItemValueBar item={title} value={context[index]} />
 
                 </TouchableOpacity>
             )
 
 
         case 'Concentration - 4mA Set Point':
+            index = (MenuParams.filter(config=> config.Tag ==parent)[0].menu).filter(tag=>tag.Tag==title)[0].Index
+
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
                     Tag: title,
                     name: title,
                     ConfigNum: parent
                 })}>
-                      <ItemValueBar item={title} value={value} />
+                      <ItemValueBar item={title} value={context[index]} />
 
                 </TouchableOpacity>
             )
         case 'Concentration - 20mA Set Point':
+            index = (MenuParams.filter(config=> config.Tag ==parent)[0].menu).filter(tag=>tag.Tag==title)[0].Index
+
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
                     Tag: title,
                     name: title,
                     ConfigNum: parent
                 })}>
-                      <ItemValueBar item={title} value={value} />
+                      <ItemValueBar item={title} value={context[index]} />
                 </TouchableOpacity>
             )
 
         case 'Temperature - 4mA Set Point':
+            index = (MenuParams.filter(config=> config.Tag ==parent)[0].menu).filter(tag=>tag.Tag==title)[0].Index
+
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
                     Tag: title,
                     name: title,
                     ConfigNum: parent
                 })}>
-                      <ItemValueBar item={title} value={value} />
+                      <ItemValueBar item={title} value={context[index]} />
                 </TouchableOpacity>
             )
         case 'Temperature - 20mA Set Point':
+            index = (MenuParams.filter(config=> config.Tag ==parent)[0].menu).filter(tag=>tag.Tag==title)[0].Index
+
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Current Output Settings', {
                     Tag: title,
                     name: title,
                     ConfigNum: parent
                 })}>
-                      <ItemValueBar item={title} value={value} />
+                      <ItemValueBar item={title} value={context[index]} />
                 </TouchableOpacity>
             )
         default:
@@ -170,8 +205,10 @@ const renderItem1 = ({ item }) => (
 );
 
 const CurrentOutputSubScreen = ({ route, navigation }) => {
+   console.log("I am im 1")
     const { ConfigNum } = route.params
     console.log(ConfigNum)
+    const context = useContext(ContextConfigurationValues);
     const valSystemUnits = Values.filter(row => row.Tag == 'Current Output');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Configuration 1');
     const possibleValues = val[0].menu;
@@ -181,21 +218,19 @@ const CurrentOutputSubScreen = ({ route, navigation }) => {
         <SafeAreaView style={styles.container}>
             <FlatList
                 data={possibleValues}
-                renderItem={({ item, index, separators }) => (renderItem(item, navigation, "hello", ConfigNum))}
+                renderItem={({ item, index, separators }) => (renderItem(item, navigation, context , ConfigNum))}
                 keyExtractor={item => item.Tag}
             />
         </SafeAreaView>
     );
 };
 const CurrentOutputMainScreen = ({ route, navigation }) => {
-
-
-
+    const context = useContext(ContextConfigurationValues);
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
                 data={MenuParams}
-                renderItem={({ item, index, separators }) => (renderItem(item, navigation, "hello", item.Tag))}
+                renderItem={({ item, index, separators }) => (renderItem(item, navigation, context, item.Tag))}
                 keyExtractor={item => item.Tag}
             />
         </SafeAreaView>
@@ -208,67 +243,15 @@ const CurrentOutputSettingsScreen = ({ route, navigation }) => {
     const context = useContext(ContextConfigurationValues);
     const { Tag } = route.params
     const { ConfigNum } = route.params
-    console.log("ConfigNum")
-
-    console.log(ConfigNum)
-    const filtered = Values.filter(row => row.Tag == 'Current Output')[0].menu;
-    const filteredSub = filtered.filter(row => row.Tag == 'Configuration 1')[0].menu;
-    const filteredAT = filteredSub.filter(row => row.Tag == Tag);
-    const [text, setText] = React.useState(filteredAT[0].Value);
+    const index = (MenuParams.filter(tag => tag.Tag == ConfigNum)[0].menu).filter(tag => tag.Tag == Tag)[0].Index
+    const [text, setText] = React.useState(context[index]);
     console.log("I am here Current Output")
-    let hexIndexKey
-    switch (Tag) {
-        case "Conduction Start Value":
-            hexIndexKey = "9D"
-            break;
-        case "Conduction End Value":
-            hexIndexKey = "9E"
-            break;
-        case "Concentration Start Value":
-            hexIndexKey = "9F"
-            break;
-        case "Concentration End Value":
-            hexIndexKey = "A0"
-            break;
-        case "Temperature Start Value":
-            hexIndexKey = "A1"
-            break;
-        case "Temperature End Value":
-            hexIndexKey = "A2"
-            break;
+    
 
-        default:
-            break;
-    }
-    // useEffect(() => {
-    //   navigation.setOptions({ title: Tag })
-    // })
-    //   if (text != filteredAT[0].Value) {
-    //     navigation.setOptions({
-    //       headerRight: () => (
-    //         <TouchableOpacity
-    //           onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", BufferArray(`{'Tag':'Output1', 'Set Parameters': {${hexIndexKey}:'${text}'}}`)) }}
-
-    //         >
-    //           <View style={styles.buttonBar}>
-    //             <Text>Save</Text>
-    //           </View>
-    //         </TouchableOpacity>
-    //       ),
-    //     });
-    //   }
-    //   else {
-    //     navigation.setOptions({
-    //       headerRight: () => (
-    //         <></>
-    //       ),
-    //     });
-    //   }
-    // });
     return (
         <View>
             <TextInput
-                label={"Set " + Tag + " As a Percentage of Full-Scale"}
+                label={"Set " + " as a Percentage of Full-Scale"}
                 value={text}
                 selectionColor='#000'
                 underlineColor='#000'
@@ -281,9 +264,9 @@ const CurrentOutputSettingsScreen = ({ route, navigation }) => {
                 onChangeText={text => setText(text)}
             />
             {/* <LenghtChecker lenght={32} /> */}
-            {text != filteredAT[0].Value &&
+            {text != context[index] &&
                 <Button
-                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${Tag}":"${text}"}}`, context) }}
+                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${index}":"${text}"}}`, context) }}
                     title="Save"
                     color="#841584"
                 />}
@@ -306,35 +289,6 @@ const CurrentOutputScreen = ({ route, navigation }) => {
         // expected output: "Success!"
     });
 
-    // const CheckButtoned = (selectedValue, sentValue) => {
-    //     console.log("I am in checkbuttoned")
-    //     if (selectedValue === sentValue) {
-    //         return (
-
-    //             <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-    //                 <Text>{sentValue}</Text>
-    //                 <Icon
-    //                     name="checkmark-outline"
-    //                     size={20}
-    //                     color="#f54"
-    //                 />
-    //             </View>
-    //         )
-    //     }
-    //     else {
-    //         return (
-    //             <View style={{ flexDirection: "row" }}>
-    //                 <Text>{sentValue}</Text>
-    //             </View>
-    //         )
-    //     }
-    // }
-
-
-    /// Bu Case Functionı Sonrasında Daha Basit Bir Yapıya Çevrilecek
-
-    // console.log(JSON.stringify(Output1Params));
-    // console.log(JSON.stringify(MenuParams));
 
 
 
@@ -343,7 +297,7 @@ const CurrentOutputScreen = ({ route, navigation }) => {
     return (
         <StackOutput1.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
             <StackOutput1.Screen name='Current Output1' component={CurrentOutputMainScreen} options={{ headerTitle: "Current Output Settings" }} />
-            <StackOutput1.Screen name='Cuurent Sub' component={CurrentOutputSubScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
+            <StackOutput1.Screen name='Current Sub' component={CurrentOutputSubScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
             <StackOutput1.Screen name='Current Output Settings' component={CurrentOutputSettingsScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
 
         </StackOutput1.Navigator>
@@ -388,7 +342,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: StyleSheet.hairlineWidth,
         justifyContent: 'center'
     },
-
+    itemActiveConfig: {
+        backgroundColor: '#008000',
+        justifyContent: 'center',
+        padding: 8,
+      },
     buttonBar: {
         alignItems: "center",
         backgroundColor: "#9A348E",

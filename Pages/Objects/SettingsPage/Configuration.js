@@ -20,12 +20,10 @@ const renderItem = ({ item, navigation, context = null }) => (
 
 
 let peripheralID = '0'
-let ConfigurationParams = Paramsfiltered.find(ConfigurationParams => ConfigurationParams.Tag === "Setup Menu");
-let MenuParams = ConfigurationParams.menu;
+const ConfigurationParams = Paramsfiltered.filter(ConfigurationParams => ConfigurationParams.Tag === "Setup Menu")[0];
+const MenuParams = ConfigurationParams.menu;
 const StackConfiguration = createStackNavigator();
 
-var filtered = Values.filter(row => row.Tag == 'Setup Menu');
-var filteredAT = filtered.filter(row => row.Tag == 'Active Configuration');
 const CheckButtoned = (selectedValue, sentValue) => {
   if (selectedValue === sentValue) {
     return (
@@ -90,7 +88,8 @@ const ItemValueBar = ({item,value})=>(
 )
 const ReferenceTemperatureScreen = ({ route, navigation }) => {
   const context = useContext(ContextConfigurationValues)
-  const [selection, setSelection] = React.useState("°C");
+  const index=MenuParams.filter(row => row.Tag == "Reference Temperature")[0].Index
+  const [selection, setSelection] = React.useState(context[index]);
 
   const renderItemSelectable = ({ item }) => (
     ItemSelectable(item.Tag)
@@ -107,7 +106,7 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
     if (selection != "°C") {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Setup Menu", "Set Parameters": {"102":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Setup Menu", "Set Parameters": {${index}:"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -140,14 +139,14 @@ function Item(title, value, navigation = null, context = null) {
     case 'Active Configuration':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Active Configuration', { Tag: title, Value: value })}>
-        <ItemValueBar item={title} value={value}/>
+        <ItemValueBar item={title} value={context[MenuParams.filter(row => row.Tag == title)[0].Index]}/>
 
         </TouchableOpacity>
       )
     case 'Reference Temperature':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Reference Temperature', { Tag: title, Value: value })}>
-        <ItemValueBar item={title} value={value}/>
+        <ItemValueBar item={title} value={context[MenuParams.filter(row => row.Tag == title)[0].Index]}/>
         </TouchableOpacity>
       )
     default:
@@ -177,11 +176,10 @@ const ChangedButton = (initialValue, newValue, navigation) => {
 const ActiveConfigurationScreen = ({ route, navigation }) => {
   const context = useContext(ContextConfigurationValues)
   const { Tag } = route.params
-  const valSystemUnits = Values.filter(row => row.Tag == 'Setup Menu')[0].menu;
-  const val = valSystemUnits.filter(row => row.Tag == Tag)[0];
-  const possibleValues = val.PossibleValues;
-  const index = "101"
-  const [selection, setSelection] = React.useState(val.Value); // Buraya Initital Value Gelecek
+
+  const possibleValues = MenuParams.filter(row => row.Tag == Tag)[0]["PossibleValues"]
+  const index = MenuParams.filter(row => row.Tag == Tag)[0]["Index"]
+  const [selection, setSelection] = React.useState(context[index]); // Buraya Initital Value Gelecek
 
   let hexIndex
   switch (selection) {
@@ -214,7 +212,7 @@ const ActiveConfigurationScreen = ({ route, navigation }) => {
   );
   useEffect(() => {
 
-    if (selection != val.Value) {
+    if (selection != context[index]) {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity

@@ -20,9 +20,10 @@ const SwitchComponents = ["Simulation Process Variable"]
 const ReadableComponents = ["Last Diagnostics", "Actual Diagnostics"]
 const objKeyValueMap = { "Simulation Process Variable Value Conductivity": "53", "Simulation Process Variable Value Concentration": "54", "Simulation Process Variable Value Temperature": "55", "Simulation Process Variable": "52", "Actual Diagnostics": "50", "Last Diagnostics": "51" }
 const enumObj = { "1": "Enabled", "0": "Disabled" }
+const renderItem = ({ item, navigation, context = null }) => (
+  Item(item.Tag, item.Value, navigation, context = context)
+);
 
-var filtered;
-var filteredAT;
 const itemKeyObject = { "Actual Diagnostics": "50", "Last Diagnostics": "51" }
 const ItemBar = ({ item }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -115,7 +116,7 @@ function Item(title, value, navigation, context = context) {
   if (TextComponents.includes(title)) {
     return (
       <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Simulation Process Variable', { Tag: title, Value: value, name: title })}>
-        <ItemValueBar item={title} value={context[objKeyValueMap[title]]} />
+        <ItemValueBar item={title} value={context[MenuParams.filter(row => row.Tag == title)[0].Index]}/>
 
       </TouchableOpacity>)
 
@@ -125,7 +126,7 @@ function Item(title, value, navigation, context = context) {
     return (
       <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switchable Components', { Tag: title, Value: value, SwitchableValues: switchValues, name: title })}>
  
-              <ItemValueBar item={title} value={enumObj[context[objKeyValueMap[title]]]} />
+              <ItemValueBar item={title} value={context[MenuParams.filter(row => row.Tag == title)[0].Index]} />
 
       </TouchableOpacity>
       )
@@ -136,7 +137,7 @@ function Item(title, value, navigation, context = context) {
       <View style={styles.item}>
 
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.value}>{context[objKeyValueMap[title]]}</Text>
+        <Text style={styles.value}> {context[MenuParams.filter(row => row.Tag == title)[0].Index]} </Text>
       </View>
 
     )
@@ -148,29 +149,28 @@ function Item(title, value, navigation, context = context) {
 }
 const SimulationProcessVariableScreen = ({ route, navigation }) => {
   const context = useContext(ContextConfigurationValues)
-  const objKeyWritableMap = { "Simulation Process Variable Value Conductivity": "53", "Simulation Process Variable Value Concentration": "54", "Simulation Process Variable Value Temperature": "55" }
+  // const objKeyWritableMap = { "Simulation Process Variable Value Conductivity": "53", "Simulation Process Variable Value Concentration": "54", "Simulation Process Variable Value Temperature": "55" }
 
   const { Tag } = route.params;
-  const Value = context[objKeyWritableMap[Tag]];
 
-  let HexIndex = 0
-  switch (Tag) {
-    case "Simulation Process Variable Value Conductivity":
-      HexIndex = '53'
-      break;
-    case "Simulation Process Variable Value Concentration":
-      HexIndex = '54'
-      break;
-    case "Simulation Process Variable Value Temperature":
-      HexIndex = '55'
-      break;
-    default:
-    // code block
-  }
+  // let HexIndex = 0
+  // switch (Tag) {
+  //   case "Simulation Process Variable Value Conductivity":
+  //     HexIndex = '53'
+  //     break;
+  //   case "Simulation Process Variable Value Concentration":
+  //     HexIndex = '54'
+  //     break;
+  //   case "Simulation Process Variable Value Temperature":
+  //     HexIndex = '55'
+  //     break;
+  //   default:
+  //   // code block
+  // }
 
-  filtered = Values.filter(row => row.Tag == 'Diagnostics');
-  filteredAT = filtered[0].menu.filter(row => row.Tag == Tag);
-  const [text, setText] = React.useState(Value);
+  const filteredAT =MenuParams.filter(row => row.Tag == Tag)[0];
+  const index = filteredAT.Index;
+  const [text, setText] = React.useState(context[index]);
   return (
 
 
@@ -190,9 +190,9 @@ const SimulationProcessVariableScreen = ({ route, navigation }) => {
       />
       {/* <Text>Text Here. Lenght --{'>'} {32} </Text>  */}
       {/* <Text>Enter a unique name for the measuring point to identify the device within the plant. Lenght --{'>'} {lenght} </Text>  */}
-      {text != Value &&
+      {text != context[index] &&
         <Button
-          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Diagnostics", "Set Parameters": {"${HexIndex}":"${text}"}}`, context) }}
+          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Diagnostics", "Set Parameters": {"${index}":"${text}"}}`, context) }}
           title="Save"
           color="#841584"
           accessibilityLabel="Save Configuration"
@@ -211,17 +211,14 @@ const SimulationProcessVariableScreen = ({ route, navigation }) => {
 
 
 const SwitchVariableScreen = ({ route, navigation }) => {
-  const context = useContext(ContextConfigurationValues)
   const { Tag } = route.params;
-  const { Value } = enumObj[context[objKeyValueMap[Tag]]];
-
-
-
-  const { SwitchableValues } = route.params;
-  const [text, setText] = React.useState(enumObj[context[objKeyValueMap[Tag]]]);
-  console.log(enumObj[context[objKeyValueMap[Tag]]])
-  console.log(context[objKeyValueMap[Tag]])
-  console.log(text)
+console.log(Tag)
+  const context = useContext(ContextConfigurationValues)
+  const filteredAT =MenuParams.filter(row => row.Tag == Tag)[0];
+  const SwitchableValues = filteredAT.PossibleValues;
+  console.log(SwitchableValues)
+  const index = filteredAT.Index;
+  const [text, setText] = React.useState(context[index]);
 
   const renderItemSelectable = ({ item }) => {
     return (
@@ -235,7 +232,7 @@ const SwitchVariableScreen = ({ route, navigation }) => {
     if (text != enumObj[context[objKeyValueMap[Tag]]]) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Diagnostics", "Set Parameters": {"52":"${SwitchableValues.filter(row => row.Tag == text)[0].Enum}"}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Diagnostics", "Set Parameters": {"${index}":"${SwitchableValues.filter(row => row.Tag == text)[0].Enum}"}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -263,8 +260,19 @@ const SwitchVariableScreen = ({ route, navigation }) => {
     </View>
   );
 };
+const DiagnosticsMainScreen = ({route,navigation }) => {
+const context = useContext(ContextConfigurationValues)
+
+return(
+  <SafeAreaView style={styles.container}>
+    <FlatList
+      data={MenuParams}
+      renderItem={({ item, index, separators }) => (renderItem({ item, navigation, context }))}
+      keyExtractor={item => item.Tag}
+    />
+  </SafeAreaView>)
+}
 const DiagnosticsScreen = ({ route, navigation }) => {
-  console.log("In diagnostics Screen")
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
     // Success code
 
@@ -275,17 +283,7 @@ const DiagnosticsScreen = ({ route, navigation }) => {
     // expected output: "Success!"
   });
   const context = useContext(ContextConfigurationValues)
-  console.log(context)
-  const DiagnosticsMainScreen = ({ navigation }) => (
 
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={MenuParams}
-        renderItem={renderItem}
-        keyExtractor={item => item.Tag}
-      />
-    </SafeAreaView>
-  )
 
 
   //---------------------------------------------------------------
@@ -296,10 +294,7 @@ const DiagnosticsScreen = ({ route, navigation }) => {
 
   // ------------------------------------------
 
-  const renderItem = ({ item }) => (
-    Item(item.Tag, item.Value, navigation, context)
 
-  )
 
   return (
     <StackDiagnostics.Navigator initialRouteName='Diagnostics Main' screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>

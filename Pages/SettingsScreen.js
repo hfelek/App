@@ -40,7 +40,7 @@ import CurrentOutputScreen from './Objects/SettingsPage/CurrentOutputScreen'
 import SwitchOutputScreeen from './Objects/SettingsPage/SwitchOutputScreen'
 import DigitalInputScreen from './Objects/SettingsPage/DigitalInputScreen'
 import CalibrationScreen from './Objects/SettingsPage/CalibrationScreen'
-
+import TemperatureCoeffScreen from './Objects/SettingsPage/TemperatureCoefficientsScreen'
 let peripheralID = null
 
 
@@ -113,6 +113,7 @@ console.log("I am here Settings Screen")
         <StackSettings.Screen name='Setup Menu' component={ConfigurationScreen} />
         <StackSettings.Screen name='Diagnostics' component={DiagnosticsScreen} />
         <StackSettings.Screen name='Temperature Coefficient Non-Linear' component={TemperatureCoeffNonLinearScreen} />
+        <StackSettings.Screen name='Temperature Coefficients' component={TemperatureCoeffScreen} />
         <StackSettings.Screen name='Temperature Coefficient Linear' component={TemperatureCoeffLinearScreen} />
         <StackSettings.Screen name='Temperature Coefficient Custom' component={TemperatureCoeffCustomScreen} />
         <StackSettings.Screen name='Operation Mode IO' component={OperationModeScreen} />

@@ -18,25 +18,25 @@
                 "Tag": "Product Text",
                 "Access": "R",
                 "Value": "ICT-200",
-                "Index": "5"
+                "Index": "4"
             },
             {
                 "Tag": "Specific Application Tag",
                 "Access": "R",
                 "Value": "10",
-                "Index": "6"
+                "Index": "5"
             },
             {
                 "Tag": "Hardware Revision",
                 "Access": "R",
                 "Value": "10",
-                "Index": "7"
+                "Index": "6"
             },
             {
                 "Tag": "Firmware Revision",
                 "Access": "R",
                 "Value": "10",
-                "Index": "8"
+                "Index": "7"
             }
         ]
     },
@@ -105,7 +105,7 @@
                 "Access": "R/W",
                 "Value": "Enabled",
                 "Index": "15",
-                "Possible Values": [{
+                "PossibleValues": [{
                         "Tag": "Enabled",
                         "Enum": 1
                     },
@@ -131,7 +131,7 @@
                 "Tag": "Simulation Process Variable Value Temperature",
                 "Access": "R",
                 "Value": "10",
-                "Index": "17"
+                "Index": "18"
             }
         ]
     },
@@ -844,6 +844,22 @@
                         }
                     }
                 ]
+            }
+        ]
+    }, {
+        "Tag": "Temperature Coefficients",
+        "Icon": "analytics",
+        "menu": [{
+                "Tag": "Configuration 1"
+            },
+            {
+                "Tag": "Configuration 2"
+            },
+            {
+                "Tag": "Configuration 3"
+            },
+            {
+                "Tag": "Configuration 4"
             }
         ]
     },
@@ -3158,7 +3174,7 @@
         "Icon": "cog-outline",
         "menu": [{
                 "Tag": "Conductivity Ranges",
-                "Index": "331",
+                "Index": "3311",
                 "menu": [{
                         "Tag": "Conductivtiy : 0 to 2000 mS/cm Mounting Factor",
                         "Value": "15",

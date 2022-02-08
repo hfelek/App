@@ -15,43 +15,48 @@ import BufferArray from '../../../Navigation/Functions/BufferArray';
 const Buffer = require('buffer/').Buffer;
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { sub } from 'react-native-reanimated';
+
 const renderItem = ({ item, navigation, context = null }) => (
-  Item(item.Tag, item.Value, navigation, context = context)
+  Item(item.Tag, item.Value, navigation, context)
 );
 const renderItem1 = ({ item }) => (
   Item(item.Tag)
 );
+
 const WiFiFunctionEnums = { "WiFi Fucntion": "CC", "WiFi Mode": "CD", "SSID": "CE", "Password": "CF", "IP Adress": "D1", "Subnet Adress": "D2", "Router Adress": "D3", "Configure IPv4": "D0" }
+
+
 const ItemBar = ({ item }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-      <View style={{ height: 40, justifyContent: 'center' }}>
-          <Text style={styles.title}>{item}</Text>
-      </View>
-      <View style={{ justifyContent: 'center' }}>
-          <Icon
-              name="chevron-forward-outline"
-              size={20}
-              color="#000"
-          />
-      </View>
+    <View style={{ height: 40, justifyContent: 'center' }}>
+      <Text style={styles.title}>{item}</Text>
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
   </View>
 )
 const ItemValueBar = ({ item, value }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-      <View style={{ justifyContent: 'center' }}>
-          <Text style={styles.title}>{item}</Text>
-          <Text style={styles.value}>{value}</Text>
+    <View style={{ justifyContent: 'center' }}>
+      <Text style={styles.title}>{item}</Text>
+      <Text style={styles.value}>{value}</Text>
 
-      </View>
-      <View style={{ justifyContent: 'center' }}>
-          <Icon
-              name="chevron-forward-outline"
-              size={20}
-              color="#000"
-          />
-      </View>
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
   </View>
 )
 
@@ -87,17 +92,13 @@ const CheckButtoned = (selectedValue, sentValue) => {
 }
 
 const CommunicationTypeScreen = ({ route, navigation }) => {
-  const contextConfigurationValues = useContext(ContextConfigurationValues)
-
-  const Enum = { "0": "Off", "1": "Bluetooth", "2": "WiFi" }
-  const { Tag } = route.params;
-  const { HexIndex } = route.params;
-  console.log("I am Here As weLL")
-  const valSystemUnits = Values.filter(row => row.Tag == "Communication")[0].menu;
-  const val = valSystemUnits.filter(row => row.Tag == 'Communication Type');
+  const context = useContext(ContextConfigurationValues)
+  // const { HexIndex } = route.params;
+  const val = MenuParams.filter(row => row.Tag == 'Communication Type');
   const possibleValues = val[0].PossibleValues;
-  const [selection, setSelection] = React.useState(Enum[contextConfigurationValues["C8"]]);
-  var myBuffer = [];
+  const index = val[0].Index;
+
+  const [selection, setSelection] = React.useState(context[index]);
 
 
 
@@ -110,6 +111,7 @@ const CommunicationTypeScreen = ({ route, navigation }) => {
       </TouchableOpacity>
     )
   }
+
   const renderItemSelectable = ({ item }) => (
     ItemSelectable(item.Tag, item.Value)
   );
@@ -117,11 +119,11 @@ const CommunicationTypeScreen = ({ route, navigation }) => {
 
 
   useEffect(() => {
-    if (selection != Enum[contextConfigurationValues["C8"]]) {
+    if (selection != context[index]) {
       navigation.setOptions({
         headerRight: () => (
           // Burada Peripheral ID ve UUIDler daha object oriented yapılacak.
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${HexIndex}":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, contextConfigurationValues) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${selection}"}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -178,6 +180,8 @@ const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value
   console.log("In Button Function")
   ///If anything else is to be done, it will be done here!
 }
+
+
 const HandleWriteCommandGroup = (peripheralId, serviceUUID, characteristicUUID, value, context, maxbytesize = 512) => {
 
   BleManager.write(peripheralId, serviceUUID, characteristicUUID, BufferArray(value), maxbytesize).then(() => {
@@ -201,14 +205,14 @@ const HandleWriteCommandGroup = (peripheralId, serviceUUID, characteristicUUID, 
   console.log("In Button Function")
   ///If anything else is to be done, it will be done here!
 }
+
 let peripheralID = '0'
 
-let CommunicationParams = Paramsfiltered.find(CommunicationParams => CommunicationParams.Tag === "Communication");
+let CommunicationParams = Paramsfiltered.filter(CommunicationParams => CommunicationParams.Tag === "Communication")[0];
 let MenuParams = CommunicationParams.menu;
 const StackCommunication = createStackNavigator();
 
-var filtered;
-var filteredAT;
+
 function Item(title, value, navigation = null, context = null) {
   let val
   // const navigation1 =useNavigation()
@@ -216,45 +220,35 @@ function Item(title, value, navigation = null, context = null) {
     case 'Bluetooth':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => { navigation.navigate('Bluetooth') }}>
-<ItemBar item={title} />
+          <ItemBar item={title} />
         </TouchableOpacity>
       )
     case 'WiFi':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi')}>
-<ItemBar item={title} />
+          <ItemBar item={title} />
 
         </TouchableOpacity>
       )
     case 'Communication Type':
-      if(context["C8"]=="0"){
-        val="Off"
-      }else if  
-       (context["C8"]=="1"){
-        val="Bluetooth"
-      }
-      else if  
-       (context["C8"]=="2"){
-        val="WiFi"
-      }
+
 
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Communication Type', { Tag: title, HexIndex: "C8" })}>
-          <ItemValueBar item={title} value={val}/>
+          <ItemValueBar item={title} value={context["318"]} />
         </TouchableOpacity>
       )
     case 'Bluetooth Function':
-      val = context["C9"] == "0" ? "Off" : "On"
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Bluetooth Function', { Tag: title, HexIndex: "C9" })}>
-          <ItemValueBar item={title} value={val}/>
+          <ItemValueBar item={title} value={context["319"]} />
         </TouchableOpacity>
       )
     case 'Bluetooth Tx Power Level':
       return (
         <View style={styles.itemButton} >
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{context["CA"]}</Text>
+          <Text style={styles.value}>{context["320"]}</Text>
         </View>
       )
     case 'Bluetooth Connection Status':
@@ -262,60 +256,59 @@ function Item(title, value, navigation = null, context = null) {
       return (
         <View style={styles.itemButton} >
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{context["CB"]}</Text>
+          <Text style={styles.value}>{context["321"]}</Text>
         </View>
       )
     case 'WiFi Function':
-      val = context["CC"] == "0" ? "Off" : "On"
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title, HexIndex: "CC", name: title })}>
-          <ItemValueBar item={title} value={val}/>
+          <ItemValueBar item={title} value={context["323"]} />
         </TouchableOpacity>
       )
     case 'WiFi Mode':
-      val = context["CD"] == "0" ? "Station Mode" : "Access Point Mode"
-
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title, HexIndex: "CD", name: title })}>
-          <ItemValueBar item={title} value={val}/>
+          <ItemValueBar item={title} value={context["324"]} />
         </TouchableOpacity>
       )
     case 'SSID':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('SSID Screen', { Tag: title, HexIndex: "CE" })}>
-          <ItemValueBar item={title} value={context["CE"]}/>
+          <ItemValueBar item={title} value={context["325"]} />
         </TouchableOpacity>
       )
     case 'Password':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Password Screen', { Tag: title, HexIndex: "CF" })}>
-          <ItemBar item={title}/>
+          <ItemBar item={title} />
         </TouchableOpacity>
       )
     case 'Configure IPv4':
-      val = context["D0"] == "0" ? "Manual" : "DHCP"
 
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configure IPv4', { Tag: title, HexIndex: "D0", name: title })}>
-          <ItemValueBar item={title} value={val}/>
+          <ItemValueBar item={title} value={context["326"]} />
         </TouchableOpacity>
       )
     case 'IP Address':
       return (
-        <View style={styles.itemButton} >
-          <ItemValueBar item={title} value={context["D1"]}/>
+        <View style={styles.itemButton}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.value}>{context["327"]}</Text>
         </View>
       )
     case 'Router Adress':
       return (
-        <View style={styles.itemButton} >
-          <ItemValueBar item={title} value={context["D3"]}/>
+        <View style={styles.itemButton}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.value}>{context["328"]}</Text>
         </View>
       )
     case 'Subnet Address':
       return (
         <View style={styles.itemButton}>
-          <ItemValueBar item={title} value={context["D2"]}/>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.value}>{context["329"]}</Text>
         </View>
       )
 
@@ -366,6 +359,8 @@ function IPHANDLER(IP) {
 function dec2bin(dec) {
   return (dec >>> 0).toString(2);
 }
+
+
 function inverter(num) {
   if (num == 0) {
     return 255
@@ -374,6 +369,7 @@ function inverter(num) {
     return (~num)
   }
 }
+
 function IPCOMPARATOR(ip, subnet, router) {
 
 
@@ -448,7 +444,7 @@ const IPScreen = ({ route, navigation }) => {
   const context = useContext(ContextConfigurationValues)
 
   const { Tag } = route.params;
-  const { HexIndex } = route.params;
+  // const { HexIndex } = route.params;
   //  useEffect(() => {
   //   navigation.setOptions({ title: Tag })
   // });
@@ -494,17 +490,15 @@ const IPScreen = ({ route, navigation }) => {
   );
 };
 const BluetoothFunctionScreen = ({ route, navigation }) => {
-  const enumBleFunc = { "0": "Off", "1": "On" }
-
   const { Tag } = route.params;
-  const { HexIndex } = route.params;
-  const valSystemUnits = Values.filter(row => row.Tag == 'Communication')[0];
-  const subTitle = valSystemUnits.menu.filter(row => row.Tag == "Bluetooth")[0];
+  const subTitle = MenuParams.filter(row => row.Tag == "Bluetooth")[0];
   const val = subTitle.menu.filter(row => row.Tag == Tag);
+  const index = val[0].Index;
+
   const possibleValues = val[0].PossibleValues;
   const context = useContext(ContextConfigurationValues)
 
-  const [selection, setSelection] = React.useState(enumBleFunc[context[HexIndex]]);
+  const [selection, setSelection] = React.useState(context[index]);
   function ItemSelectable(title) {
 
     return (
@@ -518,10 +512,10 @@ const BluetoothFunctionScreen = ({ route, navigation }) => {
   );
   useEffect(() => {
 
-    if (selection != enumBleFunc[context[HexIndex]]) {
+    if (selection != context[index]) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${HexIndex}":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${selection}"}}`, context) }}>
 
             <View style={styles.buttonBar}>
               <Text>Save</Text>
@@ -550,26 +544,22 @@ const BluetoothFunctionScreen = ({ route, navigation }) => {
 };
 const IPV4 = ({ route, navigation }) => {
   const { Tag } = route.params;
-  const { HexIndex } = route.params;
-
-  const enumWifi = { "0": "Manual", "1": "DHCP" }
-
-
-
-
   const context = useContext(ContextConfigurationValues)
-  const [IPAdress, setIPAdress] = React.useState(context["D1"]);
-  const [subnetAdress, setSubnetAdress] = React.useState(context["D2"]);
-  const [routerAdress, setRouterAdress] = React.useState(context["D3"]);
 
-  // useEffect(() => {
-  //   navigation.setOptions({ title: Tag })
-  // });
-  const valSystemUnits = Values.filter(row => row.Tag == 'Communication')[0];
-  const subTitle = valSystemUnits.menu.filter(row => row.Tag == "WiFi")[0];
+
+  const subTitle = MenuParams.filter(row => row.Tag == "WiFi")[0];
   const val = subTitle.menu.filter(row => row.Tag == Tag);
   const possibleValues = val[0].PossibleValues;
-  const [selection, setSelection] = React.useState(enumWifi[context[HexIndex]]);
+  const index = val[0].Index;
+
+  const indexIP = subTitle.menu.filter(row => row.Tag == "IP Adress")[0].Index;
+  const indexSubnet = subTitle.menu.filter(row => row.Tag == "Subnet Adress")[0].Index;
+  const indexRouter = subTitle.menu.filter(row => row.Tag == "Router Adress")[0].Index;
+
+  const [IPAdress, setIPAdress] = React.useState(context[indexIP]);
+  const [subnetAdress, setSubnetAdress] = React.useState(context[indexSubnet]);
+  const [routerAdress, setRouterAdress] = React.useState(context[indexRouter]);
+  const [selection, setSelection] = React.useState(context[index]);
   function ItemSelectable(title) {
 
     return (
@@ -583,12 +573,12 @@ const IPV4 = ({ route, navigation }) => {
   );
   useEffect(() => {
 
-    if ((selection =="DHCP") && ("Manual"==enumWifi[context[HexIndex]])) {
+    if ((selection == "DHCP") && ("Manual" ==context[index])) {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
             onPress={() => {
-                      HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${HexIndex}":"1"}}`, context)
+              HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"DHCP"}}`, context)
             }
             }>
             <View style={styles.buttonBar}>
@@ -598,18 +588,22 @@ const IPV4 = ({ route, navigation }) => {
         ),
       });
     }
-    else if ((selection =="Manual") && ((IPAdress!=context["D1"])||(subnetAdress!=context["D2"])||(routerAdress!=context["D3"]))) {
+    else if ((selection == "Manual") && ((IPAdress != context[indexIP]) || (subnetAdress != context[indexSubnet]) || (routerAdress != context[indexRouter]))) {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
             onPress={() => {
-                      if(IPHANDLER(IPAdress)){
-                      if(IPHANDLER(subnetAdress)){
-                      if(IPHANDLER(routerAdress)){
-                      if(IPCOMPARATOR(IPAdress,subnetAdress,routerAdress)){
+              if (IPHANDLER(IPAdress)) {
+                if (IPHANDLER(subnetAdress)) {
+                  if (IPHANDLER(routerAdress)) {
+                    if (IPCOMPARATOR(IPAdress, subnetAdress, routerAdress)) {
 
-                      HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters":{"D1":"${IPAdress}","D2":"${subnetAdress}","D3":"${routerAdress}","D0":"0"}}`, context)
-            }}}}}
+                      HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters":{"${indexIP}":"${IPAdress}","${indexSubnet}":"${subnetAdress}","${indexRouter}":"${routerAdress}","${index}":"Manual"}}`, context)
+                    }
+                  }
+                }
+              }
+            }
             }>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
@@ -628,11 +622,6 @@ const IPV4 = ({ route, navigation }) => {
   });
   return (
     <ScrollView style={styles.containerIPv4}>
-      {/* <FlatList
-        data={possibleValues}
-        renderItem={renderItemSelectable}
-        keyExtractor={item => item.Tag}
-      /> */}
       <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection("Manual") }}>
         {CheckButtoned(selection, "Manual")}
       </TouchableOpacity>
@@ -641,7 +630,7 @@ const IPV4 = ({ route, navigation }) => {
       </TouchableOpacity>
       {selection == "Manual" && (
         <ScrollView style={{ paddingTop: 15, backgroundColor: "#ffffff" }}>
-          <Text style={styles.myText}>Configure Your Connection IPs Manually</Text>
+          <Text style={styles.myText}>Configure IP Adresses Manually</Text>
           <TextInput
             label={"Set Your  WiFi " + "Static IP Adress"}
             value={IPAdress}
@@ -700,35 +689,20 @@ const IPV4 = ({ route, navigation }) => {
   );
 };
 const WiFiFunctionScreen = ({ route, navigation }) => {
-  let enumWifi
   const { Tag } = route.params;
-  console.log(Tag)
-  const { HexIndex } = route.params;
-  switch (HexIndex) {
-    case "CC":
-      enumWifi = { "0": "Off", "1": "On" }
-      break;
-    case "CD":
-      enumWifi = { "1": "Access Point Mode", "0": "Station Mode" }
-      break;
-    case "D0":
-      enumWifi = { "0": "Manual", "1": "DHCP" }
-      break;
-    default:
-    // code block
-  }
+  // const { HexIndex } = route.params;
+
 
 
   const context = useContext(ContextConfigurationValues)
 
-  // useEffect(() => {
-  //   navigation.setOptions({ title: Tag })
-  // });
   const valSystemUnits = Values.filter(row => row.Tag == 'Communication')[0];
   const subTitle = valSystemUnits.menu.filter(row => row.Tag == "WiFi")[0];
-  const val = subTitle.menu.filter(row => row.Tag == Tag);
-  const possibleValues = val[0].PossibleValues;
-  const [selection, setSelection] = React.useState(enumWifi[context[HexIndex]]);
+  const val = subTitle.menu.filter(row => row.Tag == Tag)[0];
+  const index = val.Index 
+
+  const possibleValues = val.PossibleValues;
+  const [selection, setSelection] = React.useState(context[index]);
   function ItemSelectable(title) {
 
     return (
@@ -742,10 +716,12 @@ const WiFiFunctionScreen = ({ route, navigation }) => {
   );
   useEffect(() => {
 
-    if (selection != enumWifi[context[HexIndex]]) {
+    if (selection != context[index]) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${HexIndex}":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) }}>
+          // <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) }}>
+                     <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${selection}"}}`, context) }}>
+
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -776,9 +752,7 @@ const BluetoothScreen = ({ navigation }) => {
   const valSystemUnits = Values.filter(row => row.Tag == 'Communication');
   const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Bluetooth');
   const possibleValues = val[0].menu;
-  const [selection, setSelection] = React.useState(val[0].Value);
-  //console.log(possibleValues)
-  //console.log(typeof (possibleValues))
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -792,15 +766,18 @@ const BluetoothScreen = ({ navigation }) => {
 const SSIDScreen = ({ route, navigation }) => {
   const context = useContext(ContextConfigurationValues)
   const { Tag } = route.params;
-  const { HexIndex } = route.params;
+  // const { HexIndex } = route.params;
   //  useEffect(() => {
   //   navigation.setOptions({ title: Tag })
   // });
   const filtered = Values.filter(row => row.Tag == 'Communication');
   const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
+
   const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
+  const index = filteredAT.filter(row => row.Tag == Tag)[0].Index;
+
   const initialText = filteredATSub;
-  const [text, setText] = React.useState(context["CE"]);
+  const [text, setText] = React.useState(context[index]);
 
 
   return (
@@ -817,9 +794,9 @@ const SSIDScreen = ({ route, navigation }) => {
         onChangeText={text => setText(text)}
       />
       {/* <LenghtChecker lenght={32} /> */}
-      {context["CE"] != text &&
+      {context[index] != text &&
         <Button
-          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${HexIndex}":"${text}"}}`, context) }}
+          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${text}"}}`, context) }}
           title="Save"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
@@ -832,25 +809,25 @@ const SSIDScreen = ({ route, navigation }) => {
 };
 const CommunicationMainScreen = ({ navigation }) => {
   const context = useContext(ContextConfigurationValues)
-  return(
-  <SafeAreaView style={styles.container}>
-    <FlatList
-      data={MenuParams}
-      renderItem={({ item, index, separators }) => (renderItem({ item, navigation,context }))}
-      keyExtractor={item => item.Tag}
-    />
-  </SafeAreaView>)
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={MenuParams}
+        renderItem={({ item, index, separators }) => (renderItem({ item, navigation, context }))}
+        keyExtractor={item => item.Tag}
+      />
+    </SafeAreaView>)
 }
 const PasswordScreen = ({ route, navigation }) => {
   const context = useContext(ContextConfigurationValues)
   const { Tag } = route.params;
-  const { HexIndex } = route.params;
+  // const { HexIndex } = route.params;
   // useEffect(() => {
   //   navigation.setOptions({ title: Tag })
   // });
-  // const filtered = Values.filter(row => row.Tag == 'Communication');
-  // const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
-  // const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
+  const filtered = Values.filter(row => row.Tag == 'Communication');
+  const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
+  const index = filteredAT.filter(row => row.Tag == Tag)[0].Index;
 
   const [text, setText] = React.useState("");
 
@@ -874,7 +851,7 @@ const PasswordScreen = ({ route, navigation }) => {
       {/* <LenghtChecker lenght={32} /> */}
       {text.length > 8 &&
         <Button
-          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${HexIndex}":"${text}"}}`,context) }} title="Save"
+          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${text}"}}`, context) }} title="Save"
           title="Save"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
@@ -886,11 +863,31 @@ const PasswordScreen = ({ route, navigation }) => {
   );
 };
 
+const WifiScreen = ({ navigation }) => {
+  const context = useContext(ContextConfigurationValues)
+  // const navigation= useNavigation()
+
+  const valSystemUnits = Values.filter(row => row.Tag == 'Communication');
+  const val = valSystemUnits[0].menu.filter(row => row.Tag == 'WiFi');
+  const possibleValues = val[0].menu;
+  const [selection, setSelection] = React.useState(val[0].Value);
+  // console.log(possibleValues)
+  // console.log(typeof (possibleValues))
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={possibleValues}
+        renderItem={({ item, index, separators }) => (renderItem({ item, navigation, context }))}
+        keyExtractor={item => item.Tag}
+      />
+    </SafeAreaView>
+  );
+};
+
 const CommunicationScreen = ({ route, navigation }) => {
 
 
   const contextConfigurationValues = useContext(ContextConfigurationValues)
-  console.log("IAM HERE")
 
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
 
@@ -908,62 +905,7 @@ const CommunicationScreen = ({ route, navigation }) => {
 
 
 
-  // console.log(JSON.stringify(CommunicationParams));
-  // console.log(JSON.stringify(MenuParams))
 
-
-
-
-  // const BluetoothSettingsScreen = ({ route, navigation }) => {
-  //   const { Tag } = route.params;
-  //   const { HexIndex } = route.params;
-  //   // useEffect(() => {
-  //   //   navigation.setOptions({ title: Tag })
-  //   // });
-  //   return (
-  //     <Text>{Tag}</Text>)
-  // };
-  // const WiFiSettingsScreen = ({ route, navigation }) => {
-  //   const { Tag } = route.params;
-  //   const { HexIndex } = route.params;
-  //   //  useEffect(() => {
-  //   //   navigation.setOptions({ title: Tag })
-  //   // });
-  //   return (
-  //     <Text>{Tag}</Text>)
-  // };
-
-
-  // function IPParse(Ip){
-
-
-  // }
-
-
-
-
-
-
-  const WifiScreen = ({ navigation }) => {
-    const context = useContext(ContextConfigurationValues)
-    // const navigation= useNavigation()
-
-    const valSystemUnits = Values.filter(row => row.Tag == 'Communication');
-    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'WiFi');
-    const possibleValues = val[0].menu;
-    const [selection, setSelection] = React.useState(val[0].Value);
-    // console.log(possibleValues)
-    // console.log(typeof (possibleValues))
-    return (
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          data={possibleValues}
-          renderItem={({ item, index, separators }) => (renderItem({ item, navigation, context }))}
-          keyExtractor={item => item.Tag}
-        />
-      </SafeAreaView>
-    );
-  };
 
 
   return (

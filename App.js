@@ -1,5 +1,4 @@
 import * as React from 'react';
-;
 import { NavigationContainer,getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ConnectionScreen from './Pages/ConnectionScreen.js';
@@ -18,7 +17,7 @@ import {
   Modal,
   TouchableHighlight, Platform, TextInput, FlatList, StatusBar,
 } from 'react-native';
-import ConfigurationValuesInitialState from "./Pages/ESP32New.json"
+import ConfigurationValuesInitialState from "./Pages/Objects/SettingsPage/IOLINKISDU.json"
 import SensorValuesInitialState from "./Pages/ICTSensorValues.json"
 import ActionBarImage from './Src/EliarIconImage.js';
 import BleManager from 'react-native-ble-manager';

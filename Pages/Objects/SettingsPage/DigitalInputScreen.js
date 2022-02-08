@@ -13,12 +13,11 @@ import { Picker } from '@react-native-picker/picker';
 import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
-let ConcentrationParams = Paramsfiltered.find(ConcentrationParams => ConcentrationParams.Tag === "Digital Input");
-let MenuParams = ConcentrationParams.menu;
 const StackDigitalInput = createStackNavigator();
 
-var filtered = Values.filter(row => row.Tag == 'Digital Input');
-var filteredAT = filtered.filter(row => row.Tag == 'Digital Input Function');
+var filtered = Values.filter(row => row.Tag == 'Digital Input')[0];
+var MenuParams = filtered.menu;
+
 function renderItem(item, navigation = null, context = null, parent) {
     return (Item(item.Tag, item.Value, navigation, context, parent))
 }
@@ -78,6 +77,14 @@ function Item(title, value, navigation = null, context = null, parent = null) {
                 </TouchableOpacity>
             )
 
+        case 'Digital Input Status':
+                return (
+                    <View style={styles.itemButton}>
+                    <Text style={styles.title}>{title}</Text>
+                    <Text style={styles.value}>{context[MenuParams.filter(tag=> tag.Tag =="Digital Input Function")[0].Index]}</Text>
+                  </View>
+                )
+    
         default:
             return (
                 <View style={styles.item}>
@@ -89,21 +96,25 @@ function Item(title, value, navigation = null, context = null, parent = null) {
     };
 }
 
-const DigitalInputMainScreen = ({ navigation }) => (
-
+const DigitalInputMainScreen = ({ navigation }) => {
+    const context = useContext(ContextConfigurationValues);
+    return(
     <SafeAreaView style={styles.container}>
         <FlatList
             data={MenuParams}
-            renderItem={({ item, index, separators }) => (renderItem(item, navigation, "hello", item.Tag))}
+            renderItem={({ item, index, separators }) => (renderItem(item, navigation,context, item.Tag))}
             keyExtractor={item => item.Tag}
         />
-    </SafeAreaView>
-)
+    </SafeAreaView>)
+}
+
 const DigitalInputFunctionScreen = ({ route, navigation }) => {
     const context = useContext(ContextConfigurationValues);
-    const valSystemUnits = Values.filter(row => row.Tag == 'Digital Input');
-    const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Digital Input Function');
+    const val = MenuParams.filter(row => row.Tag == 'Digital Input Function');
     const possibleValues = val[0].PossibleValues;
+    const indexSelection = val[0].Index
+    const indexSelectionDINHIGH="313" /////////Burası Genel Objeden Çekilmiyior Şuanda
+    const indexSelectionDINLOW="314"
     const [selection, setSelection] = React.useState(""); /////Digital InPut Function Selection
     const [selectionDINHIGH, setSelectionDINHIGH] = React.useState("Configuration 1");
     const [selectionLOW, setSelectionLOW] = React.useState("Configuration 1");
@@ -180,7 +191,7 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
                         </View>
  
                             <Button
-                                onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Digital Input", "Set Parameters": {"OM":"${selection}","High":"${selectionDINHIGH}","Low":"${selectionLOW}"}}`, context) }}
+                                onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Digital Input", "Set Parameters": {"${indexSelection}":"${selection}","${indexSelectionDINHIGH}":"${selectionDINHIGH}","${indexSelectionDINLOW}":"${selectionLOW}"}}`, context) }}
                                 title="Save"
                                 color="#841584"
                             />
@@ -192,7 +203,7 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
 
                 )
 
-                //   Current Output Seçiliyken Renderlanacak
+                //   Status Control Seçiliyken Renderlanacak
                             }
             {
                               
