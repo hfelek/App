@@ -56,14 +56,13 @@ const ItemValueBar = ({ item, value }) => (
   </View>
 )
 
-let SystemParams = Paramsfiltered.find(
+const SystemParams = Paramsfiltered.find(
   SystemParams => SystemParams.Tag === 'System',
 );
-let MenuParams = SystemParams.menu;
+const MenuParams = SystemParams.menu;
 const StackSystem = createStackNavigator();
 
-var filtered;
-var filteredAT;
+
 const createTwoButtonAlert = (title, msg,object,hexValue,context) =>
 Alert.alert(title, msg, [
   {
@@ -71,12 +70,12 @@ Alert.alert(title, msg, [
     onPress: () => console.log(object+ "cancelled"),
     style: 'cancel',
   },
-  { text: 'Yes', onPress: () => functionWriteBle('DB',`'${hexValue}'`,context) },
+  { text: 'Yes', onPress: () => functionWriteBle(MenuParams.filter(key => key.Tag == object)[0].Index,`"${hexValue}"`,context) },
 ]);
-
-
 function functionWriteBle(indexKey,indexValue,context) {
-  HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"System", "Set Parameters": {"${indexKey}":"${indexValue}"}}`,context)
+  console.log(`{"Tag":"System", "Set Parameters":{"${indexKey}":"${indexValue}"}}`)
+  HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"System", "Set Parameters": {"${indexKey}" : "${indexValue}"}}`,context)
+
 }
 function SystemMainScreen({ navigation }) {
   const context = useContext(ContextConfigurationValues);
@@ -178,7 +177,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             'Alert',
             'Are you sure to start Auto Calibration?',
             title,
-            '2',
+            '1',
             context
           )}>
 <ItemBar item={title}/>
@@ -202,20 +201,6 @@ function Item(title, value, navigation = null, context = null, parent = null) {
         </TouchableOpacity>
       );
       break;
-    // case 'Parameters Restore':
-    //   return (
-    //     <TouchableOpacity
-    //       style={styles.itemButton}
-    //       onPress={() => createTwoButtonAlert(
-    //         'Alert',
-    //         'Are you sure to restore parameters?',
-    //         title
-    //       )}>
-    //       <Text style={styles.title}>{title}</Text>
-    //       <Text style={styles.value}>{value}</Text>
-    //     </TouchableOpacity>
-    //   );
-    //   break;
     case 'Wifi Parameters Restore':
       return (
         <TouchableOpacity
@@ -224,7 +209,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             'Alert',
             'Are you sure to restore WiFi parameters?',
             title,
-            '3',
+            '1',
             context
           )}>
 <ItemBar item={title}/>
@@ -240,7 +225,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             'Alert',
             'Are you sure to restart the device?',
             title,
-            '4',
+            '1',
             context
           )}>
 <ItemBar item={title}/>
@@ -254,9 +239,9 @@ function Item(title, value, navigation = null, context = null, parent = null) {
 
 const WriteScreen = ({ route, navigation }) => {
   const context = useContext(ContextConfigurationValues);
-
   const { Tag } = route.params;
   const { Value } = route.params;
+  const index = MenuParams.find(key => key.Tag == Tag).Index
   const [text, setText] = React.useState('');
   // useEffect(() => {
 
@@ -284,7 +269,7 @@ const WriteScreen = ({ route, navigation }) => {
       {/* <LenghtChecker lenght={32} /> */}
 
       <Button
-        onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Calibration", "Set Parameters": {"123":"${text}"}}`,context) }}
+        onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Calibration", "Set Parameters": {"${index}":"${text}"}}`,context) }}
 
         title="Save"
         color="#841584"
@@ -299,21 +284,7 @@ function renderItem(item, navigation = null, context = null, parent) {
   return (Item(item.Tag, item.Value, navigation, context, parent))
 }
 
-const DeviceResetScreen = () => {
-  console.log("here in main screeeeeeeeeeeeeeeeeen")
-  const valSystemUnits = Values.filter(row => row.Tag == 'System');
-  const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Device Reset');
-  const possibleValues = val[0].PossibleValues;
-  return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={possibleValues}
-        renderItem={renderItem}
-        keyExtractor={item => item.Tag}
-      />
-    </SafeAreaView>
-  );
-};
+
 
 const SystemScreen = ({ route, navigation }) => {
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
@@ -329,31 +300,6 @@ const SystemScreen = ({ route, navigation }) => {
 
 
 
-
-
-
-
-
-
-
-
-  // console.log(JSON.stringify(SystemParams));
-  // console.log(JSON.stringify(MenuParams))
-
-  // const SystemMainScreen = ({ navigation }) => (
-  //   <SafeAreaView style={styles.container}>
-  //     <FlatList
-  //       data={MenuParams}
-  //       renderItem={renderItem}
-  //       keyExtractor={item => item.Tag}
-  //     />
-  //   </SafeAreaView>
-  // );
-
-
-
-
-
   return (
     <StackSystem.Navigator
       screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
@@ -363,7 +309,6 @@ const SystemScreen = ({ route, navigation }) => {
         options={{ headerTitle: 'System' }}
       />
       <StackSystem.Screen name="Write Screen" component={WriteScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
-      <StackSystem.Screen name="Device Reset" component={DeviceResetScreen} />
     </StackSystem.Navigator>
   );
 };

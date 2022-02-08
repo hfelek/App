@@ -14,15 +14,30 @@ import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGr
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import { ScrollView } from 'react-native-gesture-handler';
 
-const renderItem = ({ item, navigation, context = null }) => (
-  Item(item.Tag, item.Value, navigation, context = context)
-);
-
 
 let peripheralID = '0'
 const ConfigurationParams = Paramsfiltered.filter(ConfigurationParams => ConfigurationParams.Tag === "Setup Menu")[0];
 const MenuParams = ConfigurationParams.menu;
 const StackConfiguration = createStackNavigator();
+const possibleValuesActConfig = MenuParams.filter(row => row.Tag == "Active Configuration")[0].PossibleValues
+const possibleValuesRefTemp = MenuParams.filter(row => row.Tag == "Reference Temperature")[0].PossibleValues
+
+
+
+
+
+
+
+
+
+
+
+
+const renderItem = ({ item, navigation, context = null }) => (
+  Item(item.Tag, item.Value, navigation, context = context)
+);
+
+
 
 const CheckButtoned = (selectedValue, sentValue) => {
   if (selectedValue === sentValue) {
@@ -86,67 +101,68 @@ const ItemValueBar = ({item,value})=>(
   </View>
 </View>
 )
-const ReferenceTemperatureScreen = ({ route, navigation }) => {
-  const context = useContext(ContextConfigurationValues)
-  const index=MenuParams.filter(row => row.Tag == "Reference Temperature")[0].Index
-  const [selection, setSelection] = React.useState(context[index]);
+// const ReferenceTemperatureScreen = ({ route, navigation }) => {
+//   const context = useContext(ContextConfigurationValues)
+//   const index=MenuParams.filter(row => row.Tag == "Reference Temperature")[0].Index
+//   const possibleValues = MenuParams.filter(row => row.Tag == "Reference Temperature")[0].PossibleValues
+//   const [selection, setSelection] = React.useState(possibleValuesRefTemp.filter(key=> key.Enum==context[index])[0].Tag);
 
-  const renderItemSelectable = ({ item }) => (
-    ItemSelectable(item.Tag)
-  );
-  function ItemSelectable(title) {
+//   const renderItemSelectable = ({ item }) => (
+//     ItemSelectable(item.Tag)
+//   );
+//   function ItemSelectable(title) {
 
-    return (
-      <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
-        {CheckButtoned(selection, title)}
-      </TouchableOpacity>
-    )
-  }
-  React.useEffect(() => {
-    if (selection != "°C") {
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Setup Menu", "Set Parameters": {${index}:"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) }}>
-            <View style={styles.buttonBar}>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
-        ),
-      });
-    }
-    else {
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-  })
+//     return (
+//       <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
+//         {CheckButtoned(selection, title)}
+//       </TouchableOpacity>
+//     )
+//   }
+//   React.useEffect(() => {
+//     if (selection != possibleValuesActConfig.filter(key=> key.Enum==context[index])[0].Tag) {
+//       navigation.setOptions({
+//         headerRight: () => (
+//           <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Setup Menu", "Set Parameters": {"${index}":${1}}}`, context) }}>
+//             <View style={styles.buttonBar}>
+//               <Text>Save</Text>
+//             </View>
+//           </TouchableOpacity>
+//         ),
+//       });
+//     }
+//     else {
+//       navigation.setOptions({
+//         headerRight: () => (
+//           <></>
+//         ),
+//       });
+//     }
+//   })
 
-  return (
-    <ScrollView style={styles.containerScroll}>
-      <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection("°C") }}>
-        {CheckButtoned(selection, "°C")}
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection("°F") }}>
-        {CheckButtoned(selection, "°F")}
-      </TouchableOpacity>
-    </ScrollView>
-  );
-};
+//   return (
+//     <ScrollView style={styles.containerScroll}>
+//       <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection("°C") }}>
+//         {CheckButtoned(selection, "°C")}
+//       </TouchableOpacity>
+//       <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection("°F") }}>
+//         {CheckButtoned(selection, "°F")}
+//       </TouchableOpacity>
+//     </ScrollView>
+//   );
+// };
 function Item(title, value, navigation = null, context = null) {
   switch (title) {
     case 'Active Configuration':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Active Configuration', { Tag: title, Value: value })}>
-        <ItemValueBar item={title} value={context[MenuParams.filter(row => row.Tag == title)[0].Index]}/>
+        <ItemValueBar item={title} value={possibleValuesActConfig.filter(key=> key.Enum == context[MenuParams.filter(row => row.Tag == title)[0].Index])[0].Tag}/>
 
         </TouchableOpacity>
       )
     case 'Reference Temperature':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Reference Temperature', { Tag: title, Value: value })}>
-        <ItemValueBar item={title} value={context[MenuParams.filter(row => row.Tag == title)[0].Index]}/>
+        <ItemValueBar item={title} value={possibleValuesRefTemp.filter(key=> key.Enum == context[MenuParams.filter(row => row.Tag == title)[0].Index])[0].Tag}/>
         </TouchableOpacity>
       )
     default:
@@ -173,36 +189,27 @@ const ChangedButton = (initialValue, newValue, navigation) => {
     )
   }
 }
-const ActiveConfigurationScreen = ({ route, navigation }) => {
+const ReferenceTemperatureScreen = ({ route, navigation }) => {
   const context = useContext(ContextConfigurationValues)
   const { Tag } = route.params
-
-  const possibleValues = MenuParams.filter(row => row.Tag == Tag)[0]["PossibleValues"]
   const index = MenuParams.filter(row => row.Tag == Tag)[0]["Index"]
-  const [selection, setSelection] = React.useState(context[index]); // Buraya Initital Value Gelecek
+  const [selection, setSelection] = React.useState(possibleValuesRefTemp.filter(key=> key.Enum==context[index])[0].Tag); // Buraya Initital Value Gelecek
 
   let hexIndex
   switch (selection) {
-    case "Configuration 1":
+    case "°C":
       hexIndex = "0"
       break;
-    case "Configuration 2":
+    case "°F":
       hexIndex = "1"
       break;
-    case "Configuration 3":
-      hexIndex = "2"
-      break;
-    case "Configuration 4":
-      hexIndex = "3"
-      break;
-
     default:
       break;
   }
   function ItemSelectable(title) {
 
     return (
-      <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title) }}>
+      <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title)}}>
         {CheckButtoned(selection, title)}
       </TouchableOpacity>
     )
@@ -210,9 +217,10 @@ const ActiveConfigurationScreen = ({ route, navigation }) => {
   const renderItemSelectable = ({ item }) => (
     ItemSelectable(item.Tag)
   );
+  
   useEffect(() => {
 
-    if (selection != context[index]) {
+    if (selection != possibleValuesRefTemp.filter(key=> key.Enum==context[index])[0].Tag)  {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
@@ -237,7 +245,76 @@ const ActiveConfigurationScreen = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={possibleValues}
+        data={possibleValuesRefTemp}
+        renderItem={renderItemSelectable}
+        keyExtractor={item => item.Tag}
+      />
+    </SafeAreaView>
+  );
+};
+const ActiveConfigurationScreen = ({ route, navigation }) => {
+  const context = useContext(ContextConfigurationValues)
+  const { Tag } = route.params
+  const index = MenuParams.filter(row => row.Tag == Tag)[0]["Index"]
+  const [selection, setSelection] = React.useState(possibleValuesActConfig.filter(key=> key.Enum==context[index])[0].Tag); // Buraya Initital Value Gelecek
+
+  let hexIndex
+  switch (selection) {
+    case "Configuration 1":
+      hexIndex = "0"
+      break;
+    case "Configuration 2":
+      hexIndex = "1"
+      break;
+    case "Configuration 3":
+      hexIndex = "2"
+      break;
+    case "Configuration 4":
+      hexIndex = "3"
+      break;
+
+    default:
+      break;
+  }
+  function ItemSelectable(title) {
+
+    return (
+      <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title)}}>
+        {CheckButtoned(selection, title)}
+      </TouchableOpacity>
+    )
+  }
+  const renderItemSelectable = ({ item }) => (
+    ItemSelectable(item.Tag)
+  );
+  useEffect(() => {
+
+    if (selection != possibleValuesActConfig.filter(key=> key.Enum==context[index])[0].Tag)  {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Setup Menu","Set Parameters": {"${index}":"${hexIndex}"}}`, context) }}
+
+          >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+      });
+    }
+  });
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={possibleValuesActConfig}
         renderItem={renderItemSelectable}
         keyExtractor={item => item.Tag}
       />

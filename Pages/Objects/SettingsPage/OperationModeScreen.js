@@ -24,7 +24,20 @@ let peripheralID = '0'
 
 let OperationModeParams = Values.filter(item => item.Tag === "Operation Mode IO")[0];
 let MenuParams = OperationModeParams.menu;
+
+
+
+
 // let subMenuParams = MenuParams.filter(row => row.Tag == 'Configuration 1')[0].menu;
+
+
+
+
+
+
+
+
+
 const StackConductivity = createStackNavigator();
 const ItemBar = ({item})=>(
     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -66,17 +79,21 @@ function renderItem(item, navigation = null, context = null, parent) {
 }
 
 function Item(title, value, navigation = null, context = null, parent = null) {
+    let object=null
     switch (title) {
         case 'Operation Mode IO 1':
+            object=MenuParams.find(key=>key.Tag==title)
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Operation Selection', { Tag: title, name: title, ConfigNum: parent })}>
-        <ItemValueBar item={title} value={context["231"]}/>
+        <ItemValueBar item={title} value={object.PossibleValues.find(key=>key.Enum == context[object.Index]).Tag}/>
                 </TouchableOpacity>
             )
         case 'Operation Mode IO 2':
+            object=MenuParams.find(key=>key.Tag==title)
+
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Operation Selection', { Tag: title, name: title, ConfigNum: parent })}>
-        <ItemValueBar item={title} value={context["245"]}/>
+        <ItemValueBar item={title} value={object.PossibleValues.find(key=>key.Enum == context[object.Index]).Tag}/>
 
                 </TouchableOpacity>
             )
@@ -154,32 +171,18 @@ const OperationSelectionScreen = ({ route, navigation }) => {
     const Menu = MenuParams.filter(item => item.Tag == ConfigNum)[0]
     const PossibleValues = Menu.PossibleValues
     const indexSelection = Menu.Index
-    const indexSelectionCurrentAssign = ConfigNum== "Operation Mode IO 1" ? "239" :"247"  ///////////Burayı Şimdilik Genel Objeden Çekmeden Yaptım
-    const indexSelectionSwitchOutputType = ConfigNum== "Operation Mode IO 1" ? "242" :"248"  ///////////Burayı Şimdilik Genel Objeden Çekmeden Yaptım
-    const indexSelectionSwitchAssign = ConfigNum== "Operation Mode IO 1" ? "243" :"249"  ///////////Burayı Şimdilik Genel Objeden Çekmeden Yaptım
-    const indexSelectionSwitchFunction = ConfigNum== "Operation Mode IO 1" ? "244" :"250"  ///////////Burayı Şimdilik Genel Objeden Çekmeden Yaptım
-    
-    // const currentPossibleValues = Operation.subMenu.filter(item => item.Tag == "Current Output")[0].menu[0].PossibleValues
-    // console.log("here1")
-    // const switchPossibleValues = Operation.subMenu.filter(item => item.Tag == "Switch Output")[0]
-    // console.log("currentPossibleValues")
+    const subMenu = Menu.subMenu
+    const menuCurrentAssign = subMenu.find(key=>key.Tag=="Current Output").menu.find(key=>key.Tag=="Output-Assign")
+    const menuSwitchOutputType = subMenu.find(key=>key.Tag=="Switch Output").menu.find(key=>key.Tag=="Output Type")
+    const menuSwitchAssign = subMenu.find(key=>key.Tag=="Switch Output").menu.find(key=>key.Tag=="Output-Assign")
+    const menuSwitchFunction = subMenu.find(key=>key.Tag=="Switch Output").menu.find(key=>key.Tag=="Function")
 
 
-    // console.log(MenuParams)
-    // console.log(ConfigNum)
-    // console.log(value)
-    // useEffect(() => {
-    //   navigation.setOptions({ title: Tag })
-    // });
-    // const filtered = Values.filter(row => row.Tag == 'Communication');
-    // const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
-    // const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
-
-    const [selection, setSelection] = React.useState(context[indexSelection]);
-    const [selectionCurrentAssign, setSelectionCurrentAssign] = React.useState(context[indexSelectionCurrentAssign]);
-    const [selectionSwitchOutputType, setSelectionSwitchOutputType] = React.useState(context[indexSelectionSwitchOutputType])
-    const [selectionSwitchAssign, setSelectionSwitchAssign] = React.useState(context[indexSelectionSwitchAssign])
-    const [selectionSwitchFunction, setSelectionSwitchFunction] = React.useState(context[indexSelectionSwitchFunction])
+    const [selection, setSelection] = React.useState(PossibleValues.find(key=>key.Enum == context[indexSelection]).Tag);
+    const [selectionCurrentAssign, setSelectionCurrentAssign] = React.useState(menuCurrentAssign.PossibleValues.find(key=>key.Enum == context[menuCurrentAssign.Index]).Tag)
+    const [selectionSwitchOutputType, setSelectionSwitchOutputType] = React.useState(menuSwitchOutputType.PossibleValues.find(key=>key.Enum == context[menuSwitchOutputType.Index]).Tag)
+    const [selectionSwitchAssign, setSelectionSwitchAssign] = React.useState(menuSwitchAssign.PossibleValues.find(key=>key.Enum == context[menuSwitchAssign.Index]).Tag)
+    const [selectionSwitchFunction, setSelectionSwitchFunction] = React.useState(menuSwitchFunction.PossibleValues.find(key=>key.Enum == context[menuSwitchFunction.Index]).Tag)
     console.log(selectionCurrentAssign)
     console.log(selectionSwitchOutputType)
 
@@ -301,7 +304,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                             (true) && /////// Condition For Switch Output
 
                             <Button
-                            onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode", "Set Parameters": {"${indexSelection}":"${selection}","${indexSelectionSwitchAssign}":"${selectionSwitchAssign}","${indexSelectionSwitchFunction}":"${selectionSwitchFunction}","${indexSelectionSwitchOutputType}":"${selectionSwitchOutputType}"}}`, context) }}
+                            onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode", "Set Parameters": {"${indexSelection}":"${PossibleValues.find(key=>key.Tag == selection).Enum}","${menuSwitchAssign.Index}": ${menuSwitchAssign.PossibleValues.find(key=>key.Tag == selectionSwitchAssign).Enum}, "${menuSwitchFunction.Index}": ${menuSwitchFunction.PossibleValues.find(key=>key.Tag == selectionSwitchFunction).Enum} ,"${menuSwitchOutputType.Index}": ${menuSwitchOutputType.PossibleValues.find(key=>key.Tag == selectionSwitchOutputType).Enum} }}`, context) }}
                             title="Save"
                             color="#841584"
                             />
@@ -346,7 +349,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                             (true) && /////// Condition For Current Output
 
                             <Button
-                                onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode", "Set Parameters": {"${indexSelection}":"${selection}","${indexSelectionCurrentAssign}":"${selectionCurrentAssign}"}}`, context) }}
+                            onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode", "Set Parameters": {"${indexSelection}":${PossibleValues.find(key=>key.Tag == selection).Enum},"${menuSwitchAssign.Index}": ${menuCurrentAssign.PossibleValues.find(key=>key.Tag == selectionCurrentAssign).Enum}}}`, context) }}
                                 title="Save"
                                 color="#841584"
                             />

@@ -14,12 +14,13 @@ let peripheralID = '0'
 
 let DiagnosticsParams = Paramsfiltered.find(DiagnosticsParams => DiagnosticsParams.Tag === "Diagnostics");
 let MenuParams = DiagnosticsParams.menu;
+const possibleValuesSimProcVar = MenuParams.filter(key=>key.Tag=="Simulation Process Variable")[0].PossibleValues;
+
 const StackDiagnostics = createStackNavigator();
 const TextComponents = ["Simulation Process Variable Value Conductivity", "Simulation Process Variable Value Concentration", "Simulation Process Variable Value Temperature"]
 const SwitchComponents = ["Simulation Process Variable"]
 const ReadableComponents = ["Last Diagnostics", "Actual Diagnostics"]
-const objKeyValueMap = { "Simulation Process Variable Value Conductivity": "53", "Simulation Process Variable Value Concentration": "54", "Simulation Process Variable Value Temperature": "55", "Simulation Process Variable": "52", "Actual Diagnostics": "50", "Last Diagnostics": "51" }
-const enumObj = { "1": "Enabled", "0": "Disabled" }
+
 const renderItem = ({ item, navigation, context = null }) => (
   Item(item.Tag, item.Value, navigation, context = context)
 );
@@ -117,7 +118,6 @@ function Item(title, value, navigation, context = context) {
     return (
       <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Simulation Process Variable', { Tag: title, Value: value, name: title })}>
         <ItemValueBar item={title} value={context[MenuParams.filter(row => row.Tag == title)[0].Index]}/>
-
       </TouchableOpacity>)
 
   }
@@ -125,9 +125,7 @@ function Item(title, value, navigation, context = context) {
     var switchValues = (Values.filter(row => row.Tag == 'Diagnostics'))[0].menu.filter(row => row.Tag == title)[0]["Possible Values"];
     return (
       <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switchable Components', { Tag: title, Value: value, SwitchableValues: switchValues, name: title })}>
- 
-              <ItemValueBar item={title} value={context[MenuParams.filter(row => row.Tag == title)[0].Index]} />
-
+              <ItemValueBar item={title} value={possibleValuesSimProcVar.filter(key=> key.Enum == context[MenuParams.filter(row => row.Tag == title)[0].Index])[0].Tag} />
       </TouchableOpacity>
       )
   }
@@ -207,18 +205,14 @@ const SimulationProcessVariableScreen = ({ route, navigation }) => {
 
 
 
-
-
-
 const SwitchVariableScreen = ({ route, navigation }) => {
   const { Tag } = route.params;
-console.log(Tag)
   const context = useContext(ContextConfigurationValues)
   const filteredAT =MenuParams.filter(row => row.Tag == Tag)[0];
   const SwitchableValues = filteredAT.PossibleValues;
-  console.log(SwitchableValues)
   const index = filteredAT.Index;
-  const [text, setText] = React.useState(context[index]);
+  console.log(SwitchableValues)
+  const [text, setText] = React.useState(SwitchableValues.filter(key=> key.Enum==context[index])[0].Tag);
 
   const renderItemSelectable = ({ item }) => {
     return (
@@ -228,8 +222,8 @@ console.log(Tag)
       </TouchableOpacity>)
   }
   useEffect(() => {
-
-    if (text != enumObj[context[objKeyValueMap[Tag]]]) {
+    console.log(text)
+    if (text != SwitchableValues.filter(key=> key.Enum==context[index])[0].Tag) {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Diagnostics", "Set Parameters": {"${index}":"${SwitchableValues.filter(row => row.Tag == text)[0].Enum}"}}`, context) }}>

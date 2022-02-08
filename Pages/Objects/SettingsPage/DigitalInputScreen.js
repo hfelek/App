@@ -15,8 +15,10 @@ import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGr
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 const StackDigitalInput = createStackNavigator();
 
-var filtered = Values.filter(row => row.Tag == 'Digital Input')[0];
-var MenuParams = filtered.menu;
+const filtered = Values.filter(row => row.Tag == 'Digital Input')[0];
+const MenuParams = filtered.menu;
+const menuDIStatus = MenuParams.find(key=>key.Tag=="Digital Input Status")
+const menuDIFunction = MenuParams.find(key=>key.Tag=="Digital Input Function")
 
 function renderItem(item, navigation = null, context = null, parent) {
     return (Item(item.Tag, item.Value, navigation, context, parent))
@@ -73,7 +75,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
         case 'Digital Input Function':
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Digital Input Function')}>
-                      <ItemValueBar item={title} value={value} />
+                      <ItemValueBar item={title} value={menuDIFunction.PossibleValues.find(key=>key.Enum==context[menuDIFunction.Index]).Tag} />
                 </TouchableOpacity>
             )
 
@@ -81,7 +83,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
                 return (
                     <View style={styles.itemButton}>
                     <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{context[MenuParams.filter(tag=> tag.Tag =="Digital Input Function")[0].Index]}</Text>
+                    <Text style={styles.value}>{menuDIStatus.PossibleValues.find(key=>key.Enum==context[menuDIStatus.Index]).Tag}</Text>
                   </View>
                 )
     
@@ -113,14 +115,13 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
     const val = MenuParams.filter(row => row.Tag == 'Digital Input Function');
     const possibleValues = val[0].PossibleValues;
     const indexSelection = val[0].Index
-    const indexSelectionDINHIGH="313" /////////Burası Genel Objeden Çekilmiyior Şuanda
-    const indexSelectionDINLOW="314"
-    const [selection, setSelection] = React.useState(""); /////Digital InPut Function Selection
-    const [selectionDINHIGH, setSelectionDINHIGH] = React.useState("Configuration 1");
-    const [selectionLOW, setSelectionLOW] = React.useState("Configuration 1");
+    const subConfigurationMenu=val[0].SubMenu.find(key=>key.Tag == "Configuration Control")
+    const indexSelectionDINHIGH=subConfigurationMenu.menu.find(key=>key.Tag=="D-IN State:High") /////////Burası Genel Objeden Çekilmiyior Şuanda
+    const indexSelectionDINLOW=subConfigurationMenu.menu.find(key=>key.Tag=="D-IN State:Low")
+    const [selection, setSelection] = React.useState(possibleValues.find(key=>key.Enum == context[indexSelection]).Tag); /////Digital InPut Function Selection
+    const [selectionDINHIGH, setSelectionDINHIGH] = React.useState(indexSelectionDINHIGH.PossibleValues.find(key=>key.Enum == context[indexSelectionDINHIGH.Index]).Tag);
+    const [selectionDINLOW, setSelectionDINLOW] = React.useState(indexSelectionDINLOW.PossibleValues.find(key=>key.Enum == context[indexSelectionDINLOW.Index]).Tag);
 
-    console.log("DigitalInputFunctionScreen")
-    console.log(selection)
     function ItemSelectable(title) {
 
         return (
@@ -135,9 +136,7 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
 
     return (
         <ScrollView style={{
-            // justifyContent: "center", // 
             padding: 0,
-            // marginTop: StatusBar.currentHeight || 0,
             paddingTop: 0,
         }}>
             <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection("Configuration Control") }}>
@@ -157,9 +156,9 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
                         <View style={styles.pickerText} >
 
                             <Picker style={[styles.picker, { textAlign: 'center' }]}
-                                selectedValue={selectionLOW}
+                                selectedValue={selectionDINLOW}
                                 onValueChange={(itemValue, itemIndex) =>
-                                    setSelectionLOW(itemValue)
+                                    setSelectionDINLOW(itemValue)
                                 }>
                                 <Picker.Item label="Configuration 1" value="Configuration 1" />
                                 <Picker.Item label="Configuration 2" value="Configuration 2" />
@@ -191,7 +190,7 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
                         </View>
  
                             <Button
-                                onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Digital Input", "Set Parameters": {"${indexSelection}":"${selection}","${indexSelectionDINHIGH}":"${selectionDINHIGH}","${indexSelectionDINLOW}":"${selectionLOW}"}}`, context) }}
+                                onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Digital Input", "Set Parameters": {"${indexSelection}":${possibleValues.find(key=>key.Tag==selection).Enum},"${indexSelectionDINHIGH.Index}":${indexSelectionDINHIGH.PossibleValues.find(key=>key.Tag==selectionDINHIGH).Enum},"${indexSelectionDINLOW.Index}":${indexSelectionDINLOW.PossibleValues.find(key=>key.Tag==selectionDINLOW).Enum}}}`, context) }}
                                 title="Save"
                                 color="#841584"
                             />
@@ -209,7 +208,7 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
                               
                                 selection == "Status Control" &&(
                                 <Button
-                                    onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Digital Input", "Set Parameters": {"OM":"${selection}"}}`, context) }}
+                                    onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Digital Input", "Set Parameters": {"${indexSelection}":${possibleValues.find(key=>key.Tag==selection).Enum}}}`, context) }}
                                     title="Save"
                                     color="#841584"
                                 />)

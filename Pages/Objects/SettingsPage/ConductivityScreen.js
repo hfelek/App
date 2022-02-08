@@ -14,20 +14,23 @@ import { RectButton } from 'react-native-gesture-handler';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
-
-// import Slider from '@react-native-community/slider';
-//import MultiSlider from 'react-native-multi-slider';
-
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
 let peripheralID = '0'
+
+
+
+
 const activeConfigurationMenu = Paramsfiltered.filter(SetupMenu => SetupMenu.Tag === "Setup Menu")[0].menu;
 const activeConfigurationIndex =activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].Index
 const activeConfigurationPossibleValues =activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].PossibleValues
 
-let ConductivityParams = Paramsfiltered.find(ConductivityParams => ConductivityParams.Tag === "Conductivity Input");
+const ConductivityParams = Paramsfiltered.find(ConductivityParams => ConductivityParams.Tag === "Conductivity Input");
+const possibleValuesCondRange = ConductivityParams.menu.find(ConductivityParams => ConductivityParams.Tag === "Configuration 1").menu.find(ConductivityParams => ConductivityParams.Tag === "Conductivity Range").PossibleValues;
+const possibleValuesTempComp = ConductivityParams.menu.find(ConductivityParams => ConductivityParams.Tag === "Configuration 1").menu.find(ConductivityParams => ConductivityParams.Tag === "Temperature Compensation").PossibleValues;
 let MenuParams = ConductivityParams.menu;
-// let subMenuParams = MenuParams.filter(row => row.Tag == 'Configuration 1')[0].menu;
+
+
 const StackConductivity = createStackNavigator();
 
 var filtered = Values.filter(row => row.Tag == 'Conductivity Input');
@@ -89,38 +92,45 @@ function renderItem(item, navigation = null, context = null, parent) {
 function Item(title, value, navigation = null, context = null, parent = null) {
   console.log(context[activeConfigurationIndex])
   let index=null;
+  let activeConfigEnum=null
   switch (title) {
     case 'Configuration 1':
-    
+      activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
       return (
-        <TouchableOpacity style={title== context[activeConfigurationIndex] ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
-            <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 1"}/>
+        <TouchableOpacity style={title== activeConfigEnum ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, name: title })}>
+            <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 1"}/>
         </TouchableOpacity>
       )
     case 'Configuration 2':
+      activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+
       return (
-        <TouchableOpacity style={title==context[activeConfigurationIndex]? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
-            <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 2"}/>
+        <TouchableOpacity style={title==activeConfigEnum? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, name: title })}>
+            <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 2"}/>
         </TouchableOpacity>
       )
     case 'Configuration 3':
+      activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+
       return (
-        <TouchableOpacity style={title==context[activeConfigurationIndex]? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
-            <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 3"}/>
+        <TouchableOpacity style={title==activeConfigEnum? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, name: title })}>
+            <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 3"}/>
 
         </TouchableOpacity>
       )
     case 'Configuration 4':
+      activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+
       return (
-        <TouchableOpacity style={title==context[activeConfigurationIndex]? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
-            <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 4"}/>
+        <TouchableOpacity style={title==activeConfigEnum? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title ,name: title })}>
+            <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 4"}/>
         </TouchableOpacity>
       )
     case 'Conductivity Range':
       index = (MenuParams.filter(config=> config.Tag ==parent)[0].menu).filter(tag=>tag.Tag==title)[0].Index
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Conductivity Range', { Tag: title, ConfigNum: parent })}>
-          <ItemValueBar item={title} value={context[index]} />
+          <ItemValueBar item={title} value={possibleValuesCondRange.find(key => key.Enum == context[index]).Tag} />
         </TouchableOpacity>
       )
     case 'Temperature Compensation':
@@ -128,7 +138,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
 
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Temperature Compensation', { Tag: title, ConfigNum: parent })}>
-          <ItemValueBar item={title} value={context[index]} />
+          <ItemValueBar item={title} value={possibleValuesTempComp.find(key => key.Enum == context[index]).Tag} />
 
         </TouchableOpacity>
       )
@@ -240,7 +250,7 @@ const RangeScreen = ({ route, navigation }) => {
   const subval = val.menu.filter(row => row.Tag == Tag)[0];
   const index = subval.Index
   const possibleValues = subval.PossibleValues;
-  const [selection, setSelection] = React.useState(context[index]);
+  const [selection, setSelection] = React.useState(possibleValuesCondRange.find(key => key.Enum == context[index]).Tag);
   const renderItemSelectable = ({ item }) => (
     ItemSelectable(item.Tag)
   );
@@ -255,10 +265,10 @@ const RangeScreen = ({ route, navigation }) => {
 
   useEffect(() => {
 
-    if (selection !=context[index] ) {
+    if (selection !=possibleValuesCondRange.find(key => key.Enum == context[index]).Tag ) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Conductivity Input","Set Parameters": {"${index}":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Conductivity Input","Set Parameters": {"${index}":${possibleValues.filter(row => row.Tag == selection)[0].Enum}}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -313,7 +323,7 @@ const TemperatureCompensationScreen = ({ route, navigation }) => {
     if (selection !=context[index] ) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Conductivity Input", "Set Parameters": {"${index}":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Conductivity Input", "Set Parameters": {"${index}":${possibleValues.filter(row => row.Tag == selection)[0].Enum}}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -359,10 +369,9 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
   function callBackSlider() {
 
     if ((temperatureC != context[index])) {
-      // console.log({ temperatureF, initialValF, temperatureC, initialValC })
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${temperatureC}"}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":${temperatureC}}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -423,7 +432,7 @@ const FilterCountConstantScreen = ({ route, navigation }) => {
 
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Conductivity Input", "Set Parameters": {"${index}":"${filterCC}"}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Conductivity Input", "Set Parameters": {"${index}":${filterCC}}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>

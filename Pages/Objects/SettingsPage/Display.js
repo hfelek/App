@@ -1,5 +1,5 @@
-import React,{useEffect,useContext} from 'react'
-import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity,TouchableHighlight } from 'react-native'
+import React, { useEffect, useContext } from 'react'
+import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity, TouchableHighlight } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
@@ -16,35 +16,36 @@ function renderItem(item, navigation = null, context = null, parent) {
   return (Item(item.Tag, item.Value, navigation, context, parent))
 }
 
-let peripheralID='0'
+let peripheralID = '0'
 let DisplayParams = Paramsfiltered.filter(DisplayParams => DisplayParams.Tag === "Display")[0];
 let MenuParams = DisplayParams.menu;
 const StackDisplay = createStackNavigator();
 
-const ItemValueBar = ({item,value})=>(
+const ItemValueBar = ({ item, value }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-  <View style={{justifyContent:'center'}}> 
-    <Text style={styles.title}>{item}</Text>
-    <Text style={styles.value}>{value}</Text>
+    <View style={{ justifyContent: 'center' }}>
+      <Text style={styles.title}>{item}</Text>
+      <Text style={styles.value}>{value}</Text>
 
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
   </View>
-  <View style={{ justifyContent: 'center' }}>
-    <Icon
-      name="chevron-forward-outline"
-      size={20}
-      color="#000"
-    />
-  </View>
-</View>
 )
 function Item(title, value, navigation = null, context = null, parent = null) {
+  let menu = null
   switch (title) {
     case 'Backlight':
+      menu = MenuParams.find(tag => tag.Tag == title)
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Backlight', { Tag: title, Value: value })}>
-                    <ItemValueBar item={title} value={context[MenuParams.filter(tag=>tag.Tag==title)[0].Index]} />
-
+          <ItemValueBar item={title} value={menu.PossibleValues.find(key => key.Enum == context[menu.Index]).Tag} />
         </TouchableOpacity>
       )
     default:
@@ -62,7 +63,7 @@ const DisplayScreen = ({ route, navigation }) => {
     // Success code
 
     console.log(JSON.stringify(peripheralsArray[0].id));
-    peripheralID=peripheralsArray[0].id
+    peripheralID = peripheralsArray[0].id
   }).catch(() => {
     console.log("Couldnt Find A peripheral");
     // expected output: "Success!"
@@ -72,13 +73,13 @@ const DisplayScreen = ({ route, navigation }) => {
   const CheckButtoned = (selectedValue, sentValue) => {
     if (selectedValue === sentValue) {
       return (
-  
+
         <View style={{
           padding: 8,
           marginVertical: 0,
           marginHorizontal: 0, justifyContent: "space-between", flexDirection: "row"
         }}>
-          <Text style={{color:'black'}}>{sentValue}</Text>
+          <Text style={{ color: 'black' }}>{sentValue}</Text>
           <Icon
             name="checkmark-outline"
             size={20}
@@ -99,83 +100,83 @@ const DisplayScreen = ({ route, navigation }) => {
       )
     }
   }
-  const ChangedButton = (initialValue,newValue,navigation)=>{
-    if(initialValue===newValue){
-      return(
+  const ChangedButton = (initialValue, newValue, navigation) => {
+    if (initialValue === newValue) {
+      return (
         <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-      </View>
-        )
+        </View>
+      )
     }
-    else{
-      return(
+    else {
+      return (
         <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
         </View>
       )
     }
   }
 
-  
+
 
   const DisplayMainScreen = ({ navigation }) => {
     const context = useContext(ContextConfigurationValues);
-    return(
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={MenuParams}
-        renderItem={({ item, index, separators }) => (renderItem(item, navigation, context, item.Tag))}
-        keyExtractor={item => item.Tag}
-      />
-    </SafeAreaView>)
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={MenuParams}
+          renderItem={({ item, index, separators }) => (renderItem(item, navigation, context, item.Tag))}
+          keyExtractor={item => item.Tag}
+        />
+      </SafeAreaView>)
   }
 
   const BacklightScreen = ({ route, navigation }) => {
     const { Tag } = route.params;
-    const context = useContext(ContextConfigurationValues) 
-    const index = MenuParams.filter(tag=> tag.Tag=='Backlight')[0].Index
-    const { Value } = route.params;
-    const [text, setText] = React.useState(context[index]);
+    const context = useContext(ContextConfigurationValues)
+    const index = MenuParams.filter(tag => tag.Tag == 'Backlight')[0].Index
+    const initialVal = MenuParams.find(tag => tag.Tag == 'Backlight').PossibleValues.find(key => key.Enum == context[index]).Tag
+    const [text, setText] = React.useState(initialVal);
 
     //Context Addition
 
     //
     useEffect(() => {
-    
-    if(text!=Value){
-      navigation.setOptions({
-        headerRight: () => (
-        <TouchableOpacity 
-        
-        onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Display", "Set Parameters": {${index}:"${text}"}}`) }}
-        >
-          <View style={styles.buttonBar}>
-            <Text>Save</Text>
-          </View>
-        </TouchableOpacity>
-        ),
-      });
-    }
-    else{
-      navigation.setOptions({
-        headerRight: () => (
-          <></>
-        ),
-      });
-    }
-  });
+
+      if (text != initialVal) {
+        navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity
+
+              onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Display", "Set Parameters":{"${index}":${MenuParams.find(tag => tag.Tag == 'Backlight').PossibleValues.find(key => key.Tag == text).Enum}}}`,context) }}
+            >
+              <View style={styles.buttonBar}>
+                <Text>Save</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        });
+      }
+      else {
+        navigation.setOptions({
+          headerRight: () => (
+            <></>
+          ),
+        });
+      }
+    });
     return (
       <View>
-        <TouchableOpacity style={[styles.itemButton,{paddingTop:16}]} onPress={() => setText("On")} >
-          {CheckButtoned(text,"On")}
+        <TouchableOpacity style={[styles.itemButton, { paddingTop: 16 }]} onPress={() => setText("On")} >
+          {CheckButtoned(text, "On")}
         </TouchableOpacity>
         {/* <TouchableOpacity style={styles.itemButton} onPress={() => setText("Off")} > */}
-        <TouchableOpacity style={[styles.itemButton,{paddingTop:16}]} onPress={() => setText("Off")} >
- 
-          {CheckButtoned(text,"Off")}
+        <TouchableOpacity style={[styles.itemButton, { paddingTop: 16 }]} onPress={() => setText("Off")} >
+
+          {CheckButtoned(text, "Off")}
 
         </TouchableOpacity>
 
-        {ChangedButton(Value,text,navigation)}
- 
+        {/* {ChangedButton(Value,text,navigation)} */}
+
       </View>
     );
   };
@@ -204,11 +205,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
-    marginRight:3,
+    marginRight: 3,
     borderRadius: 10,
 
-    
-    
+
+
   },
   item: {
     backgroundColor: '#ffffff',

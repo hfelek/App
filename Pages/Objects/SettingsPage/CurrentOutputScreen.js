@@ -13,9 +13,9 @@ import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 let peripheralID = '0'
-const activeConfigurationMenu = Paramsfiltered.filter(CondInp => CondInp.Tag === "Setup Menu")[0].menu;
+const activeConfigurationMenu = Paramsfiltered.filter(SetupMenu => SetupMenu.Tag === "Setup Menu")[0].menu;
 const activeConfigurationIndex =activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].Index
-
+const activeConfigurationPossibleValues =activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].PossibleValues
 let Output1Params = Paramsfiltered.filter(Output1Params => Output1Params.Tag === "Current Output")[0];
 let MenuParams = Output1Params.menu;
 const StackOutput1 = createStackNavigator();
@@ -76,6 +76,7 @@ var filteredAT = filtered.filter(row => row.Tag == 'Switch Output');
 function Item(title, value, navigation = null, context = null, parent = null) {
     console.log("I am in Item")
     let index= null
+    let activeConfigEnum=null
 
     switch (title) {
 
@@ -87,29 +88,36 @@ function Item(title, value, navigation = null, context = null, parent = null) {
                 </TouchableOpacity>
             )
             case 'Configuration 1':
-    
+                activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+
                 return (
-                  <TouchableOpacity style={title== context[activeConfigurationIndex] ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Current Sub', { Tag: title,ConfigNum: parent, name: title })}>
-                      <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 1"}/>
+                  <TouchableOpacity style={title== activeConfigEnum? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Current Sub', { Tag: title,ConfigNum: parent, name: title })}>
+                      <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 1"}/>
                   </TouchableOpacity>
                 )
               case 'Configuration 2':
+                activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+
                 return (
-                  <TouchableOpacity style={title==context[activeConfigurationIndex]? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Current Sub',{ Tag: title,ConfigNum: parent, name: title })}>
-                      <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 2"}/>
+                  <TouchableOpacity style={title==activeConfigEnum? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Current Sub',{ Tag: title,ConfigNum: parent, name: title })}>
+                      <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 2"}/>
                   </TouchableOpacity>
                 )
               case 'Configuration 3':
+                activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+
                 return (
-                  <TouchableOpacity style={title==context[activeConfigurationIndex]? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Current Sub', { Tag: title,ConfigNum: parent, name: title })}>
-                      <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 3"}/>
+                  <TouchableOpacity style={title==activeConfigEnum? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Current Sub', { Tag: title,ConfigNum: parent, name: title })}>
+                      <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 3"}/>
           
                   </TouchableOpacity>
                 )
               case 'Configuration 4':
+                activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+
                 return (
-                  <TouchableOpacity style={title==context[activeConfigurationIndex]? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Current Sub', { Tag: title,ConfigNum: parent, name: title })}>
-                      <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 4"}/>
+                  <TouchableOpacity style={title==activeConfigEnum? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Current Sub', { Tag: title,ConfigNum: parent, name: title })}>
+                      <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 4"}/>
                   </TouchableOpacity>
                 )
         case 'Conductivity - 4mA Set Point':
@@ -266,7 +274,7 @@ const CurrentOutputSettingsScreen = ({ route, navigation }) => {
             {/* <LenghtChecker lenght={32} /> */}
             {text != context[index] &&
                 <Button
-                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${index}":"${text}"}}`, context) }}
+                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${index}":${text}}}`, context) }}
                     title="Save"
                     color="#841584"
                 />}

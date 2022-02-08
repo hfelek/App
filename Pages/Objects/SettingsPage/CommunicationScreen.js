@@ -16,13 +16,20 @@ const Buffer = require('buffer/').Buffer;
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { sub } from 'react-native-reanimated';
-
+import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
+import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 const renderItem = ({ item, navigation, context = null }) => (
   Item(item.Tag, item.Value, navigation, context)
 );
 const renderItem1 = ({ item }) => (
   Item(item.Tag)
 );
+let CommunicationParams = Paramsfiltered.filter(CommunicationParams => CommunicationParams.Tag === "Communication")[0];
+let MenuParams = CommunicationParams.menu;
+const menuCommunication=Values.find(key=>key.Tag=="Communication")
+const menuBLE=menuCommunication.menu.find(key=>key.Tag=="Bluetooth")
+const menuWiFi=menuCommunication.menu.find(key=>key.Tag=="WiFi")
+const menuComType=menuCommunication.menu.find(key=>key.Tag=="Communication Type")
 
 const WiFiFunctionEnums = { "WiFi Fucntion": "CC", "WiFi Mode": "CD", "SSID": "CE", "Password": "CF", "IP Adress": "D1", "Subnet Adress": "D2", "Router Adress": "D3", "Configure IPv4": "D0" }
 
@@ -94,11 +101,10 @@ const CheckButtoned = (selectedValue, sentValue) => {
 const CommunicationTypeScreen = ({ route, navigation }) => {
   const context = useContext(ContextConfigurationValues)
   // const { HexIndex } = route.params;
-  const val = MenuParams.filter(row => row.Tag == 'Communication Type');
-  const possibleValues = val[0].PossibleValues;
-  const index = val[0].Index;
+  const possibleValues = menuComType.PossibleValues;
+  const index = menuComType.Index;
 
-  const [selection, setSelection] = React.useState(context[index]);
+  const [selection, setSelection] = React.useState(possibleValues.find(key=>key.Enum==context[index]).Tag);
 
 
 
@@ -115,7 +121,6 @@ const CommunicationTypeScreen = ({ route, navigation }) => {
   const renderItemSelectable = ({ item }) => (
     ItemSelectable(item.Tag, item.Value)
   );
-  // ({"Tag":"Communication", "Set Parameters": {"CB":"1"}})
 
 
   useEffect(() => {
@@ -123,7 +128,7 @@ const CommunicationTypeScreen = ({ route, navigation }) => {
       navigation.setOptions({
         headerRight: () => (
           // Burada Peripheral ID ve UUIDler daha object oriented yapılacak.
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${selection}"}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${possibleValues.find(key=>key.Tag==selection).Enum}"}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -152,69 +157,16 @@ const CommunicationTypeScreen = ({ route, navigation }) => {
   );
 };
 
-const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, context, maxbytesize = 512) => {
-
-  BleManager.write(peripheralId, serviceUUID, characteristicUUID, BufferArray(value), maxbytesize).then(() => {
-    console.log("data written")
-    // Command is written from BLEAPP to ESP32, Global Object in APP will be changed
-    let setParameters = JSON.parse(value)["Set Parameters"]
-    console.log(setParameters)
-
-    for (const item in setParameters) {
-      console.log("item")
-      console.log(item)
-      console.log(JSON.stringify(setParameters[item]))
-      context.setValueByKey(item, setParameters[item])
-    }
-    // AlertLocal()
-    Alert.alert("Configuration Successfull!")
-  })
-    .catch((error) => {
-      // Failure code
-      Alert.alert("Couldn't Handle Configuration. Please, Check Your Connection!")
-
-      console.log("error")
-      console.log(error);
-    });///////////Here Writes to the BLE Peripheral
-
-  console.log("In Button Function")
-  ///If anything else is to be done, it will be done here!
-}
-
-
-const HandleWriteCommandGroup = (peripheralId, serviceUUID, characteristicUUID, value, context, maxbytesize = 512) => {
-
-  BleManager.write(peripheralId, serviceUUID, characteristicUUID, BufferArray(value), maxbytesize).then(() => {
-    console.log("data written")
-    // Command is written from BLEAPP to ESP32, Global Object in APP will be changed
-    let setParameters = JSON.parse(value)["Set Parameters"]
-    console.log(setParameters)
-
-    context.setValueTotal(setParameters)
-    // AlertLocal()
-    Alert.alert("Configuration Successfull!")
-  })
-    .catch((error) => {
-      // Failure code
-      Alert.alert("Couldn't Handle Configuration. Please, Check Your Connection!")
-
-      console.log("error")
-      console.log(error);
-    });///////////Here Writes to the BLE Peripheral
-
-  console.log("In Button Function")
-  ///If anything else is to be done, it will be done here!
-}
 
 let peripheralID = '0'
 
-let CommunicationParams = Paramsfiltered.filter(CommunicationParams => CommunicationParams.Tag === "Communication")[0];
-let MenuParams = CommunicationParams.menu;
+
 const StackCommunication = createStackNavigator();
 
 
 function Item(title, value, navigation = null, context = null) {
-  let val
+  let index=null
+  let menu=null
   // const navigation1 =useNavigation()
   switch (title) {
     case 'Bluetooth':
@@ -227,88 +179,105 @@ function Item(title, value, navigation = null, context = null) {
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi')}>
           <ItemBar item={title} />
-
         </TouchableOpacity>
       )
     case 'Communication Type':
-
-
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Communication Type', { Tag: title, HexIndex: "C8" })}>
-          <ItemValueBar item={title} value={context["318"]} />
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Communication Type', { Tag: title })}>
+          <ItemValueBar item={title} value={menuComType.PossibleValues.find(key=>key.Enum == context[menuComType.Index] ).Tag} />
         </TouchableOpacity>
       )
     case 'Bluetooth Function':
+      menu=menuBLE.menu.find(key=>key.Tag==title)
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Bluetooth Function', { Tag: title, HexIndex: "C9" })}>
-          <ItemValueBar item={title} value={context["319"]} />
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Bluetooth Function', { Tag: title })}>
+          <ItemValueBar item={title} value={menu.PossibleValues.find(key=>key.Enum==context[menu.Index]).Tag} />
         </TouchableOpacity>
       )
     case 'Bluetooth Tx Power Level':
+      menu=menuBLE.menu.find(key=>key.Tag==title)
+
       return (
         <View style={styles.itemButton} >
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{context["320"]}</Text>
+          <Text style={styles.value}>{context[menu.Index]}</Text>
         </View>
       )
     case 'Bluetooth Connection Status':
+      menu=menuBLE.menu.find(key=>key.Tag==title)
+
       // const enumBleConStatus = {"0":} BLUETOOTH CONNECTION STATUS NASIL SINIFLANDIRILACAK 
       return (
         <View style={styles.itemButton} >
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{context["321"]}</Text>
+          <Text style={styles.value}>{menu.PossibleValues.find(key=>key.Enum==context[menu.Index]).Tag}</Text>
         </View>
       )
     case 'WiFi Function':
+      menu=menuWiFi.menu.find(key=>key.Tag==title)
+
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title, HexIndex: "CC", name: title })}>
-          <ItemValueBar item={title} value={context["323"]} />
+          <ItemValueBar item={title} value={menu.PossibleValues.find(key=>key.Enum==context[menu.Index]).Tag} />
         </TouchableOpacity>
       )
     case 'WiFi Mode':
+      menu=menuWiFi.menu.find(key=>key.Tag==title)
+
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('WiFi Function', { Tag: title, HexIndex: "CD", name: title })}>
-          <ItemValueBar item={title} value={context["324"]} />
+          <ItemValueBar item={title} value={menu.PossibleValues.find(key=>key.Enum==context[menu.Index]).Tag} />
         </TouchableOpacity>
       )
     case 'SSID':
+      menu=menuWiFi.menu.find(key=>key.Tag==title)
+
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('SSID Screen', { Tag: title, HexIndex: "CE" })}>
-          <ItemValueBar item={title} value={context["325"]} />
+          <ItemValueBar item={title} value={context[menu.Index]} />
         </TouchableOpacity>
       )
     case 'Password':
+      menu=menuWiFi.menu.find(key=>key.Tag==title)
+
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Password Screen', { Tag: title, HexIndex: "CF" })}>
           <ItemBar item={title} />
         </TouchableOpacity>
       )
     case 'Configure IPv4':
+      menu=menuWiFi.menu.find(key=>key.Tag==title)
 
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configure IPv4', { Tag: title, HexIndex: "D0", name: title })}>
-          <ItemValueBar item={title} value={context["326"]} />
+          <ItemValueBar item={title} value={menu.PossibleValues.find(key=>key.Enum==context[menu.Index]).Tag} />
         </TouchableOpacity>
       )
     case 'IP Address':
+      menu=menuWiFi.menu.find(key=>key.Tag==title)
+
       return (
         <View style={styles.itemButton}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{context["327"]}</Text>
+          <Text style={styles.value}>{context[menu.Index]}</Text>
         </View>
       )
-    case 'Router Adress':
+    case 'Router Address':
+      menu=menuWiFi.menu.find(key=>key.Tag==title)
+
       return (
         <View style={styles.itemButton}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{context["328"]}</Text>
+          <Text style={styles.value}>{context[menu.Index]}</Text>
         </View>
       )
     case 'Subnet Address':
+      menu=menuWiFi.menu.find(key=>key.Tag==title)
+
       return (
         <View style={styles.itemButton}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{context["329"]}</Text>
+          <Text style={styles.value}>{context[menu.Index]}</Text>
         </View>
       )
 
@@ -444,14 +413,6 @@ const IPScreen = ({ route, navigation }) => {
   const context = useContext(ContextConfigurationValues)
 
   const { Tag } = route.params;
-  // const { HexIndex } = route.params;
-  //  useEffect(() => {
-  //   navigation.setOptions({ title: Tag })
-  // });
-  const filtered = Values.filter(row => row.Tag == 'Communication');
-  const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
-  const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
-
   const [text1, setText1] = React.useState(context[HexIndex]);
 
 
@@ -491,14 +452,13 @@ const IPScreen = ({ route, navigation }) => {
 };
 const BluetoothFunctionScreen = ({ route, navigation }) => {
   const { Tag } = route.params;
-  const subTitle = MenuParams.filter(row => row.Tag == "Bluetooth")[0];
-  const val = subTitle.menu.filter(row => row.Tag == Tag);
-  const index = val[0].Index;
+  const val = menuBLE.menu.find(key=>key.Tag==Tag)
+  const index = val.Index;
 
-  const possibleValues = val[0].PossibleValues;
+  const possibleValues = val.PossibleValues;
   const context = useContext(ContextConfigurationValues)
 
-  const [selection, setSelection] = React.useState(context[index]);
+  const [selection, setSelection] = React.useState(possibleValues.find(key=>key.Enum == context[index]).Tag);
   function ItemSelectable(title) {
 
     return (
@@ -512,10 +472,10 @@ const BluetoothFunctionScreen = ({ route, navigation }) => {
   );
   useEffect(() => {
 
-    if (selection != context[index]) {
+    if (selection != possibleValues.find(key=>key.Enum == context[index]).Tag) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${selection}"}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":${possibleValues.find(key=>key.Tag == selection).Enum}}}`, context) }}>
 
             <View style={styles.buttonBar}>
               <Text>Save</Text>
@@ -547,19 +507,18 @@ const IPV4 = ({ route, navigation }) => {
   const context = useContext(ContextConfigurationValues)
 
 
-  const subTitle = MenuParams.filter(row => row.Tag == "WiFi")[0];
-  const val = subTitle.menu.filter(row => row.Tag == Tag);
-  const possibleValues = val[0].PossibleValues;
-  const index = val[0].Index;
+  const val = menuWiFi.menu.find(key=>key.Tag== Tag)
+  const possibleValues = val.PossibleValues;
+  const index = val.Index;
 
-  const indexIP = subTitle.menu.filter(row => row.Tag == "IP Adress")[0].Index;
-  const indexSubnet = subTitle.menu.filter(row => row.Tag == "Subnet Adress")[0].Index;
-  const indexRouter = subTitle.menu.filter(row => row.Tag == "Router Adress")[0].Index;
+  const indexIP = menuWiFi.menu.find(row => row.Tag == "IP Address").Index;
+  const indexSubnet = menuWiFi.menu.find(row => row.Tag == "Subnet Address").Index;
+  const indexRouter = menuWiFi.menu.find(row => row.Tag == "Router Address").Index;
 
   const [IPAdress, setIPAdress] = React.useState(context[indexIP]);
   const [subnetAdress, setSubnetAdress] = React.useState(context[indexSubnet]);
   const [routerAdress, setRouterAdress] = React.useState(context[indexRouter]);
-  const [selection, setSelection] = React.useState(context[index]);
+  const [selection, setSelection] = React.useState(possibleValues.find(key=>key.Enum==context[index]).Tag);
   function ItemSelectable(title) {
 
     return (
@@ -573,12 +532,12 @@ const IPV4 = ({ route, navigation }) => {
   );
   useEffect(() => {
 
-    if ((selection == "DHCP") && ("Manual" ==context[index])) {
+    if ((selection == "DHCP") && ("Manual" ==possibleValues.find(key=>key.Enum==context[index]).Tag)) {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
             onPress={() => {
-              HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"DHCP"}}`, context)
+              HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":${possibleValues.find(key=>key.Tag==selection).Enum}}}`, context)
             }
             }>
             <View style={styles.buttonBar}>
@@ -598,7 +557,7 @@ const IPV4 = ({ route, navigation }) => {
                   if (IPHANDLER(routerAdress)) {
                     if (IPCOMPARATOR(IPAdress, subnetAdress, routerAdress)) {
 
-                      HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters":{"${indexIP}":"${IPAdress}","${indexSubnet}":"${subnetAdress}","${indexRouter}":"${routerAdress}","${index}":"Manual"}}`, context)
+                      HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters":{"${indexIP}":"${IPAdress}","${indexSubnet}":"${subnetAdress}","${indexRouter}":"${routerAdress}","${index}":${possibleValues.find(key=>key.Tag==selection).Enum}}}`, context)
                     }
                   }
                 }
@@ -696,13 +655,12 @@ const WiFiFunctionScreen = ({ route, navigation }) => {
 
   const context = useContext(ContextConfigurationValues)
 
-  const valSystemUnits = Values.filter(row => row.Tag == 'Communication')[0];
-  const subTitle = valSystemUnits.menu.filter(row => row.Tag == "WiFi")[0];
-  const val = subTitle.menu.filter(row => row.Tag == Tag)[0];
+
+  const val = menuWiFi.menu.find(row => row.Tag == Tag);
   const index = val.Index 
 
   const possibleValues = val.PossibleValues;
-  const [selection, setSelection] = React.useState(context[index]);
+  const [selection, setSelection] = React.useState(possibleValues.find(key=>key.Enum==context[index]).Tag);
   function ItemSelectable(title) {
 
     return (
@@ -716,11 +674,11 @@ const WiFiFunctionScreen = ({ route, navigation }) => {
   );
   useEffect(() => {
 
-    if (selection != context[index]) {
+    if (selection != possibleValues.find(key=>key.Enum==context[index]).Tag) {
       navigation.setOptions({
         headerRight: () => (
           // <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) }}>
-                     <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${selection}"}}`, context) }}>
+                     <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":${possibleValues.find(key=>key.Tag==selection).Enum}}}`, context) }}>
 
             <View style={styles.buttonBar}>
               <Text>Save</Text>
@@ -749,9 +707,7 @@ const WiFiFunctionScreen = ({ route, navigation }) => {
 };
 const BluetoothScreen = ({ navigation }) => {
   const context = useContext(ContextConfigurationValues)
-  const valSystemUnits = Values.filter(row => row.Tag == 'Communication');
-  const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Bluetooth');
-  const possibleValues = val[0].menu;
+  const possibleValues = menuBLE.menu;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -766,17 +722,8 @@ const BluetoothScreen = ({ navigation }) => {
 const SSIDScreen = ({ route, navigation }) => {
   const context = useContext(ContextConfigurationValues)
   const { Tag } = route.params;
-  // const { HexIndex } = route.params;
-  //  useEffect(() => {
-  //   navigation.setOptions({ title: Tag })
-  // });
-  const filtered = Values.filter(row => row.Tag == 'Communication');
-  const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
+  const index = menuWiFi.menu.find(row => row.Tag == Tag).Index;
 
-  const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
-  const index = filteredAT.filter(row => row.Tag == Tag)[0].Index;
-
-  const initialText = filteredATSub;
   const [text, setText] = React.useState(context[index]);
 
 
@@ -825,9 +772,8 @@ const PasswordScreen = ({ route, navigation }) => {
   // useEffect(() => {
   //   navigation.setOptions({ title: Tag })
   // });
-  const filtered = Values.filter(row => row.Tag == 'Communication');
-  const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
-  const index = filteredAT.filter(row => row.Tag == Tag)[0].Index;
+  const index = menuWiFi.menu.find(row => row.Tag == Tag).Index;
+
 
   const [text, setText] = React.useState("");
 
@@ -867,12 +813,8 @@ const WifiScreen = ({ navigation }) => {
   const context = useContext(ContextConfigurationValues)
   // const navigation= useNavigation()
 
-  const valSystemUnits = Values.filter(row => row.Tag == 'Communication');
-  const val = valSystemUnits[0].menu.filter(row => row.Tag == 'WiFi');
-  const possibleValues = val[0].menu;
-  const [selection, setSelection] = React.useState(val[0].Value);
-  // console.log(possibleValues)
-  // console.log(typeof (possibleValues))
+  const possibleValues = menuWiFi.menu;
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList

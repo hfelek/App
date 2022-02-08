@@ -2176,8 +2176,8 @@
                         "Tag": "Conductivity Point 25",
                         "Value": "20.0",
                         "Index": "222",
-                        "RangeUpper": 130.0,
-                        "RangeLower": -10.0
+                        "RangeUpper": 140.0,
+                        "RangeLower": -20.0
                     },
                     {
                         "Tag": "Conductivity Point 26",
@@ -2380,19 +2380,19 @@
                 "Index": "245",
                 "PossibleValues": [{
                         "Tag": "Current Output",
-                        "Enum": "0"
+                        "Enum": 0
                     },
                     {
                         "Tag": "Switch Output",
-                        "Enum": "1"
+                        "Enum": 1
                     },
                     {
                         "Tag": "IO-LINK",
-                        "Enum": "2"
+                        "Enum": 2
                     },
                     {
                         "Tag": "Off",
-                        "Enum": "3"
+                        "Enum": 3
                     }
                 ],
                 "subMenu": [{
@@ -2920,10 +2920,13 @@
                 "Value": "High",
                 "Index": "310",
                 "PossibleValues": [{
-                        "Tag": "D-IN State:High"
+                        "Tag": "D-IN State:High",
+                        "Enum": 0
                     },
                     {
-                        "Tag": "D-IN State:Low"
+                        "Tag": "D-IN State:Low",
+                        "Enum": 1
+
                     }
                 ]
             },
@@ -3003,10 +3006,12 @@
             "Value": "On",
             "Index": "316",
             "PossibleValues": [{
-                    "Tag": "Off"
+                    "Tag": "Off",
+                    "Enum": 0
                 },
                 {
-                    "Tag": "BLE"
+                    "Tag": "On",
+                    "Enum": 1
                 }
             ]
         }]
@@ -3158,7 +3163,7 @@
                         "Value": "15"
                     },
                     {
-                        "Tag": "Router Adress",
+                        "Tag": "Router Address",
                         "Access": "R/W",
                         "Value": "15",
                         "Index": "329",
