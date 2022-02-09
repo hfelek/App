@@ -86,30 +86,39 @@ function renderItem(item, navigation = null, context = null, parent) {
 function Item(title, value, navigation = null, context = null, parent = null) {
   console.log(context[activeConfigurationIndex])
   let index=null;
+  let activeConfigEnum=null
+
   switch (title) {
     case 'Configuration 1':
-    
+      activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+
       return (
-        <TouchableOpacity style={title== context[activeConfigurationIndex] ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
+        <TouchableOpacity style={title== activeConfigEnum ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Temperature Coefficient Non-Linear', { Tag: title, name: title, ConfigNum: parent })}>
             <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 1"}/>
         </TouchableOpacity>
       )
     case 'Configuration 2':
+      activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+
       return (
-        <TouchableOpacity style={title==context[activeConfigurationIndex]? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
+        <TouchableOpacity style={title== activeConfigEnum ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, name: title, ConfigNum: parent  })}>
             <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 2"}/>
         </TouchableOpacity>
       )
     case 'Configuration 3':
+      activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+
       return (
-        <TouchableOpacity style={title==context[activeConfigurationIndex]? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
+        <TouchableOpacity style={title== activeConfigEnum ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, ConfigNum: parent , name: title })}>
             <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 3"}/>
 
         </TouchableOpacity>
       )
     case 'Configuration 4':
+      activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+
       return (
-        <TouchableOpacity style={title==context[activeConfigurationIndex]? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title, HexIndex: "CC", name: title })}>
+        <TouchableOpacity style={title== activeConfigEnum ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Configuration', { Tag: title,  ConfigNum: parent , name: title })}>
             <ConfigurationBar activeConfig={context[activeConfigurationIndex]} config={"Configuration 4"}/>
         </TouchableOpacity>
       )
@@ -164,9 +173,7 @@ const ConductivityMainScreen = ({ navigation }) => {
   const context = useContext(ContextConfigurationValues);
   return (
     <SafeAreaView style={styles.container}>
-      {/* <View style={[styles.itemActiveConfig,{backgroundColor:'green',borderRadius:15}]}>
-          <Text style={[styles.title,{textAlign:'center'}]}>{"Active Configuration : Configuration 1"}</Text>
-        </View> */}
+
       <FlatList
         data={MenuParams}
         renderItem={({ item, index, separators }) => (renderItem(item, navigation, context))}
@@ -211,6 +218,8 @@ const CheckButtoned = (selectedValue, sentValue) => {
 
 function ConfigurationNumScreen({ route, navigation }) {
   const { Tag } = route.params;
+  const { Confignum } = route.params;
+
   const subMenuParams = MenuParams.filter(row => row.Tag == Tag)[0].menu;
   const context = useContext(ContextConfigurationValues);
 
@@ -250,10 +259,8 @@ const TemperatureCoeffScreen = ({ route, navigation }) => {
 
   return (
     <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-      <StackConductivity.Screen name='Conductivity Main' component={ConductivityMainScreen} options={{ headerTitle: "Conductivity Input" }} />
-      <StackConductivity.Screen name='Configuration' component={ConfigurationNumScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
-
-
+      <StackConductivity.Screen name='SubScreen' component={ConductivityMainScreen} options={{ headerTitle: "Temperature Coefficients" }} />
+      <StackConductivity.Screen name='TemperatureCoeff' component={ConfigurationNumScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
     </StackConductivity.Navigator>
 
   );
@@ -311,6 +318,11 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
     borderBottomWidth: StyleSheet.hairlineWidth,
     justifyContent: 'center'
+  },
+  itemActiveConfig: {
+    backgroundColor: '#008000',
+    justifyContent: 'center',
+    padding: 8,
   },
   myText: {
     color: 'black',
