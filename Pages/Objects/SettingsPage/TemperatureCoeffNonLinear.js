@@ -1,6 +1,5 @@
-import React, { useEffect, useState,useContext } from 'react'
-import { StyleSheet, Text, View, Button, SafeAreaView, FlatList,Image, StatusBar, TouchableOpacity, ScrollView,KeyboardAvoidingView } from 'react-native'
-// import Values from '../Paramsfiltered.json';
+import React, { useEffect, useState, useContext } from 'react'
+import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, Image, StatusBar, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
 import Values from '../Paramsfiltered.json';
@@ -16,49 +15,47 @@ import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import InputScrollView from 'react-native-input-scroll-view';
-// import Slider from '@react-native-community/slider';
-//import MultiSlider from 'react-native-multi-slider';
+
 
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
 let peripheralID = '0'
-
-let nonLinearCoeffParams = Values.filter(item => item.Tag === "Temperature Coefficient Non-Linear")[0];
+const MainMenu = Values.find(item => item.Tag === "Temperature Coefficients").SubMenu;
+let nonLinearCoeffParams = MainMenu.find(item => item.Tag === "Temperature Coefficient Non-Linear");
 let MenuParams = nonLinearCoeffParams.menu;
-// let subMenuParams = MenuParams.filter(row => row.Tag == 'Configuration 1')[0].menu;
 const StackTempCoeffNonLinear = createStackNavigator();
 
-const ItemBar = ({item})=>(
+const ItemBar = ({ item }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-  <View style={{height:40 ,justifyContent:'center'}}> 
-    <Text style={styles.title}>{item}</Text>
+    <View style={{ height: 40, justifyContent: 'center' }}>
+      <Text style={styles.title}>{item}</Text>
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
   </View>
-  <View style={{ justifyContent: 'center' }}>
-    <Icon
-      name="chevron-forward-outline"
-      size={20}
-      color="#000"
-    />
-  </View>
-</View>
 )
-const ItemValueBar = ({item,value})=>(
+const ItemValueBar = ({ item, value }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-  <View style={{justifyContent:'center'}}> 
-    <Text style={styles.title}>{item}</Text>
-    <Text style={styles.value}>{value}</Text>
+    <View style={{ justifyContent: 'center' }}>
+      <Text style={styles.title}>{item}</Text>
+      <Text style={styles.value}>{value}</Text>
 
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
   </View>
-  <View style={{ justifyContent: 'center' }}>
-    <Icon
-      name="chevron-forward-outline"
-      size={20}
-      color="#000"
-    />
-  </View>
-</View>
 )
 
 function renderItem(item, navigation = null, context = null, parent) {
@@ -67,30 +64,30 @@ function renderItem(item, navigation = null, context = null, parent) {
 
 function Item(title, value, navigation = null, context = null, parent = null) {
   switch (title) {
-    case 'Configuration 1':
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Non-Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
-        <ItemBar item={title} />
-        </TouchableOpacity>
-      )
-    case 'Configuration 2':
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Non-Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
-        <ItemBar item={title} />
-        </TouchableOpacity>
-      )
-    case 'Configuration 3':
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Non-Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
-        <ItemBar item={title} />
-               </TouchableOpacity>
-      )
-    case 'Configuration 4':
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Non-Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
-        <ItemBar item={title} />
-                </TouchableOpacity>
-      )
+    // case 'Configuration 1':
+    //   return (
+    //     <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Non-Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
+    //     <ItemBar item={title} />
+    //     </TouchableOpacity>
+    //   )
+    // case 'Configuration 2':
+    //   return (
+    //     <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Non-Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
+    //     <ItemBar item={title} />
+    //     </TouchableOpacity>
+    //   )
+    // case 'Configuration 3':
+    //   return (
+    //     <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Non-Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
+    //     <ItemBar item={title} />
+    //            </TouchableOpacity>
+    //   )
+    // case 'Configuration 4':
+    //   return (
+    //     <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Non-Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
+    //     <ItemBar item={title} />
+    //             </TouchableOpacity>
+    //   )
     case 'Configuration':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Configuration', { name: "Non-Linear Temperature Coefficient" })}>
@@ -110,6 +107,15 @@ function Item(title, value, navigation = null, context = null, parent = null) {
 }
 
 
+function zeros(dimensions) {
+  var array = [];
+
+  for (var i = 0; i < dimensions[0]; ++i) {
+    array.push(dimensions.length == 1 ? "0.0" : zeros(dimensions.slice(1)));
+  }
+
+  return array;
+}
 
 const CheckButtoned = (selectedValue, sentValue) => {
   if (selectedValue === sentValue) {
@@ -135,246 +141,52 @@ const CheckButtoned = (selectedValue, sentValue) => {
 }
 
 
+// function ConfigurationNumScreen({ route, navigation }) {
+//   // const { Tag } = route.params;
 
-function ConfigurationNumScreen({ route, navigation }) {
-  // const { Tag } = route.params;
+//   return (
+//     <SafeAreaView style={styles.container}>
+//       <View style={[{flexDirection:'row',padding:8, backgroundColor:'"#808B97"',borderRadius:15,justifyContent:'space-evenly'}]}>
+//       <Text style={[styles.title,{textAlign:'center',fontSize:12}]}>{"Device → ICT200-C50"}</Text>
+//           <Text style={[styles.title,{textAlign:'center',fontSize:12}]}>{"Active Configuration : Configuration 1"}</Text>
+//         </View>
+//       <FlatList
+//         data={MenuParams}
+//         renderItem={({ item, index, separators }) => (renderItem(item, navigation, "hello", item.Tag))}
+//         keyExtractor={item => item.Tag}
+//         initialNumToRender={MenuParams.length}
+//       />
+//     </SafeAreaView>
+//   )
+// }
+
+
+
+const element = (data, index, cellIndex, value, setValue) => {
+  const [focused, setFocused] = react.useState(false)
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={[{flexDirection:'row',padding:8, backgroundColor:'"#808B97"',borderRadius:15,justifyContent:'space-evenly'}]}>
-      <Text style={[styles.title,{textAlign:'center',fontSize:12}]}>{"Device → ICT200-C50"}</Text>
-          <Text style={[styles.title,{textAlign:'center',fontSize:12}]}>{"Active Configuration : Configuration 1"}</Text>
-        </View>
-      <FlatList
-        data={MenuParams}
-        renderItem={({ item, index, separators }) => (renderItem(item, navigation, "hello", item.Tag))}
-        keyExtractor={item => item.Tag}
-        initialNumToRender={MenuParams.length}
-      />
-    </SafeAreaView>
-  )
-}
+    // <TouchableOpacity onPress={()=>{focused? setFocused(false):setFocused(true)}}>
 
+    <View style={[styles.btn5, { alignItems: 'center', alignContent: "center", backgroundColor: '#fff', paddingBottom: 0, borderRadius: 0, borderBottomWidth: 0, borderBottomEndRadius: 0 }]}>
 
-
-
-// const TemperatureCoefficientScreen = ({ route, navigation }) => {
-//   const context = useContext(ContextConfigurationValues);
-//   const { Tag } = route.params;
-//   console.log(Tag)
-//   const { ConfigNum } = route.params;
-//   console.log(ConfigNum)
-
-//   useEffect(() => {
-//     navigation.setOptions({
-//       headerRight: () => (
-//         <TouchableOpacity onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Conductivity", "Set Parameters": {"78":"${nonLinearParamT1}","79":"${nonLinearParamC1}","7A":"${nonLinearParamT2}","7B":"${nonLinearParamC2}","7C":"${nonLinearParamT3}","7D":"${nonLinearParamC3}","7E":"${nonLinearParamT4}","7F":"${nonLinearParamC4}","80":"${nonLinearParamT5}","81":"${nonLinearParamC5}"}}`,context) }}>
-//           <View style={styles.buttonBar}>
-//             <Text>Save</Text>
-//           </View>
-//         </TouchableOpacity>
-//       ),
-//     })
-//   })
-
-
-//   const initialNonLinearParams = MenuParams.filter(row => row.Tag == ConfigNum)[0].menu
-//   const [nonLinearParams, setNonLinearParams] = useState(initialNonLinearParams)
-//   // const [linearParam, setLinearParam] = useState(initialLinearParams)
-//   const [nonLinearParams1, setNonLinearParams1] = useState(nonLinearParams)
-//   const [nonLinearParamT1, setNonLinearParamT1] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Temperature Point 1")[0].Value)
-//   const [nonLinearParamT2, setNonLinearParamT2] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Temperature Point 2")[0].Value)
-//   const [nonLinearParamT3, setNonLinearParamT3] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Temperature Point 3")[0].Value)
-//   const [nonLinearParamT4, setNonLinearParamT4] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Temperature Point 4")[0].Value)
-//   const [nonLinearParamT5, setNonLinearParamT5] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Temperature Point 5")[0].Value)
-//   const [nonLinearParamT6, setNonLinearParamT6] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Temperature Point 6")[0].Value)
-//   const [nonLinearParamC1, setNonLinearParamC1] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Temperature Coefficient 1")[0].Value)
-//   const [nonLinearParamC2, setNonLinearParamC2] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Temperature Coefficient 2")[0].Value)
-//   const [nonLinearParamC3, setNonLinearParamC3] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Temperature Coefficient 3")[0].Value)
-//   const [nonLinearParamC4, setNonLinearParamC4] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Temperature Coefficient 4")[0].Value)
-//   const [nonLinearParamC5, setNonLinearParamC5] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Temperature Coefficient 5")[0].Value)
-//   const [nonLinearParamC6, setNonLinearParamC6] = react.useState(initialNonLinearParams.filter(row => row.Tag == "Temperature Coefficient 6")[0].Value)
-//   // console.log(nonLinearParamT1)
-//   // console.log()
-//   return (
-//     // <ReturnMenu param={compensationVal} />
-//     <ScrollView>
-
-//       <View style={{ flex: 1, paddingTop: 5 }}>
-//         <Text style={styles.basicText}>  Temperature Point 1 (°C)   </Text>
-//         <TextInput style={styles.input}
-//           value={nonLinearParamT1}
-//           // placeholder={nonLinearParamT1}
-//           onChangeText={(text) => (setNonLinearParamT1(text))}
-//           ke
-//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
-//           maxLength={5}
-//           editable
-
-//           keyboardType="numeric"
-//         />
-//         <Text style={styles.basicText}>  Temperature Point 2 (°C)   </Text>
-//         <TextInput style={styles.input}
-//           value={nonLinearParamT2}
-//           // placeholder={nonLinearParamT1}
-//           onChangeText={(text) => (setNonLinearParamT2(text))}
-//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
-//           maxLength={5}
-//           editable
-
-//           keyboardType="numeric"
-//         />
-//         <Text style={styles.basicText}>  Temperature Point 3 (°C)  </Text>
-//         <TextInput style={styles.input}
-//           value={nonLinearParamT3}
-//           // placeholder={nonLinearParamT1}
-//           onChangeText={(text) => (setNonLinearParamT3(text))}
-//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
-//           maxLength={5}
-//           editable
-
-//           keyboardType="numeric"
-//         />
-//         <Text style={styles.basicText}>  Temperature Point 4 (°C)   </Text>
-//         <TextInput style={styles.input}
-//           value={nonLinearParamT4}
-//           // placeholder={nonLinearParamT1}
-//           onChangeText={(text) => (setNonLinearParamT4(text))}
-//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
-//           maxLength={5}
-//           editable
-
-//           keyboardType="numeric"
-//         />
-//         <Text style={styles.basicText}>  Temperature Point 5 (°C)   </Text>
-//         <TextInput style={styles.input}
-//           value={nonLinearParamT5}
-//           // placeholder={nonLinearParamT1}
-//           onChangeText={(text) => (setNonLinearParamT5(text))}
-//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
-//           maxLength={5}
-//           editable
-
-//           keyboardType="numeric"
-//         />
-//         <Text style={styles.basicText}>  Temperature Point 6 (°C)  </Text>
-//         <TextInput style={styles.input}
-//           value={nonLinearParamT6}
-//           // placeholder={nonLinearParamT1}
-//           onChangeText={(text) => (setNonLinearParamT6(text))}
-//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
-//           maxLength={5}
-//           editable
-
-//           keyboardType="numeric"
-//         />
-//       </View>
-//       <View style={{ flex: 1, paddingTop: 5 }}>
-//         <Text style={styles.basicText}>  Coefficient 1 (%/°C)  </Text>
-//         <TextInput style={styles.input}
-//           value={nonLinearParamC1}
-//           // placeholder={nonLinearParamT1}
-//           onChangeText={(text) => (setNonLinearParamC1(text))}
-//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
-//           maxLength={5}
-//           editable
-
-//           keyboardType="numeric"
-//         />
-//         <Text style={styles.basicText}> Coefficient 2 (%/°C)  </Text>
-//         <TextInput style={styles.input}
-//           value={nonLinearParamC2}
-//           // placeholder={nonLinearParamT1}
-//           onChangeText={(text) => (setNonLinearParamC2(text))}
-//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
-//           maxLength={5}
-//           editable
-
-//           keyboardType="numeric"
-//         />
-//         <Text style={styles.basicText}>  Coefficient 3 (%/°C)  </Text>
-//         <TextInput style={styles.input}
-//           value={nonLinearParamC3}
-//           // placeholder={nonLinearParamT1}
-//           onChangeText={(text) => (setNonLinearParamC3(text))}
-//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
-//           maxLength={5}
-//           editable
-
-//           keyboardType="numeric"
-//         />
-//         <Text style={styles.basicText}>  Coefficient 4 (%/°C)  </Text>
-//         <TextInput style={styles.input}
-//           value={nonLinearParamC4}
-//           // placeholder={nonLinearParamT1}
-//           onChangeText={(text) => (setNonLinearParamC4(text))}
-//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
-//           maxLength={5}
-//           editable
-
-//           keyboardType="numeric"
-//         />
-//         <Text style={styles.basicText}>  Coefficient 5 (%/°C)  </Text>
-//         <TextInput style={styles.input}
-//           value={nonLinearParamC5}
-//           // placeholder={nonLinearParamT1}
-//           onChangeText={(text) => (setNonLinearParamC5(text))}
-//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
-//           maxLength={5}
-//           editable
-
-//           keyboardType="numeric"
-//         />
-//         <Text style={styles.basicText}>  Coefficient 6 (%/°C) </Text>
-//         <TextInput style={styles.input}
-//           value={nonLinearParamC6}
-//           // placeholder={nonLinearParamT1}
-//           onChangeText={(text) => (setNonLinearParamC6(text))}
-//           // onBlur={(text) =>handleTextChangeEnd(text,item)}
-//           maxLength={5}
-//           editable
-
-//           keyboardType="numeric"
-//         />
-//       </View>
-    
-//      </ScrollView>
-//   )
-// };
-function zeros(dimensions) {
-  var array = [];
-
-  for (var i = 0; i < dimensions[0]; ++i) {
-    array.push(dimensions.length == 1 ? "0.0" : zeros(dimensions.slice(1)));
-  }
-
-  return array;
-}
-const element = (data, index, cellIndex, value, setValue) => {
-const [focused,setFocused]= react.useState(false)
-const [modalVisible, setModalVisible] = useState(false);
-  
-return (
-  // <TouchableOpacity onPress={()=>{focused? setFocused(false):setFocused(true)}}>
-  
-  <View   style={[styles.btn5, {alignItems:'center',alignContent: "center", backgroundColor:'#fff', paddingBottom: 0,borderRadius:0,borderBottomWidth:0,borderBottomEndRadius:0 }]}>
-    
-    <TextInput
-      disabled={false}
-      style={[styles.input1]}
-      value={value[index][cellIndex]}
-      placeholder=""
-      keyboardType="numeric"
-      maxLength={7}
-      underlineColorAndroid="red"
-      activeUnderlineColor='#fff'
-      selectionColor='black'
-      underlineColor='#fff'
-      backgroundColor='#fff'
-      scrollEnabled={false}
-      onChangeText={(val) => { updateCell(val, index, cellIndex, value, setValue) }}
-      textAlign='center' />
-  </View>
+      <TextInput
+        disabled={false}
+        style={[styles.input1]}
+        value={value[index][cellIndex]}
+        placeholder=""
+        keyboardType="numeric"
+        maxLength={7}
+        underlineColorAndroid="red"
+        activeUnderlineColor='#fff'
+        selectionColor='black'
+        underlineColor='#fff'
+        backgroundColor='#fff'
+        scrollEnabled={false}
+        onChangeText={(val) => { updateCell(val, index, cellIndex, value, setValue) }}
+        textAlign='center' />
+    </View>
 
 
   )
@@ -389,35 +201,45 @@ const text = (data, index) => (
     <Text>{"value"}</Text>
   </View>
 );
-const tableIndex = (text)=>(     
-  <View   style={[styles.btn5, {flexDirection:'row', backgroundColor: "#53565A",justifyContent:'center',borderTopLeftRadius:(text=="Temperature (°C)"? 5 : 0 ),borderTopRadius:(text=="Temperature (°F)"? 5 : 0 ) }]}>
-    <Text style={{textAlign:'center',paddingTop:15,color:'white'}}>{text}</Text>
+const tableIndex = (text) => (
+  <View style={[styles.btn5, { flexDirection: 'row', backgroundColor: "#53565A", justifyContent: 'center', borderTopLeftRadius: (text == "Temperature (°C)" ? 5 : 0), borderTopRadius: (text == "Temperature (°F)" ? 5 : 0) }]}>
+    <Text style={{ textAlign: 'center', paddingTop: 15, color: 'white' }}>{text}</Text>
   </View>
 
 
-  )
+)
 const TemperatureCoefficientScreen = ({ route, navigation }) => {
+  const context = useContext(ContextConfigurationValues)
   const { Tag } = route.params;
-  // const { ConcentrationPoints } = route.params;
-  // const { TemperaturePoints } = route.params;
   const { ConfigNum } = route.params;
+  const valueMenu = MenuParams.find(key => key.Tag == ConfigNum).menu
+  console.log(ConfigNum)
   const temperaturePoints = 6
   const concentrationPoints = 1
-  const emptyArr = zeros([temperaturePoints, concentrationPoints])
-  const concentrationArray = ["0", "10", "20", "30", "40", "50"]
-  const temperatureArray = ["-20", "0", "30", "40", "50", "60"]
-  const tableHead = []; tableHead[0] = "Configuration Points"
+  let concentrationArray = []
+  let temperatureArray = []
+  for (let i = 1; i < 7; i++) {
+    concentrationArray[i - 1] = context[valueMenu.find(key => key.Tag == `Temperature Coefficient ${i}`).Index].toFixed(4)
+
+  }
+  for (let i = 1; i < 7; i++) {
+    temperatureArray[i - 1] = context[valueMenu.find(key => key.Tag == `Temperature Point ${i}`).Index].toFixed(4)
+
+  }
+
+  // const concentrationArray = ["0", "10", "20", "30", "40", "50"]
+
+  // const temperatureArray = ["-20", "5", "30", "40", "50", "60"]
+  // const tableHead = []; tableHead[0] = "Configuration Points"
   const widthArr = [150]
-  for (let i = 1; i < concentrationPoints + 1; i += 1) {
-    tableHead[i] = "Concentration Point" + `${i}`
+  for (let i = 1; i < concentrationPoints + 1; i++) {
     widthArr[i] = 150
   }
-  //  const  tableHead=  ['Head', 'Head2', 'Head3', 'Head4', 'Head5', 'Head6', 'Head7', 'Head8', 'Head9']
-  //  const  widthArr= [200, 200, 200, 200, 200, 200, 200, 200, 200]
+
 
 
   const tableData = [];
-  for (let i = 0; i < temperaturePoints+1; i += 1) {
+  for (let i = 0; i < temperaturePoints + 1; i += 1) {
     const rowData = []
     for (let j = 0; j < concentrationPoints + 1; j += 1) {
       if (i == 0) {
@@ -426,74 +248,75 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
           console.log("I am Here")
         }
         else {
-          rowData.push(concentrationArray[j-1])
+          rowData.push(concentrationArray[j - 1])
         }
 
       }
       else {
-      
-      if (j == 0) {
-        rowData.push(temperatureArray[i-1])
 
+        if (j == 0) {
+          rowData.push(temperatureArray[i - 1])
+
+        }
+        else {
+          rowData.push(concentrationArray[i - 1])
+          console.log("-------------------------")
+
+        }
       }
-      else {
-        rowData.push(emptyArr[i-1][j - 1])
-      }
-    }
     }
 
 
     tableData.push(rowData);
   }
-  console.log(tableData)
   const [hookArray, setHookArray] = react.useState(tableData);
+  let payload = ""
 
-  console.log(tableData)
-  console.log("hookArray")
-  console.log(hookArray.length)
-  console.log(hookArray)
-
-  console.log("hookArray")
-
-
-
-
+  for (let i = 0; i < 2; i++) {
+    for (let k = 1; k < 7; k++) {
+     i==0 ? payload+=`"${valueMenu.find(key => key.Tag == `Temperature Point ${k}`).Index}":${hookArray[k][i]},` : payload+=`"${valueMenu.find(key => key.Tag == `Temperature Coefficient ${k}`).Index}":${hookArray[k][i]}, `
+  }
+  }
+  payload = payload.slice(0, -2); //// payloaddaki virgül atılıyor.
+// console.log(hookArray)
+console.log(payload)
+console.log(`{"Tag":"Temperature Coefficients","Set Parameters":{${payload}}}`)
   return (
     <View style={[styles.container4, { alignItems: 'center' }]}>
-      <ScrollView sckeyboardShouldPersistTaps="always" style={{backgroundColor:'white'}} horizontal={false} >
+      <ScrollView sckeyboardShouldPersistTaps="always" style={{ backgroundColor: 'white' }} horizontal={false} >
 
-        <ScrollView keyboardShouldPersistTaps="always" style={{backgroundColor:'white'}} horizontal={true} >
-          <View style={{backgroundColor:'white'}}>
+        <ScrollView keyboardShouldPersistTaps="always" style={{ backgroundColor: 'white' }} horizontal={true} >
+          <View style={{ backgroundColor: 'white' }}>
             {/* <Table borderStyle={{ borderWidth: 1, borderColor: '#000000', shadowColor:'white' }}>
               <Row data={tableHead} widthArr={widthArr} style={styles.header5} textStyle={styles.text5} />
             </Table> */}
-              <Table  borderStyle={{ borderWidth: 1,borderTopWidth:1,paddingTop:50, borderColor: '#000000' }}>
-                {
-                  tableData.map((rowData, index) => (
-                    <TableWrapper  key={index} style={[styles.row5,{paddingTop:1}]}>
-                      {
-                        rowData.map((cellData, cellIndex) => (
-                          <Cell key={cellIndex} data={ (index==0) ? tableIndex((cellIndex==0 ? "Temperature (°C)" : "Concentration (%)")) :element(cellData, index, cellIndex, hookArray, setHookArray)}  />
-                        ))
-                      }
-                    </TableWrapper>
-                  ))
-                }
+            <Table borderStyle={{ borderWidth: 1, borderTopWidth: 1, paddingTop: 50, borderColor: '#000000' }}>
+              {
+                tableData.map((rowData, index) => (
+                  <TableWrapper key={index} style={[styles.row5, { paddingTop: 1 }]}>
+                    {
+                      rowData.map((cellData, cellIndex) => (
+                        <Cell key={cellIndex} data={(index == 0) ? tableIndex((cellIndex == 0 ? "Temperature (°C)" : "Concentration (%)")) : element(cellData, index, cellIndex, hookArray, setHookArray)} />
+                      ))
+                    }
+                  </TableWrapper>
+                ))
+              }
 
-                {/* Right Wrapper */}
-                {/* <TableWrapper style={{ flex: 1 }}>
+              {/* Right Wrapper */}
+              {/* <TableWrapper style={{ flex: 1 }}>
                 <Cols data={tableData} heightArr={[40, 30, 30, 30, 30]} textStyle={styles.text5} />
               </TableWrapper> */}
 
 
 
-              </Table>
+            </Table>
           </View>
         </ScrollView>
         {true &&
           <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
             <Button
-              onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${Tag}":"${text}"}}`, context) }}
+              onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100",`{"Tag":"Temperature Coefficients","Set Parameters":{${payload}}}`,context) }}
               title="Save"
               color="#841584"
             />
@@ -508,6 +331,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
 };
 const TemperatureCoeffNonLinearScreen = ({ route, navigation }) => {
+  const { ConfigNum } = route.params;
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
     // Success code
 
@@ -521,8 +345,8 @@ const TemperatureCoeffNonLinearScreen = ({ route, navigation }) => {
 
   return (
     <StackTempCoeffNonLinear.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-      <StackTempCoeffNonLinear.Screen name='Configuration' component={ConfigurationNumScreen} options={{ headerTitle: "Non-Linear Temperature Coefficient" }} />
-      <StackTempCoeffNonLinear.Screen name='Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
+      {/* <StackTempCoeffNonLinear.Screen name='Configuration' component={ConfigurationNumScreen} options={{ headerTitle: "Non-Linear Temperature Coefficient" }} /> */}
+      <StackTempCoeffNonLinear.Screen name='Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} options={({ route }) => ({ headerTitle: route.params.name })} initialParams={{ ConfigNum: ConfigNum }} />
       {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
 
 
@@ -622,9 +446,9 @@ const styles = StyleSheet.create({
 
 
 
-  row5: { flexDirection: 'row', backgroundColor: "#808B97",borderRightWidth:1 },
-  btn5: { width: 149, height: 50, backgroundColor: '#white'},
-  btn6: { width: 149, height: 10, backgroundColor: '#white',borderBottomColor:'white' },
+  row5: { flexDirection: 'row', backgroundColor: "#808B97", borderRightWidth: 1 },
+  btn5: { width: 149, height: 50, backgroundColor: '#white' },
+  btn6: { width: 149, height: 10, backgroundColor: '#white', borderBottomColor: 'white' },
 
   img: { width: 149, height: 50, borderRightWidth: 1 },
 

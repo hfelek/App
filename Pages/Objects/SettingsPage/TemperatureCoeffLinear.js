@@ -20,12 +20,14 @@ import BleManager from 'react-native-ble-manager';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 let peripheralID = '0'
-
-let linearCoeffParams = Values.filter(item => item.Tag === "Temperature Coefficient Linear")[0];
-let MenuParams = linearCoeffParams.menu;
+const MainMenu = Values.find(item => item.Tag === "Temperature Coefficients").SubMenu;
+const linearCoeffParams = MainMenu.find(item => item.Tag === "Temperature Coefficient Linear");
+const MenuParams = linearCoeffParams.menu;
 // let subMenuParams = MenuParams.filter(row => row.Tag == 'Configuration 1')[0].menu;
 const StackConductivity = createStackNavigator();
-
+function isItNumber(str) {
+  return /^\-?[0-9]+(e[0-9]+)?(\.[0-9]+)?$/.test(str);
+}
 const ItemBar = ({item})=>(
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
@@ -157,23 +159,13 @@ function ConfigurationNumScreen({ route, navigation }) {
 
 const TemperatureCoefficientScreen = ({ route, navigation }) => {
     const context = useContext(ContextConfigurationValues)
-
-    const { Tag } = route.params;
-    const { ConfigNum } = route.params;
-    const value = MenuParams.filter(item => item.Tag == ConfigNum)[0].Value
-    console.log(MenuParams)
+    const  {ConfigNum} =   route.params;
+    const index = MenuParams.find(key=>key.Tag == ConfigNum).Index
+    console.log(index)
     console.log(ConfigNum)
-    console.log(value)
-    // useEffect(() => {
-    //   navigation.setOptions({ title: Tag })
-    // });
-    // const filtered = Values.filter(row => row.Tag == 'Communication');
-    // const filteredAT = filtered[0].menu.filter(row => row.Tag == "WiFi")[0].menu;
-    // const filteredATSub = filteredAT.filter(row => row.Tag == Tag)[0].Value;
-  
-    const [text, setText] = React.useState(value);
-  
-  
+    console.log(context[index])
+    console.log(context[index].toFixed(3))
+    const [text, setText] = React.useState(context[index].toFixed(3));
     return (
         <View>
           <TextInput
@@ -185,14 +177,18 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
             error={false}
             right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
             onChangeText={text => setText(text)}
+            maxLength={8}
           />
           {/* <LenghtChecker lenght={32} /> */}
+          {text != context[index] && isItNumber(text) && text<100 &&
+
             <Button
-              onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"250":"${text}"}}`, context) }}
+              onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters":{"${index}":${text}}}`, context) }}
               title="Save"
               color="#841584"
               accessibilityLabel="Learn more about this purple button"
             />
+          }
           {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
           {/* <MaskedInput {...props} /> */}
     
@@ -201,6 +197,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
   };
 
 const TemperatureCoeffLinearScreen = ({ route, navigation }) => {
+  const  {ConfigNum} =  route.params;
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
     // Success code
 
@@ -214,8 +211,8 @@ const TemperatureCoeffLinearScreen = ({ route, navigation }) => {
 
   return (
     <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-      <StackConductivity.Screen name='Configuration Linear Coeff' component={ConfigurationNumScreen} options={{ headerTitle: "Linear Temperature Coefficient" }} />
-      <StackConductivity.Screen name='Linear Temperature Coefficient' component={TemperatureCoefficientScreen}  options={({ route }) => ({ headerTitle: route.params.name })} />
+      {/* <StackConductivity.Screen name='Configuration Linear Coeff' component={ConfigurationNumScreen} options={{ headerTitle: "Linear Temperature Coefficient" }} /> */}
+      <StackConductivity.Screen name='Linear Temperature Coefficient' component={TemperatureCoefficientScreen} initialParams={{ ConfigNum: ConfigNum }}/>
       {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
 
 

@@ -19,11 +19,14 @@ import {
   FilledTextField,
   OutlinedTextField,
 } from 'react-native-material-textfield';
-// import Slider from '@react-native-community/slider';
-//import MultiSlider from 'react-native-multi-slider';
-const activeConfigurationMenu = Values.filter(SetupMenu => SetupMenu.Tag === "Setup Menu")[0].menu;
-const activeConfigurationIndex =activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].Index
-const activeConfigurationPossibleValues =activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].PossibleValues
+
+const activeConfigurationMenu = Values.find(SetupMenu => SetupMenu.Tag === "Setup Menu").menu;
+const activeConfigurationIndex =activeConfigurationMenu.find(tag => tag.Tag === "Active Configuration").Index
+const activeConfigurationPossibleValues =activeConfigurationMenu.find(tag => tag.Tag === "Active Configuration").PossibleValues
+
+const MainMenu = Values.find(item => item.Tag === "Temperature Coefficients").SubMenu;
+const CustomCoeffParams = MainMenu.find(item => item.Tag === "Temperature Coefficient Custom");
+const MenuParams = CustomCoeffParams.menu;
 
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
@@ -61,8 +64,6 @@ const ItemValueBar = ({ item, value }) => (
 )
 let peripheralID = '0'
 
-const CustomCoeffParams = Values.filter(item => item.Tag === "Temperature Coefficient Custom")[0];
-let MenuParams = CustomCoeffParams.menu;
 const StackConductivity = createStackNavigator();
 
 const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
@@ -96,41 +97,41 @@ function Item(title, value, navigation = null, context = null, parent = null) {
   let index=null;
   let activeConfigEnum=null
   switch (title) {
-    case 'Configuration 1':
-      activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+    // case 'Configuration 1':
+    //   activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
 
-      return (
-        <TouchableOpacity style={title== activeConfigEnum ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
-            <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 1"}/>
+    //   return (
+    //     <TouchableOpacity style={title== activeConfigEnum ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
+    //         <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 1"}/>
 
-        </TouchableOpacity>
-      )
-    case 'Configuration 2':
-      activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+    //     </TouchableOpacity>
+    //   )
+    // case 'Configuration 2':
+    //   activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
 
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
-            <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 1"}/>
-        </TouchableOpacity>
-      )
-    case 'Configuration 3':
-      activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+    //   return (
+    //     <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
+    //         <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 1"}/>
+    //     </TouchableOpacity>
+    //   )
+    // case 'Configuration 3':
+    //   activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
 
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
-            <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 1"}/>
+    //   return (
+    //     <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
+    //         <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 1"}/>
 
-        </TouchableOpacity>
-      )
-    case 'Configuration 4':
-      activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+    //     </TouchableOpacity>
+    //   )
+    // case 'Configuration 4':
+    //   activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
 
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
-            <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 1"}/>
+    //   return (
+    //     <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
+    //         <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 1"}/>
 
-        </TouchableOpacity>
-      )
+    //     </TouchableOpacity>
+    //   )
     case 'Configure Table':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
@@ -336,8 +337,8 @@ const text = (data, index) => (
 );
 const TemperatureCoefficientScreen = ({ route, navigation }) => {
   const { Tag } = route.params;
-  const { ConcentrationPoints } = route.params;
-  const { TemperaturePoints } = route.params;
+  const  ConcentrationPoints  = 6;
+  const TemperaturePoints  = 6;
   const { ConfigNum } = route.params;
   const temperaturePoints = parseInt(TemperaturePoints)
   const concentrationPoints = parseInt(ConcentrationPoints)
@@ -394,12 +395,12 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
 
   return (
-    <ScrollView contentContainerStyle={{ alignSelf: 'center' }} style={{ paddingBottom: 40, backgroundColor: 'white' }} horizontal={false} >
+    <ScrollView contentContainerStyle={{ alignSelf: 'center' }} style={{ paddingBottom: 40, backgroundColor: 'white' }} horizontal={true} >
 
-      <ScrollView contentContainerStyle={{ justifyContent: 'center' }} style={{ backgroundColor: 'white' }} horizontal={true} >
+      <ScrollView contentContainerStyle={{ justifyContent: 'center' }} style={{ backgroundColor: 'white' }} horizontal={false} >
         <View style={{ backgroundColor: 'white', }}>
-          <Table borderStyle={{ borderWidth: 1, borderColor: '#000000', shadowColor: 'white' }}>
-          <Row data={["","Concentration Points"]} widthArr={[150,900]} style={[styles.header5,{paddingLeft:0}]} textStyle={styles.text5} />
+          <Table borderStyle={{ borderWidth: 1, borderColor: 'transparent', shadowColor: 'white' }}>
+          <Row data={["","Concentration Points"]} widthArr={[150,900]} style={[styles.header5,{paddingLeft:0}]} textStyle={[styles.text5,{color:'white'}]} />
           </Table>
           {/* <Table borderStyle={{ borderWidth: 1, borderColor: '#000000', shadowColor: 'white' }}>
             <Row data={tableHead} widthArr={widthArr} style={styles.header5} textStyle={styles.text5} />
@@ -448,6 +449,7 @@ const tableIndex = () => (
   />)
 
 const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
+  const {ConfigNum} = route.params
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
     // Success code
 
@@ -460,10 +462,10 @@ const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
 
   return (
     <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-      <StackConductivity.Screen name='Configuration' component={ConfigurationNumScreen} options={{ headerTitle: "Custom Temperature Coefficient" }} />
-      <StackConductivity.Screen name='Custom Configuration' component={CustomConfigurationScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
+      {/* <StackConductivity.Screen name='Configuration' component={ConfigurationNumScreen} options={{ headerTitle: "Custom Temperature Coefficient" }} /> */}
+      {/* <StackConductivity.Screen name='Custom Configuration' component={CustomConfigurationScreen} initialParams={{ ConfigNum: ConfigNum }} /> */}
 
-      <StackConductivity.Screen name='Custom Temperature Coefficient' component={TemperatureCoefficientScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
+      <StackConductivity.Screen name='Custom Temperature Coefficient' component={TemperatureCoefficientScreen} initialParams={{ ConfigNum: ConfigNum }}/>
       {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
 
     </StackConductivity.Navigator>
@@ -618,7 +620,7 @@ const styles = StyleSheet.create({
     // marginTop: StatusBar.currentHeight || 0,
     paddingTop: 0,
   },
-  header5: { height: 50, backgroundColor: 'red', borderRadius: 1 },
+  header5: { height: 50, backgroundColor: '#333333' },
 
   row5: { flexDirection: 'row', backgroundColor: "#808B97", borderRightWidth: 1 },
   btn5: { width: 149, height: 50, backgroundColor: '#white', borderRadius: 1 },

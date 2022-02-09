@@ -346,16 +346,16 @@ const ConnectionScreen = () => {
         console.log(peripheralInfo)
 
         //setTimeout(() => {
-        for (let [key, value] of notifyCharacteristicsMap) {
+        // for (let [key, value] of notifyCharacteristicsMap) {
 
-          BleManager.startNotification(peripheralInfo.id, value["ServiceUUID"], value["CharacteristicUUID"]).then(() => {
-            console.log('Notification Succesfull for' + JSON.stringify(value));
+        //   BleManager.startNotification(peripheralInfo.id, value["ServiceUUID"], value["CharacteristicUUID"]).then(() => {
+        //     console.log('Notification Succesfull for' + JSON.stringify(value));
 
 
-          }).catch((error) => {
-            console.log('Notification error', error);
-          });
-        }
+        //   }).catch((error) => {
+        //     console.log('Notification error', error);
+        //   });
+        // }
 
 
 

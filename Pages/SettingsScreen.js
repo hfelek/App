@@ -32,9 +32,9 @@ import DisplayScreen from './Objects/SettingsPage/Display'
 import CommunicationScreen from './Objects/SettingsPage/CommunicationScreen'
 import SystemScreen from './Objects/SettingsPage/System'
 import ConfigurationScreen from './Objects/SettingsPage/Configuration'
-import TemperatureCoeffNonLinearScreen from './Objects/SettingsPage/TemperatureCoeffNonLinear'
-import TemperatureCoeffLinearScreen from './Objects/SettingsPage/TemperatureCoeffLinear'
-import TemperatureCoeffCustomScreen from './Objects/SettingsPage/TemperatureCoeffCustom'
+// import TemperatureCoeffNonLinearScreen from './Objects/SettingsPage/TemperatureCoeffNonLinear'
+// import TemperatureCoeffLinearScreen from './Objects/SettingsPage/TemperatureCoeffLinear'
+// import TemperatureCoeffCustomScreen from './Objects/SettingsPage/TemperatureCoeffCustom'
 import OperationModeScreen from './Objects/SettingsPage/OperationModeScreen'
 import CurrentOutputScreen from './Objects/SettingsPage/CurrentOutputScreen'
 import SwitchOutputScreeen from './Objects/SettingsPage/SwitchOutputScreen'
@@ -112,10 +112,10 @@ console.log("I am here Settings Screen")
         <StackSettings.Screen name='Identification' component={IdentificationScreen} />
         <StackSettings.Screen name='Setup Menu' component={ConfigurationScreen} />
         <StackSettings.Screen name='Diagnostics' component={DiagnosticsScreen} />
-        <StackSettings.Screen name='Temperature Coefficient Non-Linear' component={TemperatureCoeffNonLinearScreen} />
+        {/* <StackSettings.Screen name='Temperature Coefficient Non-Linear' component={TemperatureCoeffNonLinearScreen} /> */}
         <StackSettings.Screen name='Temperature Coefficients' component={TemperatureCoeffScreen} />
-        <StackSettings.Screen name='Temperature Coefficient Linear' component={TemperatureCoeffLinearScreen} />
-        <StackSettings.Screen name='Temperature Coefficient Custom' component={TemperatureCoeffCustomScreen} />
+        {/* <StackSettings.Screen name='Temperature Coefficient Linear' component={TemperatureCoeffLinearScreen} />
+        <StackSettings.Screen name='Temperature Coefficient Custom' component={TemperatureCoeffCustomScreen} /> */}
         <StackSettings.Screen name='Operation Mode IO' component={OperationModeScreen} />
         <StackSettings.Screen name='Conductivity Input' component={ConductivityScreen} />
 
