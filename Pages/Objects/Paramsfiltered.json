@@ -1749,6 +1749,78 @@
                             }
                         ],
                         "menu": [{
+                                "Tag": "Temperature Point 1",
+                                "Index": "400",
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
+                                "Tag": "Temperature Point 2",
+                                "Index": "401",
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
+                                "Tag": "Temperature Point 3",
+                                "Index": "402",
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
+                                "Tag": "Temperature Point 4",
+                                "Index": "403",
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
+                                "Tag": "Temperature Point 5",
+                                "Index": "404",
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
+                                "Tag": "Temperature Point 6",
+                                "Index": "405",
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
+                                "Tag": "Temperature Coefficient 1",
+                                "Index": "406",
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
+                                "Tag": "Temperature Coefficient 2",
+                                "Index": "407",
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
+                                "Tag": "Temperature Coefficient 3",
+                                "Index": "408",
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
+                                "Tag": "Temperature Coefficient 4",
+                                "Index": "409",
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
+                                "Tag": "Temperature Coefficient 5",
+                                "Index": "410",
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
+                                "Tag": "Temperature Coefficient 6",
+                                "Index": "411",
+                                "RangeUpper": 130.0,
+                                "RangeLower": -10.0
+                            },
+                            {
                                 "Tag": "Conductivity Point 1",
                                 "Value": "0.0",
                                 "Index": "163",
@@ -1971,7 +2043,36 @@
                                 "Index": "194",
                                 "RangeUpper": 5.4,
                                 "RangeLower": 0.0
+                            },
+                            {
+                                "Tag": "Conductivity Point 33",
+                                "Value": "2.1",
+                                "Index": "460",
+                                "RangeUpper": 5.4,
+                                "RangeLower": 0.0
+                            },
+                            {
+                                "Tag": "Conductivity Point 34",
+                                "Value": "2.1",
+                                "Index": "461",
+                                "RangeUpper": 5.4,
+                                "RangeLower": 0.0
+                            },
+                            {
+                                "Tag": "Conductivity Point 35",
+                                "Value": "2.1",
+                                "Index": "462",
+                                "RangeUpper": 5.4,
+                                "RangeLower": 0.0
+                            },
+                            {
+                                "Tag": "Conductivity Point 36",
+                                "Value": "2.1",
+                                "Index": "463",
+                                "RangeUpper": 5.4,
+                                "RangeLower": 0.0
                             }
+
                         ]
                     },
                     {

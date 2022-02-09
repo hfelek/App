@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef,useContext } from 'react'
 import { StyleSheet, Pressable, Text, Modal, View, Button, Alert, SafeAreaView, FlatList, StatusBar, TouchableOpacity, ScrollView, Image, KeyboardAvoidingView } from 'react-native'
 // import Values from '../Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -21,8 +21,8 @@ import {
 } from 'react-native-material-textfield';
 
 const activeConfigurationMenu = Values.find(SetupMenu => SetupMenu.Tag === "Setup Menu").menu;
-const activeConfigurationIndex =activeConfigurationMenu.find(tag => tag.Tag === "Active Configuration").Index
-const activeConfigurationPossibleValues =activeConfigurationMenu.find(tag => tag.Tag === "Active Configuration").PossibleValues
+const activeConfigurationIndex = activeConfigurationMenu.find(tag => tag.Tag === "Active Configuration").Index
+const activeConfigurationPossibleValues = activeConfigurationMenu.find(tag => tag.Tag === "Active Configuration").PossibleValues
 
 const MainMenu = Values.find(item => item.Tag === "Temperature Coefficients").SubMenu;
 const CustomCoeffParams = MainMenu.find(item => item.Tag === "Temperature Coefficient Custom");
@@ -30,6 +30,8 @@ const MenuParams = CustomCoeffParams.menu;
 
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
+import { ContextConfigurationValues } from '../../../App';
+import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup';
 const ItemBar = ({ item }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
@@ -76,11 +78,11 @@ function renderItem(item, navigation = null, context = null, parent) {
   return (Item(item.Tag, item.Value, navigation, context, parent))
 }
 const ConfigurationBar = ({ config, activeConfig }) => (
-  <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-    <View style={{ justifyContent: 'center',height:40 }}>
+    <View style={{ justifyContent: 'center', height: 40 }}>
       <Text style={styles.title}>{config}</Text>
-     { config==activeConfig && <Text style={{fontSize:12,color:'black'}}>{"Active"}</Text>}
+      {config == activeConfig && <Text style={{ fontSize: 12, color: 'black' }}>{"Active"}</Text>}
 
     </View>
     <View style={{ justifyContent: 'center' }}>
@@ -92,10 +94,10 @@ const ConfigurationBar = ({ config, activeConfig }) => (
     </View>
   </View>
 
-  )
+)
 function Item(title, value, navigation = null, context = null, parent = null) {
-  let index=null;
-  let activeConfigEnum=null
+  let index = null;
+  let activeConfigEnum = null
   switch (title) {
     // case 'Configuration 1':
     //   activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
@@ -305,7 +307,7 @@ const element = (data, index, cellIndex, value, setValue) => {
   return (
     // <TouchableOpacity onPress={()=>{focused? setFocused(false):setFocused(true)}}>
 
-    <View style={[styles.btn5, { alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? "#808B97" : 'white', paddingBottom: 0, borderRadius: 0, borderBottomWidth: 0, borderBottomEndRadius: 0 }]}>
+    <View style={[cellIndex == 0 ? styles.btn5 : styles.btn6, { alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? "#808B97" : 'white', paddingBottom: 0, borderRadius: 0, borderBottomWidth: 0, borderBottomEndRadius: 0 }]}>
 
       <TextInput
         disabled={false}
@@ -314,7 +316,8 @@ const element = (data, index, cellIndex, value, setValue) => {
         keyboardType="numeric"
         maxLength={7}
         underlineColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
-        selectionColor='black'
+        selectionColor='#555555'
+        placeholder='0.0'
         activeUnderlineColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
         backgroundColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
         textAlign='center'
@@ -335,21 +338,27 @@ const text = (data, index) => (
     <Text>{"value"}</Text>
   </View>
 );
+function isItNumber(str) {
+  return /^\-?[0-9]+(e[0-9]+)?(\.[0-9]+)?$/.test(str);
+}
 const TemperatureCoefficientScreen = ({ route, navigation }) => {
+  const context = useContext(ContextConfigurationValues)
   const { Tag } = route.params;
-  const  ConcentrationPoints  = 6;
-  const TemperaturePoints  = 6;
   const { ConfigNum } = route.params;
-  const temperaturePoints = parseInt(TemperaturePoints)
-  const concentrationPoints = parseInt(ConcentrationPoints)
+  console.log(ConfigNum)
+  const temperaturePoints = 6
+  const concentrationPoints = 6
   const emptyArr = zeros([temperaturePoints, concentrationPoints])
-  const concentrationArray = ["0", "10", "20", "30", "40", "50"]
-  const temperatureArray = ["-20", "0", "30", "40", "50", "60"]
+  const concentrationArray = []
+  const temperatureArray = []
   const tableHead = []; tableHead[0] = "Configuration Points"
   const widthArr = [150]
+
+  const configMenu = MenuParams.find(key=>key.Tag == ConfigNum).menu
+
   for (let i = 1; i < concentrationPoints + 1; i += 1) {
     tableHead[i] = "Concentration Point" + `${i}`
-    widthArr[i] = 150
+    widthArr[i] = 100
   }
   //  const  tableHead=  ['Head', 'Head2', 'Head3', 'Head4', 'Head5', 'Head6', 'Head7', 'Head8', 'Head9']
   //  const  widthArr= [200, 200, 200, 200, 200, 200, 200, 200, 200]
@@ -364,81 +373,114 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
           console.log("I am Here")
         }
         else {
-          rowData.push(concentrationArray[j - 1])
+          rowData.push(context[configMenu.find(key=>key.Tag == `Temperature Point ${j}`).Index].toFixed(2))
         }
 
       }
       else {
 
         if (j == 0) {
-          rowData.push(temperatureArray[i - 1])
+          rowData.push(context[configMenu.find(key=>key.Tag == `Temperature Coefficient ${i}`).Index].toFixed(2))
 
         }
         else {
-          rowData.push(emptyArr[i - 1][j - 1])
+          rowData.push(context[configMenu.find(key=>key.Tag == `Conductivity Point ${i}`).Index].toFixed(2))
         }
       }
     }
 
     tableData.push(rowData);
   }
-  console.log(tableData)
   const [hookArray, setHookArray] = react.useState(tableData);
+  let payload = ""
+ 
+  for (let i = 1; i < 8; i++) {
+    for (let k = 1; k < 8; k++) {
+      if (i==1 & k==1){
 
-  console.log(tableData)
-  console.log("hookArray")
-  console.log(hookArray.length)
-  console.log(hookArray)
-
-  console.log("hookArray")
-
-
+      } 
+      else if(i == 1 & k!=1){
+        // console.log(`Temperature Point ${k-1}`)
+        if(isItNumber(hookArray[k-1][i-1])){
+        payload = payload + `"${configMenu.find(key=>key.Tag == `Temperature Point ${k-1}`).Index}":${hookArray[k-1][i-1]}, `
+        }
+      }
+      else if(i != 1 & k==1){
+        if(isItNumber(hookArray[k-1][i-1])){
+        payload = payload + `"${configMenu.find(key=>key.Tag == `Temperature Coefficient ${i-1}`).Index}":${hookArray[k-1][i-1]}, `
+        }
+      }
+      else if(i != 1 & k!=1){
+        if(isItNumber(hookArray[k-1][i-1])){
+        payload = payload + `"${configMenu.find(key=>key.Tag == `Conductivity Point ${((i-2)*6 +(k-2)+1)}`).Index}":${hookArray[k-1][i-1]}, `
+        }
+      }
+    }
+  }
+  payload=payload.slice(0,-2)
+console.log(payload)
+  
 
   return (
-    <ScrollView contentContainerStyle={{ alignSelf: 'center' }} style={{ paddingBottom: 40, backgroundColor: 'white' }} horizontal={true} >
+    <View>
+      <ScrollView contentContainerStyle={{ alignSelf: 'center' }} style={{ paddingBottom: 40, backgroundColor: 'white' }} horizontal={false} >
+        {false &&
+          <View style={{ alignContent: 'center', paddingTop: 3,paddingBottom:3, backgroundColor: '#333333' }}>
 
-      <ScrollView contentContainerStyle={{ justifyContent: 'center' }} style={{ backgroundColor: 'white' }} horizontal={false} >
-        <View style={{ backgroundColor: 'white', }}>
-          <Table borderStyle={{ borderWidth: 1, borderColor: 'transparent', shadowColor: 'white' }}>
-          <Row data={["","Concentration Points"]} widthArr={[150,900]} style={[styles.header5,{paddingLeft:0}]} textStyle={[styles.text5,{color:'white'}]} />
-          </Table>
-          {/* <Table borderStyle={{ borderWidth: 1, borderColor: '#000000', shadowColor: 'white' }}>
-            <Row data={tableHead} widthArr={widthArr} style={styles.header5} textStyle={styles.text5} />
-          </Table> */}
-          <Table borderStyle={{ borderWidth: 1, borderTopWidth: 1, paddingTop: 50, borderColor: '#000000' }}>
-            {
-              tableData.map((rowData, index) => (
-                <TableWrapper key={index} style={[styles.row5, { paddingTop: 1 }]}>
-                  {
-                    rowData.map((cellData, cellIndex) => (
-                      <Cell key={cellIndex} data={(cellIndex == 0 && index == 0) ? tableIndex() : element(cellData, index, cellIndex, hookArray, setHookArray)} />
-                    ))
-                  }
-                </TableWrapper>
-              ))
-            }
+            <Text style={{color:'white',textAlign:'center'}}>Concentration</Text>
+          </View>
+        }
+        <ScrollView contentContainerStyle={{ justifyContent: 'center' }} style={{ backgroundColor: 'white' }} horizontal={true} >
+          <View style={{ backgroundColor: 'white', }}>
 
-            {/* Right Wrapper */}
-            {/* <TableWrapper style={{ flex: 1 }}>
+            {/* <Table borderStyle={{ borderWidth: 0, borderColor: 'transparent' }}>
+              <Row data={["", "Concentration"]} widthArr={[150, 610]} style={[styles.header5, { paddingLeft: 0 }]} textStyle={[styles.text5, { color: 'white' }]} />
+            </Table> */}
+
+            <Table borderStyle={{ borderWidth: 1, borderTopWidth: 1, paddingTop: 50, borderColor: '#000000' }}>
+              {
+                tableData.map((rowData, index) => (
+                  <TableWrapper key={index} style={[styles.row5, { paddingTop: 1 }]}>
+                    {
+                      rowData.map((cellData, cellIndex) => (
+                        <Cell key={cellIndex} data={(cellIndex == 0 && index == 0) ? tableIndex() : element(cellData, index, cellIndex, hookArray, setHookArray)} />
+                      ))
+                    }
+                  </TableWrapper>
+                ))
+              }
+
+              {/* Right Wrapper */}
+              {/* <TableWrapper style={{ flex: 1 }}>
                 <Cols data={tableData} heightArr={[40, 30, 30, 30, 30]} textStyle={styles.text5} />
               </TableWrapper> */}
 
 
-          </Table>
-        </View>
+            </Table>
+          </View>
+          {false &&
+            <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
+              <Button
+                onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${Tag}":"${text}"}}`, context) }}
+                title="Save"
+                color="#841584"
+              />
+            </View>
+          }
+        </ScrollView>
+        {true &&
+          <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
+            <Button
+              onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {${payload}}}`, context) }}
+              title="Save"
+              color="#841584"
+            />
+          </View>
+        }
       </ScrollView>
-      {true &&
-        <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
-          <Button
-            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${Tag}":"${text}"}}`, context) }}
-            title="Save"
-            color="#841584"
-          />
-        </View>
-      }
-    </ScrollView>
 
 
+    </View>
   )
 
 };
@@ -449,7 +491,7 @@ const tableIndex = () => (
   />)
 
 const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
-  const {ConfigNum} = route.params
+  const { ConfigNum } = route.params
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
     // Success code
 
@@ -465,7 +507,7 @@ const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
       {/* <StackConductivity.Screen name='Configuration' component={ConfigurationNumScreen} options={{ headerTitle: "Custom Temperature Coefficient" }} /> */}
       {/* <StackConductivity.Screen name='Custom Configuration' component={CustomConfigurationScreen} initialParams={{ ConfigNum: ConfigNum }} /> */}
 
-      <StackConductivity.Screen name='Custom Temperature Coefficient' component={TemperatureCoefficientScreen} initialParams={{ ConfigNum: ConfigNum }}/>
+      <StackConductivity.Screen name='Custom Temperature Coefficient' component={TemperatureCoefficientScreen} initialParams={{ ConfigNum: ConfigNum }} />
       {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
 
     </StackConductivity.Navigator>
@@ -624,7 +666,7 @@ const styles = StyleSheet.create({
 
   row5: { flexDirection: 'row', backgroundColor: "#808B97", borderRightWidth: 1 },
   btn5: { width: 149, height: 50, backgroundColor: '#white', borderRadius: 1 },
-  btn6: { width: 149, height: 50, backgroundColor: '#white', borderRadius: 1, borderBottomColor: 'white' },
+  btn6: { width: 100, height: 50, backgroundColor: '#white', borderRadius: 1, borderBottomColor: 'white' },
 
   img: { width: 149, height: 50, borderRightWidth: 1 },
 
