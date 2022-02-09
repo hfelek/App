@@ -198,16 +198,15 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
   let hexIndex
   switch (selection) {
     case "°C":
-      hexIndex = "0"
+      hexIndex = 0
       break;
     case "°F":
-      hexIndex = "1"
+      hexIndex = 1
       break;
     default:
       break;
   }
   function ItemSelectable(title) {
-
     return (
       <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection(title)}}>
         {CheckButtoned(selection, title)}
@@ -224,7 +223,7 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
-            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Setup Menu","Set Parameters": {"${index}":"${hexIndex}"}}`, context) }}
+            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Setup Menu","Set Parameters": {"${index}":${hexIndex}}}`, context) }}
 
           >
             <View style={styles.buttonBar}>
@@ -261,16 +260,16 @@ const ActiveConfigurationScreen = ({ route, navigation }) => {
   let hexIndex
   switch (selection) {
     case "Configuration 1":
-      hexIndex = "0"
+      hexIndex = 0
       break;
     case "Configuration 2":
-      hexIndex = "1"
+      hexIndex = 1
       break;
     case "Configuration 3":
-      hexIndex = "2"
+      hexIndex = 2
       break;
     case "Configuration 4":
-      hexIndex = "3"
+      hexIndex = 3
       break;
 
     default:
@@ -293,7 +292,7 @@ const ActiveConfigurationScreen = ({ route, navigation }) => {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
-            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Setup Menu","Set Parameters": {"${index}":"${hexIndex}"}}`, context) }}
+            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Setup Menu","Set Parameters":{"${index}":${hexIndex}}}`, context) }}
 
           >
             <View style={styles.buttonBar}>

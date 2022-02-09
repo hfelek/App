@@ -15,44 +15,44 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
 import Values from '../Paramsfiltered.json';
 import LenghtChecker from '../../../Navigation/Functions/Utililty';
-import react, { useEffect,useContext } from 'react';
+import react, { useEffect, useContext } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
-let peripheralID='0'
+let peripheralID = '0'
 const ItemBar = ({ item }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-      <View style={{ height: 40, justifyContent: 'center' }}>
-          <Text style={styles.title}>{item}</Text>
-      </View>
-      <View style={{ justifyContent: 'center' }}>
-          <Icon
-              name="chevron-forward-outline"
-              size={20}
-              color="#000"
-          />
-      </View>
+    <View style={{ height: 40, justifyContent: 'center' }}>
+      <Text style={styles.title}>{item}</Text>
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
   </View>
 )
 const ItemValueBar = ({ item, value }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-      <View style={{ justifyContent: 'center' }}>
-          <Text style={styles.title}>{item}</Text>
-          <Text style={styles.value}>{value}</Text>
+    <View style={{ justifyContent: 'center' }}>
+      <Text style={styles.title}>{item}</Text>
+      <Text style={styles.value}>{value}</Text>
 
-      </View>
-      <View style={{ justifyContent: 'center' }}>
-          <Icon
-              name="chevron-forward-outline"
-              size={20}
-              color="#000"
-          />
-      </View>
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
   </View>
 )
 
@@ -63,31 +63,31 @@ const MenuParams = SystemParams.menu;
 const StackSystem = createStackNavigator();
 
 
-const createTwoButtonAlert = (title, msg,object,hexValue,context) =>
-Alert.alert(title, msg, [
-  {
-    text: 'Cancel',
-    onPress: () => console.log(object+ "cancelled"),
-    style: 'cancel',
-  },
-  { text: 'Yes', onPress: () => functionWriteBle(MenuParams.filter(key => key.Tag == object)[0].Index,`"${hexValue}"`,context) },
-]);
-function functionWriteBle(indexKey,indexValue,context) {
+const createTwoButtonAlert = (title, msg, object, hexValue, context) =>
+  Alert.alert(title, msg, [
+    {
+      text: 'Cancel',
+      onPress: () => console.log(object + "cancelled"),
+      style: 'cancel',
+    },
+    { text: 'Yes', onPress: () => functionWriteBle(MenuParams.filter(key => key.Tag == object)[0].Index,`${hexValue}`, context) },
+  ]);
+function functionWriteBle(indexKey, indexValue, context) {
   console.log(`{"Tag":"System", "Set Parameters":{"${indexKey}":"${indexValue}"}}`)
-  HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"System", "Set Parameters": {"${indexKey}" : "${indexValue}"}}`,context)
+  HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"System","Set Parameters":{"${indexKey}":${indexValue}}}`, context)
 
 }
 function SystemMainScreen({ navigation }) {
   const context = useContext(ContextConfigurationValues);
   console.log("here")
-  return(
-  <SafeAreaView style={styles.container}>
-    <FlatList
-      data={MenuParams}
-      renderItem={({ item, index, separators }) => (renderItem(item, navigation, context, item.Tag))}
-      keyExtractor={item => item.Tag}
-    />
-  </SafeAreaView>)
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={MenuParams}
+        renderItem={({ item, index, separators }) => (renderItem(item, navigation, context, item.Tag))}
+        keyExtractor={item => item.Tag}
+      />
+    </SafeAreaView>)
 };
 
 const CheckButtoned = (selectedValue, sentValue) => {
@@ -119,10 +119,10 @@ function Item(title, value, navigation = null, context = null, parent = null) {
         <TouchableOpacity
           style={styles.itemButton}
           onPress={() =>
-            navigation.navigate('Write Screen', { Tag: title, Value: value,name:title })
+            navigation.navigate('Write Screen', { Tag: title, Value: value, name: title })
           }>
 
-<ItemBar item={title}/>
+          <ItemBar item={title} />
         </TouchableOpacity>
       );
       break;
@@ -131,9 +131,9 @@ function Item(title, value, navigation = null, context = null, parent = null) {
         <TouchableOpacity
           style={styles.itemButton}
           onPress={() =>
-            navigation.navigate('Write Screen', { Tag: title, Value: value,name:title })
+            navigation.navigate('Write Screen', { Tag: title, Value: value, name: title })
           }>
-<ItemBar item={title}/>
+          <ItemBar item={title} />
 
         </TouchableOpacity>
       );
@@ -147,7 +147,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
           onPress={() =>
             navigation.navigate('Device Reset', { Tag: title, Value: value })
           }>
-<ItemBar item={title}/>
+          <ItemBar item={title} />
 
         </TouchableOpacity>
       );
@@ -177,10 +177,10 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             'Alert',
             'Are you sure to start Auto Calibration?',
             title,
-            '1',
+            1,
             context
           )}>
-<ItemBar item={title}/>
+          <ItemBar item={title} />
 
         </TouchableOpacity>
       );
@@ -193,10 +193,10 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             'Alert',
             'Are you sure to restore Factory Settings?',
             title,
-            '1',
+            1,
             context
           )}>
-<ItemBar item={title}/>
+          <ItemBar item={title} />
 
         </TouchableOpacity>
       );
@@ -209,10 +209,10 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             'Alert',
             'Are you sure to restore WiFi parameters?',
             title,
-            '1',
+            1,
             context
           )}>
-<ItemBar item={title}/>
+          <ItemBar item={title} />
 
         </TouchableOpacity>
       );
@@ -225,10 +225,10 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             'Alert',
             'Are you sure to restart the device?',
             title,
-            '1',
+            1,
             context
           )}>
-<ItemBar item={title}/>
+          <ItemBar item={title} />
 
         </TouchableOpacity>
       );
@@ -250,7 +250,7 @@ const WriteScreen = ({ route, navigation }) => {
   return (
     <View>
       <TextInput
-        label={(Tag=='Access Code' ? 'Enter The Device Access Code!' : 'Set Your Access Code!' )}
+        label={(Tag == 'Access Code' ? 'Enter The Device Access Code!' : 'Set Your Access Code!')}
         value={text}
         // selectionColor="#000"
         // underlineColor="#000"
@@ -269,7 +269,7 @@ const WriteScreen = ({ route, navigation }) => {
       {/* <LenghtChecker lenght={32} /> */}
 
       <Button
-        onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Calibration", "Set Parameters": {"${index}":"${text}"}}`,context) }}
+        onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Calibration", "Set Parameters": {"${index}":"${text}"}}`, context) }}
 
         title="Save"
         color="#841584"
@@ -291,12 +291,12 @@ const SystemScreen = ({ route, navigation }) => {
     // Success code
 
     console.log(JSON.stringify(peripheralsArray[0].id));
-    peripheralID=peripheralsArray[0].id
+    peripheralID = peripheralsArray[0].id
   }).catch(() => {
     console.log("Couldnt Find A peripheral");
     // expected output: "Success!"
   });
-  
+
 
 
 

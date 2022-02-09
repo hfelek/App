@@ -124,11 +124,13 @@ const CommunicationTypeScreen = ({ route, navigation }) => {
 
 
   useEffect(() => {
-    if (selection != context[index]) {
+    if (selection != possibleValues.find(key=>key.Enum==context[index]).Tag) {
+      console.log(selection)
+      console.log(context[index])
       navigation.setOptions({
         headerRight: () => (
           // Burada Peripheral ID ve UUIDler daha object oriented yapılacak.
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${possibleValues.find(key=>key.Tag==selection).Enum}"}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":${possibleValues.find(key=>key.Tag==selection).Enum}}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -241,7 +243,7 @@ function Item(title, value, navigation = null, context = null) {
       menu=menuWiFi.menu.find(key=>key.Tag==title)
 
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Password Screen', { Tag: title, HexIndex: "CF" })}>
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Password Screen', { Tag: title })}>
           <ItemBar item={title} />
         </TouchableOpacity>
       )
@@ -423,8 +425,8 @@ const IPScreen = ({ route, navigation }) => {
         value={text1}
         selectionColor='#000'
         underlineColor='#000'
-        activeOutlineColor='#000'
-        outlineColor='#000'
+        // activeOutlineColor='#000'
+        // outlineColor='#000'
         keyboardType="numeric"
         // activeUnderlineColor='#000'
         error={false}
@@ -593,9 +595,9 @@ const IPV4 = ({ route, navigation }) => {
           <TextInput
             label={"Set Your  WiFi " + "Static IP Adress"}
             value={IPAdress}
-            selectionColor='#000'
-            underlineColor='#000'
-            activeOutlineColor='#000'
+            // selectionColor='#000'
+            // underlineColor='#000'
+            // activeOutlineColor='#000'
             style={{ backgroundColor: "white" }}
             outlineColor='#000'
             keyboardType="numeric"
@@ -608,9 +610,9 @@ const IPV4 = ({ route, navigation }) => {
             label={"Set Your  WiFi " + "Static Subnet Adress"}
             value={subnetAdress}
             style={{ backgroundColor: "white" }}
-            selectionColor='#000'
-            underlineColor='#000'
-            activeOutlineColor='#000'
+            // selectionColor='#000'
+            // underlineColor='#000'
+            // activeOutlineColor='#000'
             outlineColor='#000'
             keyboardType="numeric"
             // activeUnderlineColor='#000'
@@ -622,9 +624,9 @@ const IPV4 = ({ route, navigation }) => {
             label={"Set Your  WiFi " + "Static Router IP Adress"}
             value={routerAdress}
             style={{ backgroundColor: "white" }}
-            selectionColor='#000'
-            underlineColor='#000'
-            activeOutlineColor='#000'
+            // selectionColor='#000'
+            // underlineColor='#000'
+            // activeOutlineColor='#000'
             outlineColor='#000'
             keyboardType="numeric"
             // activeUnderlineColor='#000'
@@ -783,10 +785,10 @@ const PasswordScreen = ({ route, navigation }) => {
       <TextInput
         label={"Set Your WiFi " + Tag}
         value={text}
-        selectionColor='#000'
+        // selectionColor='#000'
         underlineColor='#000'
         activeOutlineColor='#000'
-        outlineColor='#000'
+        // outlineColor='#000'
         secureTextEntry={true}
         // keyboardType="numeric"
         // activeUnderlineColor='#000'

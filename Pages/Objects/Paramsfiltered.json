@@ -467,18 +467,11 @@
                         "Value": "0.0",
                         "Index": "26",
                         "PossibleValues": [{
-                                "Tag": "°C",
-                                "Value": 25.0,
-                                "RangeUpper": 30.0,
-                                "RangeLower": 15.0
-                            },
-                            {
-                                "Tag": "°F",
-                                "Value": 77.0,
-                                "RangeUpper": 86.0,
-                                "RangeLower": 59.0
-                            }
-                        ]
+                            "Tag": "°C",
+                            "Value": 25.0,
+                            "RangeUpper": 30.0,
+                            "RangeLower": 15.0
+                        }]
                     },
                     {
                         "Tag": "Filter Time Constant",
@@ -647,18 +640,11 @@
                         "Value": "0.0",
                         "Index": "31",
                         "PossibleValues": [{
-                                "Tag": "°C",
-                                "Value": 25.0,
-                                "RangeUpper": 30.0,
-                                "RangeLower": 15.0
-                            },
-                            {
-                                "Tag": "°F",
-                                "Value": 77.0,
-                                "RangeUpper": 86.0,
-                                "RangeLower": 59.0
-                            }
-                        ]
+                            "Tag": "°C",
+                            "Value": 25.0,
+                            "RangeUpper": 30.0,
+                            "RangeLower": 15.0
+                        }]
                     },
                     {
                         "Tag": "Filter Time Constant",
@@ -2267,19 +2253,19 @@
                             "Index": "240",
                             "PossibleValues": [{
                                     "Tag": "Off",
-                                    "Enum": "0"
+                                    "Enum": 0
                                 },
                                 {
                                     "Tag": "Conductivitiy",
-                                    "Enum": "1"
+                                    "Enum": 1
                                 },
                                 {
                                     "Tag": "Concentration",
-                                    "Enum": "2"
+                                    "Enum": 2
                                 },
                                 {
                                     "Tag": "Temperature",
-                                    "Enum": "3"
+                                    "Enum": 3
                                 }
                             ]
                         }]
@@ -2315,7 +2301,7 @@
                                         "Enum": "0"
                                     },
                                     {
-                                        "Tag": "Conductivitiy",
+                                        "Tag": "Conductivity",
                                         "Enum": "1"
                                     },
                                     {

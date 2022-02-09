@@ -25,7 +25,6 @@ const renderItem = ({ item, navigation, context = null }) => (
   Item(item.Tag, item.Value, navigation, context = context)
 );
 
-const itemKeyObject = { "Actual Diagnostics": "50", "Last Diagnostics": "51" }
 const ItemBar = ({ item }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
@@ -145,6 +144,9 @@ function Item(title, value, navigation, context = context) {
   }
 
 }
+function isItNumber(str) {
+  return /^\-?[0-9]+(e[0-9]+)?(\.[0-9]+)?$/.test(str);
+}
 const SimulationProcessVariableScreen = ({ route, navigation }) => {
   const context = useContext(ContextConfigurationValues)
   // const objKeyWritableMap = { "Simulation Process Variable Value Conductivity": "53", "Simulation Process Variable Value Concentration": "54", "Simulation Process Variable Value Temperature": "55" }
@@ -168,7 +170,13 @@ const SimulationProcessVariableScreen = ({ route, navigation }) => {
 
   const filteredAT =MenuParams.filter(row => row.Tag == Tag)[0];
   const index = filteredAT.Index;
-  const [text, setText] = React.useState(context[index]);
+  const [text, setText] = React.useState((context[index]).toFixed(3));
+
+  function fixNumtoFloat(float) {
+    const str = float.toFixed(15).split("").reverse().join("")
+    console.log(str)
+  }
+  fixNumtoFloat(context[index])
   return (
 
 
@@ -182,15 +190,16 @@ const SimulationProcessVariableScreen = ({ route, navigation }) => {
         outlineColor='#000'
         // activeUnderlineColor='#000'
         error={false}
+        maxLength={8}
         keyboardType='numeric'
         right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
         onChangeText={text => setText(text)}
       />
       {/* <Text>Text Here. Lenght --{'>'} {32} </Text>  */}
       {/* <Text>Enter a unique name for the measuring point to identify the device within the plant. Lenght --{'>'} {lenght} </Text>  */}
-      {text != context[index] &&
+      {text != context[index] && isItNumber(text) &&
         <Button
-          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Diagnostics", "Set Parameters": {"${index}":"${text}"}}`, context) }}
+          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Diagnostics","Set Parameters":{"${index}":${text}}}`, context) }}
           title="Save"
           color="#841584"
           accessibilityLabel="Save Configuration"
@@ -226,7 +235,7 @@ const SwitchVariableScreen = ({ route, navigation }) => {
     if (text != SwitchableValues.filter(key=> key.Enum==context[index])[0].Tag) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Diagnostics", "Set Parameters": {"${index}":"${SwitchableValues.filter(row => row.Tag == text)[0].Enum}"}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Diagnostics","Set Parameters": {"${index}":${SwitchableValues.filter(row => row.Tag == text)[0].Enum}}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>

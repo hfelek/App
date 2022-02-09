@@ -19,6 +19,9 @@ const activeConfigurationPossibleValues =activeConfigurationMenu.filter(tag => t
 let Output1Params = Paramsfiltered.filter(Output1Params => Output1Params.Tag === "Current Output")[0];
 let MenuParams = Output1Params.menu;
 const StackOutput1 = createStackNavigator();
+function isItNumber(str) {
+    return /^\-?[0-9]+(e[0-9]+)?(\.[0-9]+)?$/.test(str);
+  }
 const ConfigurationBar = ({ config, activeConfig }) => (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
   
@@ -252,7 +255,7 @@ const CurrentOutputSettingsScreen = ({ route, navigation }) => {
     const { Tag } = route.params
     const { ConfigNum } = route.params
     const index = (MenuParams.filter(tag => tag.Tag == ConfigNum)[0].menu).filter(tag => tag.Tag == Tag)[0].Index
-    const [text, setText] = React.useState(context[index]);
+    const [text, setText] = React.useState(context[index].toFixed(3));
     console.log("I am here Current Output")
     
 
@@ -266,13 +269,14 @@ const CurrentOutputSettingsScreen = ({ route, navigation }) => {
                 activeOutlineColor='#000'
                 outlineColor='#000'
                 keyboardType='numeric'
+                maxLength={8}
                 // activeUnderlineColor='#000'
                 error={false}
                 right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
                 onChangeText={text => setText(text)}
             />
             {/* <LenghtChecker lenght={32} /> */}
-            {text != context[index] &&
+            {text != context[index] && isItNumber(text) && text<100 &&
                 <Button
                     onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${index}":${text}}}`, context) }}
                     title="Save"

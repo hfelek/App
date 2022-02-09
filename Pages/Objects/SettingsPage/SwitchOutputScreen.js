@@ -12,7 +12,11 @@ import BufferArray from '../../../Navigation/Functions/BufferArray';
 import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
-let peripheralID = '0'
+let peripheralID = null
+
+function isItNumber(str) {
+    return /^\-?[0-9]+(e[0-9]+)?(\.[0-9]+)?$/.test(str);
+}
 const activeConfigurationMenu = Paramsfiltered.filter(SetupMenu => SetupMenu.Tag === "Setup Menu")[0].menu;
 const activeConfigurationIndex =activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].Index
 const activeConfigurationPossibleValues =activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].PossibleValues
@@ -248,7 +252,7 @@ const SwitchOutputSettingsScreen = ({ route, navigation }) => {
     const { Tag } = route.params
     const { ConfigNum } = route.params
     const index = (MenuParams.filter(tag => tag.Tag == ConfigNum)[0].menu).filter(tag => tag.Tag == Tag)[0].Index
-    const [text, setText] = React.useState(context[index]);
+    const [text, setText] = React.useState(context[index].toFixed(3));
     console.log("I am here Current Output")
 
     return (
@@ -261,13 +265,14 @@ const SwitchOutputSettingsScreen = ({ route, navigation }) => {
                 activeOutlineColor='#000'
                 outlineColor='#000'
                 keyboardType='numeric'
+                maxLength={8}
                 // activeUnderlineColor='#000'
                 error={false}
                 right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
                 onChangeText={text => setText(text)}
             />
             {/* <LenghtChecker lenght={32} /> */}
-            {text != context[index] &&
+            {text != context[index] && isItNumber(text) && text<100 &&
                 <Button
                     onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Switch Output", "Set Parameters": {"${index}":${text}}}`, context) }}
                     title="Save"

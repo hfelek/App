@@ -39,38 +39,38 @@ let MenuParams = OperationModeParams.menu;
 
 
 const StackConductivity = createStackNavigator();
-const ItemBar = ({item})=>(
+const ItemBar = ({ item }) => (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-  
-    <View style={{height:40 ,justifyContent:'center'}}> 
-      <Text style={styles.title}>{item}</Text>
+
+        <View style={{ height: 40, justifyContent: 'center' }}>
+            <Text style={styles.title}>{item}</Text>
+        </View>
+        <View style={{ justifyContent: 'center' }}>
+            <Icon
+                name="chevron-forward-outline"
+                size={20}
+                color="#000"
+            />
+        </View>
     </View>
-    <View style={{ justifyContent: 'center' }}>
-      <Icon
-        name="chevron-forward-outline"
-        size={20}
-        color="#000"
-      />
-    </View>
-  </View>
-  )
-  const ItemValueBar = ({item,value})=>(
+)
+const ItemValueBar = ({ item, value }) => (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-  
-    <View style={{justifyContent:'center'}}> 
-      <Text style={styles.title}>{item}</Text>
-      <Text style={styles.value}>{value}</Text>
-  
+
+        <View style={{ justifyContent: 'center' }}>
+            <Text style={styles.title}>{item}</Text>
+            <Text style={styles.value}>{value}</Text>
+
+        </View>
+        <View style={{ justifyContent: 'center' }}>
+            <Icon
+                name="chevron-forward-outline"
+                size={20}
+                color="#000"
+            />
+        </View>
     </View>
-    <View style={{ justifyContent: 'center' }}>
-      <Icon
-        name="chevron-forward-outline"
-        size={20}
-        color="#000"
-      />
-    </View>
-  </View>
-  )
+)
 
 
 
@@ -79,21 +79,21 @@ function renderItem(item, navigation = null, context = null, parent) {
 }
 
 function Item(title, value, navigation = null, context = null, parent = null) {
-    let object=null
+    let object = null
     switch (title) {
         case 'Operation Mode IO 1':
-            object=MenuParams.find(key=>key.Tag==title)
+            object = MenuParams.find(key => key.Tag == title)
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Operation Selection', { Tag: title, name: title, ConfigNum: parent })}>
-        <ItemValueBar item={title} value={object.PossibleValues.find(key=>key.Enum == context[object.Index]).Tag}/>
+                    <ItemValueBar item={title} value={object.PossibleValues.find(key => key.Enum == context[object.Index]).Tag} />
                 </TouchableOpacity>
             )
         case 'Operation Mode IO 2':
-            object=MenuParams.find(key=>key.Tag==title)
+            object = MenuParams.find(key => key.Tag == title)
 
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Operation Selection', { Tag: title, name: title, ConfigNum: parent })}>
-        <ItemValueBar item={title} value={object.PossibleValues.find(key=>key.Enum == context[object.Index]).Tag}/>
+                    <ItemValueBar item={title} value={object.PossibleValues.find(key => key.Enum == context[object.Index]).Tag} />
 
                 </TouchableOpacity>
             )
@@ -172,17 +172,17 @@ const OperationSelectionScreen = ({ route, navigation }) => {
     const PossibleValues = Menu.PossibleValues
     const indexSelection = Menu.Index
     const subMenu = Menu.subMenu
-    const menuCurrentAssign = subMenu.find(key=>key.Tag=="Current Output").menu.find(key=>key.Tag=="Output-Assign")
-    const menuSwitchOutputType = subMenu.find(key=>key.Tag=="Switch Output").menu.find(key=>key.Tag=="Output Type")
-    const menuSwitchAssign = subMenu.find(key=>key.Tag=="Switch Output").menu.find(key=>key.Tag=="Output-Assign")
-    const menuSwitchFunction = subMenu.find(key=>key.Tag=="Switch Output").menu.find(key=>key.Tag=="Function")
+    const menuCurrentAssign = subMenu.find(key => key.Tag == "Current Output").menu.find(key => key.Tag == "Output-Assign")
+    const menuSwitchOutputType = subMenu.find(key => key.Tag == "Switch Output").menu.find(key => key.Tag == "Output Type")
+    const menuSwitchAssign = subMenu.find(key => key.Tag == "Switch Output").menu.find(key => key.Tag == "Output-Assign")
+    const menuSwitchFunction = subMenu.find(key => key.Tag == "Switch Output").menu.find(key => key.Tag == "Function")
 
 
-    const [selection, setSelection] = React.useState(PossibleValues.find(key=>key.Enum == context[indexSelection]).Tag);
-    const [selectionCurrentAssign, setSelectionCurrentAssign] = React.useState(menuCurrentAssign.PossibleValues.find(key=>key.Enum == context[menuCurrentAssign.Index]).Tag)
-    const [selectionSwitchOutputType, setSelectionSwitchOutputType] = React.useState(menuSwitchOutputType.PossibleValues.find(key=>key.Enum == context[menuSwitchOutputType.Index]).Tag)
-    const [selectionSwitchAssign, setSelectionSwitchAssign] = React.useState(menuSwitchAssign.PossibleValues.find(key=>key.Enum == context[menuSwitchAssign.Index]).Tag)
-    const [selectionSwitchFunction, setSelectionSwitchFunction] = React.useState(menuSwitchFunction.PossibleValues.find(key=>key.Enum == context[menuSwitchFunction.Index]).Tag)
+    const [selection, setSelection] = React.useState(PossibleValues.find(key => key.Enum == context[indexSelection]).Tag);
+    const [selectionCurrentAssign, setSelectionCurrentAssign] = React.useState(menuCurrentAssign.PossibleValues.find(key => key.Enum == context[menuCurrentAssign.Index]).Tag)
+    const [selectionSwitchOutputType, setSelectionSwitchOutputType] = React.useState(menuSwitchOutputType.PossibleValues.find(key => key.Enum == context[menuSwitchOutputType.Index]).Tag)
+    const [selectionSwitchAssign, setSelectionSwitchAssign] = React.useState(menuSwitchAssign.PossibleValues.find(key => key.Enum == context[menuSwitchAssign.Index]).Tag)
+    const [selectionSwitchFunction, setSelectionSwitchFunction] = React.useState(menuSwitchFunction.PossibleValues.find(key => key.Enum == context[menuSwitchFunction.Index]).Tag)
     console.log(selectionCurrentAssign)
     console.log(selectionSwitchOutputType)
 
@@ -203,7 +203,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
     return (
         <ScrollView style={[styles.container2, { backgroundColor: "#ffffff" }]}>
             <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                <Text style={[styles.title, { textAlign:'center' }]}>{"Output Type of IO" + " for " + ConfigNum}</Text>
+                <Text style={[styles.title, { textAlign: 'center' }]}>{"Output Type of IO" + " for " + ConfigNum}</Text>
             </View>
 
 
@@ -216,8 +216,8 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                     }>
                     <Picker.Item label="Current Output" value="Current Output" />
                     <Picker.Item label="Switch Output" value="Switch Output" />
-                    {Tag=="Operation Mode IO 1" &&<Picker.Item label="Digital Input" value="Digital Input" />}
-                    {Tag=="Operation Mode IO 2" &&<Picker.Item label="IO-LINK" value="IO-LINK" />}
+                    {Tag == "Operation Mode IO 1" && <Picker.Item label="Digital Input" value="Digital Input" />}
+                    {Tag == "Operation Mode IO 2" && <Picker.Item label="IO-LINK" value="IO-LINK" />}
                     <Picker.Item label="Off" value="Off" />
                     {/* {pickerPossibleValues} */}
 
@@ -245,7 +245,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
 
                         <View style={styles.pickerText} >
 
-                            <Picker itemStyle={{}} style={[styles.picker, { textAlign: 'center',alignItems:'center' }]}
+                            <Picker itemStyle={{}} style={[styles.picker, { textAlign: 'center', alignItems: 'center' }]}
                                 selectedValue={selectionSwitchAssign}
                                 onValueChange={(itemValue, itemIndex) =>
                                     setSelectionSwitchAssign(itemValue)
@@ -304,9 +304,9 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                             (true) && /////// Condition For Switch Output
 
                             <Button
-                            onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode", "Set Parameters": {"${indexSelection}":"${PossibleValues.find(key=>key.Tag == selection).Enum}","${menuSwitchAssign.Index}": ${menuSwitchAssign.PossibleValues.find(key=>key.Tag == selectionSwitchAssign).Enum}, "${menuSwitchFunction.Index}": ${menuSwitchFunction.PossibleValues.find(key=>key.Tag == selectionSwitchFunction).Enum} ,"${menuSwitchOutputType.Index}": ${menuSwitchOutputType.PossibleValues.find(key=>key.Tag == selectionSwitchOutputType).Enum} }}`, context) }}
-                            title="Save"
-                            color="#841584"
+                                onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode", "Set Parameters": {"${indexSelection}":${PossibleValues.find(key => key.Tag == selection).Enum},"${menuSwitchAssign.Index}": ${menuSwitchAssign.PossibleValues.find(key => key.Tag == selectionSwitchAssign).Enum}, "${menuSwitchFunction.Index}": ${menuSwitchFunction.PossibleValues.find(key => key.Tag == selectionSwitchFunction).Enum} ,"${menuSwitchOutputType.Index}": ${menuSwitchOutputType.PossibleValues.find(key => key.Tag == selectionSwitchOutputType).Enum} }}`, context) }}
+                                title="Save"
+                                color="#841584"
                             />
 
 
@@ -325,17 +325,17 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                     <View style={[styles.container1, { alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
 
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
-                            <Text style={[styles.title, {textAlign:'center', borderBottomColor: "black" }]}>{"Output Assign for Current Output"}</Text>
+                            <Text style={[styles.title, { textAlign: 'center', borderBottomColor: "black" }]}>{"Output Assign for Current Output"}</Text>
                         </View>
 
                         <View style={styles.pickerText} >
 
-                            <Picker  style={[styles.picker, { textAlign: 'center' }] }
+                            <Picker style={[styles.picker, { textAlign: 'center' }]}
                                 selectedValue={selectionCurrentAssign}
                                 onValueChange={(itemValue, itemIndex) =>
                                     setSelectionCurrentAssign(itemValue)
                                 }>
-                                <Picker.Item style={{}} label="Off" value="Off" />
+                                <Picker.Item label="Off" value="Off" />
                                 <Picker.Item label="Conductivity" value="Conductivity" />
                                 <Picker.Item label="Concentration" value="Concentration" />
                                 <Picker.Item label="Temperature" value="Temperature" />
@@ -349,7 +349,8 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                             (true) && /////// Condition For Current Output
 
                             <Button
-                            onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode", "Set Parameters": {"${indexSelection}":${PossibleValues.find(key=>key.Tag == selection).Enum},"${menuSwitchAssign.Index}": ${menuCurrentAssign.PossibleValues.find(key=>key.Tag == selectionCurrentAssign).Enum}}}`, context) }}
+                                onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode","Set Parameters":{"${indexSelection}":${PossibleValues.find(key => key.Tag == selection).Enum},"${menuSwitchAssign.Index}":${menuCurrentAssign.PossibleValues.find(key => key.Tag == selectionCurrentAssign).Enum}}}`, context) }}
+
                                 title="Save"
                                 color="#841584"
                             />
@@ -372,18 +373,31 @@ const OperationSelectionScreen = ({ route, navigation }) => {
 
 
             {
-
-                (false) &&
+                (selection == "IO-LINK") &&
 
                 <Button
-                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Identification", "Set Parameters": {"18":"${"15"}"}}`, context) }}
+                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode","Set Parameters":{"${indexSelection}":${PossibleValues.find(key => key.Tag == selection).Enum}}}`, context) }}
                     title="Save"
                     color="#841584"
                 />
+            }
+            {
+                (selection == "Off") &&
 
+                <Button
+                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode","Set Parameters":{"${indexSelection}":${PossibleValues.find(key => key.Tag == selection).Enum}}}`, context) }}
+                    title="Save"
+                    color="#841584"
+                />
+            }
+            {
+                (selection == "Digital Input") &&
 
-
-
+                <Button
+                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode","Set Parameters":{"${indexSelection}":${PossibleValues.find(key => key.Tag == selection).Enum}}}`, context) }}
+                    title="Save"
+                    color="#841584"
+                />
             }
 
         </ScrollView>
@@ -440,7 +454,7 @@ const styles = StyleSheet.create({
     },
     picker: {
         // flex: 1,
-        backgroundColor:'#D8D8D8',
+        backgroundColor: '#D8D8D8',
         alignItems: "center",
         borderBottomColor: 'black',
         borderBottomWidth: StyleSheet.hairlineWidth,
@@ -470,8 +484,8 @@ const styles = StyleSheet.create({
     pickerText: {
         backgroundColor: '#ffffff',
         padding: 8,
-        paddingLeft:25,
-        paddingRight:25,
+        paddingLeft: 25,
+        paddingRight: 25,
 
         marginVertical: 0,
         marginHorizontal: 0,

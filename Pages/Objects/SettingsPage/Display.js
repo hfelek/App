@@ -165,11 +165,11 @@ const DisplayScreen = ({ route, navigation }) => {
     });
     return (
       <View>
-        <TouchableOpacity style={[styles.itemButton, { paddingTop: 16 }]} onPress={() => setText("On")} >
+        <TouchableOpacity style={[styles.itemButton]} onPress={() => setText("On")} >
           {CheckButtoned(text, "On")}
         </TouchableOpacity>
         {/* <TouchableOpacity style={styles.itemButton} onPress={() => setText("Off")} > */}
-        <TouchableOpacity style={[styles.itemButton, { paddingTop: 16 }]} onPress={() => setText("Off")} >
+        <TouchableOpacity style={[styles.itemButton]} onPress={() => setText("Off")} >
 
           {CheckButtoned(text, "Off")}
 

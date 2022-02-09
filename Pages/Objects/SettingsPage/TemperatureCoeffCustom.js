@@ -21,6 +21,9 @@ import {
 } from 'react-native-material-textfield';
 // import Slider from '@react-native-community/slider';
 //import MultiSlider from 'react-native-multi-slider';
+const activeConfigurationMenu = Values.filter(SetupMenu => SetupMenu.Tag === "Setup Menu")[0].menu;
+const activeConfigurationIndex =activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].Index
+const activeConfigurationPossibleValues =activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].PossibleValues
 
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
@@ -71,33 +74,60 @@ const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value
 function renderItem(item, navigation = null, context = null, parent) {
   return (Item(item.Tag, item.Value, navigation, context, parent))
 }
+const ConfigurationBar = ({ config, activeConfig }) => (
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
 
+    <View style={{ justifyContent: 'center',height:40 }}>
+      <Text style={styles.title}>{config}</Text>
+     { config==activeConfig && <Text style={{fontSize:12,color:'black'}}>{"Active"}</Text>}
+
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
+  </View>
+
+  )
 function Item(title, value, navigation = null, context = null, parent = null) {
+  let index=null;
+  let activeConfigEnum=null
   switch (title) {
     case 'Configuration 1':
+      activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
-          <ItemBar item={title} />
+        <TouchableOpacity style={title== activeConfigEnum ? styles.itemActiveConfig : styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
+            <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 1"}/>
 
         </TouchableOpacity>
       )
     case 'Configuration 2':
+      activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
-          <ItemBar item={title} />
+            <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 1"}/>
         </TouchableOpacity>
       )
     case 'Configuration 3':
+      activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
-          <ItemBar item={title} />
+            <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 1"}/>
 
         </TouchableOpacity>
       )
     case 'Configuration 4':
+      activeConfigEnum=activeConfigurationPossibleValues.filter(key=> key.Enum == context[activeConfigurationIndex])[0].Tag
+
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Custom Configuration', { Tag: title, name: "Custom Temperature Coefficients " + title, ConfigNum: parent })}>
-          <ItemBar item={title} />
+            <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 1"}/>
 
         </TouchableOpacity>
       )
@@ -530,6 +560,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
 
     justifyContent: 'center'
+  },
+  itemActiveConfig: {
+    backgroundColor: '#008000',
+    justifyContent: 'center',
+    padding: 8,
   },
   myText: {
     color: 'black',
