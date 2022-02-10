@@ -184,7 +184,7 @@ const IdentificationScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackIdentification.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+    <StackIdentification.Navigator screenOptions={{ headerShown: false, headerTitleAlign: 'center' }}>
       <StackIdentification.Screen name='Identification Main' component={IdentificationMainScreen} options={{ headerTitle: "Identification", headerStyle: { shadowColor: 'black' } }} />
       <StackIdentification.Screen name='Application Tag' component={ApplicationTagScreen} options={{ headerStyle: { borderBottomWidth: 1, borderBottomColor: 'black' } }} />
     </StackIdentification.Navigator>

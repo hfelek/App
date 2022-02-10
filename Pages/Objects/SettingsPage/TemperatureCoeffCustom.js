@@ -31,7 +31,6 @@ const MenuParams = CustomCoeffParams.menu;
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
 import { ContextConfigurationValues } from '../../../App';
-import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup';
 const ItemBar = ({ item }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
@@ -424,7 +423,7 @@ console.log(payload)
   return (
     <View>
       <ScrollView contentContainerStyle={{ alignSelf: 'center' }} style={{ paddingBottom: 40, backgroundColor: 'white' }} horizontal={false} >
-        {false &&
+        {true &&
           <View style={{ alignContent: 'center', paddingTop: 3,paddingBottom:3, backgroundColor: '#333333' }}>
 
             <Text style={{color:'white',textAlign:'center'}}>Concentration</Text>
@@ -432,8 +431,8 @@ console.log(payload)
         }
         <ScrollView contentContainerStyle={{ justifyContent: 'center' }} style={{ backgroundColor: 'white' }} horizontal={true} >
           <View style={{ backgroundColor: 'white', }}>
-
-            {/* <Table borderStyle={{ borderWidth: 0, borderColor: 'transparent' }}>
+{/* 
+            <Table borderStyle={{ borderWidth: 0, borderColor: 'transparent' }}>
               <Row data={["", "Concentration"]} widthArr={[150, 610]} style={[styles.header5, { paddingLeft: 0 }]} textStyle={[styles.text5, { color: 'white' }]} />
             </Table> */}
 
@@ -471,7 +470,7 @@ console.log(payload)
         {true &&
           <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
             <Button
-              onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {${payload}}}`, context) }}
+              onPress={() => { HandleWriteCommandG(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {${payload}}}`, context) }}
               title="Save"
               color="#841584"
             />
