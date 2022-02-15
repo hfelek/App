@@ -4,14 +4,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
-import LenghtChecker from '../../../Navigation/Functions/Utililty';
-import react from 'react';
+// import LenghtChecker from '../../../Navigation/Functions/Utililty';
+// import react from 'react';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import { ContextConfigurationValues } from '../../../App';
-import AwesomeAlert from 'react-native-awesome-alerts';
+// import AwesomeAlert from 'react-native-awesome-alerts';
 import { ALERT_TYPE, Dialog, Root, Toast } from 'react-native-alert-notification';
-import KeyValueJSON from '../../KeyNames.json'
 const StackIdentification = createStackNavigator();
 
 var filtered;

@@ -4,16 +4,16 @@ import BleManager from 'react-native-ble-manager';
 import { Alert } from 'react-native'
 const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, context, maxbytesize = 512) => {
 
-    BleManager.write(peripheralId, serviceUUID, characteristicUUID, BufferArray(value), maxbytesize).then(() => {
+    BleManager.write(peripheralId, serviceUUID, characteristicUUID, BufferArray(value)).then(() => {
             console.log("data written")
                 // Command is written from BLEAPP to ESP32, Global Object in APP will be changed
             let setParameters = JSON.parse(value)["Set Parameters"]
-            console.log(setParameters)
+                // console.log(setParameters)
 
             for (const item in setParameters) {
-                console.log("item")
-                console.log(item)
-                console.log(JSON.stringify(setParameters[item]))
+                // console.log("item")
+                // console.log(item)
+                // console.log(JSON.stringify(setParameters[item]))
                 context.setValueByKey(item, setParameters[item])
             }
             // AlertLocal()

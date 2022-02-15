@@ -274,7 +274,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
   for (let i = 0; i < 2; i++) {
     for (let k = 1; k < 7; k++) {
-     i==0 ? payload+=`"${valueMenu.find(key => key.Tag == `Temperature Point ${k}`).Index}":${hookArray[k][i]},` : payload+=`"${valueMenu.find(key => key.Tag == `Temperature Coefficient ${k}`).Index}":${hookArray[k][i]}, `
+     i==0 ? payload+=`"${valueMenu.find(key => key.Tag == `Temperature Point ${k}`).Index}":${hookArray[k][i]},` :payload+=`"${valueMenu.find(key => key.Tag == `Temperature Coefficient ${k}`).Index}":${hookArray[k][i]}, `
   }
   }
   payload = payload.slice(0, -2); //// payloaddaki virgül atılıyor.

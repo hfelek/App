@@ -40,49 +40,65 @@ import {
 import BleManager from 'react-native-ble-manager';
 import { List } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import { Buffer } from 'buffer';
 function printCoordinate() {
   console.log(this.a)
 }
 // let consoleobject = printCoordinate.bind(storageObject)
 
-let notifyCharacteristicsMap = new Map();
-notifyCharacteristicsMap.set("Identification", { "ServiceUUID": "A65373B2-6942-11EC-90D6-024200130000", "CharacteristicUUID": "A65373B2-6942-11EC-90D6-024200130100" })
-notifyCharacteristicsMap.set("Diagnostics", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130200" })
-notifyCharacteristicsMap.set("Measured Values", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130300" })
-notifyCharacteristicsMap.set("System Units", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130400" })
-notifyCharacteristicsMap.set("Conductivity", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130500" })
-notifyCharacteristicsMap.set("Concentration", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130600" })
-///buradan itibaren ikinci serviste yer alıyor
-notifyCharacteristicsMap.set("Output1", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200140700" })
-notifyCharacteristicsMap.set("Output2", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200140800" })
-notifyCharacteristicsMap.set("Display", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200140900" })
-notifyCharacteristicsMap.set("Communication", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200141000" })
-notifyCharacteristicsMap.set("System", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200141100" })
-notifyCharacteristicsMap.set("Values", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200110000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200110100" })
+// let notifyCharacteristicsMap = new Map();
+// notifyCharacteristicsMap.set("Identification", { "ServiceUUID": "A65373B2-6942-11EC-90D6-024200130000", "CharacteristicUUID": "A65373B2-6942-11EC-90D6-024200130100" })
+// notifyCharacteristicsMap.set("Diagnostics", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130200" })
+// notifyCharacteristicsMap.set("Measured Values", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130300" })
+// notifyCharacteristicsMap.set("System Units", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130400" })
+// notifyCharacteristicsMap.set("Conductivity", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130500" })
+// notifyCharacteristicsMap.set("Concentration", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130600" })
+// ///buradan itibaren ikinci serviste yer alıyor
+// notifyCharacteristicsMap.set("Output1", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200140700" })
+// notifyCharacteristicsMap.set("Output2", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200140800" })
+// notifyCharacteristicsMap.set("Display", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200140900" })
+// notifyCharacteristicsMap.set("Communication", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200141000" })
+// notifyCharacteristicsMap.set("System", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200141100" })
+// notifyCharacteristicsMap.set("Values", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200110000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200110100" })
+const processDataCharacteristics = [
+  {
+    "ServiceUUID": "a65373b2-6942-11ec-90d6-024200110000",
+    "Characteristics": [
+      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200110100" }]
+  }
+]
+const configurationCharacteristics = [
+  {
+    "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000",
+    "Characteristics": [
+      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130100", "DataType": "Object" },
+      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130200", "DataType": "Object" },
+      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130300", "DataType": "Object" },
+      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130400", "DataType": "Object" },
+      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130500", "DataType": "Object" },
+      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130600", "DataType": "Object" },
+    ]
+  },
+  {
+    "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000",
+    "Characteristics": [
+      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200140700", "DataType": "Object" },
+      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200140800", "DataType": "Float" }, //Config 1 Custom Paramters
+      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200140900", "DataType": "Float" },//Config 2 Custom Paramters
+      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200141000", "DataType": "Float" },//Config 3 Custom Paramters
+      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200141100", "DataType": "Float" },//Config 4 Custom Paramters
+      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200141200", "DataType": "Object" }
 
-// const configurationCharacteristics = [
-//                                       { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000",
-//                                         "Characteristics": [
-//                                           { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130100" },
-//                                           { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130100" },
-//                                           { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130100" },
-//                                           { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130100" },
-//                                           { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130100" },
-//                                           { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130100" },
-//                                           { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130100" },
-//                                           { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130100" },
-//                                           { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130100" }
-//                                         ] }
+    ]
+  }
 
-//                                       ]
+]
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
-const Buffer = require('buffer/').Buffer;
 
 const ConnectionScreen = () => {
-  const contextValues = useContext(ContextSensorValues)
-  const contextConfiguration = useContext(ContextConfigurationValues)
+  const contextConfiguration = useContext(ContextConfigurationValues);
+  const contextProcessData = useContext(ContextSensorValues);
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
@@ -129,10 +145,11 @@ const ConnectionScreen = () => {
     console.log('Connected to a Peripheral');
     console.log("peripheralInfo")
     console.log(peripheralInfo)
+    getConfiguration(peripheralInfo);
 
     setNotification(peripheralInfo);
 
-    getConfiguration(peripheralInfo);
+    // getConfiguration(peripheralInfo);
 
   }
 
@@ -141,66 +158,130 @@ const ConnectionScreen = () => {
     setConnectedPeripheral(null)
     console.log('Disconnected from ' + data.peripheral);
   }
-  let a=""
+  let a = ""
   const handleUpdateValueForCharacteristic = ({ value, peripheral, characteristic, service }) => {
-    // Convert bytes array to string
-    const data = bytesToString(value);
+
+
+    // switch (service) {
+    //   case processDataCharacteristics[0].ServiceUUID:  //// Value From Process Data  is Written
+    //   if(configurationCharacteristics[0].Characteristics.find(obj => obj.DataType == "Float" ){
+
+    //   }
+
+    //     break;
+
+    //   case configurationCharacteristics[0].ServiceUUID:  //// Value From Process Data  is Written
+
+    //   break;
+
+    //   case configurationCharacteristics[1].ServiceUUID:  //// Value From Process Data  is Written
+    //   break;
+
+    //   default:
+    //     break;
+    // }
     console.log("Update Has Been Made From Characteristic")
     console.log(characteristic)
-    let parsedObject = JSON.parse(data)
-    switch (characteristic) {
-      case "a65373b2-6942-11ec-90d6-024200110100":
-        contextValues.setSensorValue(parsedObject)
-        console.log("Data Has Been Handled. Data:")
-        console.log(JSON.stringify(contextValues))
-        break;
-
-
-      default:
-        contextConfiguration.setValueTotal(parsedObject["menu"])
-        parsedObject["menu"]
-        console.log(parsedObject["menu"])
-
-        console.log("Data Has Been Handled. Data:")
-
-
+    console.log("Service: " + service)
+    if (service == processDataCharacteristics.find(obj => obj.ServiceUUID)) {
+      console.log("Update From Process Data")
+      const data = bytesToString(value);
+      let parsedObject = JSON.parse(data)
+      contextProcessData.setValueTotal(parsedObject)
+      console.log(parsedObject)
 
     }
 
+    else if (configurationCharacteristics.find(obj => obj.ServiceUUID == service)) {
+      console.log("Update From Configuration Data")
 
-  }
+      if (configurationCharacteristics.find(obj => obj.ServiceUUID == service).Characteristics.find(obj => obj.CharacteristicsUUID == characteristic).DataType == "Float") {
+        // console.log(configurationCharacteristics[1].Characteristics.find(obj => obj.DataType == "Float"))
+        const buf = Buffer.from(value);
+        let obj={};
+        switch (characteristic) {
+          case "a65373b2-6942-11ec-90d6-024200140800":
+            for (let index = 0; index < 50; index++) {
+              if(index==0 || index ==1 ){
+              obj[index+83] = parseInt(buf.readFloatLE(0+4*index).toFixed(0));
+            }else{
+              obj[index+83] = parseFloat(buf.readFloatLE(0+4*index).toFixed(3));
 
-  // const retrieveConnected = () => {
-  //   BleManager.getConnectedPeripherals([]).then((results) => {
-  //     if (results.length == 0) {
-  //       console.log('No connected peripherals')
-  //     }
-  //     console.log(results);
-  //     for (var i = 0; i < results.length; i++) {
-  //       var peripheral = results[i];
-  //       peripheral.connected = true;
-  //       setDeviceConnected(true);
-  //       peripherals.set(peripheral.id, peripheral);
-  //       setList(Array.from(peripherals.values()));
-  //     }
-  //   });
-  // }
+            }
+            }
+            console.log(obj)
+            contextConfiguration.setValueTotal(obj)
+            break;
+          case "a65373b2-6942-11ec-90d6-024200140900":
+            for (let index = 0; index < 50; index++) {
+              if(index==0 || index ==1 ){
+              obj[index+133] = parseInt(buf.readFloatLE(0+4*index).toFixed(0));
+            }else{
+              obj[index+133] = parseFloat(buf.readFloatLE(0+4*index).toFixed(3));
 
-  const handleDiscoverPeripheral = (peripheral) => {
-    console.log(typeof(peripheral))
-      if(peripheral.name == 'ELIAR-ICT-2-V2'){
-        console.log(peripheral.advertising.manufacturerData.bytes)
-        const buffer = Buffer.from(peripheral.advertising.manufacturerData.bytes);
-        const data1 = buffer.toString();
-        if (a!=data1){
-          a=data1
-          console.log(data1)
-          console.log("console.log(a) ")
+            }
+            }
+            console.log(obj)
+            contextConfiguration.setValueTotal(obj)
+            break;
+          case "a65373b2-6942-11ec-90d6-024200141000":
+            for (let index = 0; index < 50; index++) {
+              if(index==0 || index ==1 ){
+              obj[index+183] = parseInt(buf.readFloatLE(0+4*index).toFixed(0));
+            }else{
+              obj[index+183] = parseFloat(buf.readFloatLE(0+4*index).toFixed(3));
 
-            
-          
+            }
+            }
+            console.log(obj)
+            contextConfiguration.setValueTotal(obj)
+            break;
+          case "a65373b2-6942-11ec-90d6-024200141100":
+            for (let index = 0; index < 50; index++) {
+              if(index==0 || index ==1 ){
+              obj[index+233] = parseInt(buf.readFloatLE(0+4*index).toFixed(0));
+            }else{
+              obj[index+233] = parseFloat(buf.readFloatLE(0+4*index).toFixed(3));
+
+            }
+            }
+            console.log(obj)
+            contextConfiguration.setValueTotal(obj)
+          default:
+            break;
         }
+
+      } else if (configurationCharacteristics.find(obj => obj.ServiceUUID == service).Characteristics.find(obj => obj.CharacteristicsUUID == characteristic).DataType == "Object") {
+        console.log("Type is Object")
+        const data = bytesToString(value);
+        console.log("Data:  ")
+        console.log(data)
+
+        let parsedObject = JSON.parse(data)
+        contextConfiguration.setValueTotal(parsedObject)
+        console.log("Parsed Object:  ")
+
+        console.log(parsedObject)
+        console.log("Values are Handled")
+
       }
+    }
+  }
+  const handleDiscoverPeripheral = (peripheral) => {
+    console.log(typeof (peripheral))
+    if (peripheral.name == 'ELIAR-ICT-2-V2') {
+      console.log(peripheral.advertising.manufacturerData.bytes)
+      const buffer = Buffer.from(peripheral.advertising.manufacturerData.bytes);
+      const data1 = buffer.toString();
+      if (a != data1) {
+        a = data1
+        console.log(data1)
+        console.log("console.log(a) ")
+
+
+
+      }
+    }
     if (peripheral.name) {
       peripherals.set(peripheral.id, peripheral);
       setList(Array.from(peripherals.values()));
@@ -345,29 +426,38 @@ const ConnectionScreen = () => {
 
         console.log(peripheralInfo)
 
-        //setTimeout(() => {
-        // for (let [key, value] of notifyCharacteristicsMap) {
+        setTimeout(() => {
+          configurationCharacteristics.forEach(obj => {
+            obj.Characteristics.forEach(characteristic => {
+              BleManager.startNotification(peripheralInfo.id, obj.ServiceUUID, characteristic.CharacteristicsUUID).then(() => {
+                console.log('Notification Succesfull for' + characteristic.CharacteristicsUUID);
+              }).catch((error) => {
+                console.log('Notification error', error);
+              });
+            })
 
-        //   BleManager.startNotification(peripheralInfo.id, value["ServiceUUID"], value["CharacteristicUUID"]).then(() => {
-        //     console.log('Notification Succesfull for' + JSON.stringify(value));
+          })
+
+          processDataCharacteristics.forEach(obj => {
+            obj.Characteristics.forEach(characteristic => {
+              BleManager.startNotification(peripheralInfo.id, obj.ServiceUUID, characteristic.CharacteristicsUUID).then(() => {
+                // console.log('Notification Succesfull for' + characteristic.CharacteristicsUUID);
+              }).catch((error) => {
+                console.log('Notification error', error);
+              });
+            })
+
+          })
+
+          BleManager.startNotification(peripheralInfo.id, "a65373b2-6942-11ec-90d6-024200110000", "a65373b2-6942-11ec-90d6-024200110100").then(() => {
+            console.log('Read Data');
 
 
-        //   }).catch((error) => {
-        //     console.log('Notification error', error);
-        //   });
-        // }
+          }).catch((error) => {
+            console.log('Notification error', error);
+          });
 
-
-
-        // BleManager.startNotification(peripheralInfo.id, "a65373b2-6942-11ec-90d6-024200110000", "a65373b2-6942-11ec-90d6-024200110100").then(() => {
-        //   console.log('Read Data');
-
-
-        // }).catch((error) => {
-        //   console.log('Notification error', error);
-        // });
-
-        // }, 1000);
+        }, 1000);
 
 
         // }, 200);
@@ -441,19 +531,19 @@ const ConnectionScreen = () => {
     const color = '#fff';
 
     return (
-      <Pressable  style={{borderBottomWidth:StyleSheet.hairlineWidth}} onPress={() => ConnectPeripheral(item)}>
+      <Pressable style={{ borderBottomWidth: StyleSheet.hairlineWidth }} onPress={() => ConnectPeripheral(item)}>
 
         <View style={[styles.row, { backgroundColor: color, flexDirection: 'row', justifyContent: 'space-evenly' }]}>
           <Image
             source={require("../Media/ICT200-C50.png")}
-            style={[styles.imgSensor,{flex:1}]}
+            style={[styles.imgSensor, { flex: 1 }]}
           />
-          <Text style={{ flex:1, fontSize: 20, textAlign: 'center', color: '#333333', paddingTop: 25 }}>{item.name}</Text>
-          <View style={{flex:1, alignItems: 'center', paddingBottom: 20 }}>
+          <Text style={{ flex: 1, fontSize: 20, textAlign: 'center', color: '#333333', paddingTop: 25 }}>{item.name}</Text>
+          <View style={{ flex: 1, alignItems: 'center', paddingBottom: 20 }}>
             <SignalLevelIndicator signalStrength={item.rssi} />
 
           </View>
-          <View style={{flex:1, alignItems: 'center', paddingTop: 20 }}>
+          <View style={{ flex: 1, alignItems: 'center', paddingTop: 20 }}>
             <Icon
               name="checkmark-outline"
               size={40}
@@ -620,7 +710,7 @@ const styles = StyleSheet.create({
     paddingRight: 12,
     textAlign: 'right',
   },
-  imgSensor: { width: 60, height: 75,resizeMode:'contain'},
+  imgSensor: { width: 60, height: 75, resizeMode: 'contain' },
 
 });
 

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import {
   SafeAreaView,
   View,
@@ -41,6 +42,7 @@ import SwitchOutputScreeen from './Objects/SettingsPage/SwitchOutputScreen'
 import DigitalInputScreen from './Objects/SettingsPage/DigitalInputScreen'
 import CalibrationScreen from './Objects/SettingsPage/CalibrationScreen'
 import TemperatureCoeffScreen from './Objects/SettingsPage/TemperatureCoefficientsScreen'
+import { ContextConfigurationValues } from '../App';
 let peripheralID = null
 
 
@@ -64,6 +66,8 @@ const demoConnection = [
 ];
 
 const SettingsMainScreen = ({ navigation,route }) =>{
+  const context = useContext(ContextConfigurationValues)
+  console.log(context)
   console.log("I am in Settings Main")
   function renderItem ({ item }){
     console.log("I am here 1")

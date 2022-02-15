@@ -13,6 +13,8 @@ import { color, or, round } from 'react-native-reanimated';
 import { RectButton } from 'react-native-gesture-handler';
 import { Picker } from '@react-native-picker/picker';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
+import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import InputScrollView from 'react-native-input-scroll-view';
 import {
   TextField,
@@ -67,11 +69,6 @@ let peripheralID = '0'
 
 const StackConductivity = createStackNavigator();
 
-const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, maxbytesize = 512) => {
-  BleManager.write(peripheralId, serviceUUID, characteristicUUID, value, maxbytesize)///////////Here Writes to the BLE Peripheral
-  console.log("In Button Function")
-  ///If anything else is to be done, it will be done here!
-}
 
 function renderItem(item, navigation = null, context = null, parent) {
   return (Item(item.Tag, item.Value, navigation, context, parent))
@@ -470,7 +467,7 @@ console.log(payload)
         {true &&
           <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
             <Button
-              onPress={() => { HandleWriteCommandG(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {${payload}}}`, context) }}
+              onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {${payload}}}`, context) }}
               title="Save"
               color="#841584"
             />
