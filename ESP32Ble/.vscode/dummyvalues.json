@@ -1,0 +1,23 @@
+{
+    "SAT210": [
+        {
+            "Total-1MM": 1,
+            "Violet-1MM": 2,
+            "Blue-1MM": 3,
+            "Green-1MM": 4,
+            "Yellow-1MM": 5,
+            "Orange-1MM": 6,
+            "Red-1MM": 7,
+            "Temperature-1MM": 8,
+            "Total-10MM": 9,
+            "Violet-10MM": 10,
+            "Blue-10MM": 11,
+            "Green-10MM": 12,
+            "Yellow-10MM": 13,
+            "Orange-10MM": 14,
+            "Red-10MM": 15,
+            "Temperature-10MM": 16,
+            "DIStatus": 17
+        }
+    ]
+}
