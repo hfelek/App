@@ -1176,7 +1176,7 @@
                 "Icon": "document-text-outline",
                 "menu": [{
                         "Tag": "Configuration 1",
-                        "Index": "500",
+                        "Index": "501",
                         "Config": [{
                                 "Tag": "Number of Temperature Points in the Custom Table",
                                 "Index": "83",
@@ -1480,7 +1480,7 @@
                     },
                     {
                         "Tag": "Configuration 2",
-                        "Index": "500",
+                        "Index": "502",
                         "Config": [{
                                 "Tag": "Number of Temperature Points in the Custom Table",
                                 "Index": "133",
@@ -1784,7 +1784,7 @@
                     },
                     {
                         "Tag": "Configuration 3",
-                        "Index": "500",
+                        "Index": "503",
                         "Config": [{
                                 "Tag": "Number of Temperature Points in the Custom Table",
                                 "Index": "183",
@@ -2088,7 +2088,7 @@
                     },
                     {
                         "Tag": "Configuration 4",
-                        "Index": "500",
+                        "Index": "504",
                         "Config": [{
                                 "Tag": "Number of Temperature Points in the Custom Table",
                                 "Index": "233",
