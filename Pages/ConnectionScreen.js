@@ -41,25 +41,9 @@ import BleManager from 'react-native-ble-manager';
 import { List } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Buffer } from 'buffer';
-function printCoordinate() {
-  console.log(this.a)
-}
-// let consoleobject = printCoordinate.bind(storageObject)
 
-// let notifyCharacteristicsMap = new Map();
-// notifyCharacteristicsMap.set("Identification", { "ServiceUUID": "A65373B2-6942-11EC-90D6-024200130000", "CharacteristicUUID": "A65373B2-6942-11EC-90D6-024200130100" })
-// notifyCharacteristicsMap.set("Diagnostics", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130200" })
-// notifyCharacteristicsMap.set("Measured Values", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130300" })
-// notifyCharacteristicsMap.set("System Units", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130400" })
-// notifyCharacteristicsMap.set("Conductivity", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130500" })
-// notifyCharacteristicsMap.set("Concentration", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200130600" })
-// ///buradan itibaren ikinci serviste yer alıyor
-// notifyCharacteristicsMap.set("Output1", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200140700" })
-// notifyCharacteristicsMap.set("Output2", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200140800" })
-// notifyCharacteristicsMap.set("Display", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200140900" })
-// notifyCharacteristicsMap.set("Communication", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200141000" })
-// notifyCharacteristicsMap.set("System", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200141100" })
-// notifyCharacteristicsMap.set("Values", { "ServiceUUID": "a65373b2-6942-11ec-90d6-024200110000", "CharacteristicUUID": "a65373b2-6942-11ec-90d6-024200110100" })
+
+
 const processDataCharacteristics = [
   {
     "ServiceUUID": "a65373b2-6942-11ec-90d6-024200110000",
@@ -95,13 +79,13 @@ const configurationCharacteristics = [
 ]
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
-
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
 const ConnectionScreen = () => {
   const contextConfiguration = useContext(ContextConfigurationValues);
   const contextProcessData = useContext(ContextSensorValues);
-  const wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  }
+
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);

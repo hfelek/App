@@ -62,6 +62,7 @@ const screenOptions = ({ route, color }) => {
 const Tab = createBottomTabNavigator();
 
 App = ({route,Navigator}) => {
+  console.log("I am in App")
   const [configurationValues, setConfigurationValues] = React.useState(ConfigurationValuesInitialState);
   const [sensorValues, setSensorValues] = React.useState(SensorValuesInitialState)
   

@@ -88,6 +88,8 @@ const ApplicationTagScreen = () => {
       <View style={{ paddingTop: 15, borderRadius: 20 }}>
         <Button
           onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Identification", "Set Parameters": {"${filteredAT["Index"]}":"${text}"}}`, contextConfigurationValues) }}
+          // onPress={() => { console.log( `{"Tag":"Identification", "Set Parameters": {"${filteredAT["Index"]}":"${text}"}}`)}}
+
           title="Save"
           // color="#841584"
           disabled={contextConfigurationValues[filteredAT["Index"]] == text}

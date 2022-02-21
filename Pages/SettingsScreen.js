@@ -1,21 +1,21 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import {
-    SafeAreaView,
-    View,
-    FlatList,
-    StyleSheet,
-    Text,
-    StatusBar,
-    Settings,
-    VirtualizedList,
-    TouchableOpacity,
-    Button
+  SafeAreaView,
+  View,
+  FlatList,
+  StyleSheet,
+  Text,
+  StatusBar,
+  Settings,
+  VirtualizedList,
+  TouchableOpacity,
+  Button
 } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Paramsfiltered from '../Pages/Objects/Paramsfiltered.json';
-import { NavigationContainer, useIsFocused, useFocusEffect } from '@react-navigation/native';
+import { NavigationContainer,useIsFocused,useFocusEffect } from '@react-navigation/native';
 import { StackRouter } from 'react-navigation';
 import { useNavigation } from '@react-navigation/native';
 import NativeHeadlessJsTaskSupport from 'react-native/Libraries/ReactNative/NativeHeadlessJsTaskSupport';
@@ -59,167 +59,128 @@ const StackSettings = createStackNavigator();
 var filtered = Paramsfiltered.filter(row => row.Tag == 'Identification');
 
 const demoConnection = [
-    { title: 'Prop1', id: 'id1' },
-    { title: 'Prop2', id: 'id2' },
-    { title: 'Prop3', id: 'id3' },
-    { title: 'Prop4', id: 'id4' },
+  { title: 'Prop1', id: 'id1' },
+  { title: 'Prop2', id: 'id2' },
+  { title: 'Prop3', id: 'id3' },
+  { title: 'Prop4', id: 'id4' },
 ];
 
-const SettingsMainScreen = ({ navigation, route }) => {
-        const context = useContext(ContextConfigurationValues)
-        console.log("I am in Settings Main")
+const SettingsMainScreen = ({ navigation,route }) =>{
+  const context = useContext(ContextConfigurationValues)
+  console.log("I am in Settings Main")
+  function renderItem ({ item }){
+    console.log("I am here 1")
+    return(
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(item.Tag, { msg: "I came From Screen1" })}  >
+        <Icon
+          name={Paramsfiltered.find(row => row['Tag'] == item.Tag).Icon}
+          size={20}
+          color="#000"
+        />
+  
+        <Text style={styles.title}>{"     " + item.Tag}</Text>
+      </TouchableOpacity>)
+  }
+  return(<SafeAreaView style={styles.container}>
+    <FlatList
+      initialNumToRender={Paramsfiltered.length}
+      data={Paramsfiltered}
+      renderItem={(item)=>renderItem(item)}
+      keyExtractor={item => item.Tag}
+      extraData={navigation}
+    // navigation={navigation}
+    />
+  </SafeAreaView>)
+  }
+const SettingsScreen = ({ navigation, route }) => {
 
-        function renderItem({ item }) {
-            console.log("I am here 1")
-            return ( <
-                TouchableOpacity style = { styles.button }
-                onPress = {
-                    () => navigation.navigate(item.Tag, { msg: "I came From Screen1" }) } >
-                <
-                Icon name = { Paramsfiltered.find(row => row['Tag'] == item.Tag).Icon }
-                size = { 20 }
-                color = "#000" /
-                >
+console.log("I am here Settings Screen")
 
-                <
-                Text style = { styles.title } > { "     " + item.Tag } < /Text> <
-                /TouchableOpacity>)
-            }
-            return ( < SafeAreaView style = { styles.container } >
-                <
-                FlatList initialNumToRender = { Paramsfiltered.length }
-                data = { Paramsfiltered }
-                renderItem = {
-                    (item) => renderItem(item) }
-                keyExtractor = { item => item.Tag }
-                extraData = { navigation }
-                // navigation={navigation}
-                /> <
-                /SafeAreaView>)
-            }
-            const SettingsScreen = ({ navigation, route }) => {
+  // if (peripheralID != null) {
 
-                console.log("I am here Settings Screen")
+  //   return (<View style={styles.noDevice}>
+  //     <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
+  //     <Icon name='alert-circle-outline' size={100} color="#000" rounded='true' />
+  //   </View>)
+  // }
 
-                // if (peripheralID != null) {
+  // else {
 
-                //   return (<View style={styles.noDevice}>
-                //     <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
-                //     <Icon name='alert-circle-outline' size={100} color="#000" rounded='true' />
-                //   </View>)
-                // }
+  //   // console.log(JSON.stringify(a, null, 4));
 
-                // else {
+    return (
 
-                //   // console.log(JSON.stringify(a, null, 4));
+      <StackSettings.Navigator screenOptions={{ headerShown: false }}>
+        <StackSettings.Screen name='SettingsMain' component={SettingsMainScreen} />
+        <StackSettings.Screen name='Identification' component={IdentificationScreen} />
+        <StackSettings.Screen name='Setup Menu' component={ConfigurationScreen} />
+        <StackSettings.Screen name='Diagnostics' component={DiagnosticsScreen} />
+        {/* <StackSettings.Screen name='Temperature Coefficient Non-Linear' component={TemperatureCoeffNonLinearScreen} /> */}
+        <StackSettings.Screen name='Temperature Coefficients' component={TemperatureCoeffScreen} />
+        {/* <StackSettings.Screen name='Temperature Coefficient Linear' component={TemperatureCoeffLinearScreen} />
+        <StackSettings.Screen name='Temperature Coefficient Custom' component={TemperatureCoeffCustomScreen} /> */}
+        <StackSettings.Screen name='Operation Mode IO' component={OperationModeScreen} />
+        <StackSettings.Screen name='Conductivity Input' component={ConductivityScreen} />
 
-                return (
+        <StackSettings.Screen name='Display' component={DisplayScreen} />
+        <StackSettings.Screen name='Communication' component={CommunicationScreen} />
+        <StackSettings.Screen name='Current Output' component={CurrentOutputScreen} />
+        <StackSettings.Screen name='System' component={SystemScreen} />
+        <StackSettings.Screen name='Calibration' component={CalibrationScreen} />
 
-                    <
-                    StackSettings.Navigator screenOptions = {
-                        { headerShown: false } } >
-                    <
-                    StackSettings.Screen name = 'SettingsMain'
-                    component = { SettingsMainScreen }
-                    /> <
-                    StackSettings.Screen name = 'Identification'
-                    component = { IdentificationScreen }
-                    /> <
-                    StackSettings.Screen name = 'Setup Menu'
-                    component = { ConfigurationScreen }
-                    /> <
-                    StackSettings.Screen name = 'Diagnostics'
-                    component = { DiagnosticsScreen }
-                    /> { /* <StackSettings.Screen name='Temperature Coefficient Non-Linear' component={TemperatureCoeffNonLinearScreen} /> */ } <
-                    StackSettings.Screen name = 'Temperature Coefficients'
-                    component = { TemperatureCoeffScreen }
-                    /> {
-                        /* <StackSettings.Screen name='Temperature Coefficient Linear' component={TemperatureCoeffLinearScreen} />
-                                <StackSettings.Screen name='Temperature Coefficient Custom' component={TemperatureCoeffCustomScreen} /> */
-                    } <
-                    StackSettings.Screen name = 'Operation Mode IO'
-                    component = { OperationModeScreen }
-                    /> <
-                    StackSettings.Screen name = 'Conductivity Input'
-                    component = { ConductivityScreen }
-                    />
+        <StackSettings.Screen name='Switch Output' component={SwitchOutputScreeen} />
+        <StackSettings.Screen name='Digital Input' component={DigitalInputScreen} />
 
-                    <
-                    StackSettings.Screen name = 'Display'
-                    component = { DisplayScreen }
-                    /> <
-                    StackSettings.Screen name = 'Communication'
-                    component = { CommunicationScreen }
-                    /> <
-                    StackSettings.Screen name = 'Current Output'
-                    component = { CurrentOutputScreen }
-                    /> <
-                    StackSettings.Screen name = 'System'
-                    component = { SystemScreen }
-                    /> <
-                    StackSettings.Screen name = 'Calibration'
-                    component = { CalibrationScreen }
-                    />
+      </StackSettings.Navigator>
+    );
+  // }
+};
 
-                    <
-                    StackSettings.Screen name = 'Switch Output'
-                    component = { SwitchOutputScreeen }
-                    /> <
-                    StackSettings.Screen name = 'Digital Input'
-                    component = { DigitalInputScreen }
-                    />
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: "#ffffff",
+    padding: 0,
+    marginVertical: 0,
+    flexDirection: 'row',
+    borderBottomColor: 'black',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    // borderBottomEndRadius:-5,
+    padding: 12,
+    marginHorizontal: 0,
 
-                    <
-                    /StackSettings.Navigator>
-                );
-                // }
-            };
+  },
+  container: {
+    flex: 1,
+    justifyContent: "center", // 
+    padding: 0,
+    // marginTop: StatusBar.currentHeight || 0,
+    paddingTop: 0,
+  },
+  item: {
+    backgroundColor: '#ffffff',
+    padding: 0,
+    marginVertical: 0,
+    marginHorizontal: 0,
+    flexDirection: 'row',
+    borderBottomColor: 'black',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    justifyContent: 'center'
+  },
+  title: {
+    fontSize: 15,
+    color: 'black',
+  },
+  noDevice: {
+    // backgroundColor:'rgba(255,255,255,0.26)',
+    marginTop: '50%',
+    margin: '10%',
+    borderRadius: 3,
+    width: '80%',
+    height: '35%',
+    alignItems: 'center',
+    justifyContent: 'center',
 
-            const styles = StyleSheet.create({
-                button: {
-                    backgroundColor: "#ffffff",
-                    padding: 0,
-                    marginVertical: 0,
-                    flexDirection: 'row',
-                    borderBottomColor: 'black',
-                    borderBottomWidth: StyleSheet.hairlineWidth,
-                    // borderBottomEndRadius:-5,
-                    padding: 12,
-                    marginHorizontal: 0,
+  }
+});
 
-                },
-                container: {
-                    flex: 1,
-                    justifyContent: "center", // 
-                    padding: 0,
-                    // marginTop: StatusBar.currentHeight || 0,
-                    paddingTop: 0,
-                },
-                item: {
-                    backgroundColor: '#ffffff',
-                    padding: 0,
-                    marginVertical: 0,
-                    marginHorizontal: 0,
-                    flexDirection: 'row',
-                    borderBottomColor: 'black',
-                    borderBottomWidth: StyleSheet.hairlineWidth,
-                    justifyContent: 'center'
-                },
-                title: {
-                    fontSize: 15,
-                    color: 'black',
-                },
-                noDevice: {
-                    // backgroundColor:'rgba(255,255,255,0.26)',
-                    marginTop: '50%',
-                    margin: '10%',
-                    borderRadius: 3,
-                    width: '80%',
-                    height: '35%',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-
-                }
-            });
-
-            export default SettingsScreen;
+export default SettingsScreen;

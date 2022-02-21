@@ -36,11 +36,12 @@ import BleManager from 'react-native-ble-manager';
 import { ContextConfigurationValues } from '../../../App';
 import { useLayoutEffect } from 'react';
 import convertString from 'convert-string';
-function tableDataFunction(tempPoints,concPoints,context,configMenu){
+import { purpleA100 } from 'react-native-paper/lib/typescript/styles/colors';
+function tableDataFunction(tempPoints, concPoints, context, configMenu) {
 
 
- 
-  const tableData=[]
+
+  const tableData = []
   for (let i = 0; i < concPoints + 1; i += 1) {
     const rowData = []
     for (let j = 0; j < tempPoints + 1; j += 1) {
@@ -69,7 +70,7 @@ function tableDataFunction(tempPoints,concPoints,context,configMenu){
   }
 
   return tableData;
-  }
+}
 const ItemBar = ({ item }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
@@ -186,17 +187,17 @@ function zeros(dimensions) {
 
 const element = (data, index, cellIndex, value, setValue) => {
 
-  function ChangeText(val, index, cellIndex, value){
+  function ChangeText(val, index, cellIndex, value) {
     console.log(value)
     var newMap = new Map(value)
     let newMatrix = newMap.get('array').slice(); // just to create a copy of the matrix
     newMatrix[index][cellIndex] = val
-    newMap.set('array',newMatrix)
+    newMap.set('array', newMatrix)
     return newMap
-  
-  
+
+
   }
-   return (
+  return (
     // <TouchableOpacity onPress={()=>{focused? setFocused(false):setFocused(true)}}>
 
     <View style={[cellIndex == 0 ? styles.btn5 : styles.btn6, { alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? "#808B97" : 'white', paddingBottom: 0, borderRadius: 0, borderBottomWidth: 0, borderBottomEndRadius: 0 }]}>
@@ -204,7 +205,7 @@ const element = (data, index, cellIndex, value, setValue) => {
       <TextInput
         disabled={false}
         style={styles.input1}
-         value={value.get('array')[index][cellIndex]}
+        value={value.get('array')[index][cellIndex]}
         keyboardType="numeric"
         maxLength={7}
         underlineColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
@@ -215,7 +216,7 @@ const element = (data, index, cellIndex, value, setValue) => {
         textAlign='center'
         scrollEnabled={false}
         onChangeText={(val) => setValue(ChangeText(val, index, cellIndex, value))}
-        // onEndEditing={()=>  updateCell(text, index, cellIndex, value, setValue)}
+      // onEndEditing={()=>  updateCell(text, index, cellIndex, value, setValue)}
       />
     </View>
 
@@ -224,155 +225,196 @@ const element = (data, index, cellIndex, value, setValue) => {
 const updateCell = (value, i, j, array, func) => {
   let newMatrix = array.get('array').slice(); // just to create a copy of the matrix
   newMatrix[i][j] = value;
-  array.set('array',newMatrix)
+  array.set('array', newMatrix)
   func(array); // this call will trigger a new draw
 
 }
-const updateTemp = (value, array, func,funcModal) => {
-  let newMatrix = new Map(array) // just to create a copy of the matrix
-  newMatrix.set('temp',value) ;
-  console.log("I am called")
-  newMatrix.get('array').splice(-1,1);
-  newMatrix.set('array' ,newMatrix);
-  func(newMatrix); // this call will trigger a new draw
-  funcModal(false)
-}
+const updateTemp = (tempVal, concVal, array, func, funcModal,context,configMenu) => {
+  let newMap = new Map(array);
+  console.log([tempVal, concVal])
+  var arr = Array(parseInt(tempVal)+1).fill().map(() => Array(parseInt(concVal)+1));
+  console.log("arr");
+
+  console.log(arr);
 
 
-const text = (data, index) => (
-  <View style={[styles.btn5, { alignContent: "center", backgroundColor: 'white', paddingBottom: 0 }]}>
-    <Text>{"value"}</Text>
-  </View>
-);
-function isItNumber(str) {
-  return /^\-?[0-9]+(e[0-9]+)?(\.[0-9]+)?$/.test(str);
-}
+  var myArrCoeff = array.get('array');
+  // myArrCoeff.set('temp', parseInt(tempVal));
+  // myArrCoeff.set('conc', parseInt(concVal));
+  console.log(configMenu)
+  for (let i = 0; i < parseInt(tempVal) + 1; i++) {
+    for (let k = 0; k < parseInt(concVal) + 1; k++) {
+      if (i == 0) {
+        if (k == 0) {
+           arr[i][k] = 0
+        }
+        else {
+          arr[i][k] =context[configMenu.find(key => key.Tag == `Temperature Coefficient ${k}`).Index].toFixed(2)
+        }
 
-const TemperatureCoefficientScreen = ({ route, navigation }) => {
-  
-  console.log("In Custom Params Page")
-  const context = useContext(ContextConfigurationValues)
-  const { Tag } = route.params;
-  const { ConfigNum } = route.params;
-  const configMenu = MenuParams.find(key => key.Tag == ConfigNum).menu
-  const map1 = new Map();
-  map1.set('temp',4);  map1.set('conc',4);  map1.set('array',tableDataFunction(map1.get('temp'),map1.get(('conc')),context,configMenu));
-  // const [temperaturePoints, setTemperaturePoints] = useState(4);
-  // const [concentrationPoints, setConcentrationPoints] = useState(4)
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalTemperaturePoints, setModalTemperaturePoints] = useState(map1.get('temp'));
-  const [modalConcentrationPoints, setModalConcentrationPoints] = useState(map1.get('conc'));
-  const [hookArray,setHookArray] = useState(map1);
-  const widthArr = [150]
-  // console.log(modalTemperaturePoints);
-  // console.log(modalConcentrationPoints)
-  // console.log(tableDataFunction(map1.get('temp'),map1.get(('conc')),context,configMenu))
-  // console.log(hookArray.get('array'))
-  let payload = ""
-  console.log(hookArray)
+      }
+      else {
 
+        if (k == 0) {
+          arr[i][k] =context[configMenu.find(key => key.Tag == `Temperature Point ${i}`).Index].toFixed(2)
 
+        }
+        else {
+          arr[i][k] =context[configMenu.find(key => key.Tag == `Conductivity Point ${((i-1)*6)+k}`).Index].toFixed(2)
+        }
+      }
+    }
+  }
+  console.log(arr)
+    newMap.set('temp',parseInt(tempVal))
+    newMap.set('conc',parseInt(concVal))
 
-
-
-  // {
-  //   const buf = Buffer.allocUnsafe(4);
-  //   buf.writeInt32BE(temperaturePoints, 0);
-  //   for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
-
-  //   buf.writeInt32BE(concentrationPoints, 0);
-  //   for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
-  // }
-  // console.log(1)
-  // for (let i = 0; i < temperaturePoints; i++) {
-  //   const buf = Buffer.allocUnsafe(4);
-  //   buf.writeFloatBE(hookArray[i + 1][0], 0);
-  //   // console.log(buf.toJSON().data);
-  //   for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
-  // }
-  // console.log(2)
-
-  // for (let i = 0; i < concentrationPoints; i++) {
-  //   const buf = Buffer.allocUnsafe(4);
-  //   buf.writeFloatBE(hookArray[0][i + 1], 0);
-  //   // console.log(buf.toJSON().data);
-  //   for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
-
-  // }
-  // console.log(3)
+    newMap.set('array' ,arr);
+     func(newMap); // this call will trigger a new draw
+    funcModal(false)
+  }
 
 
-  // for (let i = 0; i < concentrationPoints; i++) {
-  //   for (let k = 0; k < temperaturePoints; k++) {
-  //     const buf = Buffer.allocUnsafe(4);
-  //     buf.writeFloatBE(hookArray[k + 1][i + 1], 0);
-  //     // console.log(buf.toJSON().data);
-  //     for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
+  const text = (data, index) => (
+    <View style={[styles.btn5, { alignContent: "center", backgroundColor: 'white', paddingBottom: 0 }]}>
+      <Text>{"value"}</Text>
+    </View>
+  );
+  function isItNumber(str) {
+    return /^\-?[0-9]+(e[0-9]+)?(\.[0-9]+)?$/.test(str);
+  }
 
-  //   }
-  // }
-  
-  // for (let i = 1; i < concentrationPoints+2; i++) {
+  const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
-  //   for (let k = 1; k < temperaturePoints+2; k++) {
-  //     if (i == 1 & k == 1) {
-  //     }
-  //     else if (i == 1 & k != 1) {
-  //       // console.log(`Temperature Point ${k-1}`)
-  //       if (isItNumber(hookArray[k - 1][i - 1])) {
-  //         const buf = Buffer.allocUnsafe(4);
-  //         buf.writeFloatBE(hookArray[k - 1][i - 1], 0);
-  //         // console.log(buf.toJSON().data);
-  //         for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
-  //       }
-  //     }
-  //     else if (i != 1 & k == 1) {
-  //       if (isItNumber(hookArray[k - 1][i - 1])) {
-  //         const buf = Buffer.allocUnsafe(4);
-  //         buf.writeFloatBE(hookArray[k - 1][i - 1], 0);
-  //         // console.log(buf.toJSON().data);
-  //         for (const x of buf.toJSON().data) {
-  //           payload = payload + x.toString(16).padStart(2, 0);
-  //         }
-
-  //       }
-  //     }
-  //     else if (i != 1 & k != 1) {
-  //       if (isItNumber(hookArray[k - 1][i - 1])) {
-  //         const buf = Buffer.allocUnsafe(4);
-  //         buf.writeFloatBE(hookArray[k - 1][i - 1], 0);
-  //         // console.log(buf.toJSON().data);
-  //         for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
-
-  //       }
-  //     }
-  //   }
-  // }
-  // // payload = payload.slice(0, -2)
-  // console.log(payload)
-  // console.log((14324).toString(16))
+    console.log("In Custom Params Page")
+    const context = useContext(ContextConfigurationValues)
+    const { Tag } = route.params;
+    const { ConfigNum } = route.params;
+    const configMenu = MenuParams.find(key => key.Tag == ConfigNum).menu
+    const map1 = new Map();
+    map1.set('temp', 4); map1.set('conc', 4); map1.set('array', tableDataFunction(map1.get('temp'), map1.get(('conc')), context, configMenu));
+    // const [temperaturePoints, setTemperaturePoints] = useState(4);
+    // const [concentrationPoints, setConcentrationPoints] = useState(4)
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalTemperaturePoints, setModalTemperaturePoints] = useState(map1.get('temp'));
+    const [modalConcentrationPoints, setModalConcentrationPoints] = useState(map1.get('conc'));
+    const [hookArray, setHookArray] = useState(map1);
+    const widthArr = [150]
+    // console.log(modalTemperaturePoints);
+    // console.log(modalConcentrationPoints)
+    // console.log(tableDataFunction(map1.get('temp'),map1.get(('conc')),context,configMenu))
+    // console.log(hookArray.get('array'))
+    let payload = ""
+    console.log(hookArray)
 
 
 
 
 
+    
+      const buf = Buffer.allocUnsafe(4);
+      buf.writeInt32BE(hookArray.get('temp'), 0);
+      for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
+
+      buf.writeInt32BE(hookArray.get('conc'), 0);
+      for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
+    
+    console.log(1)
+    console.log(payload)
+    for (let i = 0; i < hookArray.get('temp'); i++) {
+      buf.writeFloatBE(hookArray.get('array')[i + 1][0], 0);
+      // console.log(buf.toJSON().data);
+      for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
+    }
+    console.log(2)
+    console.log(payload)
+
+    for (let i = 0; i < hookArray.get('conc'); i++) {
+      // const buf = Buffer.allocUnsafe(4);
+      buf.writeFloatBE(hookArray.get('array')[0][i + 1], 0);
+      // console.log(buf.toJSON().data);
+      for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
+
+    }
+    console.log(3)
+    console.log(payload)
+    console.log(hookArray)
+
+    for (let i = 0; i < hookArray.get('temp'); i++) {
+      for (let k = 0; k < hookArray.get('conc'); k++) {
+        const buf = Buffer.allocUnsafe(4);
+        buf.writeFloatBE(hookArray.get('array')[i + 1][k + 1], 0);
+        // console.log(buf.toJSON().data);
+        for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
+
+      }
+    }
+    console.log(payload)
+    // console.log(modalConcentrationPoints)
+    // console.log(modalTemperaturePoints)
+    // console.log(hookArray)
+    // for (let i = 0; i < modalConcentrationPoints+1; i++) {
+
+    //   for (let k = 0; k < modalTemperaturePoints+1; k++) {
+    //     if (i == 0 & k == 0) {
+    //     }
+    //     else if (i == 0 & k != 0) {
+    //       // console.log(`Temperature Point ${k-1}`)
+    //       if (isItNumber(hookArray.get('array')[i][k])) {
+    //         const buf = Buffer.allocUnsafe(4);
+    //         buf.writeFloatBE(hookArray.get('array')[i][k], 0);
+    //         // console.log(buf.toJSON().data);
+    //         for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
+    //       }
+    //     }//Concentration Points
+    //     else if (i != 0 & k == 0) {
+          
+    //       if (isItNumber(hookArray.get('array')[i][k])) {
+    //         const buf = Buffer.allocUnsafe(4);
+    //         buf.writeFloatBE(hookArray.get('array')[i][k], 0);
+    //         // console.log(buf.toJSON().data);
+    //         for (const x of buf.toJSON().data) {
+    //           payload = payload + x.toString(16).padStart(2, 0);
+    //         }
+
+    //       }
+    //     }
+    //     else if (i != 0 & k != 0) {
+    //       if (isItNumber(hookArray.get('array')[i][k])) {
+    //         const buf = Buffer.allocUnsafe(4);
+    //         buf.writeFloatBE(hookArray.get('array')[i][k], 0);
+    //         // console.log(buf.toJSON().data);
+    //         for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
+
+    //       }
+    //     }
+    //   }
+    // }
+    // // payload = payload.slice(0, -2)
+    // console.log(payload)
+    // // console.log((14324).toString(16))
 
 
 
-  return (
-    <View >
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            {/* <Pressable
+
+
+
+
+
+    return (
+      <View >
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              {/* <Pressable
               style={{
                 alignSelf:'flex-end',
                 borderRadius: 20,
@@ -384,168 +426,168 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
             >
   
             </Pressable> */}
-            <View style={styles.pickerText} >
-              {/* {tableIndex()} */}
-              <Text style={{ textAlign: 'center' }}>Temperature Points</Text>
-              <Picker style={styles.picker}
-                selectedValue={modalTemperaturePoints}
-                onValueChange={(itemValue, itemIndex) =>
-                  setModalTemperaturePoints(itemValue)
-                }>
+              <View style={styles.pickerText} >
+                {/* {tableIndex()} */}
+                <Text style={{ textAlign: 'center' }}>Temperature Points</Text>
+                <Picker style={styles.picker}
+                  selectedValue={modalTemperaturePoints}
+                  onValueChange={(itemValue, itemIndex) =>
+                    setModalTemperaturePoints(itemValue)
+                  }>
 
-                <Picker.Item label="1" value="1" />
-                <Picker.Item label="2" value="2" />
-                <Picker.Item label="3" value="3" />
-                <Picker.Item label="4" value="4" />
-                <Picker.Item label="5" value="5" />
-                <Picker.Item label="6" value="6" />
-              </Picker>
+                  <Picker.Item label="1" value="1" />
+                  <Picker.Item label="2" value="2" />
+                  <Picker.Item label="3" value="3" />
+                  <Picker.Item label="4" value="4" />
+                  <Picker.Item label="5" value="5" />
+                  <Picker.Item label="6" value="6" />
+                </Picker>
+              </View>
+              <View style={styles.pickerText} >
+                {/* {tableIndex()} */}
+                <Text style={{ textAlign: 'center' }}>Concentration Points</Text>
+
+                <Picker style={styles.picker}
+                  selectedValue={modalConcentrationPoints}
+                  onValueChange={(itemValue, itemIndex) =>
+                    setModalConcentrationPoints(itemValue)
+                  }>
+
+                  <Picker.Item label="1" value="1" />
+                  <Picker.Item label="2" value="2" />
+                  <Picker.Item label="3" value="3" />
+                  <Picker.Item label="4" value="4" />
+                  <Picker.Item label="5" value="5" />
+                  <Picker.Item label="6" value="6" />
+                </Picker>
+              </View>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: 149, height: 40, }}>
+                <Pressable
+                  style={{
+                    borderRadius: 20,
+                    padding: 10,
+                    elevation: 2,
+                    backgroundColor: '#7a42f4'
+                  }}
+                  onPress={() => updateTemp(modalTemperaturePoints, modalConcentrationPoints, hookArray, setHookArray, setModalVisible,context,configMenu)}
+                >
+                  <Text style={styles.textStyle}>Save</Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => { setModalVisible(false); }}
+                  style={{
+                    borderRadius: 20,
+                    padding: 10,
+                    elevation: 2,
+                    backgroundColor: '#808B97'
+                  }}
+
+                >
+                  <Icon
+                    name={"close"}
+
+                    size={20}
+                    color="#000"
+                  />
+                </Pressable>
+              </View>
             </View>
-            <View style={styles.pickerText} >
-              {/* {tableIndex()} */}
-              <Text style={{ textAlign: 'center' }}>Concentration Points</Text>
 
-              <Picker style={styles.picker}
-                selectedValue={modalConcentrationPoints}
-                onValueChange={(itemValue, itemIndex) =>
-                  setModalConcentrationPoints(itemValue)
-                }>
-
-                <Picker.Item label="1" value="1" />
-                <Picker.Item label="2" value="2" />
-                <Picker.Item label="3" value="3" />
-                <Picker.Item label="4" value="4" />
-                <Picker.Item label="5" value="5" />
-                <Picker.Item label="6" value="6" />
-              </Picker>
-            </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: 149, height: 40, }}>
-              <Pressable
-                style={{
-                  borderRadius: 20,
-                  padding: 10,
-                  elevation: 2,
-                  backgroundColor: '#7a42f4'
-                }}
-                onPress={() => updateTemp(modalTemperaturePoints,hookArray,setHookArray,setModalVisible)}
-              >
-                <Text style={styles.textStyle}>Save</Text>
-              </Pressable>
-              <Pressable
-              onPress={()=>{setModalVisible(false);}}
-                style={{
-                  borderRadius: 20,
-                  padding: 10,
-                  elevation: 2,
-                  backgroundColor: '#808B97'
-                }}
-              
-              >
-                <Icon
-                  name={"close"}
-
-                  size={20}
-                  color="#000"
-                />
-              </Pressable>
-            </View>
           </View>
+        </Modal>
+        <ScrollView contentContainerStyle={{ alignSelf: 'center' }} style={{ paddingBottom: 40, backgroundColor: 'white' }} horizontal={false} >
 
-        </View>
-      </Modal>
-      <ScrollView contentContainerStyle={{ alignSelf: 'center' }} style={{ paddingBottom: 40, backgroundColor: 'white' }} horizontal={false} >
-        
-        {true &&
-          <View style={{ alignContent: 'center', paddingTop: 3, paddingBottom: 3, backgroundColor: '#333333' }}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>{hookArray.get('temp')}</Text>
-          </View>
-        }
-        <ScrollView contentContainerStyle={{ justifyContent: 'center' }} style={{ backgroundColor: 'white' }} horizontal={true} >
-          <View style={{ backgroundColor: 'white', }}>
-            {/* 
+          {true &&
+            <View style={{ alignContent: 'center', paddingTop: 3, paddingBottom: 3, backgroundColor: '#333333' }}>
+              <Text style={{ color: 'white', textAlign: 'center' }}>Concentration Points</Text>
+            </View>
+          }
+          <ScrollView contentContainerStyle={{ justifyContent: 'center' }} style={{ backgroundColor: 'white' }} horizontal={true} >
+            <View style={{ backgroundColor: 'white', }}>
+              {/* 
             <Table borderStyle={{ borderWidth: 0, borderColor: 'transparent' }}>
               <Row data={["", "Concentration"]} widthArr={[150, 610]} style={[styles.header5, { paddingLeft: 0 }]} textStyle={[styles.text5, { color: 'white' }]} />
             </Table> */}
 
-            <Table borderStyle={{ borderWidth: 1, borderTopWidth: 1, paddingTop: 50, borderColor: '#000000' }}>
-              {
-                hookArray.get('array').map((rowData, index) => (
+              <Table borderStyle={{ borderWidth: 1, borderTopWidth: 1, paddingTop: 50, borderColor: '#000000' }}>
+                {
+                  hookArray.get('array').map((rowData, index) => (
 
-                  <TableWrapper key={index} style={[styles.row5, { paddingTop: 1 }]}>
-                    {
-                      rowData.map((cellData, cellIndex) => (
-                        <Cell key={cellIndex} data={(cellIndex == 0 && index == 0) ? tableIndex() : element(cellData, index, cellIndex, hookArray, setHookArray)} />
-                      ))
-                    }
-                  </TableWrapper>
-                ))
-              }
+                    <TableWrapper key={index} style={[styles.row5, { paddingTop: 1 }]}>
+                      {
+                        rowData.map((cellData, cellIndex) => (
+                          <Cell key={cellIndex} data={(cellIndex == 0 && index == 0) ? tableIndex() : element(cellData, index, cellIndex, hookArray, setHookArray)} />
+                        ))
+                      }
+                    </TableWrapper>
+                  ))
+                }
 
-              {/* Right Wrapper */}
-              {/* <TableWrapper style={{ flex: 1 }}>
+                {/* Right Wrapper */}
+                {/* <TableWrapper style={{ flex: 1 }}>
                 <Cols data={tableData} heightArr={[40, 30, 30, 30, 30]} textStyle={styles.text5} />
               </TableWrapper> */}
 
 
-            </Table>
-          </View>
+              </Table>
+            </View>
+          </ScrollView>
+          {true &&
+            <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
+              <Button
+                onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Custom Coefficients", "Set Parameters": {"${MenuParams.find(obj => obj.Tag == ConfigNum).Index}":"${payload}"}}`, context) }}
+                title="Save"
+                color="#841584"
+              />
+            </View>
+          }
+          {true &&
+            <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
+              <Button
+                onPress={() => { setModalVisible(true) }}
+                title="Configure Number of Points "
+                color="#841584"
+              />
+            </View>
+          }
+
         </ScrollView>
-        {true &&
-          <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
-            <Button
-              onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Custom Coefficients", "Set Parameters": {"${MenuParams.find(obj => obj.Tag == ConfigNum).Index}":"${payload}"}}`, context) }}
-              title="Save"
-              color="#841584"
-            />
-          </View>
-        }
-        {true &&
-          <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
-            <Button
-              onPress={() => {setModalVisible(true)}}
-              title="Configure Number of Points "
-              color="#841584"
-            />
-          </View>
-        }
-
-      </ScrollView>
 
 
-    </View>
-  )
+      </View>
+    )
 
-};
-const tableIndex = () => (
-  <Image
-    source={require("../../../Media/Index.png")}
-    style={styles.img}
-  />)
+  };
+  const tableIndex = () => (
+    <Image
+      source={require("../../../Media/Index.png")}
+      style={styles.img}
+    />)
 
-const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
-  const { ConfigNum } = route.params
-  BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
-    // Success code
+  const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
+    const { ConfigNum } = route.params
+    BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+      // Success code
 
-    console.log(JSON.stringify(peripheralsArray[0].id));
-    peripheralID = peripheralsArray[0].id
-  }).catch(() => {
-    console.log("Couldnt Find A peripheral");
-    // expected output: "Success!"
-  });
+      console.log(JSON.stringify(peripheralsArray[0].id));
+      peripheralID = peripheralsArray[0].id
+    }).catch(() => {
+      console.log("Couldnt Find A peripheral");
+      // expected output: "Success!"
+    });
 
-  return (
-    <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
-      {/* <StackConductivity.Screen name='Configuration' component={ConfigurationNumScreen} options={{ headerTitle: "Custom Temperature Coefficient" }} /> */}
-      {/* <StackConductivity.Screen name='Custom Configuration' component={CustomConfigurationScreen} initialParams={{ ConfigNum: ConfigNum }} /> */}
+    return (
+      <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+        {/* <StackConductivity.Screen name='Configuration' component={ConfigurationNumScreen} options={{ headerTitle: "Custom Temperature Coefficient" }} /> */}
+        {/* <StackConductivity.Screen name='Custom Configuration' component={CustomConfigurationScreen} initialParams={{ ConfigNum: ConfigNum }} /> */}
 
-      <StackConductivity.Screen name='Custom Temperature Coefficient' component={TemperatureCoefficientScreen} initialParams={{ ConfigNum: ConfigNum }} />
-      {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
+        <StackConductivity.Screen name='Custom Temperature Coefficient' component={TemperatureCoefficientScreen} initialParams={{ ConfigNum: ConfigNum }} />
+        {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
 
-    </StackConductivity.Navigator>
+      </StackConductivity.Navigator>
 
-  );
-}
+    );
+  }
 
 
 
@@ -558,178 +600,178 @@ const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
 
 
 
-export default TemperatureCoeffCustomScreen
+  export default TemperatureCoeffCustomScreen
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center", // 
-    padding: 0,
-    // marginTop: StatusBar.currentHeight || 0,
-    paddingTop: 0,
-  },
-  container1: {
-    justifyContent: "center", // 
-    padding: 0,
-    flexDirection: "column",
-    // marginTop: StatusBar.currentHeight || 0,
-    paddingTop: 0,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
-  },
-  container2: {
-    padding: 0,
-    flexDirection: "column",
-    // marginTop: StatusBar.currentHeight || 0,
-    paddingTop: 0,
-  },
-  picker: {
-    // backgroundColor: '#808B97',
-    width: 149, height: 50,
-    alignItems: "center",
-    alignContent: "stretch",
-    borderBottomColor: 'black',
-    borderRadius: 20,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    flexDirection: 'column',
-    // paddingLeft: 25,
-    // paddingRight: 25
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    paddingTop: 5,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
+  const styles = StyleSheet.create({
+    container: {
+      justifyContent: "center", // 
+      padding: 0,
+      // marginTop: StatusBar.currentHeight || 0,
+      paddingTop: 0,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
-  item: {
-    backgroundColor: '#ffffff',
-    padding: 8,
-    flexDirection: 'column',
-    paddingTop: 0,
-    borderBottomColor: 'black',
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    container1: {
+      justifyContent: "center", // 
+      padding: 0,
+      flexDirection: "column",
+      // marginTop: StatusBar.currentHeight || 0,
+      paddingTop: 0,
+    },
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 22
+    },
+    container2: {
+      padding: 0,
+      flexDirection: "column",
+      // marginTop: StatusBar.currentHeight || 0,
+      paddingTop: 0,
+    },
+    picker: {
+      // backgroundColor: '#808B97',
+      width: 149, height: 50,
+      alignItems: "center",
+      alignContent: "stretch",
+      borderBottomColor: 'black',
+      borderRadius: 20,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      flexDirection: 'column',
+      // paddingLeft: 25,
+      // paddingRight: 25
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 35,
+      paddingTop: 5,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5
+    },
+    item: {
+      backgroundColor: '#ffffff',
+      padding: 8,
+      flexDirection: 'column',
+      paddingTop: 0,
+      borderBottomColor: 'black',
+      borderBottomWidth: StyleSheet.hairlineWidth,
 
-  },
-  basicText: { color: "#000", textAlign: "center" },
-  title: {
-    fontSize: 15,
-    color: 'black',
-  },
-  buttonBar: {
-    alignItems: "center",
-    backgroundColor: "#9A348E",
-    padding: 8,
-    marginRight: 3,
-    borderRadius: 10,
-  },
-  value: {
-    fontSize: 12,
-    color: 'gray',
-  },
-  itemButton: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-    padding: 8,
-    marginVertical: 0,
-    marginHorizontal: 0,
-    flexDirection: 'column',
-    borderBottomColor: 'black',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    justifyContent: 'center'
-  },
-  pickerText: {
-    backgroundColor: '#ffffff',
-    borderRadius: 40,
+    },
+    basicText: { color: "#000", textAlign: "center" },
+    title: {
+      fontSize: 15,
+      color: 'black',
+    },
+    buttonBar: {
+      alignItems: "center",
+      backgroundColor: "#9A348E",
+      padding: 8,
+      marginRight: 3,
+      borderRadius: 10,
+    },
+    value: {
+      fontSize: 12,
+      color: 'gray',
+    },
+    itemButton: {
+      flex: 1,
+      backgroundColor: '#ffffff',
+      padding: 8,
+      marginVertical: 0,
+      marginHorizontal: 0,
+      flexDirection: 'column',
+      borderBottomColor: 'black',
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      justifyContent: 'center'
+    },
+    pickerText: {
+      backgroundColor: '#ffffff',
+      borderRadius: 40,
 
-    // padding: 8,
-    // paddingLeft: 25,
-    // paddingRight: 25,
+      // padding: 8,
+      // paddingLeft: 25,
+      // paddingRight: 25,
 
-    marginVertical: 0,
-    marginHorizontal: 0,
-    flexDirection: 'column',
+      marginVertical: 0,
+      marginHorizontal: 0,
+      flexDirection: 'column',
 
-    justifyContent: 'center'
-  },
-  itemActiveConfig: {
-    backgroundColor: '#008000',
-    justifyContent: 'center',
-    padding: 8,
-  },
-  myText: {
-    color: 'black',
-    fontSize: 25,
-    textAlign: 'center'
-  },
-  input: {
-    margin: 15,
-    height: 40,
-    borderColor: '#7a42f4',
-    borderWidth: 1
-  },
-  input1: {
-    // margin: 15,
-    height: 30,
-    // borderColor: '#7a42f4',
-    // borderWidth: 1
-  },
-  containerSlider: {
-    flex: 1,
-    marginLeft: 30,
-    marginRight: 30,
-    alignItems: 'stretch',
-    justifyContent: "flex-start",
-  },
-  container2: { padding: 0, paddingTop: 0, backgroundColor: '#fff' },
-  head2: { height: 40, backgroundColor: '#808B97' },
-  text2: { margin: 6 },
-  row2: { flexDirection: 'row', backgroundColor: '#ffffff' },
-  btn2: { width: 58, height: 18, backgroundColor: '#005555', borderRadius: 2 },
-  btnText2: { textAlign: 'center', color: '#fff' },
-  container3: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-  singleHead3: { width: 80, height: 40, backgroundColor: '#c8e1ff' },
-  head3: { flex: 1, backgroundColor: '#c8e1ff' },
-  title3: { flex: 2, backgroundColor: '#f6f8fa' },
-  titleText3: { marginRight: 6, textAlign: 'right' },
-  text3: { textAlign: 'center' },
-  btn3: { width: 58, height: 18, marginLeft: 15, backgroundColor: '#c8e1ff', borderRadius: 2 },
-  btnText3: { textAlign: 'center' },
+      justifyContent: 'center'
+    },
+    itemActiveConfig: {
+      backgroundColor: '#008000',
+      justifyContent: 'center',
+      padding: 8,
+    },
+    myText: {
+      color: 'black',
+      fontSize: 25,
+      textAlign: 'center'
+    },
+    input: {
+      margin: 15,
+      height: 40,
+      borderColor: '#7a42f4',
+      borderWidth: 1
+    },
+    input1: {
+      // margin: 15,
+      height: 30,
+      // borderColor: '#7a42f4',
+      // borderWidth: 1
+    },
+    containerSlider: {
+      flex: 1,
+      marginLeft: 30,
+      marginRight: 30,
+      alignItems: 'stretch',
+      justifyContent: "flex-start",
+    },
+    container2: { padding: 0, paddingTop: 0, backgroundColor: '#fff' },
+    head2: { height: 40, backgroundColor: '#808B97' },
+    text2: { margin: 6 },
+    row2: { flexDirection: 'row', backgroundColor: '#ffffff' },
+    btn2: { width: 58, height: 18, backgroundColor: '#005555', borderRadius: 2 },
+    btnText2: { textAlign: 'center', color: '#fff' },
+    container3: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
+    singleHead3: { width: 80, height: 40, backgroundColor: '#c8e1ff' },
+    head3: { flex: 1, backgroundColor: '#c8e1ff' },
+    title3: { flex: 2, backgroundColor: '#f6f8fa' },
+    titleText3: { marginRight: 6, textAlign: 'right' },
+    text3: { textAlign: 'center' },
+    btn3: { width: 58, height: 18, marginLeft: 15, backgroundColor: '#c8e1ff', borderRadius: 2 },
+    btnText3: { textAlign: 'center' },
 
-  container4: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-  header4: { height: 50, backgroundColor: '#808B97', borderRadius: 1 },
-  text5: { textAlign: 'center' },
-  dataWrapper4: { marginTop: -1 },
-  row4: { height: 40, backgroundColor: '#ffffff' },
+    container4: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
+    header4: { height: 50, backgroundColor: '#808B97', borderRadius: 1 },
+    text5: { textAlign: 'center' },
+    dataWrapper4: { marginTop: -1 },
+    row4: { height: 40, backgroundColor: '#ffffff' },
 
-  container1: {
-    justifyContent: "center", // 
-    padding: 0,
-    flexDirection: "column",
-    // marginTop: StatusBar.currentHeight || 0,
-    paddingTop: 0,
-  },
-  header5: { height: 50, backgroundColor: '#333333' },
+    container1: {
+      justifyContent: "center", // 
+      padding: 0,
+      flexDirection: "column",
+      // marginTop: StatusBar.currentHeight || 0,
+      paddingTop: 0,
+    },
+    header5: { height: 50, backgroundColor: '#333333' },
 
-  row5: { flexDirection: 'row', backgroundColor: "#808B97", borderRightWidth: 1 },
-  btn5: { width: 149, height: 50, backgroundColor: '#white', borderRadius: 1 },
-  btn6: { width: 100, height: 50, backgroundColor: '#white', borderRadius: 1, borderBottomColor: 'white' },
+    row5: { flexDirection: 'row', backgroundColor: "#808B97", borderRightWidth: 1 },
+    btn5: { width: 149, height: 50, backgroundColor: '#white', borderRadius: 1 },
+    btn6: { width: 100, height: 50, backgroundColor: '#white', borderRadius: 1, borderBottomColor: 'white' },
 
-  img: { width: 149, height: 50, borderRightWidth: 1 },
+    img: { width: 149, height: 50, borderRightWidth: 1 },
 
-  btnText5: { textAlign: 'center', color: '#000' }
-});
+    btnText5: { textAlign: 'center', color: '#000' }
+  });
 
 
