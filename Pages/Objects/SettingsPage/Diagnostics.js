@@ -184,10 +184,10 @@ const SimulationProcessVariableScreen = ({ route, navigation }) => {
       <TextInput
         label={"Set " + Tag}
         value={text}
-        selectionColor='#000'
-        underlineColor='#000'
-        activeOutlineColor='#000'
-        outlineColor='#000'
+        // selectionColor='#000'
+        // underlineColor='#000'
+        // activeOutlineColor='#000'
+        // outlineColor='#000'
         // activeUnderlineColor='#000'
         error={false}
         maxLength={8}
