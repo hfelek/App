@@ -1,10 +1,12 @@
 import React, { useEffect, useContext } from 'react'
 import react from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Settings, Image, Dimensions, TouchableOpacity, TouchableHighlight, ScrollView } from 'react-native';
+import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Settings, Image, Dimensions, TouchableOpacity, TouchableHighlight, ScrollView,Button } from 'react-native';
 import Values from './Objects/Paramsfiltered.json';
 import { List } from 'react-native-paper';
 import { ContextConfigurationValues, ContextSensorValues } from '../App'
 import Icon from 'react-native-vector-icons/Ionicons';
+import HandleWriteCommandGroup from '../Utilities/BLEFunctions.js/HandleGroup';
+import HandleWriteCommandGroupContext from '../Utilities/BLEFunctions.js/HandleGroupContext';
 
 let IdentificationParams;
 let MenuParams;
@@ -145,7 +147,13 @@ DeviceScreen = () => {
             <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>151561531</Text>
           </View>
         </View>
-
+        <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
+              <Button
+                onPress={() => { HandleWriteCommandGroupContext('{"15":3,"59":1.0000,"60":2.0000,"61":1111.0000,"62":11.0000,"63":11.0000,"64":11.0000,"65":11.0000, "66":11.0000, "67":11.0000, "68":11.0000, "69":999.0000, "70":9999.0000}', contextConfiguration) }}
+                title="Save"
+                color="#841584"
+              />
+        </View>
 
       </SafeAreaView>
       {/* <ValuesTab/> */}

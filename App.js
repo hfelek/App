@@ -65,7 +65,10 @@ App = ({route,Navigator}) => {
   console.log("I am in App")
   const [configurationValues, setConfigurationValues] = React.useState(ConfigurationValuesInitialState);
   const [sensorValues, setSensorValues] = React.useState(SensorValuesInitialState)
-  
+  console.log("configurationValues")
+
+  console.log(configurationValues)
+
   
   
   
@@ -73,18 +76,19 @@ App = ({route,Navigator}) => {
     console.log(ISDUIndex)
     // const newObject =JSON.parse(`{"${ISDUIndex}":"${Value}"}`)
     // console.log(`{"${ISDUIndex}":${Value}}`) 
-    const newState = { ...configurationValues, [ISDUIndex]:Value };
+    var newState = { ...configurationValues, [ISDUIndex]:Value };
     setConfigurationValues(newState);
   }
   function setValueTotal(object) {
-    console.log(object)
-    // const newObject =JSON.parse(`{"${ISDUIndex}":"${Value}"}`)
-    // console.log(`{"${ISDUIndex}":${Value}}`) 
-    const newState = { ...configurationValues};
-    for (const property in object) {
-      newState[property]=object[property]
-      console.log(`${property}: ${object[property]}`);
-    }
+    // console.log(object)
+    // // const newObject =JSON.parse(`{"${ISDUIndex}":"${Value}"}`)
+    // // console.log(`{"${ISDUIndex}":${Value}}`) 
+    // const newState = { ...configurationValues};
+    // for (const property in object) {
+    //   newState[property]=object[property]
+      var newState = Object.assign({}, configurationValues, object)
+    //  console.log(`${property}: ${object[property]}`);
+    // }
     setConfigurationValues(newState);
   }
   
@@ -92,7 +96,7 @@ App = ({route,Navigator}) => {
     // console.log(ISDUIndex)
     // const newObject =JSON.parse(`{"${ISDUIndex}":"${Value}"}`)
     // console.log(`{"${ISDUIndex}":${Value}}`) 
-    const newState = { Value} ;
+    var newState = {Value} ;
     console.log(Value)
     console.log("Iam in set Sensor Value")
     setSensorValues(newState);
@@ -115,12 +119,10 @@ App = ({route,Navigator}) => {
  <ContextConfigurationValues.Provider value = {{...configurationValues, ...contextConfigurationValuesSetters}}>
  <ContextSensorValues.Provider value= {{...sensorValues, ...contextSensorValuesSetters}}>
     <NavigationContainer >
-      <Tab.Navigator screenOptions={ ({ route }) => ({
-        tabBarIcon: ({ color }) => screenOptions({ route, color })
-      })} initialRouteName="Connection"  >
+      <Tab.Navigator screenOptions={ ({ route }) => ({tabBarIcon: ({ color }) => screenOptions({ route, color })})} initialRouteName="Connection"  >
         <Tab.Screen name="Connection" component={ConnectionScreen} options={styles.tabScreenOptions} />
         <Tab.Screen name="Device" component={DeviceScreen} options={styles.tabScreenOptions} />
-        <Tab.Screen name="Settings" component={SettingsScreen}      options={styles.tabScreenOptions } />
+        <Tab.Screen name="Settings" component={SettingsScreen}options={styles.tabScreenOptions } />
 
       </Tab.Navigator>
     </NavigationContainer>

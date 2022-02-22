@@ -139,27 +139,27 @@
                         "Index": "15",
                         "PossibleValues": [{
                                 "Tag": "2000 µS/cm",
-                                "Enum": 0
+                                "Enum": 5
                             },
                             {
                                 "Tag": "20 mS/cm",
-                                "Enum": 1
-                            },
-                            {
-                                "Tag": "200 mS/cm",
-                                "Enum": 2
-                            },
-                            {
-                                "Tag": "500 mS/cm",
-                                "Enum": 3
-                            },
-                            {
-                                "Tag": "1000 mS/cm",
                                 "Enum": 4
                             },
                             {
+                                "Tag": "200 mS/cm",
+                                "Enum": 3
+                            },
+                            {
+                                "Tag": "500 mS/cm",
+                                "Enum": 2
+                            },
+                            {
+                                "Tag": "1000 mS/cm",
+                                "Enum": 1
+                            },
+                            {
                                 "Tag": "2000 mS/cm",
-                                "Enum": 5
+                                "Enum": 0
                             }
                         ]
                     },

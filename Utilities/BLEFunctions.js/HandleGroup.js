@@ -11,6 +11,7 @@ const HandleWriteCommandGroup = (peripheralId, serviceUUID, characteristicUUID, 
             console.log(setParameters)
 
             context.setValueTotal(setParameters)
+            console.log(setParameters)
                 // AlertLocal()
             Alert.alert("Configuration Successfull!")
         })
