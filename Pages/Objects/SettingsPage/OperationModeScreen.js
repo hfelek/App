@@ -222,6 +222,8 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                     {/* {pickerPossibleValues} */}
 
                 </Picker>
+                <Text>{context["283"]}</Text>
+
             </View>
             {/* {
                 selection == "Current Output" && 
@@ -308,7 +310,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                                 title="Save"
                                 color="#841584"
                             />
-
+                            
 
 
 

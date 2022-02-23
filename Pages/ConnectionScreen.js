@@ -83,8 +83,100 @@ const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
-const ConnectionScreen = () => {
+const handleUpdateValueForCharacteristic = (value, peripheral, characteristic,service,context) => {
+  console.log("Update Has Been Made")
+  if (service == processDataCharacteristics.find(obj => obj.ServiceUUID)) {
+    //console.log("Update From Prrocess Data")
+    const data = bytesToString(value);
+    let parsedObject = JSON.parse(data)
+    // contextProcessData.setValueTotal(parsedObject)
+    //console.log(parsedObject)
+
+  }
+
+  else if (configurationCharacteristics.find(obj => obj.ServiceUUID == service)) {
+    console.log("Update From Configuration Data")
+
+    if (configurationCharacteristics.find(obj => obj.ServiceUUID == service).Characteristics.find(obj => obj.CharacteristicsUUID == characteristic).DataType == "Float") {
+      // //console.log(configurationCharacteristics[1].Characteristics.find(obj => obj.DataType == "Float"))
+      const buf = Buffer.from(value);
+      let obj = {};
+      switch (characteristic) {
+        case "a65373b2-6942-11ec-90d6-024200140800":
+          for (let index = 0; index < 50; index++) {
+            if (index == 0 || index == 1) {
+              obj[index + 83] = parseInt(buf.readFloatLE(0 + 4 * index).toFixed(0));
+            } else {
+              obj[index + 83] = parseFloat(buf.readFloatLE(0 + 4 * index).toFixed(3));
+
+            }
+          }
+          // HandleWriteCommandGroupContext(obj,context)
+          break;
+        case "a65373b2-6942-11ec-90d6-024200140900":
+          for (let index = 0; index < 50; index++) {
+            if (index == 0 || index == 1) {
+              obj[index + 133] = parseInt(buf.readFloatLE(0 + 4 * index).toFixed(0));
+            } else {
+              obj[index + 133] = parseFloat(buf.readFloatLE(0 + 4 * index).toFixed(3));
+
+            }
+          }
+          // console.log(obj)
+          // HandleWriteCommandGroupContext(obj,context)
+          break;
+        case "a65373b2-6942-11ec-90d6-024200141000":
+          for (let index = 0; index < 50; index++) {
+            if (index == 0 || index == 1) {
+              obj[index + 183] = parseInt(buf.readFloatLE(0 + 4 * index).toFixed(0));
+            } else {
+              obj[index + 183] = parseFloat(buf.readFloatLE(0 + 4 * index).toFixed(3));
+
+            }
+          }
+          // console.log(obj)
+          // HandleWriteCommandGroupContext(obj,context)
+          break;
+        case "a65373b2-6942-11ec-90d6-024200141100":
+          for (let index = 0; index < 50; index++) {
+            if (index == 0 || index == 1) {
+              obj[index + 233] = parseInt(buf.readFloatLE(0 + 4 * index).toFixed(0));
+            } else {
+              obj[index + 233] = parseFloat(buf.readFloatLE(0 + 4 * index).toFixed(3));
+
+            }
+          }
+        // console.log(obj)
+        // HandleWriteCommandGroupContext(obj,context)
+        default:
+          break;
+      }
+
+    } else if (configurationCharacteristics.find(obj => obj.ServiceUUID == service).Characteristics.find(obj => obj.CharacteristicsUUID == characteristic).DataType == "Object") {
+      //console.log("Type is Object")
+      const data = bytesToString(value);
+
+      console.log("Data:  ")
+      console.log(data)
+      // HandleWriteCommandGroup("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `${data}`, context)
+
+      // let datanew = '{"Tag":"random","Set Parameters":' + data + "}}"
+      // let parsedObject = JSON.parse(data)
+      context.setValueTotal(JSON.parse(data))
+      console.log("I am in Callback For Ble")
+      // context.setValueTotal(parsedObject)
+      // console.log("Parsed Object:  ")
+      // console.log(parsedObject)
+
+      //console.log("Values are Handled")
+
+    }
+  }
+}
+ConnectionScreen = () => {
   const context = useContext(ContextConfigurationValues);
+  // console.log("context")
+  // console.log(context)
   // const contextProcessData = useContext(ContextSensorValues);
 
   const [refreshing, setRefreshing] = React.useState(false);
@@ -144,100 +236,7 @@ const ConnectionScreen = () => {
     //console.log('Disconnected from ' + data.peripheral);
   }
   let a = ""
-  const handleUpdateValueForCharacteristic = (value, peripheral, characteristic, service,context) => {
-    console.log("Update Has Been Made")
-    console.log("Context:")
-    console.log(context)
-    console.log(peripheral)
-    console.log("Value:")
-    console.log(value)
-    if (service == processDataCharacteristics.find(obj => obj.ServiceUUID)) {
-      //console.log("Update From Prrocess Data")
-      const data = bytesToString(value);
-      let parsedObject = JSON.parse(data)
-      // contextProcessData.setValueTotal(parsedObject)
-      //console.log(parsedObject)
 
-    }
-
-    else if (configurationCharacteristics.find(obj => obj.ServiceUUID == service)) {
-      console.log("Update From Configuration Data")
-
-      if (configurationCharacteristics.find(obj => obj.ServiceUUID == service).Characteristics.find(obj => obj.CharacteristicsUUID == characteristic).DataType == "Float") {
-        // //console.log(configurationCharacteristics[1].Characteristics.find(obj => obj.DataType == "Float"))
-        const buf = Buffer.from(value);
-        let obj = {};
-        switch (characteristic) {
-          case "a65373b2-6942-11ec-90d6-024200140800":
-            for (let index = 0; index < 50; index++) {
-              if (index == 0 || index == 1) {
-                obj[index + 83] = parseInt(buf.readFloatLE(0 + 4 * index).toFixed(0));
-              } else {
-                obj[index + 83] = parseFloat(buf.readFloatLE(0 + 4 * index).toFixed(3));
-
-              }
-            }
-            // HandleWriteCommandGroupContext(obj,context)
-            break;
-          case "a65373b2-6942-11ec-90d6-024200140900":
-            for (let index = 0; index < 50; index++) {
-              if (index == 0 || index == 1) {
-                obj[index + 133] = parseInt(buf.readFloatLE(0 + 4 * index).toFixed(0));
-              } else {
-                obj[index + 133] = parseFloat(buf.readFloatLE(0 + 4 * index).toFixed(3));
-
-              }
-            }
-            // console.log(obj)
-            // HandleWriteCommandGroupContext(obj,context)
-            break;
-          case "a65373b2-6942-11ec-90d6-024200141000":
-            for (let index = 0; index < 50; index++) {
-              if (index == 0 || index == 1) {
-                obj[index + 183] = parseInt(buf.readFloatLE(0 + 4 * index).toFixed(0));
-              } else {
-                obj[index + 183] = parseFloat(buf.readFloatLE(0 + 4 * index).toFixed(3));
-
-              }
-            }
-            // console.log(obj)
-            // HandleWriteCommandGroupContext(obj,context)
-            break;
-          case "a65373b2-6942-11ec-90d6-024200141100":
-            for (let index = 0; index < 50; index++) {
-              if (index == 0 || index == 1) {
-                obj[index + 233] = parseInt(buf.readFloatLE(0 + 4 * index).toFixed(0));
-              } else {
-                obj[index + 233] = parseFloat(buf.readFloatLE(0 + 4 * index).toFixed(3));
-
-              }
-            }
-          // console.log(obj)
-          // HandleWriteCommandGroupContext(obj,context)
-          default:
-            break;
-        }
-
-      } else if (configurationCharacteristics.find(obj => obj.ServiceUUID == service).Characteristics.find(obj => obj.CharacteristicsUUID == characteristic).DataType == "Object") {
-        //console.log("Type is Object")
-        const data = bytesToString(value);
-
-        console.log("Data:  ")
-        console.log(data)
-        // HandleWriteCommandGroup("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `${data}`, context)
-
-        // let datanew = '{"Tag":"random","Set Parameters":' + data + "}}"
-        // let parsedObject = JSON.parse(data)
-        HandleWriteCommandGroupContext(data,context)
-        // context.setValueTotal(parsedObject)
-        // console.log("Parsed Object:  ")
-        // console.log(parsedObject)
-
-        //console.log("Values are Handled")
-
-      }
-    }
-  }
   const handleDiscoverPeripheral = (peripheral) => {
     //console.log(typeof (peripheral))
     if (peripheral.name == 'ELIAR-ICT-2-V2') {
@@ -458,12 +457,11 @@ const ConnectionScreen = () => {
 
   useEffect(() => {
     BleManager.start({ showAlert: false });
-
+    console.log("i am here")
     const subscriptionDiscoverPeripheral = bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', handleDiscoverPeripheral);
     const subscriptionStopScan = bleManagerEmitter.addListener('BleManagerStopScan', handleStopScan);
     const subscriptionDisconnectPeripheral = bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', handleDisconnectedPeripheral);
     const subscriptionDidUpdateValueForCharacterisctic = bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic',({ value, peripheral, characteristic, service }) => {
-console.log(value)
     handleUpdateValueForCharacteristic(value, peripheral, characteristic, service,context);
 
     });
@@ -500,7 +498,7 @@ console.log(value)
       // bleManagerEmitter.removeListener('BleManagerDisconnectPeripheral', handleDisconnectedPeripheral );
       // bleManagerEmitter.removeListener('BleManagerDidUpdateValueForCharacteristic', handleUpdateValueForCharacteristic );
     })
-  }, []);
+  });
 
   const renderItem = (item) => {
     const color = '#fff';
@@ -594,6 +592,27 @@ console.log(value)
                 title={'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}
                 onPress={() => startScan()}
               />
+                      <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
+              <Button
+                onPress={() => { HandleWriteCommandGroupContext('{"283":2,"15":4,"59":1.0000,"60":2.0000,"61":1111.0000,"62":11.0000,"63":11.0000,"64":11.0000,"65":11.0000, "66":11.0000, "67":11.0000, "68":11.0000, "69":999.0000, "70":9999.0000}', context) }}
+                title="Save"
+                color="#841584"
+              />
+        </View>
+        <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
+              <Button
+                onPress={() => { HandleWriteCommandGroupContext('{"283":1,"59":1.0000,"60":2.0000,"61":1111.0000,"62":11.0000,"63":11.0000,"64":11.0000,"65":11.0000, "66":11.0000, "67":11.0000, "68":11.0000, "69":999.0000, "70":9999.0000}', context) }}
+                title="Save"
+                color="#841584"
+              />
+        </View>
+        <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
+              <Button
+                onPress={() => { HandleWriteCommandGroupContext('{"59":1.0000,"60":2.0000,"61":1111.0000,"62":11.0000,"63":11.0000,"64":11.0000,"65":11.0000, "66":11.0000, "67":11.0000, "68":11.0000, "69":999.0000, "70":9999.0000}', context) }}
+                title="Save"
+                color="#841584"
+              />
+        </View>
             </View>
             {/* 
             {(connectedPeripheral != null) &&
@@ -616,7 +635,7 @@ console.log(value)
 
           </View>
 
-          {/* <Text>{JSON.stringify(context)}</Text> */}
+          <Text>{JSON.stringify(context["283"])}</Text>
         </ScrollView>
         {/* <FlatList
           data={list}

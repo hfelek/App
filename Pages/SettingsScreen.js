@@ -67,9 +67,9 @@ const demoConnection = [
 
 const SettingsMainScreen = ({ navigation,route }) =>{
   const context = useContext(ContextConfigurationValues)
-  console.log("I am in Settings Main")
+  //console.log("I am in Settings Main")
   function renderItem ({ item }){
-    console.log("I am here 1")
+    //console.log("I am here 1")
     return(
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(item.Tag, { msg: "I came From Screen1" })}  >
         <Icon
@@ -94,7 +94,7 @@ const SettingsMainScreen = ({ navigation,route }) =>{
   }
 const SettingsScreen = ({ navigation, route }) => {
 
-console.log("I am here Settings Screen")
+//console.log("I am here Settings Screen")
 
   // if (peripheralID != null) {
 
@@ -106,7 +106,7 @@ console.log("I am here Settings Screen")
 
   // else {
 
-  //   // console.log(JSON.stringify(a, null, 4));
+  //   // //console.log(JSON.stringify(a, null, 4));
 
     return (
 

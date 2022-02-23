@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { NavigationContainer,getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ConnectionScreen from './Pages/ConnectionScreen.js';
@@ -61,44 +62,51 @@ const screenOptions = ({ route, color }) => {
 
 const Tab = createBottomTabNavigator();
 
-App = ({route,Navigator}) => {
-  console.log("I am in App")
-  const [configurationValues, setConfigurationValues] = React.useState(ConfigurationValuesInitialState);
-  const [sensorValues, setSensorValues] = React.useState(SensorValuesInitialState)
-  console.log("configurationValues")
+const App = ({route,Navigator}) => {
+  ////console.log("I am in App")
+  const [configurationValues, setConfigurationValues] = useState(ConfigurationValuesInitialState);
+  const [sensorValues, setSensorValues] = useState(SensorValuesInitialState)
+  ////console.log("configurationValues")
 
-  console.log(configurationValues)
+  //console.log(configurationValues)
 
   
   
   
   function setValueByKey(ISDUIndex,Value) {
-    console.log(ISDUIndex)
+    //console.log(ISDUIndex)
     // const newObject =JSON.parse(`{"${ISDUIndex}":"${Value}"}`)
-    // console.log(`{"${ISDUIndex}":${Value}}`) 
+    // //console.log(`{"${ISDUIndex}":${Value}}`) 
     var newState = { ...configurationValues, [ISDUIndex]:Value };
     setConfigurationValues(newState);
   }
   function setValueTotal(object) {
-    // console.log(object)
+    // //console.log(object)
     // // const newObject =JSON.parse(`{"${ISDUIndex}":"${Value}"}`)
-    // // console.log(`{"${ISDUIndex}":${Value}}`) 
+    // // //console.log(`{"${ISDUIndex}":${Value}}`) 
     // const newState = { ...configurationValues};
     // for (const property in object) {
     //   newState[property]=object[property]
-      var newState = Object.assign({}, configurationValues, object)
-    //  console.log(`${property}: ${object[property]}`);
+    console.log("Object in setValueTotal")
+    console.log(object)
+   if(object["15"]) {console.log(object["15"])}
+    // var newState = Object.assign({}, configurationValues, object)
+    console.log("In Set Value Total function")
+    console.log(configurationValues["15"])
+    //  //console.log(`${property}: ${object[property]}`);
     // }
-    setConfigurationValues(newState);
+    setConfigurationValues(Object.assign({}, configurationValues, object));
+    console.log(configurationValues["15"])
+
   }
   
   function setSensorValue(Value) {
-    // console.log(ISDUIndex)
+    // //console.log(ISDUIndex)
     // const newObject =JSON.parse(`{"${ISDUIndex}":"${Value}"}`)
-    // console.log(`{"${ISDUIndex}":${Value}}`) 
+    // //console.log(`{"${ISDUIndex}":${Value}}`) 
     var newState = {Value} ;
-    console.log(Value)
-    console.log("Iam in set Sensor Value")
+    //console.log(Value)
+    //console.log("Iam in set Sensor Value")
     setSensorValues(newState);
   }
 
@@ -114,7 +122,7 @@ App = ({route,Navigator}) => {
 
 
 
-  console.log("I am in Main Screen")
+  //console.log("I am in Main Screen")
   return (
  <ContextConfigurationValues.Provider value = {{...configurationValues, ...contextConfigurationValuesSetters}}>
  <ContextSensorValues.Provider value= {{...sensorValues, ...contextSensorValuesSetters}}>
