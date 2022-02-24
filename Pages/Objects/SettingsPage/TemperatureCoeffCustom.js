@@ -200,16 +200,16 @@ const element = (data, index, cellIndex, value, setValue) => {
   return (
     // <TouchableOpacity onPress={()=>{focused? setFocused(false):setFocused(true)}}>
 
-    <View style={[cellIndex == 0 ? styles.btn5 : styles.btn6, { alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? "#808B97" : 'white', paddingBottom: 0, borderRadius: 0, borderBottomWidth: 0, borderBottomEndRadius: 0 }]}>
+    <View style={[cellIndex == 0 ? styles.btn5 : styles.btn6, { borderColor:'black',borderBottomWidth:StyleSheet.hairlineWidth,alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? "#808B97" : 'white'}]}>
 
       <TextInput
         disabled={false}
-        style={styles.input1}
+        style={[styles.input1]}
         value={value.get('array')[index][cellIndex]}
         keyboardType="numeric"
         maxLength={7}
         underlineColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
-        selectionColor='#555555'
+        selectionColor='#2a9df4'
         placeholder='0.0'
         activeUnderlineColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
         backgroundColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
@@ -497,23 +497,47 @@ const updateTemp = (tempVal, concVal, array, func, funcModal,context,configMenu)
         </Modal>
         <ScrollView contentContainerStyle={{ alignSelf: 'center' }} style={{ paddingBottom: 40, backgroundColor: 'white' }} horizontal={false} >
 
-          {true &&
+          {false &&
             <View style={{ alignContent: 'center', paddingTop: 3, paddingBottom: 3, backgroundColor: '#333333' }}>
               <Text style={{ color: 'white', textAlign: 'center' }}>Concentration Points</Text>
             </View>
           }
           <ScrollView contentContainerStyle={{ justifyContent: 'center' }} style={{ backgroundColor: 'white' }} horizontal={true} >
             <View style={{ backgroundColor: 'white', }}>
-              {/* 
-            <Table borderStyle={{ borderWidth: 0, borderColor: 'transparent' }}>
-              <Row data={["", "Concentration"]} widthArr={[150, 610]} style={[styles.header5, { paddingLeft: 0 }]} textStyle={[styles.text5, { color: 'white' }]} />
-            </Table> */}
+              
+            {/* <Table borderStyle={{ borderWidth: 0, borderColor: 'transparent' }}>
+              <Row data={["Temperature", "Concentration"]} widthArr={[150, 100*hookArray.get("conc")]} style={[styles.header5, { paddingLeft: 0 }]} textStyle={[styles.text5, { color: 'white' }]} />
+              <Row data={["Temperature", "Concentration"]} widthArr={[150, 100*hookArray.get("conc")]} style={[styles.header5, { paddingLeft: 0 }]} textStyle={[styles.text5, { color: 'white' }]} />
 
-              <Table borderStyle={{ borderWidth: 1, borderTopWidth: 1, paddingTop: 50, borderColor: '#000000' }}>
+            </Table> */}
+            <Table borderStyle={{ borderWidth:0, borderColor: 'transparent',borderBottomColor:'transparent' }}>
+                {
+                    <TableWrapper  style={[styles.row5, { paddingTop: 0 }]}>
+                      {
+                         ["Temperature", "Concentration"].map((cellData, cellIndex) => (
+                          <Cell style={{backgroundColor: cellIndex== 0 ? 'orange' : 'red',borderColor: cellIndex== 0 ? 'transparent' : 'transparent'}} key={cellIndex} data={(cellIndex == 0 ) ? <Text  style={{ width: 149, height: 35,textAlign:'center',borderLeftColor:'transparent',paddingTop:15,borderBottomColor:'orange',borderWidth:StyleSheet.hairlineWidth }}>Temperature</Text> : <Text style ={{width: 100*hookArray.get('conc') , height: 35, borderBottomColor: 'black',fontSize: hookArray.get('conc')==1 ? 10 : 15 ,textAlign:'center',paddingTop:5,borderWidth:StyleSheet.hairlineWidth }} > Concentration</Text>} />
+                        ))
+                      }
+                    </TableWrapper>     
+                }
+
+                {/* Right Wrapper */}
+                {/* <TableWrapper style={{ flex: 1 }}>
+                <Cols data={tableData} heightArr={[40, 30, 30, 30, 30]} textStyle={styles.text5} />
+              </TableWrapper> */}
+
+
+              </Table>
+
+
+
+
+
+              <Table borderStyle={{ borderWidth:0,  paddingTop: 35, borderColor: 'transparent',borderBottomColor:'transparent' }}>
                 {
                   hookArray.get('array').map((rowData, index) => (
 
-                    <TableWrapper key={index} style={[styles.row5, { paddingTop: 1 }]}>
+                    <TableWrapper key={index} style={[styles.row5, { paddingTop: 0 }]}>
                       {
                         rowData.map((cellData, cellIndex) => (
                           <Cell key={cellIndex} data={(cellIndex == 0 && index == 0) ? tableIndex() : element(cellData, index, cellIndex, hookArray, setHookArray)} />
@@ -559,10 +583,7 @@ const updateTemp = (tempVal, concVal, array, func, funcModal,context,configMenu)
 
   };
   const tableIndex = () => (
-    <Image
-      source={require("../../../Media/Index.png")}
-      style={styles.img}
-    />)
+<Text  style={{ width: 149, height: 35, borderWidth: StyleSheet.hairlineWidth,textAlign:'center',paddingTop:5,backgroundColor:'orange',borderColor:'orange'}}>Coefficients</Text> )
 
   const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
     const { ConfigNum } = route.params
@@ -630,7 +651,7 @@ const updateTemp = (tempVal, concVal, array, func, funcModal,context,configMenu)
     },
     picker: {
       // backgroundColor: '#808B97',
-      width: 149, height: 50,
+      width: 149, height: 35,
       alignItems: "center",
       alignContent: "stretch",
       borderBottomColor: 'black',
@@ -725,6 +746,7 @@ const updateTemp = (tempVal, concVal, array, func, funcModal,context,configMenu)
     input1: {
       // margin: 15,
       height: 30,
+      
       // borderColor: '#7a42f4',
       // borderWidth: 1
     },
@@ -751,7 +773,7 @@ const updateTemp = (tempVal, concVal, array, func, funcModal,context,configMenu)
     btnText3: { textAlign: 'center' },
 
     container4: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-    header4: { height: 50, backgroundColor: '#808B97', borderRadius: 1 },
+    header4: { height: 35, backgroundColor: '#808B97', borderRadius: 1 },
     text5: { textAlign: 'center' },
     dataWrapper4: { marginTop: -1 },
     row4: { height: 40, backgroundColor: '#ffffff' },
@@ -763,13 +785,14 @@ const updateTemp = (tempVal, concVal, array, func, funcModal,context,configMenu)
       // marginTop: StatusBar.currentHeight || 0,
       paddingTop: 0,
     },
-    header5: { height: 50, backgroundColor: '#333333' },
+    header5: { height: 35, backgroundColor: '#333333' },
+    row5: { flexDirection: 'row', backgroundColor: "#808B97", borderWidth:0},
 
-    row5: { flexDirection: 'row', backgroundColor: "#808B97", borderRightWidth: 1 },
-    btn5: { width: 149, height: 50, backgroundColor: '#white', borderRadius: 1 },
-    btn6: { width: 100, height: 50, backgroundColor: '#white', borderRadius: 1, borderBottomColor: 'white' },
-
-    img: { width: 149, height: 50, borderRightWidth: 1 },
+    btn5: { width: 149, height: 34, backgroundColor: '#white',borderWidth:StyleSheet.hairlineWidth
+  },
+    btn6: { width: 100, height: 34, backgroundColor: '#white',borderWidth:StyleSheet.hairlineWidth
+  },
+    img: { width: 149, height: 35, borderRightWidth: 1 },
 
     btnText5: { textAlign: 'center', color: '#000' }
   });

@@ -147,7 +147,7 @@ DeviceScreen = () => {
             <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>151561531</Text>
           </View>
         </View>
-        <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
+        {/* <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
           <Button
             onPress={() => { HandleWriteCommandGroupContext('{"283":1,"15":4,"59":1.0000,"60":2.0000,"61":1111.0000,"62":11.0000,"63":11.0000,"64":11.0000,"65":11.0000, "66":11.0000, "67":11.0000, "68":11.0000, "69":999.0000, "70":9999.0000}', contextConfiguration) }}
             title="Save"
@@ -160,7 +160,7 @@ DeviceScreen = () => {
             title="Save"
             color="#841584"
           />
-        </View>
+        </View> */}
 
       </SafeAreaView>
       {/* <ValuesTab/> */}
