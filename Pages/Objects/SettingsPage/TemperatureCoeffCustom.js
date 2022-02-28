@@ -200,7 +200,7 @@ const element = (data, index, cellIndex, value, setValue) => {
   return (
     // <TouchableOpacity onPress={()=>{focused? setFocused(false):setFocused(true)}}>
 
-    <View style={[cellIndex == 0 ? styles.btn5 : styles.btn6, { borderColor:'black',borderBottomWidth:StyleSheet.hairlineWidth,alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? "#808B97" : 'white'}]}>
+    <View style={[cellIndex == 0 ? styles.btn5 : styles.btn6, { borderColor:'black',borderBottomWidth:StyleSheet.hairlineWidth,alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? ((cellIndex == 0 ) ? "red" : "blue") : 'white'}]}>
 
       <TextInput
         disabled={false}
@@ -212,7 +212,7 @@ const element = (data, index, cellIndex, value, setValue) => {
         selectionColor='#2a9df4'
         placeholder='0.0'
         activeUnderlineColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
-        backgroundColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
+        backgroundColor={(cellIndex == 0 || index == 0) ? ((cellIndex == 0 ) ? "red" : "blue") : 'white'}
         textAlign='center'
         scrollEnabled={false}
         onChangeText={(val) => setValue(ChangeText(val, index, cellIndex, value))}
@@ -515,7 +515,7 @@ const updateTemp = (tempVal, concVal, array, func, funcModal,context,configMenu)
                     <TableWrapper  style={[styles.row5, { paddingTop: 0 }]}>
                       {
                          ["Temperature", "Concentration"].map((cellData, cellIndex) => (
-                          <Cell style={{backgroundColor: cellIndex== 0 ? 'orange' : 'red',borderColor: cellIndex== 0 ? 'transparent' : 'transparent'}} key={cellIndex} data={(cellIndex == 0 ) ? <Text  style={{ width: 149, height: 35,textAlign:'center',borderLeftColor:'transparent',paddingTop:15,borderBottomColor:'orange',borderWidth:StyleSheet.hairlineWidth }}>Temperature</Text> : <Text style ={{width: 100*hookArray.get('conc') , height: 35, borderBottomColor: 'black',fontSize: hookArray.get('conc')==1 ? 10 : 15 ,textAlign:'center',paddingTop:5,borderWidth:StyleSheet.hairlineWidth }} > Concentration</Text>} />
+                          <Cell style={{backgroundColor: cellIndex== 0 ? 'red' : 'blue',borderColor: cellIndex== 0 ? 'transparent' : 'transparent'}} key={cellIndex} data={(cellIndex == 0 ) ? <Text  style={{ width: 149, height: 35,textAlign:'center',borderLeftColor:'transparent',paddingTop:15,borderBottomColor:'red',borderWidth:StyleSheet.hairlineWidth }}>Temperature</Text> : <Text style ={{width: 100*hookArray.get('conc') , height: 35, borderBottomColor: 'black',fontSize: hookArray.get('conc')==1 ? 10 : 15 ,textAlign:'center',paddingTop:5,borderWidth:StyleSheet.hairlineWidth }} > Concentration</Text>} />
                         ))
                       }
                     </TableWrapper>     
@@ -583,7 +583,7 @@ const updateTemp = (tempVal, concVal, array, func, funcModal,context,configMenu)
 
   };
   const tableIndex = () => (
-<Text  style={{ width: 149, height: 35, borderWidth: StyleSheet.hairlineWidth,textAlign:'center',paddingTop:5,backgroundColor:'orange',borderColor:'orange'}}>Coefficients</Text> )
+<Text  style={{ width: 149, height: 35, borderWidth: StyleSheet.hairlineWidth,textAlign:'center',paddingTop:5,backgroundColor:'red',borderColor:'red'}}>Coefficients</Text> )
 
   const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
     const { ConfigNum } = route.params
@@ -788,9 +788,9 @@ const updateTemp = (tempVal, concVal, array, func, funcModal,context,configMenu)
     header5: { height: 35, backgroundColor: '#333333' },
     row5: { flexDirection: 'row', backgroundColor: "#808B97", borderWidth:0},
 
-    btn5: { width: 149, height: 34, backgroundColor: '#white',borderWidth:StyleSheet.hairlineWidth
+    btn5: { width: 149, height: 34, backgroundColor: 'white',borderWidth:StyleSheet.hairlineWidth
   },
-    btn6: { width: 100, height: 34, backgroundColor: '#white',borderWidth:StyleSheet.hairlineWidth
+    btn6: { width: 100, height: 34, backgroundColor: 'white',borderWidth:StyleSheet.hairlineWidth
   },
     img: { width: 149, height: 35, borderRightWidth: 1 },
 

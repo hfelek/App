@@ -63,57 +63,37 @@ const screenOptions = ({ route, color }) => {
 const Tab = createBottomTabNavigator();
 
 const App = ({route,Navigator}) => {
-  ////console.log("I am in App")
   const [configurationValues, setConfigurationValues] = useState(ConfigurationValuesInitialState);
   const [sensorValues, setSensorValues] = useState(SensorValuesInitialState)
-  ////console.log("configurationValues")
 
-  //console.log(configurationValues)
 
   
   
   
   function setValueByKey(ISDUIndex,Value) {
-    //console.log(ISDUIndex)
-    // const newObject =JSON.parse(`{"${ISDUIndex}":"${Value}"}`)
-    // //console.log(`{"${ISDUIndex}":${Value}}`) 
+
     var newState = { ...configurationValues, [ISDUIndex]:Value };
     setConfigurationValues(newState);
   }
   function setValueTotal(object) {
-    // //console.log(object)
-    // // const newObject =JSON.parse(`{"${ISDUIndex}":"${Value}"}`)
-    // // //console.log(`{"${ISDUIndex}":${Value}}`) 
-    // const newState = { ...configurationValues};
-    // for (const property in object) {
-    //   newState[property]=object[property]
-    console.log("Object in setValueTotal")
-    console.log(object)
-   if(object["15"]) {console.log(object["15"])}
-    // var newState = Object.assign({}, configurationValues, object)
-    console.log("In Set Value Total function")
-    console.log(configurationValues["15"])
-    //  //console.log(`${property}: ${object[property]}`);
-    // }
+    console.log("Object to be Set")
+    console.log(Object.assign({}, configurationValues, object))
     setConfigurationValues(Object.assign({}, configurationValues, object));
-    console.log(configurationValues["15"])
-
+    console.log("I am here")
   }
-  
+  function getContextValue(){
+    return configurationValues
+ }
   function setSensorValue(Value) {
-    // //console.log(ISDUIndex)
-    // const newObject =JSON.parse(`{"${ISDUIndex}":"${Value}"}`)
-    // //console.log(`{"${ISDUIndex}":${Value}}`) 
     var newState = {Value} ;
-    //console.log(Value)
-    //console.log("Iam in set Sensor Value")
     setSensorValues(newState);
   }
 
 
   const contextConfigurationValuesSetters = {
      setValueByKey,
-     setValueTotal
+     setValueTotal,
+     getContextValue
   }
   const contextSensorValuesSetters = {
     setSensorValue    
@@ -122,12 +102,13 @@ const App = ({route,Navigator}) => {
 
 
 
-  //console.log("I am in Main Screen")
+
+
   return (
  <ContextConfigurationValues.Provider value = {{...configurationValues, ...contextConfigurationValuesSetters}}>
  <ContextSensorValues.Provider value= {{...sensorValues, ...contextSensorValuesSetters}}>
     <NavigationContainer >
-      <Tab.Navigator screenOptions={ ({ route }) => ({tabBarIcon: ({ color }) => screenOptions({ route, color })})} initialRouteName="Connection"  >
+      <Tab.Navigator screenOptions={  ({ route }) => ({tabBarIcon:  ({ color }) => screenOptions({ route, color })})} initialRouteName="Connection"  >
         <Tab.Screen name="Connection" component={ConnectionScreen} options={styles.tabScreenOptions} />
         <Tab.Screen name="Device" component={DeviceScreen} options={styles.tabScreenOptions} />
         <Tab.Screen name="Settings" component={SettingsScreen}options={styles.tabScreenOptions } />

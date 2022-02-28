@@ -169,11 +169,13 @@ ConnectionScreen = () => {
       }
     }
     if (peripheral.name) {
-      peripherals.set(peripheral.id, peripheral);
-      setList(Array.from(peripherals.values()));
+      if (peripheral.name.search("Eliar") != -1 || peripheral.name.search("ELIAR") != -1) {
+        peripherals.set(peripheral.id, peripheral);
+        setList(Array.from(peripherals.values()));
+      }
     }
   }
-  const handleUpdateValueForCharacteristic = (value, peripheral, characteristic, service, context) => {
+  async function handleUpdateValueForCharacteristic(value, peripheral, characteristic, service, context) {
     console.log("Update Has Been Made")
     if (service == processDataCharacteristics.find(obj => obj.ServiceUUID)) {
       //console.log("Update From Prrocess Data")
@@ -181,15 +183,15 @@ ConnectionScreen = () => {
       let parsedObject = JSON.parse(data)
       // contextProcessData.setValueTotal(parsedObject)
       //console.log(parsedObject)
-  
+
     }
-  
+
     else if (configurationCharacteristics.find(obj => obj.ServiceUUID == service)) {
       console.log("Update From Configuration Data")
-  
+
       if (configurationCharacteristics.find(obj => obj.ServiceUUID == service).Characteristics.find(obj => obj.CharacteristicsUUID == characteristic).DataType == "Float") {
         let numArrBuff = []
-  
+
         let index = "501"
         if (characteristic == "a65373b2-6942-11ec-90d6-024200140800") {
           index = "501"
@@ -207,7 +209,7 @@ ConnectionScreen = () => {
         console.log("stringMsg")
         console.log(stringMsg)
         console.log("numArrBuff")
-  
+
         console.log(numArrBuff)
         const buf = Buffer.from(numArrBuff);
         console.log("buf")
@@ -220,8 +222,8 @@ ConnectionScreen = () => {
               if (index == 0 || index == 1) {
                 obj[index + 83] = buf.readInt32BE(0 + 4 * index);
               } else {
-                obj[index + 83] =Number(( buf.readFloatBE(0 + 4 * index)).toFixed(3));
-  
+                obj[index + 83] = Number((buf.readFloatBE(0 + 4 * index)).toFixed(3));
+
               }
             }
             console.log(obj);
@@ -232,34 +234,34 @@ ConnectionScreen = () => {
               if (index == 0 || index == 1) {
                 obj[index + 133] = buf.readInt32BE(0 + 4 * index);
               } else {
-                obj[index + 133] =Number(( buf.readFloatBE(0 + 4 * index)).toFixed(3));
-  
+                obj[index + 133] = Number((buf.readFloatBE(0 + 4 * index)).toFixed(3));
+
               }
             }
             // console.log(obj)
             context.setValueTotal(obj);
             break;
           case "a65373b2-6942-11ec-90d6-024200141000":
-  
+
             for (let index = 0; index < 50; index++) {
               if (index == 0 || index == 1) {
                 obj[index + 183] = buf.readInt32BE(0 + 4 * index);
               } else {
-                obj[index + 183] =Number(( buf.readFloatBE(0 + 4 * index)).toFixed(3));
-  
+                obj[index + 183] = Number((buf.readFloatBE(0 + 4 * index)).toFixed(3));
+
               }
             }
             // console.log(obj)
             context.setValueTotal(obj);
             break;
           case "a65373b2-6942-11ec-90d6-024200141100":
-  
+
             for (let index = 0; index < 50; index++) {
               if (index == 0 || index == 1) {
                 obj[index + 233] = buf.readInt32BE(0 + 4 * index);
               } else {
-                obj[index + 233] =Number(( buf.readFloatBE(0 + 4 * index)).toFixed(3));
-  
+                obj[index + 233] = Number((buf.readFloatBE(0 + 4 * index)).toFixed(3));
+
               }
             }
             // console.log(obj)
@@ -267,15 +269,15 @@ ConnectionScreen = () => {
           default:
             break;
         }
-  
+
       } else if (configurationCharacteristics.find(obj => obj.ServiceUUID == service).Characteristics.find(obj => obj.CharacteristicsUUID == characteristic).DataType == "Object") {
         //console.log("Type is Object")
         const data = bytesToString(value);
-  
+
         console.log("Data:  ")
         console.log(data)
         // HandleWriteCommandGroup("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `${data}`, context)
-  
+
         // let datanew = '{"Tag":"random","Set Parameters":' + data + "}}"
         // let parsedObject = JSON.parse(data)
         context.setValueTotal(JSON.parse(data))
@@ -283,9 +285,9 @@ ConnectionScreen = () => {
         // context.setValueTotal(parsedObject)
         // console.log("Parsed Object:  ")
         // console.log(parsedObject)
-  
+
         //console.log("Values are Handled")
-  
+
       }
     }
   }
@@ -295,17 +297,17 @@ ConnectionScreen = () => {
       //console.log("will be connected")
 
       if (connectedPeripheral == peripheral.id) {
-      await  BleManager.disconnect(peripheral.id,false).then(() => {
+        await BleManager.disconnect(peripheral.id, false).then(() => {
           // Success code
           console.log("Disconnected (I am in Callback)");
           setConnectedPeripheral(null)
           BleManager.checkState();
 
         })
-        .catch((error) => {
-          // Failure code
-          console.log(error);
-        });;
+          .catch((error) => {
+            // Failure code
+            console.log(error);
+          });;
         ////Burada Periyodik olan şeyle yapılabilir
         console.log("BleManager.disconnect(peripheral.id)")
 
@@ -364,62 +366,98 @@ ConnectionScreen = () => {
 
   }
 
-  const getConfiguration = (peripheral, context) => {
-    console.log("In Get Configuration")
-    setTimeout(() => {
-      //console.log("Servis Bölümüne Girdik");
-      //console.log("before MTU")
+  async function getConfiguration(peripheral, context) {
+    let peripheralInfo = peripheral
+    //console.log("Servis Bölümüne Girdik");
+    //console.log("before MTU")
 
-      BleManager.retrieveServices(peripheral.peripheral).then((peripheralInfo) => {
+    await BleManager.retrieveServices(peripheral.peripheral).then((peripheralInfo) => {
+      peripheralInfo = peripheralInfo;
+      console.log("in retrieve services")
+    }).catch((error) => {
+      console.log('Error in Reading Data', error);
+    });
 
-        setTimeout(() => {
-          configurationCharacteristics.forEach(obj => {
-            obj.Characteristics.forEach(characteristic => {
-              BleManager.read(peripheralInfo.id, obj.ServiceUUID, characteristic.CharacteristicsUUID).then((readData) => {
+    // configurationCharacteristics.forEach(obj => {
 
-                console.log(characteristic.CharacteristicsUUID)
-                console.log("Read Data: ")
-                console.log(bytesToString(readData))
-                if (characteristic.DataType == 'Object') {
-                  HandleWriteCommandGroupContext(bytesToString(readData), context)
-                }
-              }).catch((error) => {
-                console.log('Notification error', error);
-              });
-            })
+    //   obj.Characteristics.forEach(characteristic => {
+    //     // setTimeout(() => {
+    //     console.log("I am in Get Configuration Timeout")  
+    //     setTimeout(async () => {  
 
-          })
+    //     await BleManager.read(peripheralInfo.id, obj.ServiceUUID, characteristic.CharacteristicsUUID).then((readData) => {
 
-          processDataCharacteristics.forEach(obj => {
-            obj.Characteristics.forEach(characteristic => {
-              BleManager.read(peripheralInfo.id, obj.ServiceUUID, characteristic.CharacteristicsUUID).then((readData) => {
-                console.log("Read Data: ")
-                console.log(bytesToString(readData))
+    //       console.log(characteristic.CharacteristicsUUID)
+    //       console.log("Read Data: ")
+    //       console.log(bytesToString(readData))
+    //       if (characteristic.DataType == 'Object') {
+    //       console.log("I am in onb position")
+    //       handleUpdateValueForCharacteristic(readData,peripheral.peripheral,characteristic.CharacteristicsUUID,obj.ServiceUUID,context)              }
+    //       console.log("CONTEXT ==>")  
+    //       console.log(JSON.stringify(context))
+    //     }).catch((error) => {
+    //       console.log('Notification error', error);
+    //     });
+    //    },500)
 
-              }).catch((error) => {
-                console.log('Notification error', error);
-              });
-            })
 
-          })
 
-          // BleManager.startNotification(peripheralInfo.id, "a65373b2-6942-11ec-90d6-024200110000", "a65373b2-6942-11ec-90d6-024200110100").then(() => {
-          //   //console.log('Read Data');
 
-          // }).catch((error) => {
-          //   //console.log('Notification error', error);
-          // });
-          setNotification(peripheral);
-        }, 10);
 
-        // }, 200);
-      }).catch((error) => {
-        console.log('Error in Reading Data', error);
-      });
+    //   })
 
-      //console.log("Servis Bölümünden Çıktık");
 
-    }, 10);
+
+    await BleManager.read("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200130000", "a65373b2-6942-11ec-90d6-024200130300").then((readData) => {
+      console.log("I am in Function of Characteristic 3")
+      if (true) {
+        console.log("I am in onb position")
+        handleUpdateValueForCharacteristic(readData, "24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200130300", "a65373b2-6942-11ec-90d6-024200130000", context)
+      }
+      console.log("CONTEXT ==>")
+      console.log(JSON.stringify(context))
+    }).catch((error) => {
+      console.log('Read error', error);
+    });
+
+console.log("i am here in between calls")
+    await BleManager.read("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200130000", "a65373b2-6942-11ec-90d6-024200130200").then((readData) => {
+      if (true) {
+        console.log("I am in Function of Characteristic 2")
+
+        console.log("I am in onb position")
+        handleUpdateValueForCharacteristic(readData, "24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200130200", "a65373b2-6942-11ec-90d6-024200130000", context)
+      }
+      console.log("CONTEXT ==>")
+      console.log(JSON.stringify(context))
+    }).catch((error) => {
+      console.log('Notification error', error);
+    });
+    // processDataCharacteristics.forEach(obj => {
+    //   obj.Characteristics.forEach(characteristic => {
+    //    await BleManager.read(peripheralInfo.id, obj.ServiceUUID, characteristic.CharacteristicsUUID).then((readData) => {
+    //       console.log("Read Data: ")
+    //       console.log(bytesToString(readData))
+
+    //     }).catch((error) => {
+    //       console.log('Notification error', error);
+    //     });
+    //   })
+
+    // })
+
+    // BleManager.startNotification(peripheralInfo.id, "a65373b2-6942-11ec-90d6-024200110000", "a65373b2-6942-11ec-90d6-024200110100").then(() => {
+    //   //console.log('Read Data');
+
+    // }).catch((error) => {
+    //   //console.log('Notification error', error);
+    // });
+    // setNotification(peripheral);
+
+    // }, 200);
+
+    //console.log("Servis Bölümünden Çıktık");
+
 
   }
 
@@ -497,6 +535,8 @@ ConnectionScreen = () => {
             })
 
           })
+
+          // getConfiguration(peripheral,context)
 
           // BleManager.startNotification(peripheralInfo.id, "a65373b2-6942-11ec-90d6-024200110000", "a65373b2-6942-11ec-90d6-024200110100").then(() => {
           //   //console.log('Read Data');
@@ -657,9 +697,10 @@ ConnectionScreen = () => {
     console.log("i am here")
     const subscriptionDiscoverPeripheral = bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', handleDiscoverPeripheral);
     const subscriptionStopScan = bleManagerEmitter.addListener('BleManagerStopScan', handleStopScan);
-     const subscriptionDisconnectPeripheral = bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', handleDisconnectedPeripheral);
+    const subscriptionDisconnectPeripheral = bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', handleDisconnectedPeripheral);
     bleManagerEmitter.addListener("BleManagerDidUpdateState", (args) => {
-    handleDidUpdateState(args)       });    // const subscriptionDidUpdateValueForCharacterisctic = bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', ({ value, peripheral, characteristic, service }) => {
+      handleDidUpdateState(args)
+    });    // const subscriptionDidUpdateValueForCharacterisctic = bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', ({ value, peripheral, characteristic, service }) => {
     //   handleUpdateValueForCharacteristic(value, peripheral, characteristic, service, context);
     // });
     const subscriptionConnectPeripheral = bleManagerEmitter.addListener('BleManagerConnectPeripheral', (peripheral) => {
@@ -686,7 +727,7 @@ ConnectionScreen = () => {
       //console.log('unmount');
       subscriptionDiscoverPeripheral.remove();
       subscriptionStopScan.remove();
-       subscriptionDisconnectPeripheral.remove();
+      subscriptionDisconnectPeripheral.remove();
       subscriptionDidUpdateState.remove();
       // subscriptionDidUpdateValueForCharacterisctic.remove();
       subscriptionConnectPeripheral.remove();
@@ -809,7 +850,11 @@ ConnectionScreen = () => {
                 title={'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}
                 onPress={() => startScan()}
               />
-
+              {/* <Button
+                color={'#7209B7'}
+                title={'read data'}
+                onPress={() => getConfiguration({ "peripheral": "24:0A:C4:09:69:62" }, context)}
+              /> */}
             </View>
             {/* 
             {(connectedPeripheral != null) &&
@@ -830,8 +875,6 @@ ConnectionScreen = () => {
             } */}
 
           </View>
-
-          <Text>{JSON.stringify(context["85"])}</Text>
         </ScrollView>
         {/* <FlatList
           data={list}

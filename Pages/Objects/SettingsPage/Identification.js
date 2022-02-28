@@ -34,7 +34,6 @@ const AlertLocal = () => {
 const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, context, maxbytesize = 512) => {
 
   BleManager.write(peripheralId, serviceUUID, characteristicUUID, BufferArray(value), maxbytesize).then(() => {
-    console.log("data written")
     // Command is written from BLEAPP to ESP32, Global Object in APP will be changed
     let setParameters = JSON.parse(value)["Set Parameters"]
     console.log(setParameters)
