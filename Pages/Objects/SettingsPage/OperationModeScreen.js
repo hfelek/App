@@ -222,7 +222,6 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                     {/* {pickerPossibleValues} */}
 
                 </Picker>
-                <Text>{context["283"]}</Text>
 
             </View>
             {/* {

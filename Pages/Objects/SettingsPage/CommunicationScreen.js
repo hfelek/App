@@ -423,8 +423,8 @@ const IPScreen = ({ route, navigation }) => {
       <TextInput
         label={"Set Your WiFi " + Tag}
         value={text1}
-        selectionColor='#000'
-        underlineColor='#000'
+        // selectionColor='#000'
+        // underlineColor='#000'
         // activeOutlineColor='#000'
         // outlineColor='#000'
         keyboardType="numeric"

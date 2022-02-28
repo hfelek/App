@@ -175,7 +175,7 @@ ConnectionScreen = () => {
       }
     }
   }
-  async function handleUpdateValueForCharacteristic(value, peripheral, characteristic, service, context) {
+  function handleUpdateValueForCharacteristic(value, peripheral, characteristic, service, context) {
     console.log("Update Has Been Made")
     if (service == processDataCharacteristics.find(obj => obj.ServiceUUID)) {
       //console.log("Update From Prrocess Data")
@@ -187,7 +187,6 @@ ConnectionScreen = () => {
     }
 
     else if (configurationCharacteristics.find(obj => obj.ServiceUUID == service)) {
-      console.log("Update From Configuration Data")
 
       if (configurationCharacteristics.find(obj => obj.ServiceUUID == service).Characteristics.find(obj => obj.CharacteristicsUUID == characteristic).DataType == "Float") {
         let numArrBuff = []
@@ -206,27 +205,26 @@ ConnectionScreen = () => {
         for (var i = 0; i < 200; i++) {
           numArrBuff[i] = parseInt(stringMsg.substring(i * 2, (i * 2) + 2), 16)
         }
-        console.log("stringMsg")
-        console.log(stringMsg)
-        console.log("numArrBuff")
+        // console.log("stringMsg")
+        // console.log(stringMsg)
+        // console.log("numArrBuff")
 
-        console.log(numArrBuff)
+        // console.log(numArrBuff)
         const buf = Buffer.from(numArrBuff);
-        console.log("buf")
-        console.log(buf)
+        // console.log("buf")
+        // console.log(buf)
         let obj = {};
         switch (characteristic) {
           case "a65373b2-6942-11ec-90d6-024200140800":
-            console.log("here")
             for (let index = 0; index < 50; index++) {
               if (index == 0 || index == 1) {
                 obj[index + 83] = buf.readInt32BE(0 + 4 * index);
               } else {
                 obj[index + 83] = Number((buf.readFloatBE(0 + 4 * index)).toFixed(3));
-
+                console.log(obj[index+83])
               }
             }
-            console.log(obj);
+            // console.log(obj);
             context.setValueTotal(obj);
             break;
           case "a65373b2-6942-11ec-90d6-024200140900":
@@ -235,6 +233,7 @@ ConnectionScreen = () => {
                 obj[index + 133] = buf.readInt32BE(0 + 4 * index);
               } else {
                 obj[index + 133] = Number((buf.readFloatBE(0 + 4 * index)).toFixed(3));
+                console.log(obj[index+133])
 
               }
             }
@@ -248,6 +247,7 @@ ConnectionScreen = () => {
                 obj[index + 183] = buf.readInt32BE(0 + 4 * index);
               } else {
                 obj[index + 183] = Number((buf.readFloatBE(0 + 4 * index)).toFixed(3));
+                console.log(obj[index+183])
 
               }
             }
@@ -261,6 +261,7 @@ ConnectionScreen = () => {
                 obj[index + 233] = buf.readInt32BE(0 + 4 * index);
               } else {
                 obj[index + 233] = Number((buf.readFloatBE(0 + 4 * index)).toFixed(3));
+                console.log(obj[index+233])
 
               }
             }
@@ -274,14 +275,14 @@ ConnectionScreen = () => {
         //console.log("Type is Object")
         const data = bytesToString(value);
 
-        console.log("Data:  ")
-        console.log(data)
+        // console.log("Data:  ")
+        // console.log(data)
         // HandleWriteCommandGroup("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `${data}`, context)
 
         // let datanew = '{"Tag":"random","Set Parameters":' + data + "}}"
         // let parsedObject = JSON.parse(data)
         context.setValueTotal(JSON.parse(data))
-        console.log("I am in Callback For Ble")
+        // console.log("I am in Callback For Ble")
         // context.setValueTotal(parsedObject)
         // console.log("Parsed Object:  ")
         // console.log(parsedObject)

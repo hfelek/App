@@ -264,10 +264,10 @@ const CurrentOutputSettingsScreen = ({ route, navigation }) => {
             <TextInput
                 label={"Set " + " as a Percentage of Full-Scale"}
                 value={text}
-                selectionColor='#000'
-                underlineColor='#000'
-                activeOutlineColor='#000'
-                outlineColor='#000'
+                // selectionColor='#000'
+                // underlineColor='#000'
+                // activeOutlineColor='#000'
+                // outlineColor='#000'
                 keyboardType='numeric'
                 maxLength={8}
                 // activeUnderlineColor='#000'

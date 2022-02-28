@@ -76,10 +76,10 @@ const App = ({route,Navigator}) => {
     setConfigurationValues(newState);
   }
   function setValueTotal(object) {
-    console.log("Object to be Set")
-    console.log(Object.assign({}, configurationValues, object))
+    // console.log("Object to be Set")
+    // console.log(Object.assign({}, configurationValues, object))
     setConfigurationValues(Object.assign({}, configurationValues, object));
-    console.log("I am here")
+    // console.log("I am here")
   }
   function getContextValue(){
     return configurationValues

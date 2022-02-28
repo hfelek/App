@@ -180,43 +180,43 @@
                                 "Enum": 2
                             },
                             {
-                                "Tag": "NaOH 0...12%",
+                                "Tag": "NaCl 0...25%",
                                 "Enum": 3
                             },
                             {
-                                "Tag": "NaOH 0...12%B",
+                                "Tag": "NaCl 0...25°B",
                                 "Enum": 4
                             },
                             {
-                                "Tag": "NaOH 25...50%",
+                                "Tag": "NaOH 0...15%",
                                 "Enum": 5
                             },
                             {
-                                "Tag": "NaOH 25...50%B",
+                                "Tag": "NaOH 0...20°B",
                                 "Enum": 6
                             },
                             {
-                                "Tag": "HNO3 0...25%",
+                                "Tag": "NaOH 20...50%",
                                 "Enum": 7
                             },
                             {
-                                "Tag": "HNO3 0...25%B",
+                                "Tag": "NaOH 25...50°B",
                                 "Enum": 8
                             },
                             {
-                                "Tag": "HNO3 36...82%",
+                                "Tag": "NA2SO4 0...40%",
                                 "Enum": 9
                             },
                             {
-                                "Tag": "HNO3 36...82%B",
+                                "Tag": "HNO3 0...25%",
                                 "Enum": 10
                             },
                             {
-                                "Tag": "H2SO4 0...28%",
+                                "Tag": "HNO3 36...82%",
                                 "Enum": 11
                             },
                             {
-                                "Tag": "H2SO4 0...28%B",
+                                "Tag": "H2SO4 0...28%",
                                 "Enum": 12
                             },
                             {
@@ -224,56 +224,24 @@
                                 "Enum": 13
                             },
                             {
-                                "Tag": "H2SO4 36...85%B",
+                                "Tag": "H2SO4 92...99%",
                                 "Enum": 14
                             },
                             {
-                                "Tag": "H2SO4 92...99%",
+                                "Tag": "HCl 0...18%",
                                 "Enum": 15
                             },
                             {
-                                "Tag": "H2SO4 92...99%B",
+                                "Tag": "HCl 22...44%",
                                 "Enum": 16
                             },
                             {
-                                "Tag": "HCl 0...18%",
+                                "Tag": "MgCl2 0...18%",
                                 "Enum": 17
                             },
                             {
-                                "Tag": "HCl 0...18%B",
+                                "Tag": "MgCl2 19...25%",
                                 "Enum": 18
-                            },
-                            {
-                                "Tag": "HCl 22...44%",
-                                "Enum": 19
-                            },
-                            {
-                                "Tag": "HCl 22...44%B",
-                                "Enum": 20
-                            },
-                            {
-                                "Tag": "NaCl 0...25%",
-                                "Enum": 21
-                            },
-                            {
-                                "Tag": "NaCl 0...25%B",
-                                "Enum": 22
-                            },
-                            {
-                                "Tag": "MgCl2 0...17.5%",
-                                "Enum": 24
-                            },
-                            {
-                                "Tag": "MgCl2 0...17.5%B",
-                                "Enum": 25
-                            },
-                            {
-                                "Tag": "MgCl2 18.5...25%",
-                                "Enum": 26
-                            },
-                            {
-                                "Tag": "MgCl2 18.5...25%B",
-                                "Enum": 27
                             }
                         ]
                     },
@@ -348,43 +316,43 @@
                                 "Enum": 2
                             },
                             {
-                                "Tag": "NaOH 0...12%",
+                                "Tag": "NaCl 0...25%",
                                 "Enum": 3
                             },
                             {
-                                "Tag": "NaOH 0...12%B",
+                                "Tag": "NaCl 0...25°B",
                                 "Enum": 4
                             },
                             {
-                                "Tag": "NaOH 25...50%",
+                                "Tag": "NaOH 0...15%",
                                 "Enum": 5
                             },
                             {
-                                "Tag": "NaOH 25...50%B",
+                                "Tag": "NaOH 0...20°B",
                                 "Enum": 6
                             },
                             {
-                                "Tag": "HNO3 0...25%",
+                                "Tag": "NaOH 20...50%",
                                 "Enum": 7
                             },
                             {
-                                "Tag": "HNO3 0...25%B",
+                                "Tag": "NaOH 25...50°B",
                                 "Enum": 8
                             },
                             {
-                                "Tag": "HNO3 36...82%",
+                                "Tag": "NA2SO4 0...40%",
                                 "Enum": 9
                             },
                             {
-                                "Tag": "HNO3 36...82%B",
+                                "Tag": "HNO3 0...25%",
                                 "Enum": 10
                             },
                             {
-                                "Tag": "H2SO4 0...28%",
+                                "Tag": "HNO3 36...82%",
                                 "Enum": 11
                             },
                             {
-                                "Tag": "H2SO4 0...28%B",
+                                "Tag": "H2SO4 0...28%",
                                 "Enum": 12
                             },
                             {
@@ -392,56 +360,24 @@
                                 "Enum": 13
                             },
                             {
-                                "Tag": "H2SO4 36...85%B",
+                                "Tag": "H2SO4 92...99%",
                                 "Enum": 14
                             },
                             {
-                                "Tag": "H2SO4 92...99%",
+                                "Tag": "HCl 0...18%",
                                 "Enum": 15
                             },
                             {
-                                "Tag": "H2SO4 92...99%B",
+                                "Tag": "HCl 22...44%",
                                 "Enum": 16
                             },
                             {
-                                "Tag": "HCl 0...18%",
+                                "Tag": "MgCl2 0...18%",
                                 "Enum": 17
                             },
                             {
-                                "Tag": "HCl 0...18%B",
+                                "Tag": "MgCl2 19...25%",
                                 "Enum": 18
-                            },
-                            {
-                                "Tag": "HCl 22...44%",
-                                "Enum": 19
-                            },
-                            {
-                                "Tag": "HCl 22...44%B",
-                                "Enum": 20
-                            },
-                            {
-                                "Tag": "NaCl 0...25%",
-                                "Enum": 21
-                            },
-                            {
-                                "Tag": "NaCl 0...25%B",
-                                "Enum": 22
-                            },
-                            {
-                                "Tag": "MgCl2 0...17.5%",
-                                "Enum": 24
-                            },
-                            {
-                                "Tag": "MgCl2 0...17.5%B",
-                                "Enum": 25
-                            },
-                            {
-                                "Tag": "MgCl2 18.5...25%",
-                                "Enum": 26
-                            },
-                            {
-                                "Tag": "MgCl2 18.5...25%B",
-                                "Enum": 27
                             }
                         ]
                     },
@@ -517,43 +453,43 @@
                                 "Enum": 2
                             },
                             {
-                                "Tag": "NaOH 0...12%",
+                                "Tag": "NaCl 0...25%",
                                 "Enum": 3
                             },
                             {
-                                "Tag": "NaOH 0...12%B",
+                                "Tag": "NaCl 0...25°B",
                                 "Enum": 4
                             },
                             {
-                                "Tag": "NaOH 25...50%",
+                                "Tag": "NaOH 0...15%",
                                 "Enum": 5
                             },
                             {
-                                "Tag": "NaOH 25...50%B",
+                                "Tag": "NaOH 0...20°B",
                                 "Enum": 6
                             },
                             {
-                                "Tag": "HNO3 0...25%",
+                                "Tag": "NaOH 20...50%",
                                 "Enum": 7
                             },
                             {
-                                "Tag": "HNO3 0...25%B",
+                                "Tag": "NaOH 25...50°B",
                                 "Enum": 8
                             },
                             {
-                                "Tag": "HNO3 36...82%",
+                                "Tag": "NA2SO4 0...40%",
                                 "Enum": 9
                             },
                             {
-                                "Tag": "HNO3 36...82%B",
+                                "Tag": "HNO3 0...25%",
                                 "Enum": 10
                             },
                             {
-                                "Tag": "H2SO4 0...28%",
+                                "Tag": "HNO3 36...82%",
                                 "Enum": 11
                             },
                             {
-                                "Tag": "H2SO4 0...28%B",
+                                "Tag": "H2SO4 0...28%",
                                 "Enum": 12
                             },
                             {
@@ -561,56 +497,24 @@
                                 "Enum": 13
                             },
                             {
-                                "Tag": "H2SO4 36...85%B",
+                                "Tag": "H2SO4 92...99%",
                                 "Enum": 14
                             },
                             {
-                                "Tag": "H2SO4 92...99%",
+                                "Tag": "HCl 0...18%",
                                 "Enum": 15
                             },
                             {
-                                "Tag": "H2SO4 92...99%B",
+                                "Tag": "HCl 22...44%",
                                 "Enum": 16
                             },
                             {
-                                "Tag": "HCl 0...18%",
+                                "Tag": "MgCl2 0...18%",
                                 "Enum": 17
                             },
                             {
-                                "Tag": "HCl 0...18%B",
+                                "Tag": "MgCl2 19...25%",
                                 "Enum": 18
-                            },
-                            {
-                                "Tag": "HCl 22...44%",
-                                "Enum": 19
-                            },
-                            {
-                                "Tag": "HCl 22...44%B",
-                                "Enum": 20
-                            },
-                            {
-                                "Tag": "NaCl 0...25%",
-                                "Enum": 21
-                            },
-                            {
-                                "Tag": "NaCl 0...25%B",
-                                "Enum": 22
-                            },
-                            {
-                                "Tag": "MgCl2 0...17.5%",
-                                "Enum": 24
-                            },
-                            {
-                                "Tag": "MgCl2 0...17.5%B",
-                                "Enum": 25
-                            },
-                            {
-                                "Tag": "MgCl2 18.5...25%",
-                                "Enum": 26
-                            },
-                            {
-                                "Tag": "MgCl2 18.5...25%B",
-                                "Enum": 27
                             }
                         ]
                     },
@@ -687,43 +591,43 @@
                                 "Enum": 2
                             },
                             {
-                                "Tag": "NaOH 0...12%",
+                                "Tag": "NaCl 0...25%",
                                 "Enum": 3
                             },
                             {
-                                "Tag": "NaOH 0...12%B",
+                                "Tag": "NaCl 0...25°B",
                                 "Enum": 4
                             },
                             {
-                                "Tag": "NaOH 25...50%",
+                                "Tag": "NaOH 0...15%",
                                 "Enum": 5
                             },
                             {
-                                "Tag": "NaOH 25...50%B",
+                                "Tag": "NaOH 0...20°B",
                                 "Enum": 6
                             },
                             {
-                                "Tag": "HNO3 0...25%",
+                                "Tag": "NaOH 20...50%",
                                 "Enum": 7
                             },
                             {
-                                "Tag": "HNO3 0...25%B",
+                                "Tag": "NaOH 25...50°B",
                                 "Enum": 8
                             },
                             {
-                                "Tag": "HNO3 36...82%",
+                                "Tag": "NA2SO4 0...40%",
                                 "Enum": 9
                             },
                             {
-                                "Tag": "HNO3 36...82%B",
+                                "Tag": "HNO3 0...25%",
                                 "Enum": 10
                             },
                             {
-                                "Tag": "H2SO4 0...28%",
+                                "Tag": "HNO3 36...82%",
                                 "Enum": 11
                             },
                             {
-                                "Tag": "H2SO4 0...28%B",
+                                "Tag": "H2SO4 0...28%",
                                 "Enum": 12
                             },
                             {
@@ -731,56 +635,24 @@
                                 "Enum": 13
                             },
                             {
-                                "Tag": "H2SO4 36...85%B",
+                                "Tag": "H2SO4 92...99%",
                                 "Enum": 14
                             },
                             {
-                                "Tag": "H2SO4 92...99%",
+                                "Tag": "HCl 0...18%",
                                 "Enum": 15
                             },
                             {
-                                "Tag": "H2SO4 92...99%B",
+                                "Tag": "HCl 22...44%",
                                 "Enum": 16
                             },
                             {
-                                "Tag": "HCl 0...18%",
+                                "Tag": "MgCl2 0...18%",
                                 "Enum": 17
                             },
                             {
-                                "Tag": "HCl 0...18%B",
+                                "Tag": "MgCl2 19...25%",
                                 "Enum": 18
-                            },
-                            {
-                                "Tag": "HCl 22...44%",
-                                "Enum": 19
-                            },
-                            {
-                                "Tag": "HCl 22...44%B",
-                                "Enum": 20
-                            },
-                            {
-                                "Tag": "NaCl 0...25%",
-                                "Enum": 21
-                            },
-                            {
-                                "Tag": "NaCl 0...25%B",
-                                "Enum": 22
-                            },
-                            {
-                                "Tag": "MgCl2 0...17.5%",
-                                "Enum": 24
-                            },
-                            {
-                                "Tag": "MgCl2 0...17.5%B",
-                                "Enum": 25
-                            },
-                            {
-                                "Tag": "MgCl2 18.5...25%",
-                                "Enum": 26
-                            },
-                            {
-                                "Tag": "MgCl2 18.5...25%B",
-                                "Enum": 27
                             }
                         ]
                     },
