@@ -211,10 +211,10 @@ const element = (data, index, cellIndex, value, setValue) => {
         value={value.get('array')[index][cellIndex]}
         keyboardType="numeric"
         maxLength={7}
-        underlineColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
+        underlineColor={(cellIndex == 0 || index == 0) ?(cellIndex == 0 ) ? 'red' : 'blue' : 'white'}
         selectionColor='#2a9df4'
         placeholder='0.0'
-        activeUnderlineColor={(cellIndex == 0 || index == 0) ? "#808B97" : 'white'}
+        activeUnderlineColor={(cellIndex == 0 || index == 0) ? 'black' : 'black'}
         backgroundColor={(cellIndex == 0 || index == 0) ? ((cellIndex == 0) ? "red" : "blue") : 'white'}
         textAlign='center'
         scrollEnabled={false}
@@ -235,7 +235,7 @@ const updateCell = (value, i, j, array, func) => {
 const updateTemp = (tempVal, concVal, array, func, funcModal, context, configMenu) => {
   let newMap = new Map(array);
   //console.log([tempVal, concVal])
-  var arr = Array(parseInt(tempVal) + 1).fill().map(() => Array(parseInt(concVal) + 1));
+  var arr = Array(tempVal + 1).fill().map(() => Array(concVal+ 1));
   //console.log("arr");
 
   //console.log(arr);
@@ -245,8 +245,8 @@ const updateTemp = (tempVal, concVal, array, func, funcModal, context, configMen
   // myArrCoeff.set('temp', parseInt(tempVal));
   // myArrCoeff.set('conc', parseInt(concVal));
   //console.log(configMenu)
-  for (let i = 0; i < parseInt(tempVal) + 1; i++) {
-    for (let k = 0; k < parseInt(concVal) + 1; k++) {
+  for (let i = 0; i < tempVal + 1; i++) {
+    for (let k = 0; k < concVal + 1; k++) {
       if (i == 0) {
         if (k == 0) {
           arr[i][k] = 0
@@ -268,9 +268,8 @@ const updateTemp = (tempVal, concVal, array, func, funcModal, context, configMen
       }
     }
   }
-  //console.log(arr)
-  newMap.set('temp', parseInt(tempVal))
-  newMap.set('conc', parseInt(concVal))
+  newMap.set('temp', tempVal)
+  newMap.set('conc', concVal)
 
   newMap.set('array', arr);
   func(newMap); // this call will trigger a new draw
@@ -288,15 +287,17 @@ function isItNumber(str) {
 }
 
 const TemperatureCoefficientScreen = ({ route, navigation }) => {
-
+ const objOfPointsConcCond = {"Configuration 1" :83,"Configuration 2":133,"Configuration 3":183,"Configuration 4":233}
   //console.log("In Custom Params Page")
   const context = useContext(ContextConfigurationValues)
   const { Tag } = route.params;
   const { ConfigNum } = route.params;
-  console.log(context)
+  console.log("ConfigNum")
+
+  console.log(ConfigNum)
   const configMenu = MenuParams.find(key => key.Tag == ConfigNum).menu
   const map1 = new Map();
-  map1.set('temp', 4); map1.set('conc', 4); map1.set('array', tableDataFunction(map1.get('temp'), map1.get(('conc')), context, configMenu));
+  map1.set('temp', context[objOfPointsConcCond[ConfigNum].toString()]); map1.set('conc', context[(objOfPointsConcCond[ConfigNum]+1).toString()]); map1.set('array', tableDataFunction(map1.get('temp'), map1.get(('conc')), context, configMenu));
   // const [temperaturePoints, setTemperaturePoints] = useState(4);
   // const [concentrationPoints, setConcentrationPoints] = useState(4)
   const [modalVisible, setModalVisible] = useState(false);
@@ -439,12 +440,12 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
                   setModalTemperaturePoints(itemValue)
                 }>
 
-                <Picker.Item label="1" value="1" />
-                <Picker.Item label="2" value="2" />
-                <Picker.Item label="3" value="3" />
-                <Picker.Item label="4" value="4" />
-                <Picker.Item label="5" value="5" />
-                <Picker.Item label="6" value="6" />
+                <Picker.Item label="1" value={1} />
+                <Picker.Item label="2" value={2} />
+                <Picker.Item label="3" value={3} />
+                <Picker.Item label="4" value={4} />
+                <Picker.Item label="5" value={5} />
+                <Picker.Item label="6" value={6} />
               </Picker>
             </View>
             <View style={styles.pickerText} >
@@ -457,12 +458,12 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
                   setModalConcentrationPoints(itemValue)
                 }>
 
-                <Picker.Item label="1" value="1" />
-                <Picker.Item label="2" value="2" />
-                <Picker.Item label="3" value="3" />
-                <Picker.Item label="4" value="4" />
-                <Picker.Item label="5" value="5" />
-                <Picker.Item label="6" value="6" />
+                <Picker.Item label="1" value={1} />
+                <Picker.Item label="2" value={2} />
+                <Picker.Item label="3" value={3} />
+                <Picker.Item label="4" value={4} />
+                <Picker.Item label="5" value={5} />
+                <Picker.Item label="6" value={6} />
               </Picker>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: 149, height: 40, }}>

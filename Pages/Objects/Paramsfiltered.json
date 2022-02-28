@@ -3068,8 +3068,7 @@
                         "Tag": "Conductivtiy : 0 to 200 mS/cm Zero Point",
                         "Index": "365",
                         "MaxValue": 25,
-                        "MinValue": -25,
-                        "Unit": "mS/cm"
+                        "MinValue": -25
                     },
                     {
                         "Tag": "Conductivtiy : 0 to 20 mS/cm Mounting Factor",

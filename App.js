@@ -19,7 +19,7 @@ import {
   TouchableHighlight, Platform, TextInput, FlatList, StatusBar,
 } from 'react-native';
 import ConfigurationValuesInitialState from "./Pages/Objects/SettingsPage/IOLINKISDU.json"
-import SensorValuesInitialState from "./Pages/ICTSensorValues.json"
+import ProcessDataInitialState from "./Pages/Objects/SettingsPage/ProcessData.json"
 import ActionBarImage from './Src/EliarIconImage.js';
 import BleManager from 'react-native-ble-manager';
 // function getHeaderTitle(route) {
@@ -64,7 +64,7 @@ const Tab = createBottomTabNavigator();
 
 const App = ({route,Navigator}) => {
   const [configurationValues, setConfigurationValues] = useState(ConfigurationValuesInitialState);
-  const [sensorValues, setSensorValues] = useState(SensorValuesInitialState)
+  const [sensorValues, setSensorValues] = useState(ProcessDataInitialState)
 
 
   
@@ -81,12 +81,12 @@ const App = ({route,Navigator}) => {
     setConfigurationValues(Object.assign({}, configurationValues, object));
     // console.log("I am here")
   }
+
   function getContextValue(){
     return configurationValues
  }
-  function setSensorValue(Value) {
-    var newState = {Value} ;
-    setSensorValues(newState);
+  function setProcessData(Value) {
+    setSensorValues(Object.assign({}, sensorValues, Value));
   }
 
 
@@ -96,7 +96,7 @@ const App = ({route,Navigator}) => {
      getContextValue
   }
   const contextSensorValuesSetters = {
-    setSensorValue    
+    setProcessData    
  }
 
 

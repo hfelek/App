@@ -12,7 +12,7 @@ import React, {
   useContext
 } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { ContextConfigurationValues } from '../App';
+import { ContextConfigurationValues,ContextSensorValues } from '../App';
 
 import {
   SafeAreaView,
@@ -99,7 +99,7 @@ ConnectionScreen = () => {
   const context = useContext(ContextConfigurationValues);
   // console.log("context")
   // console.log(context)
-  // const contextProcessData = useContext(ContextSensorValues);
+  const contextProcessData = useContext(ContextSensorValues);
 
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
@@ -177,12 +177,26 @@ ConnectionScreen = () => {
   }
   function handleUpdateValueForCharacteristic(value, peripheral, characteristic, service, context) {
     console.log("Update Has Been Made")
-    if (service == processDataCharacteristics.find(obj => obj.ServiceUUID)) {
-      //console.log("Update From Prrocess Data")
-      const data = bytesToString(value);
-      let parsedObject = JSON.parse(data)
-      // contextProcessData.setValueTotal(parsedObject)
-      //console.log(parsedObject)
+    console.log(service);
+    console.log(service == processDataCharacteristics.find(obj => obj.ServiceUUID).ServiceUUID)
+    if (service == processDataCharacteristics.find(obj => obj.ServiceUUID).ServiceUUID) {
+      console.log("byteValue: ")
+      console.log(value);
+      const bufferSensorValues = Buffer.from(value);
+      let objectToBeSet ={}     
+      objectToBeSet["Status Alarm"]= bufferSensorValues.readUInt8(0)==0 ? false :true;
+      objectToBeSet["Active Configuration"]= bufferSensorValues.readUInt8(1)
+      objectToBeSet["Conductivity"]= bufferSensorValues.readFloatLE(2)
+      objectToBeSet["Unit Conductivity"]= bufferSensorValues.readUInt8(6);
+      objectToBeSet["Concentration"]= bufferSensorValues.readFloatLE(7)
+      objectToBeSet["Unit Concentration"]= bufferSensorValues.readUInt8(11);
+      objectToBeSet["Temperature"]= bufferSensorValues.readFloatLE(12)
+      objectToBeSet["Unit Temperature"]= bufferSensorValues.readUInt8(16);
+      // objectToBeSet["Settings Changed"]= bufferSensorValues.readUInt8(17);
+      // objectToBeSet["Settings Group No"]= bufferSensorValues.readUInt8(18);
+       contextProcessData.setProcessData(objectToBeSet)
+       console.log("object to be set")
+       console.log(objectToBeSet)
 
     }
 

@@ -12,6 +12,9 @@ let IdentificationParams;
 let MenuParams;
 var filtered;
 var filteredAT;
+const conductivityParams = [{"Tag":"μS/Cm","Enum":0},{"Tag":"mS/Cm","Enum":1}];
+const concentrationParams = [{"Tag":"%","Enum":0},{"Tag":"Baume","Enum":1}];
+const temperatureParams = [{"Tag":"°C","Enum":0},{"Tag":"°F","Enum":1}];
 const demoConnection = [{ Tag: "Application Tag", Value: "id1" }, { Tag: "Device Name", Value: "id2" }, { Tag: "Device Serial No", Value: "id3" }, { Tag: "Device Type", Value: "id4" }, { Tag: "Random Tag", Value: "Random Value" }]
 const TableIndex = () => (
   <Image
@@ -21,7 +24,8 @@ const TableIndex = () => (
 DeviceScreen = () => {
   const contextConfiguration = useContext(ContextConfigurationValues)
   const contextValues = useContext(ContextSensorValues)
-  const bottomValues = [{ "Tag": "Conductivity", "Value": `${contextValues["Value"]["5F"]}` }, { "Tag": "Concentration", "Value": `${contextValues["Value"]["60"]}` }, { "Tag": "Temperature", "Value": `${contextValues["Value"]["61"]}` }]
+  console.log(contextValues)
+  // const bottomValues = [{ "Tag": "Conductivity", "Value": `${contextValues["Process"]}` }, { "Tag": "Concentration", "Value": `${contextValues["Value"]["60"]}` }, { "Tag": "Temperature", "Value": `${contextValues["Value"]["61"]}` }]
 
   const Item = ({ item }) => (
     <View style={styles.itemTab} >
@@ -55,19 +59,25 @@ DeviceScreen = () => {
 
       <TouchableOpacity style={{ paddingTop: 5 }}>
         <View style={{ backgroundColor: '#808B97', borderRadius: 5 }}>
-          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>12 mS/cm</Text>
+          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Conductivity"].toFixed(2) +" " + conductivityParams.find(value => value.Enum == contextValues["Unit Conductivity"]).Tag}</Text>
+          {/* <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Conductivity"]}</Text> */}
+
         </View>
       </TouchableOpacity>
 
       <TouchableOpacity style={{ paddingTop: 5 }}>
         <View style={{ backgroundColor: '#808B97', borderRadius: 5 }}>
-          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>1.2 Baume</Text>
+          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Concentration"].toFixed(2) + " " + concentrationParams.find(value => value.Enum== contextValues["Unit Concentration"]).Tag}</Text>
+          {/* <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Concentration"]}</Text> */}
+
         </View>
       </TouchableOpacity>
 
       <TouchableOpacity style={{ paddingTop: 5 }}>
         <View style={{ backgroundColor: '#808B97', borderRadius: 5 }}>
-          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>25 °C</Text>
+          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Temperature"].toFixed(2) + " " + temperatureParams.find(value => value.Enum== contextValues["Unit Temperature"]).Tag}</Text>
+          {/* <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Temperature"]}</Text> */}
+
         </View>
       </TouchableOpacity>
 
@@ -103,20 +113,20 @@ DeviceScreen = () => {
 
         <View style={[styles.titleTab1, { paddingTop: 5 }]}>
           <Text style={{ color: 'black', fontSize: 15 }}  >Alarm Status</Text>
-          <View style={{ backgroundColor: '#D8E1E9', flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{true ? "No Alarm Detected" : "Alarm Detected"}</Text>
+          <View style={{ backgroundColor: '#D8E1E9', flexDirection: 'row', justifyContent: 'space-between',alignContent:'center' }}>
+            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextValues["Status Alarm"]==false ? "No Alarm Detected" : "Alarm Detected"}</Text>
             <Icon
-              name={true ? "checkmark-outline" : "alert-outline"}
+              name={contextValues["Status Alarm"]==false  ? "checkmark-outline" : "alert-outline"}
               size={20}
-              color={true ? "black" : "black"}
-              style={{ backgroundColor: true ? "green" : "red", width: 20, height: 20 }}
+              color={contextValues["Status Alarm"]==false  ? "black" : "black"}
+              style={{paddingBottom:1,alignSelf:'center', backgroundColor: contextValues["Status Alarm"]==false ? "green" : "red", width: 20, height: 20 }}
             />
           </View>
         </View>
         <View style={styles.titleTab1}>
           <Text style={{ color: 'black', fontSize: 15 }} >Active Configuration</Text>
           <View style={{ backgroundColor: '#D8E1E9' }}>
-            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>Configuration 1</Text>
+            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{"Configuration " + (contextValues["Active Configuration"]+1).toString()}</Text>
           </View>
         </View>
 
@@ -126,25 +136,25 @@ DeviceScreen = () => {
         <View style={styles.titleTab1}>
           <Text style={{ color: 'black', fontSize: 15 }} >Device Name</Text>
           <View style={{ backgroundColor: '#D8E1E9' }}>
-            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>ICT-200</Text>
+            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextConfiguration["1"]}</Text>
           </View>
         </View>
         <View style={styles.titleTab1}>
           <Text style={{ color: 'black', fontSize: 15 }} >Hardware Version</Text>
           <View style={{ backgroundColor: '#D8E1E9' }}>
-            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>HW-V1.0</Text>
+            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextConfiguration["5"]}</Text>
           </View>
         </View>
         <View style={[styles.titleTab1, { paddingTop: 2 }]}>
           <Text style={{ color: 'black', fontSize: 15 }}  >Firmware Version</Text>
           <View style={{ backgroundColor: '#D8E1E9' }}>
-            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>FW-V1.0</Text>
+            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextConfiguration["6"]}</Text>
           </View>
         </View>
         <View style={[styles.titleTab1, { paddingTop: 2 }]}>
           <Text style={{ color: 'black', fontSize: 15 }}  >Product Serial Number</Text>
           <View style={{ backgroundColor: '#D8E1E9' }}>
-            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>151561531</Text>
+            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextConfiguration["2"]}</Text>
           </View>
         </View>
         {/* <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
