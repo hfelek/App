@@ -73,13 +73,11 @@ const createTwoButtonAlert = (title, msg, object, hexValue, context) =>
     { text: 'Yes', onPress: () => functionWriteBle(MenuParams.filter(key => key.Tag == object)[0].Index,`${hexValue}`, context) },
   ]);
 function functionWriteBle(indexKey, indexValue, context) {
-  console.log(`{"Tag":"System", "Set Parameters":{"${indexKey}":"${indexValue}"}}`)
   HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"System","Set Parameters":{"${indexKey}":${indexValue}}}`, context)
 
 }
 function SystemMainScreen({ navigation }) {
   const context = useContext(ContextConfigurationValues);
-  console.log("here")
   return (
     <SafeAreaView style={styles.container}>
       <FlatList

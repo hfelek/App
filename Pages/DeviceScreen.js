@@ -24,7 +24,6 @@ const TableIndex = () => (
 DeviceScreen = () => {
   const contextConfiguration = useContext(ContextConfigurationValues)
   const contextValues = useContext(ContextSensorValues)
-  console.log(contextValues)
   // const bottomValues = [{ "Tag": "Conductivity", "Value": `${contextValues["Process"]}` }, { "Tag": "Concentration", "Value": `${contextValues["Value"]["60"]}` }, { "Tag": "Temperature", "Value": `${contextValues["Value"]["61"]}` }]
 
   const Item = ({ item }) => (
@@ -94,7 +93,6 @@ DeviceScreen = () => {
   MenuParams = IdentificationParams.menu;
 
 
-  console.log(MenuParams)
   return (
     <ScrollView style={[styles.container, { flexDirection: 'column', backgroundColor: '#ffffff' }]}>
       {/* Top Component of Settings Page */}

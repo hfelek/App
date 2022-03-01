@@ -221,13 +221,11 @@ function renderItem(item, navigation = null, context = null, parent) {
 }
 
 const DeviceResetScreen = ({ route, navigation }) => {
-  console.log("I am in Device  Reset")
 
   const context = useContext(ContextConfigurationValues);
   const valCalibrationUnits = Values.filter(row => row.Tag == 'Calibration');
   const val = valCalibrationUnits[0].menu.filter(row => row.Tag == 'Device Reset');
   const possibleValues = val[0].PossibleValues;
-  console.log(possibleValues)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -247,7 +245,6 @@ const CalibrationParameters = ({ route, navigation }) => {
   const val = valCalibrationUnits[0].menu.filter(row => row.Tag == 'Conductivity Ranges');
   const possibleValues = val[0].menu;
   const lenght = Object.keys(possibleValues).length
-  console.log(possibleValues)
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -261,7 +258,6 @@ const CalibrationParameters = ({ route, navigation }) => {
 };
 
 const CalibrationScreen = ({ route, navigation }) => {
-  console.log("I am in Calibration Screen")
 
   const context = useContext(ContextConfigurationValues);
 

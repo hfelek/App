@@ -77,7 +77,6 @@ const ItemValueBar = ({ item, value }) => (
 var filtered = Values.filter(row => row.Tag == 'Current Output');
 var filteredAT = filtered.filter(row => row.Tag == 'Switch Output');
 function Item(title, value, navigation = null, context = null, parent = null) {
-    console.log("I am in Item")
     let index= null
     let activeConfigEnum=null
 
@@ -216,9 +215,7 @@ const renderItem1 = ({ item }) => (
 );
 
 const CurrentOutputSubScreen = ({ route, navigation }) => {
-   console.log("I am im 1")
     const { ConfigNum } = route.params
-    console.log(ConfigNum)
     const context = useContext(ContextConfigurationValues);
     const valSystemUnits = Values.filter(row => row.Tag == 'Current Output');
     const val = valSystemUnits[0].menu.filter(row => row.Tag == 'Configuration 1');
@@ -256,7 +253,6 @@ const CurrentOutputSettingsScreen = ({ route, navigation }) => {
     const { ConfigNum } = route.params
     const index = (MenuParams.filter(tag => tag.Tag == ConfigNum)[0].menu).filter(tag => tag.Tag == Tag)[0].Index
     const [text, setText] = React.useState(context[index].toFixed(3));
-    console.log("I am here Current Output")
     
 
     return (

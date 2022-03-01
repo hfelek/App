@@ -68,8 +68,7 @@ function tableDataFunction(tempPoints, concPoints, context, configMenu) {
 
     tableData.push(rowData);
   }
-  console.log(tableData)
-  console.log("Table Data Written")
+
   return tableData;
 }
 const ItemBar = ({ item }) => (
@@ -131,7 +130,41 @@ const ConfigurationBar = ({ config, activeConfig }) => (
 
 )
 
+function calculatePayload(hookArray){
+  let payload = ""
+  const buf = Buffer.allocUnsafe(4);
+  buf.writeInt32BE(hookArray.get('temp'), 0);
+  for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
 
+  buf.writeInt32BE(hookArray.get('conc'), 0);
+  for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
+
+
+  for (let i = 0; i < hookArray.get('temp'); i++) {
+    buf.writeFloatBE(hookArray.get('array')[i + 1][0], 0);
+    for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
+  }
+
+
+  for (let i = 0; i < hookArray.get('conc'); i++) {
+    // const buf = Buffer.allocUnsafe(4);
+    buf.writeFloatBE(hookArray.get('array')[0][i + 1], 0);
+    for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
+
+  }
+  
+
+  for (let i = 0; i < hookArray.get('temp'); i++) {
+    for (let k = 0; k < hookArray.get('conc'); k++) {
+      const buf = Buffer.allocUnsafe(4);
+      buf.writeFloatBE(hookArray.get('array')[i + 1][k + 1], 0);
+      for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
+
+    }
+  }
+  console.log("Calculate Payload Function!")
+  return payload
+}
 
 const CheckButtoned = (selectedValue, sentValue) => {
   if (selectedValue === sentValue) {
@@ -187,10 +220,7 @@ function zeros(dimensions) {
 }
 
 const element = (data, index, cellIndex, value, setValue) => {
-  console.log(value.get('array')[index][cellIndex])
-  console.log(value)
-  console.log(index)
-  console.log(cellIndex)
+
   function ChangeText(val, index, cellIndex, value) {
     var newMap = new Map(value)
     let newMatrix = newMap.get('array').slice(); // just to create a copy of the matrix
@@ -234,17 +264,12 @@ const updateCell = (value, i, j, array, func) => {
 }
 const updateTemp = (tempVal, concVal, array, func, funcModal, context, configMenu) => {
   let newMap = new Map(array);
-  //console.log([tempVal, concVal])
   var arr = Array(tempVal + 1).fill().map(() => Array(concVal+ 1));
-  //console.log("arr");
 
-  //console.log(arr);
 
 
   var myArrCoeff = array.get('array');
-  // myArrCoeff.set('temp', parseInt(tempVal));
-  // myArrCoeff.set('conc', parseInt(concVal));
-  //console.log(configMenu)
+
   for (let i = 0; i < tempVal + 1; i++) {
     for (let k = 0; k < concVal + 1; k++) {
       if (i == 0) {
@@ -288,13 +313,10 @@ function isItNumber(str) {
 
 const TemperatureCoefficientScreen = ({ route, navigation }) => {
  const objOfPointsConcCond = {"Configuration 1" :83,"Configuration 2":133,"Configuration 3":183,"Configuration 4":233}
-  //console.log("In Custom Params Page")
   const context = useContext(ContextConfigurationValues)
   const { Tag } = route.params;
   const { ConfigNum } = route.params;
-  console.log("ConfigNum")
 
-  console.log(ConfigNum)
   const configMenu = MenuParams.find(key => key.Tag == ConfigNum).menu
   const map1 = new Map();
   map1.set('temp', context[objOfPointsConcCond[ConfigNum].toString()]); map1.set('conc', context[(objOfPointsConcCond[ConfigNum]+1).toString()]); map1.set('array', tableDataFunction(map1.get('temp'), map1.get(('conc')), context, configMenu));
@@ -305,105 +327,6 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
   const [modalConcentrationPoints, setModalConcentrationPoints] = useState(map1.get('conc'));
   const [hookArray, setHookArray] = useState(map1);
   const widthArr = [150]
-  // //console.log(modalTemperaturePoints);
-  // //console.log(modalConcentrationPoints)
-  // //console.log(tableDataFunction(map1.get('temp'),map1.get(('conc')),context,configMenu))
-  // //console.log(hookArray.get('array'))
-  let payload = ""
-  //console.log(hookArray)
-
-
-
-
-
-
-  const buf = Buffer.allocUnsafe(4);
-  buf.writeInt32BE(hookArray.get('temp'), 0);
-  for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
-
-  buf.writeInt32BE(hookArray.get('conc'), 0);
-  for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
-
-  //console.log(1)
-  //console.log(payload)
-  for (let i = 0; i < hookArray.get('temp'); i++) {
-    buf.writeFloatBE(hookArray.get('array')[i + 1][0], 0);
-    // //console.log(buf.toJSON().data);
-    for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
-  }
-  //console.log(2)
-  //console.log(payload)
-
-  for (let i = 0; i < hookArray.get('conc'); i++) {
-    // const buf = Buffer.allocUnsafe(4);
-    buf.writeFloatBE(hookArray.get('array')[0][i + 1], 0);
-    // //console.log(buf.toJSON().data);
-    for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
-
-  }
-  //console.log(3)
-  //console.log(payload)
-  //console.log(hookArray)
-
-  for (let i = 0; i < hookArray.get('temp'); i++) {
-    for (let k = 0; k < hookArray.get('conc'); k++) {
-      const buf = Buffer.allocUnsafe(4);
-      buf.writeFloatBE(hookArray.get('array')[i + 1][k + 1], 0);
-      // //console.log(buf.toJSON().data);
-      for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
-
-    }
-  }
-  //console.log(payload)
-  // //console.log(modalConcentrationPoints)
-  // //console.log(modalTemperaturePoints)
-  // //console.log(hookArray)
-  // for (let i = 0; i < modalConcentrationPoints+1; i++) {
-
-  //   for (let k = 0; k < modalTemperaturePoints+1; k++) {
-  //     if (i == 0 & k == 0) {
-  //     }
-  //     else if (i == 0 & k != 0) {
-  //       // //console.log(`Temperature Point ${k-1}`)
-  //       if (isItNumber(hookArray.get('array')[i][k])) {
-  //         const buf = Buffer.allocUnsafe(4);
-  //         buf.writeFloatBE(hookArray.get('array')[i][k], 0);
-  //         // //console.log(buf.toJSON().data);
-  //         for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
-  //       }
-  //     }//Concentration Points
-  //     else if (i != 0 & k == 0) {
-
-  //       if (isItNumber(hookArray.get('array')[i][k])) {
-  //         const buf = Buffer.allocUnsafe(4);
-  //         buf.writeFloatBE(hookArray.get('array')[i][k], 0);
-  //         // //console.log(buf.toJSON().data);
-  //         for (const x of buf.toJSON().data) {
-  //           payload = payload + x.toString(16).padStart(2, 0);
-  //         }
-
-  //       }
-  //     }
-  //     else if (i != 0 & k != 0) {
-  //       if (isItNumber(hookArray.get('array')[i][k])) {
-  //         const buf = Buffer.allocUnsafe(4);
-  //         buf.writeFloatBE(hookArray.get('array')[i][k], 0);
-  //         // //console.log(buf.toJSON().data);
-  //         for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
-
-  //       }
-  //     }
-  //   }
-  // }
-  // // payload = payload.slice(0, -2)
-  // //console.log(payload)
-  // // //console.log((14324).toString(16))
-
-
-
-
-
-
 
 
   return (
@@ -564,7 +487,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
         {true &&
           <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
             <Button
-              onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Custom Coefficients", "Set Parameters": {"${MenuParams.find(obj => obj.Tag == ConfigNum).Index}":"${payload}"}}`, context) }}
+              onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Custom Coefficients", "Set Parameters": {"${MenuParams.find(obj => obj.Tag == ConfigNum).Index}":"${calculatePayload(hookArray)}"}}`, context) }}
               title="Save"
               color="#841584"
             />
@@ -595,11 +518,8 @@ const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
     // Success code
 
-    //console.log(JSON.stringify(peripheralsArray[0].id));
     peripheralID = peripheralsArray[0].id
   }).catch(() => {
-    //console.log("Couldnt Find A peripheral");
-    // expected output: "Success!"
   });
 
   return (

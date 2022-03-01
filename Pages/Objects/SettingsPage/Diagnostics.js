@@ -90,10 +90,9 @@ const CheckButtoned = (selectedValue, sentValue) => {
 const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value, context, maxbytesize = 512) => {
 
   BleManager.write(peripheralId, serviceUUID, characteristicUUID, BufferArray(value), maxbytesize).then(() => {
-    console.log("data written")
+    console.log("Data Written")
     // Command is written from BLEAPP to ESP32, Global Object in APP will be changed
     let setParameters = JSON.parse(value)["Set Parameters"]
-    console.log(setParameters)
 
     for (const item in setParameters) {
       context.setValueByKey(item, setParameters[item])
@@ -174,7 +173,6 @@ const SimulationProcessVariableScreen = ({ route, navigation }) => {
 
   function fixNumtoFloat(float) {
     const str = float.toFixed(15).split("").reverse().join("")
-    console.log(str)
   }
   fixNumtoFloat(context[index])
   return (
@@ -220,7 +218,6 @@ const SwitchVariableScreen = ({ route, navigation }) => {
   const filteredAT =MenuParams.filter(row => row.Tag == Tag)[0];
   const SwitchableValues = filteredAT.PossibleValues;
   const index = filteredAT.Index;
-  console.log(SwitchableValues)
   const [text, setText] = React.useState(SwitchableValues.filter(key=> key.Enum==context[index])[0].Tag);
 
   const renderItemSelectable = ({ item }) => {
@@ -231,7 +228,6 @@ const SwitchVariableScreen = ({ route, navigation }) => {
       </TouchableOpacity>)
   }
   useEffect(() => {
-    console.log(text)
     if (text != SwitchableValues.filter(key=> key.Enum==context[index])[0].Tag) {
       navigation.setOptions({
         headerRight: () => (

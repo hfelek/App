@@ -213,7 +213,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
   const { Tag } = route.params;
   const { ConfigNum } = route.params;
   const valueMenu = MenuParams.find(key => key.Tag == ConfigNum).menu
-  console.log(ConfigNum)
+  // console.log(ConfigNum)
   const temperaturePoints = 6
   const concentrationPoints = 1
   let concentrationArray = []
@@ -245,7 +245,6 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
       if (i == 0) {
         if (j == 0) {
           rowData.push("Empty")
-          console.log("I am Here")
         }
         else {
           rowData.push(concentrationArray[j - 1])
@@ -335,7 +334,7 @@ const TemperatureCoeffNonLinearScreen = ({ route, navigation }) => {
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
     // Success code
 
-    console.log(JSON.stringify(peripheralsArray[0].id));
+    // console.log(JSON.stringify(peripheralsArray[0].id));
     peripheralID = peripheralsArray[0].id
   }).catch(() => {
     console.log("Couldnt Find A peripheral");

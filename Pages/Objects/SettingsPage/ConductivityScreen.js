@@ -90,7 +90,6 @@ function renderItem(item, navigation = null, context = null, parent) {
 }
 
 function Item(title, value, navigation = null, context = null, parent = null) {
-  console.log(context[activeConfigurationIndex])
   let index=null;
   let activeConfigEnum=null
   switch (title) {
@@ -358,7 +357,6 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
   const { Tag } = route.params;
   const { ConfigNum } = route.params;
   const index = (MenuParams.filter(config=> config.Tag ==ConfigNum)[0].menu).filter(tag=>tag.Tag==Tag)[0].Index
-  console.log(index)
   const val = MenuParams.filter(row => row.Tag == ConfigNum)[0];
   const subval = val.menu.filter(row => row.Tag == Tag)[0];
 

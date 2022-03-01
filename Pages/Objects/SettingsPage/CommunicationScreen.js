@@ -125,8 +125,7 @@ const CommunicationTypeScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     if (selection != possibleValues.find(key=>key.Enum==context[index]).Tag) {
-      console.log(selection)
-      console.log(context[index])
+
       navigation.setOptions({
         headerRight: () => (
           // Burada Peripheral ID ve UUIDler daha object oriented yapılacak.
@@ -294,7 +293,6 @@ function Item(title, value, navigation = null, context = null) {
   };
 }
 function IPHANDLER(IP) {
-  console.log(IP)
   var splitParts = IP.split(".");
 
   if (splitParts.length != 4) {
@@ -304,13 +302,11 @@ function IPHANDLER(IP) {
   let i = 0
   try {
     for (const element of splitParts) {
-      console.log(element)
       if (parseInt(element) < 256 && parseInt(element) > -1) {
         i++
       }
     }
     if (i == 4) {
-      console.log(i)
       return true
 
     }
@@ -353,34 +349,20 @@ function IPCOMPARATOR(ip, subnet, router) {
     const arr = [0, 1, 2, 3]
 
     for (let index = 0; index < arr.length; index++) {
-      console.log("iteration")
-      console.log(index)
+   
       let ip1 = parseInt(splitPartsip[index])
       let subnet1 = parseInt(splitPartssubnet[index])
       let router1 = parseInt(splitPartsrouter[index])
-      console.log("ip1")
-      console.log(ip1)
-      console.log("subnet1")
-      console.log(subnet1)
-      console.log("router1")
-      console.log(router1)
 
 
       let comparison = 255 - (ip1 ^ router1)
-      console.log("comparison")
-      console.log(comparison)
+   
 
       let subnetcomaparison = comparison & subnet1
-      console.log("subnetcomaparison")
-      console.log(subnetcomaparison)
+ 
 
       if (subnetcomaparison == subnet1) {
-        console.log("subnetcomaparison")
 
-        console.log(subnetcomaparison)
-        console.log("subnet1")
-
-        console.log(subnet1)
         total++
         // return(true)
       }
@@ -390,7 +372,6 @@ function IPCOMPARATOR(ip, subnet, router) {
       }
     }
     if (total == 4) {
-      console.log(total)
       return (true)
     }
     else {

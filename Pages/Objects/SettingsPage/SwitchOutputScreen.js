@@ -79,7 +79,6 @@ var filteredAT = filtered.filter(row => row.Tag == 'Switch Output');
 function Item(title, value, navigation = null, context = null, parent = null) {
     let index= null
     let activeConfigEnum=null
-    console.log("I am in Item")
     switch (title) {
 
         case 'Switch Output':
@@ -253,7 +252,6 @@ const SwitchOutputSettingsScreen = ({ route, navigation }) => {
     const { ConfigNum } = route.params
     const index = (MenuParams.filter(tag => tag.Tag == ConfigNum)[0].menu).filter(tag => tag.Tag == Tag)[0].Index
     const [text, setText] = React.useState(context[index].toFixed(3));
-    console.log("I am here Current Output")
 
     return (
         <View>

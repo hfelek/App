@@ -22,7 +22,6 @@ const MenuParams = IdentificationParams.menu;
 
 let peripheralID = '0'
 const AlertLocal = () => {
-  console.log("I am Here")
   return (
     Toast.show({
       type: ALERT_TYPE.SUCCESS,
@@ -36,11 +35,9 @@ const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value
   BleManager.write(peripheralId, serviceUUID, characteristicUUID, BufferArray(value), maxbytesize).then(() => {
     // Command is written from BLEAPP to ESP32, Global Object in APP will be changed
     let setParameters = JSON.parse(value)["Set Parameters"]
-    console.log(setParameters)
 
     for (const item in setParameters) {
       context.setValueByKey(item, setParameters[item])
-      console.log(context["18"])
     }
     // AlertLocal()
     Alert.alert("Configuration Successfull!")
@@ -53,7 +50,6 @@ const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value
       console.log(error);
     });///////////Here Writes to the BLE Peripheral
 
-  console.log("In Button Function")
   ///If anything else is to be done, it will be done here!
 }
 

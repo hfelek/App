@@ -90,7 +90,6 @@ function renderItem(item, navigation = null, context = null, parent) {
 }
 
 function Item(title, value, navigation = null, context = null, parent = null) {
-  console.log(context[activeConfigurationIndex])
   let index = null;
   let activeConfigEnum = null
 
@@ -252,7 +251,6 @@ const TemperatureCoeffScreen = ({ route, navigation }) => {
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
     // Success code
 
-    console.log(JSON.stringify(peripheralsArray[0].id));
     peripheralID = peripheralsArray[0].id
   }).catch(() => {
     console.log("Couldnt Find A peripheral");

@@ -5,15 +5,14 @@ import { Alert } from 'react-native'
 const HandleWriteCommandGroup = (peripheralId, serviceUUID, characteristicUUID, value, context, maxbytesize = 512) => {
 
     BleManager.write(peripheralId, serviceUUID, characteristicUUID, BufferArray(value), maxbytesize).then(() => {
-            console.log("data written")
+            console.log("Data Written")
                 // Command is written from BLEAPP to ESP32, Global Object in APP will be changed
             let setParameters = JSON.parse(value)["Set Parameters"]
-            console.log(setParameters)
+            // console.log(setParameters)
 
             context.setValueTotal(setParameters)
-            console.log(setParameters)
-            console.log("283")
-            console.log(context["283"])
+            // console.log(setParameters)
+    
                 // AlertLocal()
             Alert.alert("Configuration Successfull!")
         })
@@ -25,7 +24,7 @@ const HandleWriteCommandGroup = (peripheralId, serviceUUID, characteristicUUID, 
             console.log(error);
         }); ///////////Here Writes to the BLE Peripheral
 
-    console.log("In Button Function")
+    // console.log("In Button Function")
         ///If anything else is to be done, it will be done here!
 }
 export default HandleWriteCommandGroup

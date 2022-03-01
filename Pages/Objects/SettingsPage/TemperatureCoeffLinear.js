@@ -161,10 +161,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
     const context = useContext(ContextConfigurationValues)
     const  {ConfigNum} =   route.params;
     const index = MenuParams.find(key=>key.Tag == ConfigNum).Index
-    console.log(index)
-    console.log(ConfigNum)
-    console.log(context[index])
-    console.log(context[index].toFixed(3))
+
     const [text, setText] = React.useState(context[index].toFixed(3));
     return (
         <View>
@@ -201,10 +198,8 @@ const TemperatureCoeffLinearScreen = ({ route, navigation }) => {
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
     // Success code
 
-    console.log(JSON.stringify(peripheralsArray[0].id));
     peripheralID = peripheralsArray[0].id
   }).catch(() => {
-    console.log("Couldnt Find A peripheral");
     // expected output: "Success!"
   });
 

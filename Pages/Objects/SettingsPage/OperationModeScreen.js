@@ -157,7 +157,6 @@ function OperationScreen({ route, navigation }) {
 }
 
 function renderItemPicker(item) {
-    console.log("console.log(item)")
 
     return (<Picker.Item label={item.Tag} value={item.Enum} />)
 }
@@ -183,12 +182,8 @@ const OperationSelectionScreen = ({ route, navigation }) => {
     const [selectionSwitchOutputType, setSelectionSwitchOutputType] = React.useState(menuSwitchOutputType.PossibleValues.find(key => key.Enum == context[menuSwitchOutputType.Index]).Tag)
     const [selectionSwitchAssign, setSelectionSwitchAssign] = React.useState(menuSwitchAssign.PossibleValues.find(key => key.Enum == context[menuSwitchAssign.Index]).Tag)
     const [selectionSwitchFunction, setSelectionSwitchFunction] = React.useState(menuSwitchFunction.PossibleValues.find(key => key.Enum == context[menuSwitchFunction.Index]).Tag)
-    console.log(selectionCurrentAssign)
-    console.log(selectionSwitchOutputType)
 
-    console.log(selectionSwitchAssign)
 
-    console.log(selectionSwitchFunction)
 
     // console.log("PossibleValues")
     // console.log(PossibleValues)

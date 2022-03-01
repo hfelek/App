@@ -12,7 +12,7 @@ import React, {
   useContext
 } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { ContextConfigurationValues,ContextSensorValues } from '../App';
+import { ContextConfigurationValues, ContextSensorValues } from '../App';
 
 import {
   SafeAreaView,
@@ -134,7 +134,7 @@ ConnectionScreen = () => {
     console.log(args);
   }
   const handleConnectPeripheral = (peripheralInfo, context) => {
-    console.log(peripheralInfo)
+    // console.log(peripheralInfo)
     //console.log("peripheralInfoİLKGİRiŞ")
     // //console.log(typeof(storageObject))
     // //console.log(storageObject.filter(row => row.Tag == 'Conductivity'));
@@ -175,28 +175,28 @@ ConnectionScreen = () => {
       }
     }
   }
-  function handleUpdateValueForCharacteristic(value, peripheral, characteristic, service, context) {
+  async function handleUpdateValueForCharacteristic(value, peripheral, characteristic, service, context) {
     console.log("Update Has Been Made")
-    console.log(service);
-    console.log(service == processDataCharacteristics.find(obj => obj.ServiceUUID).ServiceUUID)
+    // console.log(service);
+    // console.log(service == processDataCharacteristics.find(obj => obj.ServiceUUID).ServiceUUID)
     if (service == processDataCharacteristics.find(obj => obj.ServiceUUID).ServiceUUID) {
-      console.log("byteValue: ")
-      console.log(value);
+      // console.log("byteValue: ")
+      // console.log(value);
       const bufferSensorValues = Buffer.from(value);
-      let objectToBeSet ={}     
-      objectToBeSet["Status Alarm"]= bufferSensorValues.readUInt8(0)==0 ? false :true;
-      objectToBeSet["Active Configuration"]= bufferSensorValues.readUInt8(1)
-      objectToBeSet["Conductivity"]= bufferSensorValues.readFloatLE(2)
-      objectToBeSet["Unit Conductivity"]= bufferSensorValues.readUInt8(6);
-      objectToBeSet["Concentration"]= bufferSensorValues.readFloatLE(7)
-      objectToBeSet["Unit Concentration"]= bufferSensorValues.readUInt8(11);
-      objectToBeSet["Temperature"]= bufferSensorValues.readFloatLE(12)
-      objectToBeSet["Unit Temperature"]= bufferSensorValues.readUInt8(16);
+      let objectToBeSet = {}
+      objectToBeSet["Status Alarm"] = bufferSensorValues.readUInt8(0) == 0 ? false : true;
+      objectToBeSet["Active Configuration"] = bufferSensorValues.readUInt8(1)
+      objectToBeSet["Conductivity"] = bufferSensorValues.readFloatLE(2)
+      objectToBeSet["Unit Conductivity"] = bufferSensorValues.readUInt8(6);
+      objectToBeSet["Concentration"] = bufferSensorValues.readFloatLE(7)
+      objectToBeSet["Unit Concentration"] = bufferSensorValues.readUInt8(11);
+      objectToBeSet["Temperature"] = bufferSensorValues.readFloatLE(12)
+      objectToBeSet["Unit Temperature"] = bufferSensorValues.readUInt8(16);
       // objectToBeSet["Settings Changed"]= bufferSensorValues.readUInt8(17);
       // objectToBeSet["Settings Group No"]= bufferSensorValues.readUInt8(18);
-       contextProcessData.setProcessData(objectToBeSet)
-       console.log("object to be set")
-       console.log(objectToBeSet)
+      contextProcessData.setProcessData(objectToBeSet)
+      //  console.log("object to be set")
+      //  console.log(objectToBeSet)
 
     }
 
@@ -235,7 +235,7 @@ ConnectionScreen = () => {
                 obj[index + 83] = buf.readInt32BE(0 + 4 * index);
               } else {
                 obj[index + 83] = Number((buf.readFloatBE(0 + 4 * index)).toFixed(3));
-                console.log(obj[index+83])
+                // console.log(obj[index+83])
               }
             }
             // console.log(obj);
@@ -247,7 +247,7 @@ ConnectionScreen = () => {
                 obj[index + 133] = buf.readInt32BE(0 + 4 * index);
               } else {
                 obj[index + 133] = Number((buf.readFloatBE(0 + 4 * index)).toFixed(3));
-                console.log(obj[index+133])
+                // console.log(obj[index+133])
 
               }
             }
@@ -261,7 +261,6 @@ ConnectionScreen = () => {
                 obj[index + 183] = buf.readInt32BE(0 + 4 * index);
               } else {
                 obj[index + 183] = Number((buf.readFloatBE(0 + 4 * index)).toFixed(3));
-                console.log(obj[index+183])
 
               }
             }
@@ -275,33 +274,18 @@ ConnectionScreen = () => {
                 obj[index + 233] = buf.readInt32BE(0 + 4 * index);
               } else {
                 obj[index + 233] = Number((buf.readFloatBE(0 + 4 * index)).toFixed(3));
-                console.log(obj[index+233])
 
               }
             }
-            // console.log(obj)
             context.setValueTotal(obj);
           default:
             break;
         }
 
-      } else if (configurationCharacteristics.find(obj => obj.ServiceUUID == service).Characteristics.find(obj => obj.CharacteristicsUUID == characteristic).DataType == "Object") {
-        //console.log("Type is Object")
+      } else if (configurationCharacteristics.find(obj => obj.ServiceUUID == service).Characteristics.find(obj => obj.CharacteristicsUUID == characteristic).DataType == "Object") { //Type is Object
         const data = bytesToString(value);
-
-        // console.log("Data:  ")
-        // console.log(data)
-        // HandleWriteCommandGroup("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `${data}`, context)
-
-        // let datanew = '{"Tag":"random","Set Parameters":' + data + "}}"
-        // let parsedObject = JSON.parse(data)
         context.setValueTotal(JSON.parse(data))
-        // console.log("I am in Callback For Ble")
-        // context.setValueTotal(parsedObject)
-        // console.log("Parsed Object:  ")
-        // console.log(parsedObject)
 
-        //console.log("Values are Handled")
 
       }
     }
@@ -323,8 +307,7 @@ ConnectionScreen = () => {
             // Failure code
             console.log(error);
           });;
-        ////Burada Periyodik olan şeyle yapılabilir
-        console.log("BleManager.disconnect(peripheral.id)")
+
 
       } else {
         await BleManager.connect(peripheral.id).then(() => {
@@ -424,27 +407,23 @@ ConnectionScreen = () => {
 
 
     await BleManager.read("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200130000", "a65373b2-6942-11ec-90d6-024200130300").then((readData) => {
-      console.log("I am in Function of Characteristic 3")
+      // console.log("I am in Function of Characteristic 3")
       if (true) {
-        console.log("I am in onb position")
         handleUpdateValueForCharacteristic(readData, "24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200130300", "a65373b2-6942-11ec-90d6-024200130000", context)
       }
-      console.log("CONTEXT ==>")
-      console.log(JSON.stringify(context))
+      // console.log("CONTEXT ==>")
+      // console.log(JSON.stringify(context))
     }).catch((error) => {
       console.log('Read error', error);
     });
 
-console.log("i am here in between calls")
+    console.log("i am here in between calls")
     await BleManager.read("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200130000", "a65373b2-6942-11ec-90d6-024200130200").then((readData) => {
       if (true) {
-        console.log("I am in Function of Characteristic 2")
 
-        console.log("I am in onb position")
         handleUpdateValueForCharacteristic(readData, "24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200130200", "a65373b2-6942-11ec-90d6-024200130000", context)
       }
-      console.log("CONTEXT ==>")
-      console.log(JSON.stringify(context))
+
     }).catch((error) => {
       console.log('Notification error', error);
     });

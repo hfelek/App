@@ -27,7 +27,7 @@ const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value
             console.log(error);
         }); ///////////Here Writes to the BLE Peripheral
 
-    console.log("In Button Function")
+    // console.log("In Button Function")
         ///If anything else is to be done, it will be done here!
 }
 export default HandleWriteCommand
