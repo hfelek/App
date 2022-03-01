@@ -15,7 +15,7 @@ import {
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Paramsfiltered from '../Pages/Objects/Paramsfiltered.json';
-import { NavigationContainer,useIsFocused,useFocusEffect } from '@react-navigation/native';
+import { NavigationContainer, useIsFocused, useFocusEffect } from '@react-navigation/native';
 import { StackRouter } from 'react-navigation';
 import { useNavigation } from '@react-navigation/native';
 import NativeHeadlessJsTaskSupport from 'react-native/Libraries/ReactNative/NativeHeadlessJsTaskSupport';
@@ -43,6 +43,7 @@ import DigitalInputScreen from './Objects/SettingsPage/DigitalInputScreen'
 import CalibrationScreen from './Objects/SettingsPage/CalibrationScreen'
 import TemperatureCoeffScreen from './Objects/SettingsPage/TemperatureCoefficientsScreen'
 import { ContextConfigurationValues } from '../App';
+import { useState } from 'react';
 let peripheralID = null
 
 
@@ -65,36 +66,51 @@ const demoConnection = [
   { title: 'Prop4', id: 'id4' },
 ];
 
-const SettingsMainScreen = ({ navigation,route }) =>{
+const SettingsMainScreen = ({ navigation, route }) => {
   const context = useContext(ContextConfigurationValues)
+  const [deviceConnected, setDeviceConnected] = useState(false)
   //console.log("I am in Settings Main")
-  function renderItem ({ item }){
+  function renderItem({ item }) {
     //console.log("I am here 1")
-    return(
+    return (
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(item.Tag, { msg: "I came From Screen1" })}  >
         <Icon
           name={Paramsfiltered.find(row => row['Tag'] == item.Tag).Icon}
           size={20}
           color="#000"
         />
-  
+
         <Text style={styles.title}>{"     " + item.Tag}</Text>
       </TouchableOpacity>)
   }
-  return(<SafeAreaView style={styles.container}>
-    <FlatList
-      initialNumToRender={Paramsfiltered.length}
-      data={Paramsfiltered}
-      renderItem={(item)=>renderItem(item)}
-      keyExtractor={item => item.Tag}
-      extraData={navigation}
-    // navigation={navigation}
-    />
-  </SafeAreaView>)
-  }
+  return (
+    <SafeAreaView style={styles.container}>
+      {false && <View style={styles.noDevice}>
+        <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
+        <Icon name='warning-outline' size={100} color="#000" rounded='true' />
+      </View>}
+      {true && <FlatList
+        initialNumToRender={Paramsfiltered.length}
+        data={Paramsfiltered}
+        renderItem={(item) => renderItem(item)}
+        keyExtractor={item => item.Tag}
+        extraData={navigation}
+      // navigation={navigation}
+      />}
+    </SafeAreaView>)
+  // useEffect(() => {
+  //   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+  //     // Success code
+  //     if (peripheralsArray != null) {
+  //       setDeviceConnected(true)
+  //     }
+  //   },1000)
+
+  // })
+}
 const SettingsScreen = ({ navigation, route }) => {
 
-//console.log("I am here Settings Screen")
+  //console.log("I am here Settings Screen")
 
   // if (peripheralID != null) {
 
@@ -108,31 +124,32 @@ const SettingsScreen = ({ navigation, route }) => {
 
   //   // //console.log(JSON.stringify(a, null, 4));
 
-    return (
 
-      <StackSettings.Navigator screenOptions={{ headerShown: false }}>
-        <StackSettings.Screen name='SettingsMain' component={SettingsMainScreen} />
-        <StackSettings.Screen name='Identification' component={IdentificationScreen} />
-        <StackSettings.Screen name='Setup Menu' component={ConfigurationScreen} />
-        <StackSettings.Screen name='Diagnostics' component={DiagnosticsScreen} />
-        {/* <StackSettings.Screen name='Temperature Coefficient Non-Linear' component={TemperatureCoeffNonLinearScreen} /> */}
-        <StackSettings.Screen name='Temperature Coefficients' component={TemperatureCoeffScreen} />
-        {/* <StackSettings.Screen name='Temperature Coefficient Linear' component={TemperatureCoeffLinearScreen} />
+  return (
+
+    <StackSettings.Navigator screenOptions={{ headerShown: false }}>
+      <StackSettings.Screen name='SettingsMain' component={SettingsMainScreen} />
+      <StackSettings.Screen name='Identification' component={IdentificationScreen} />
+      <StackSettings.Screen name='Setup Menu' component={ConfigurationScreen} />
+      <StackSettings.Screen name='Diagnostics' component={DiagnosticsScreen} />
+      {/* <StackSettings.Screen name='Temperature Coefficient Non-Linear' component={TemperatureCoeffNonLinearScreen} /> */}
+      <StackSettings.Screen name='Temperature Coefficients' component={TemperatureCoeffScreen} />
+      {/* <StackSettings.Screen name='Temperature Coefficient Linear' component={TemperatureCoeffLinearScreen} />
         <StackSettings.Screen name='Temperature Coefficient Custom' component={TemperatureCoeffCustomScreen} /> */}
-        <StackSettings.Screen name='Operation Mode IO' component={OperationModeScreen} />
-        <StackSettings.Screen name='Conductivity Input' component={ConductivityScreen} />
+      <StackSettings.Screen name='Operation Mode IO' component={OperationModeScreen} />
+      <StackSettings.Screen name='Conductivity Input' component={ConductivityScreen} />
 
-        <StackSettings.Screen name='Display' component={DisplayScreen} />
-        <StackSettings.Screen name='Communication' component={CommunicationScreen} />
-        <StackSettings.Screen name='Current Output' component={CurrentOutputScreen} />
-        <StackSettings.Screen name='System' component={SystemScreen} />
-        <StackSettings.Screen name='Calibration' component={CalibrationScreen} />
+      <StackSettings.Screen name='Display' component={DisplayScreen} />
+      <StackSettings.Screen name='Communication' component={CommunicationScreen} />
+      <StackSettings.Screen name='Current Output' component={CurrentOutputScreen} />
+      <StackSettings.Screen name='System' component={SystemScreen} />
+      <StackSettings.Screen name='Calibration' component={CalibrationScreen} />
 
-        <StackSettings.Screen name='Switch Output' component={SwitchOutputScreeen} />
-        <StackSettings.Screen name='Digital Input' component={DigitalInputScreen} />
+      <StackSettings.Screen name='Switch Output' component={SwitchOutputScreeen} />
+      <StackSettings.Screen name='Digital Input' component={DigitalInputScreen} />
 
-      </StackSettings.Navigator>
-    );
+    </StackSettings.Navigator>
+  );
   // }
 };
 
@@ -172,7 +189,7 @@ const styles = StyleSheet.create({
   },
   noDevice: {
     // backgroundColor:'rgba(255,255,255,0.26)',
-    marginTop: '50%',
+    marginTop: '0%',
     margin: '10%',
     borderRadius: 3,
     width: '80%',

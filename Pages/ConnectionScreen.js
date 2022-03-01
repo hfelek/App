@@ -143,13 +143,14 @@ ConnectionScreen = () => {
     setConnectedPeripheral(peripheralInfo.peripheral)
     //console.log('Connected to a Peripheral');
     //console.log("peripheralInfo")
-    //console.log(peripheralInfo)
+    console.log(peripheralInfo)
     setMTU(peripheralInfo, context);
     // setNotification(peripheralInfo);
   }
 
   const handleDisconnectedPeripheral = (data) => {
     setConnectedPeripheral(null)
+    setDeviceConnected(false)
     console.log('Disconnected from ' + data.peripheral);
   }
   let a = ""
@@ -530,145 +531,33 @@ ConnectionScreen = () => {
 
           })
 
-          // getConfiguration(peripheral,context)
-
-          // BleManager.startNotification(peripheralInfo.id, "a65373b2-6942-11ec-90d6-024200110000", "a65373b2-6942-11ec-90d6-024200110100").then(() => {
-          //   //console.log('Read Data');
-
-          // }).catch((error) => {
-          //   //console.log('Notification error', error);
-          // });
 
         }, 1000);
 
-        // }, 200);
       });
 
-      //console.log("Servis Bölümünden Çıktık");
 
     }, 400);
 
   }
 
 
+  useEffect(() => {
+    BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+      // Success code
+      if (peripheralsArray.length != 0) {
+        handleDiscoverPeripheral(peripheralsArray[0])
+        setConnectedPeripheral(peripheralsArray[0].id);
+        setDeviceConnected(true)
+      }
+      console.log("Connected peripherals: " + JSON.stringify(peripheralsArray));
+    }).catch((error) => {
+      console.error(error);
+    });;
 
-  // const setNotification = (peripheral) => {
-
-  //   setTimeout(() => {
-  //     //console.log("Servis Bölümüne Girdik");
-  //     console.log("before MTU")
-
-
-  //     BleManager.retrieveServices(peripheral.peripheral).then((peripheralInfo) => {
-
-  //       if (Platform.OS === 'android') {
-  //         BleManager.requestMTU(peripheralInfo.id, 512)
-  //           .then((mtu) => {
-  //             //Success code
-  //             console.log()
-  //             console.log("MTU size changed to " + mtu + " bytes");
-  //           })
-  //           .catch((error) => {
-  //             //Failure code
-  //             console.log("Error kodu")
-  //             console.log(peripheral.id)
-  //             console.log(error);
-  //           });
-  //       }
-  //       //console.log("peripheralInfo")
-
-  //       //console.log(peripheralInfo)
-  //     })
+  }, [])
 
 
-  //     // setTimeout(() => {
-
-  //     // }, 0)
-  //     // setTimeout(() => {
-  //       processDataCharacteristics.forEach(obj => {
-  //         obj.Characteristics.forEach(characteristic => {
-  //           console.log("here")
-  //           BleManager.retrieveServices(peripheral.peripheral).then((peripheralInfo) => {
-  //             BleManager.startNotification(peripheralInfo.id, obj.ServiceUUID, characteristic.CharacteristicsUUID).then(() => {
-  //               console.log('Notification Succesfull for' + characteristic.CharacteristicsUUID);
-  //             }).catch((error) => {
-  //               console.log('Notification error', error);
-  //             });
-  //           }).catch((error) => {
-  //             console.log('Retrieve Services error', error);
-  //           });
-  //         })
-  //       })
-  //     // }, 0)
-
-  //     configurationCharacteristics.forEach(obj => {
-  //       obj.Characteristics.forEach(characteristic => {
-  //         console.log("here1")
-
-  //         BleManager.retrieveServices(peripheral.peripheral).then((peripheralInfo) => {
-  //           BleManager.startNotification(peripheralInfo.id, obj.ServiceUUID, characteristic.CharacteristicsUUID).then(() => {
-  //             console.log('Notification Succesfull for' + characteristic.CharacteristicsUUID);
-  //           }).catch((error) => {
-  //             console.log('Notification error', error);
-  //           });
-  //         }).catch((error) => {
-  //           console.log('Retrieve Services error', error);
-  //         });
-  //       })
-  //     })
-
-  //     // BleManager.startNotification(peripheralInfo.id, "a65373b2-6942-11ec-90d6-024200110000", "a65373b2-6942-11ec-90d6-024200110100").then(() => {
-  //     //   //console.log('Read Data');
-
-  //     // }).catch((error) => {
-  //     //   //console.log('Notification error', error);
-  //     // });
-
-
-  //   }, 400);
-  // }
-
-
-  //   configurationCharacteristics.forEach(obj => {
-  //     obj.Characteristics.forEach(characteristic => {
-  //       BleManager.retrieveServices(peripheral.peripheral).then((peripheralInfo) => {
-
-  //         BleManager.startNotification(peripheralInfo.id, obj.ServiceUUID, characteristic.CharacteristicsUUID).then(() => {
-  //           console.log('Notification Succesfull for' + characteristic.CharacteristicsUUID);
-  //         }).catch((error) => {
-  //           console.log('Notification error', error);
-  //         });
-  //       });
-
-  //     })
-
-  //     processDataCharacteristics.forEach(obj => {
-  //       obj.Characteristics.forEach(characteristic => {
-  //         BleManager.retrieveServices(peripheral.peripheral).then((peripheralInfo) => {
-
-  //           BleManager.startNotification(peripheralInfo.id, obj.ServiceUUID, characteristic.CharacteristicsUUID).then(() => {
-  //             console.log('Notification Succesfull for' + characteristic.CharacteristicsUUID);
-  //           }).catch((error) => {
-  //             console.log('Notification error', error);
-  //           });
-  //         })
-
-  //       })
-
-  //       // BleManager.startNotification(peripheralInfo.id, "a65373b2-6942-11ec-90d6-024200110000", "a65373b2-6942-11ec-90d6-024200110100").then(() => {
-  //       //   //console.log('Read Data');
-
-  //       // }).catch((error) => {
-  //       //   //console.log('Notification error', error);
-  //       // });
-
-  //     }, 200);
-
-  //     // }, 200);
-  //   });
-  //   //console.log("Servis Bölümünden Çıktık");
-
-  //  }, 400); //////Timeout to Run setNotification Function
 
 
 
@@ -788,111 +677,38 @@ ConnectionScreen = () => {
 
 
   }
-  // const renderItem1 = (item) => {
-  //   const color = 'gray';
-  //   if (connectedPeripheral == item.id) {
-  //     return (
-  //       <TouchableHighlight onPress={() => ConnectPeripheral(item)}>
-  //         <View style={[styles.row, { backgroundColor: color }]}>
-  //           <Text style={{ fontSize: 20, textAlign: 'center', color: '#333333', padding: 10 }}>{item.name}</Text>
-  //           <SignalLevelIndicator signalStrength={item.rssi}/>
-  //           <Text style={{ fontSize: 8, textAlign: 'center', color: '#333333', padding: 2, paddingBottom: 20 }}>{item.id}</Text>
-  //         </View>
-  //       </TouchableHighlight>
-  //     );
-  //   }
-  //   else
-  //     return (
-  //       <></>
-  //     )
 
-
-  // }
 
   return (
-    <>
+
+    <SafeAreaView style={{}}>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-            />
 
-          }
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}
+        <View style={styles.body}>
 
-        >
-          {/* {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )} */}
-          <View style={styles.body}>
+          <View style={{ margin: 10, }}>
 
-            <View style={{ margin: 10, }}>
-              {/* <TouchableHighlight
+            <Button
+              color={'#7209B7'}
               title={'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}
               onPress={() => startScan()}
-              >
-
-              </TouchableHighlight> */}
-              <Button
-                color={'#7209B7'}
-                title={'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}
-                onPress={() => startScan()}
-              />
-              {/* <Button
-                color={'#7209B7'}
-                title={'read data'}
-                onPress={() => getConfiguration({ "peripheral": "24:0A:C4:09:69:62" }, context)}
-              /> */}
-            </View>
-            {/* 
-            {(connectedPeripheral != null) &&
-              <View style={{ flex: 1, margin: 20 }}>
-                <Text >Connected Devices</Text>
-              </View>
-            } */}
-
-            {/* 
-            <View style={{margin: 10}}>
-              <Button title="Retrieve connected peripherals" onPress={() => retrieveConnected() } />
-            </View> */}
-            {/* 
-            {(list.length == 0) &&
-              <View style={{ flex: 1, margin: 20 }}>
-                <Text style={{ textAlign: 'center' }}>No peripherals</Text>
-              </View>
-            } */}
-
+            />
           </View>
-        </ScrollView>
-        {/* <FlatList
-          data={list}
-          renderItem={({ item }) => renderItem1(item)}
-          keyExtractor={item => item.id}
-        /> */}
 
-        {/* {(connectedPeripheral != null) &&
-          <View style={{ flex: 1, margin: 20 }}>
-            <Text style={{ color: "red" }} >Other Devices</Text>
-          </View>
-        } */}
-        <FlatList
-          data={list}
-          renderItem={({ item }) => renderItem(item)}
-          keyExtractor={item => item.id}
-        />
-        {/* <FlatList
-          data={list}
-          renderItem={({ item }) => renderItem(item)}
-          keyExtractor={item => item.id}
-        /> */}
-      </SafeAreaView>
-    </>
+
+        </View>
+
+      <FlatList
+        data={list}
+        renderItem={({ item }) => renderItem(item)}
+        keyExtractor={item => item.id}
+      />
+
+      {deviceConnected==false && <View style={styles.noDevice}>
+        <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
+        <Icon name='warning-outline' size={100} color="#000" rounded='true' />
+      </View>}
+    </SafeAreaView>
   );
 
 };
@@ -933,6 +749,17 @@ const styles = StyleSheet.create({
     padding: 4,
     paddingRight: 12,
     textAlign: 'right',
+  },
+  noDevice: {
+    // backgroundColor:'rgba(255,255,255,0.26)',
+    marginTop: '30%',
+    margin: '10%',
+    borderRadius: 3,
+    width: '80%',
+    height: '35%',
+    alignItems: 'center',
+    justifyContent: 'center',
+
   },
   imgSensor: { width: 60, height: 75, resizeMode: 'contain' },
 

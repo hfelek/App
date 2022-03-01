@@ -12,9 +12,9 @@ let IdentificationParams;
 let MenuParams;
 var filtered;
 var filteredAT;
-const conductivityParams = [{"Tag":"μS/Cm","Enum":0},{"Tag":"mS/Cm","Enum":1}];
-const concentrationParams = [{"Tag":"%","Enum":0},{"Tag":"Baume","Enum":1}];
-const temperatureParams = [{"Tag":"°C","Enum":0},{"Tag":"°F","Enum":1}];
+const conductivityParams = [{ "Tag": "μS/Cm", "Enum": 0 }, { "Tag": "mS/Cm", "Enum": 1 }];
+const concentrationParams = [{ "Tag": "%", "Enum": 0 }, { "Tag": "Baume", "Enum": 1 }];
+const temperatureParams = [{ "Tag": "°C", "Enum": 0 }, { "Tag": "°F", "Enum": 1 }];
 const demoConnection = [{ Tag: "Application Tag", Value: "id1" }, { Tag: "Device Name", Value: "id2" }, { Tag: "Device Serial No", Value: "id3" }, { Tag: "Device Type", Value: "id4" }, { Tag: "Random Tag", Value: "Random Value" }]
 const TableIndex = () => (
   <Image
@@ -58,7 +58,7 @@ DeviceScreen = () => {
 
       <TouchableOpacity style={{ paddingTop: 5 }}>
         <View style={{ backgroundColor: '#808B97', borderRadius: 5 }}>
-          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Conductivity"].toFixed(2) +" " + conductivityParams.find(value => value.Enum == contextValues["Unit Conductivity"]).Tag}</Text>
+          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Conductivity"].toFixed(2) + " " + conductivityParams.find(value => value.Enum == contextValues["Unit Conductivity"]).Tag}</Text>
           {/* <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Conductivity"]}</Text> */}
 
         </View>
@@ -66,7 +66,7 @@ DeviceScreen = () => {
 
       <TouchableOpacity style={{ paddingTop: 5 }}>
         <View style={{ backgroundColor: '#808B97', borderRadius: 5 }}>
-          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Concentration"].toFixed(2) + " " + concentrationParams.find(value => value.Enum== contextValues["Unit Concentration"]).Tag}</Text>
+          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Concentration"].toFixed(2) + " " + concentrationParams.find(value => value.Enum == contextValues["Unit Concentration"]).Tag}</Text>
           {/* <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Concentration"]}</Text> */}
 
         </View>
@@ -74,7 +74,7 @@ DeviceScreen = () => {
 
       <TouchableOpacity style={{ paddingTop: 5 }}>
         <View style={{ backgroundColor: '#808B97', borderRadius: 5 }}>
-          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Temperature"].toFixed(2) + " " + temperatureParams.find(value => value.Enum== contextValues["Unit Temperature"]).Tag}</Text>
+          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Temperature"].toFixed(2) + " " + temperatureParams.find(value => value.Enum == contextValues["Unit Temperature"]).Tag}</Text>
           {/* <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Temperature"]}</Text> */}
 
         </View>
@@ -94,68 +94,81 @@ DeviceScreen = () => {
 
 
   return (
-    <ScrollView style={[styles.container, { flexDirection: 'column', backgroundColor: '#ffffff' }]}>
-      {/* Top Component of Settings Page */}
-      <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#000000' }} >
-        <View style={{}}>
-          <TableIndex />
-        </View>
-        <View style={{ paddingTop: 5 }}>
-          <ValuesTabBottom />
-        </View>
 
-      </View>
+
+
+    <ScrollView style={[styles.container, { flexDirection: 'column', alignContent: 'center', flex: 1, backgroundColor: '#ffffff' }]}>
+      {false &&
+        <View style={styles.noDevice}>
+          <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
+          <Icon name='warning-outline' size={100} color="#000" rounded='true' />
+        </View>}
+      {/* Top Component of Settings Page */}
+      {true &&
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#000000' }} >
+          <View style={{}}>
+            <TableIndex />
+          </View>
+          <View style={{ paddingTop: 5 }}>
+            <ValuesTabBottom />
+          </View>
+
+        </View>
+      }
 
       {/* Bottom Componenent of Settings Page */}
-      <SafeAreaView style={{ backgroundColor: "#ffffff" }} >
+      {true &&
+        <SafeAreaView style={{ backgroundColor: "#ffffff" }} >
 
-        <View style={[styles.titleTab1, { paddingTop: 5 }]}>
-          <Text style={{ color: 'black', fontSize: 15 }}  >Alarm Status</Text>
-          <View style={{ backgroundColor: '#D8E1E9', flexDirection: 'row', justifyContent: 'space-between',alignContent:'center' }}>
-            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextValues["Status Alarm"]==false ? "No Alarm Detected" : "Alarm Detected"}</Text>
-            <Icon
-              name={contextValues["Status Alarm"]==false  ? "checkmark-outline" : "alert-outline"}
-              size={20}
-              color={contextValues["Status Alarm"]==false  ? "black" : "black"}
-              style={{paddingBottom:1,alignSelf:'center', backgroundColor: contextValues["Status Alarm"]==false ? "green" : "red", width: 20, height: 20 }}
-            />
+          <View style={[styles.titleTab1, { paddingTop: 5 }]}>
+            <Text style={{ color: 'black', fontSize: 15 }}  >Alarm Status</Text>
+            <View style={{ backgroundColor: '#D8E1E9', flexDirection: 'row', justifyContent: 'space-between', alignContent: 'center' }}>
+              <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextValues["Status Alarm"] == false ? "No Alarm Detected" : "Alarm Detected"}</Text>
+              <Icon
+                name={contextValues["Status Alarm"] == false ? "checkmark-outline" : "alert-outline"}
+                size={20}
+                color={contextValues["Status Alarm"] == false ? "black" : "black"}
+                style={{ paddingBottom: 1, alignSelf: 'center', backgroundColor: contextValues["Status Alarm"] == false ? "green" : "red", width: 20, height: 20 }}
+              />
+            </View>
           </View>
-        </View>
-        <View style={styles.titleTab1}>
-          <Text style={{ color: 'black', fontSize: 15 }} >Active Configuration</Text>
-          <View style={{ backgroundColor: '#D8E1E9' }}>
-            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{"Configuration " + (contextValues["Active Configuration"]+1).toString()}</Text>
+          <View style={styles.titleTab1}>
+            <Text style={{ color: 'black', fontSize: 15 }} >Active Configuration</Text>
+            <View style={{ backgroundColor: '#D8E1E9' }}>
+              <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{"Configuration " + (contextValues["Active Configuration"] + 1).toString()}</Text>
+            </View>
           </View>
-        </View>
 
-      </SafeAreaView>
-      <SafeAreaView style={{ backgroundColor: "#ffffff" }} >
+        </SafeAreaView>
+      }
+      {true &&
+        <SafeAreaView style={{ backgroundColor: "#ffffff" }} >
 
-        <View style={styles.titleTab1}>
-          <Text style={{ color: 'black', fontSize: 15 }} >Device Name</Text>
-          <View style={{ backgroundColor: '#D8E1E9' }}>
-            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextConfiguration["1"]}</Text>
+          <View style={styles.titleTab1}>
+            <Text style={{ color: 'black', fontSize: 15 }} >Device Name</Text>
+            <View style={{ backgroundColor: '#D8E1E9' }}>
+              <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextConfiguration["1"]}</Text>
+            </View>
           </View>
-        </View>
-        <View style={styles.titleTab1}>
-          <Text style={{ color: 'black', fontSize: 15 }} >Hardware Version</Text>
-          <View style={{ backgroundColor: '#D8E1E9' }}>
-            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextConfiguration["5"]}</Text>
+          <View style={styles.titleTab1}>
+            <Text style={{ color: 'black', fontSize: 15 }} >Hardware Version</Text>
+            <View style={{ backgroundColor: '#D8E1E9' }}>
+              <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextConfiguration["5"]}</Text>
+            </View>
           </View>
-        </View>
-        <View style={[styles.titleTab1, { paddingTop: 2 }]}>
-          <Text style={{ color: 'black', fontSize: 15 }}  >Firmware Version</Text>
-          <View style={{ backgroundColor: '#D8E1E9' }}>
-            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextConfiguration["6"]}</Text>
+          <View style={[styles.titleTab1, { paddingTop: 2 }]}>
+            <Text style={{ color: 'black', fontSize: 15 }}  >Firmware Version</Text>
+            <View style={{ backgroundColor: '#D8E1E9' }}>
+              <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextConfiguration["6"]}</Text>
+            </View>
           </View>
-        </View>
-        <View style={[styles.titleTab1, { paddingTop: 2 }]}>
-          <Text style={{ color: 'black', fontSize: 15 }}  >Product Serial Number</Text>
-          <View style={{ backgroundColor: '#D8E1E9' }}>
-            <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextConfiguration["2"]}</Text>
+          <View style={[styles.titleTab1, { paddingTop: 2 }]}>
+            <Text style={{ color: 'black', fontSize: 15 }}  >Product Serial Number</Text>
+            <View style={{ backgroundColor: '#D8E1E9' }}>
+              <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextConfiguration["2"]}</Text>
+            </View>
           </View>
-        </View>
-        {/* <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
+          {/* <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
           <Button
             onPress={() => { HandleWriteCommandGroupContext('{"283":1,"15":4,"59":1.0000,"60":2.0000,"61":1111.0000,"62":11.0000,"63":11.0000,"64":11.0000,"65":11.0000, "66":11.0000, "67":11.0000, "68":11.0000, "69":999.0000, "70":9999.0000}', contextConfiguration) }}
             title="Save"
@@ -170,7 +183,8 @@ DeviceScreen = () => {
           />
         </View> */}
 
-      </SafeAreaView>
+        </SafeAreaView>
+      }
       {/* <ValuesTab/> */}
 
     </ScrollView>
@@ -179,6 +193,8 @@ DeviceScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
+    // alignContent:'center',
+    // alignSelf:'center',
     // marginTop: StatusBar.currentHeight || 0,
     marginTop: 0,
   },
@@ -227,8 +243,9 @@ const styles = StyleSheet.create({
   },
   noDevice: {
     // backgroundColor:'rgba(255,255,255,0.26)',
-    marginTop: '50%',
+    //  marginTop: '15%',
     margin: '10%',
+    alignContent: 'center',
     borderRadius: 3,
     width: '80%',
     height: '35%',
