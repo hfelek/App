@@ -176,8 +176,9 @@ ConnectionScreen = () => {
       }
     }
   }
-  async function handleUpdateValueForCharacteristic(value, peripheral, characteristic, service, context) {
-    console.log("Update Has Been Made")
+  function handleUpdateValueForCharacteristic(value, peripheral, characteristic, service, context) {
+    // console.log("Update Has Been Made ")
+    // console.log("In handleUpdateValueForCharacteristic Function")
     // console.log(service);
     // console.log(service == processDataCharacteristics.find(obj => obj.ServiceUUID).ServiceUUID)
     if (service == processDataCharacteristics.find(obj => obj.ServiceUUID).ServiceUUID) {
@@ -283,13 +284,15 @@ ConnectionScreen = () => {
             break;
         }
 
-      } else if (configurationCharacteristics.find(obj => obj.ServiceUUID == service).Characteristics.find(obj => obj.CharacteristicsUUID == characteristic).DataType == "Object") { //Type is Object
+      }
+       else if (configurationCharacteristics.find(obj => obj.ServiceUUID == service).Characteristics.find(obj => obj.CharacteristicsUUID == characteristic).DataType == "Object") { //Type is Object
         const data = bytesToString(value);
         context.setValueTotal(JSON.parse(data))
 
 
       }
     }
+    // console.log("End of handleUpdateValueForCharacteristic Function")
   }
   async function ConnectPeripheral(peripheral) {
     if (peripheral) {
@@ -495,7 +498,7 @@ ConnectionScreen = () => {
 
 
 
-  /////////////////////////7
+  /////////////////////////
   const setNotification = (peripheral) => {
 
     setTimeout(() => {
@@ -582,6 +585,7 @@ ConnectionScreen = () => {
     const subscriptionStopScan = bleManagerEmitter.addListener('BleManagerStopScan', handleStopScan);
     const subscriptionDisconnectPeripheral = bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', handleDisconnectedPeripheral);
     bleManagerEmitter.addListener("BleManagerDidUpdateState", (args) => {
+        
       handleDidUpdateState(args)
     });    // const subscriptionDidUpdateValueForCharacterisctic = bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', ({ value, peripheral, characteristic, service }) => {
     //   handleUpdateValueForCharacteristic(value, peripheral, characteristic, service, context);
@@ -629,6 +633,7 @@ ConnectionScreen = () => {
 
     const subscriptionDidUpdateValueForCharacterisctic = bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', ({ value, peripheral, characteristic, service }) => {
       handleUpdateValueForCharacteristic(value, peripheral, characteristic, service, context);
+
 
     });
 
@@ -703,7 +708,9 @@ ConnectionScreen = () => {
         renderItem={({ item }) => renderItem(item)}
         keyExtractor={item => item.id}
       />
-
+      {deviceConnected== true && <View>
+        <Text>{JSON.stringify(context)}</Text>
+      </View>}
       {deviceConnected==false && <View style={styles.noDevice}>
         <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
         <Icon name='warning-outline' size={100} color="#000" rounded='true' />

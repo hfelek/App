@@ -64,22 +64,33 @@ const Tab = createBottomTabNavigator();
 
 const App = ({route,Navigator}) => {
   const [configurationValues, setConfigurationValues] = useState(ConfigurationValuesInitialState);
+  // var configurationValues = ConfigurationValuesInitialState;
+  // function setConfigurationValues(obj){
+  //   configurationValues=obj;
+  // }
   const [sensorValues, setSensorValues] = useState(ProcessDataInitialState)
 
+  const objectParams = JSON.parse(JSON.stringify(configurationValues))
 
-  
-  
   
   function setValueByKey(ISDUIndex,Value) {
 
     var newState = { ...configurationValues, [ISDUIndex]:Value };
     setConfigurationValues(newState);
   }
-  function setValueTotal(object) {
-    // console.log("Object to be Set")
-    // console.log(Object.assign({}, configurationValues, object))
-    setConfigurationValues(Object.assign({}, configurationValues, object));
-    // console.log("I am here")
+  const setValueTotal=(object)=>{
+    // console.log("In setValueTotal Function")
+    console.log(" Incoming Message Object ==>")
+    console.log (JSON.stringify(object))
+    // console.log(Object.assign(objectParams, configurationValues, object))
+    // console.log("----------------------------Set Fonksiyonu Çağırılmadan Önce-------------------")
+    // console.log(configurationValues)
+
+    setConfigurationValues(Object.assign(objectParams, object));
+    console.log("-------------------------------OBJECT PARAMS--------------------------")
+    console.log(objectParams)
+    console.log("----------------------------Set Fonksiyonu Çağırıldıktan Sonra-------------------")
+    console.log(configurationValues)
   }
 
   function getContextValue(){
@@ -93,19 +104,23 @@ const App = ({route,Navigator}) => {
   const contextConfigurationValuesSetters = {
      setValueByKey,
      setValueTotal,
-     getContextValue
   }
   const contextSensorValuesSetters = {
     setProcessData    
  }
 
+ React.useEffect(() => {
+    console.log
+  console.log("Config Value Changed")
+  console.log(JSON.stringify(configurationValues))
 
+}, [configurationValues]);
 
 
 
 
   return (
- <ContextConfigurationValues.Provider value = {{...configurationValues, ...contextConfigurationValuesSetters}}>
+ <ContextConfigurationValues.Provider value = {{...configurationValues,...contextConfigurationValuesSetters}}>
  <ContextSensorValues.Provider value= {{...sensorValues, ...contextSensorValuesSetters}}>
     <NavigationContainer >
       <Tab.Navigator screenOptions={  ({ route }) => ({tabBarIcon:  ({ color }) => screenOptions({ route, color })})} initialRouteName="Connection"  >
