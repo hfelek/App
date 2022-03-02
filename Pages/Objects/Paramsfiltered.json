@@ -3023,73 +3023,73 @@
                 "Tag": "Conductivity Ranges",
                 "Index": "500",
                 "menu": [{
-                        "Tag": "Conductivtiy : 0 to 2000 mS/cm Mounting Factor",
+                        "Tag": "0 to 2000 mS/cm Mounting Factor",
                         "Index": "358",
                         "MaxValue": 0.9,
                         "MinValue": 1.1
                     },
                     {
-                        "Tag": "Conductivtiy : 0 to 2000 mS/cm Zero Point",
+                        "Tag": "0 to 2000 mS/cm Zero Point",
                         "Index": "359",
                         "MaxValue": 100,
                         "MinValue": -100
                     },
                     {
-                        "Tag": "Conductivtiy : 0 to 1000 mS/cm Mounting Factor",
+                        "Tag": "0 to 1000 mS/cm Mounting Factor",
                         "Index": "360",
                         "MaxValue": 0.9,
                         "MinValue": 1.1
                     },
                     {
-                        "Tag": "Conductivtiy : 0 to 1000 mS/cm Zero Point",
+                        "Tag": "0 to 1000 mS/cm Zero Point",
                         "Index": "361",
                         "MaxValue": 1,
                         "MinValue": -1
                     },
                     {
-                        "Tag": "Conductivtiy : 0 to 500 mS/cm Mounting Factor",
+                        "Tag": "0 to 500 mS/cm Mounting Factor",
                         "Index": "362",
                         "MaxValue": 0.9,
                         "MinValue": 1.1
                     },
                     {
-                        "Tag": "Conductivtiy : 0 to 500 mS/cm Zero Point",
+                        "Tag": "0 to 500 mS/cm Zero Point",
                         "Index": "363",
                         "MaxValue": 10,
                         "MinValue": -10
                     },
                     {
-                        "Tag": "Conductivtiy : 0 to 200 mS/cm Mounting Factor",
+                        "Tag": "0 to 200 mS/cm Mounting Factor",
                         "Index": "364",
                         "MaxValue": 0.9,
                         "MinValue": 1.1
                     },
                     {
-                        "Tag": "Conductivtiy : 0 to 200 mS/cm Zero Point",
+                        "Tag": "0 to 200 mS/cm Zero Point",
                         "Index": "365",
                         "MaxValue": 25,
                         "MinValue": -25
                     },
                     {
-                        "Tag": "Conductivtiy : 0 to 20 mS/cm Mounting Factor",
+                        "Tag": "0 to 20 mS/cm Mounting Factor",
                         "Index": "366",
                         "MaxValue": 0.9,
                         "MinValue": 1.1
                     },
                     {
-                        "Tag": "Conductivtiy : 0 to 20 mS/cm Zero Point",
+                        "Tag": "0 to 20 mS/cm Zero Point",
                         "Index": "367",
                         "MaxValue": 50,
                         "MinValue": -50
                     },
                     {
-                        "Tag": "Conductivtiy : 0 to 2000 µS/cm Mounting Factor",
+                        "Tag": "0 to 2000 µS/cm Mounting Factor",
                         "Index": "368",
                         "MaxValue": 0.9,
                         "MinValue": 1.1
                     },
                     {
-                        "Tag": "Conductivtiy : 0 to 2000 µS/cm Zero Point",
+                        "Tag": "0 to 2000 µS/cm Zero Point",
                         "Index": "369",
                         "MaxValue": 100,
                         "MinValue": -100

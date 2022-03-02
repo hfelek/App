@@ -327,7 +327,7 @@ const CalibrationScreen = ({ route, navigation }) => {
 
   return (
     <StackCalibration.Navigator
-      screenOptions={{ headerShown: true, headerTitleAlign: 'center' ,        headerLeft: () => (navigateBackFunction(false))
+      screenOptions={{ headerShown: true, headerTitleAlign: 'center' , headerStyle:styles.headerStyle,headerLeft: () => (navigateBackFunction(false))
     }}>
       <StackCalibration.Screen
         name="Calibration Main"
@@ -382,9 +382,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
+    width:50,
     marginRight: 3,
     borderRadius: 10,
+  },  headerStyle: {shadowColor: "#222",
+  shadowOffset: {
+    width: 0,
+    height: 3,
   },
+  shadowOpacity: 0.27,
+  shadowRadius: 4.65,
+  
+  elevation: 6},
   myText: {
     color: 'black',
     fontSize: 25,

@@ -324,7 +324,7 @@ const SystemScreen = ({ route, navigation }) => {
 
   return (
     <StackSystem.Navigator
-      screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+      screenOptions={{ headerShown: true, headerStyle:styles.headerStyle, headerTitleAlign: 'center' }}>
       <StackSystem.Screen
         name="System Main"
         component={SystemMainScreen}
@@ -375,6 +375,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
+    width:50,
     marginRight: 3,
     borderRadius: 10,
   },
@@ -383,4 +384,13 @@ const styles = StyleSheet.create({
     fontSize: 25,
     textAlign: 'center',
   },
+  headerStyle: {shadowColor: "#222",
+  shadowOffset: {
+    width: 0,
+    height: 3,
+  },
+  shadowOpacity: 0.27,
+  shadowRadius: 4.65,
+  
+  elevation: 6},
 });

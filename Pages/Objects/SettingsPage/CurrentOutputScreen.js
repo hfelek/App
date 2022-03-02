@@ -333,7 +333,7 @@ const CurrentOutputScreen = ({ route, navigation }) => {
 
 
     return (
-        <StackOutput1.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center',headerLeft: () => (navigateBackFunction(false))}}>
+        <StackOutput1.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle:styles.headerStyle,headerLeft: () => (navigateBackFunction(false))}}>
             <StackOutput1.Screen name='Current Output1' component={CurrentOutputMainScreen} options={{ headerTitle: "Current Output Settings" }} />
             <StackOutput1.Screen name='Current Sub' component={CurrentOutputSubScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
             <StackOutput1.Screen name='Current Output Settings' component={CurrentOutputSettingsScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
@@ -389,6 +389,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#9A348E",
         padding: 8,
+        width:50,
         marginRight: 3,
         borderRadius: 10,
     },
@@ -397,7 +398,15 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 25,
         textAlign: 'center'
-    }
+    },  headerStyle: {shadowColor: "#222",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    
+    elevation: 6},
 });
 
 

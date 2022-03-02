@@ -219,21 +219,14 @@ const IdentificationScreen = ({ route, navigation }) => {
 
 
 
-
   return (
     <StackIdentification.Navigator screenOptions={{
-      headerShown: true, headerTitleAlign: 'center', headerRight: () => (<Pressable onPress={() => navigation.goBack(SettingsMain)}>
-        <Icon
-          name="arrow-back-outline"
-          size={15}
-          color="#fff"
-        />
-      </Pressable>), headerStyle: { borderBottomColor: 'orange', borderBottomWidth: 5 }
+      headerShown: true, headerTitleAlign: 'center', headerStyle:styles.headerStyle , headerLeft: () => (navigateBackFunction(false))
     }}>
       <StackIdentification.Screen name='Identification Main' component={IdentificationMainScreen} options={{
-        headerLeft: () => (navigateBackFunction(false)), headerTitle: "Identification", headerBackTitleVisible: false, headerStyle: { shadowColor: 'black', shadowOffset: 5, shadowRadius: 20 }
+        headerTitle: "Identification", 
       }} />
-      <StackIdentification.Screen name='Application Tag' component={ApplicationTagScreen} options={{ headerStyle: { borderBottomWidth: 1, borderBottomColor: 'black' } }} />
+      {/* <StackIdentification.Screen name='Application Tag' component={ApplicationTagScreen} options={{ headerStyle: { borderBottomWidth: 1, borderBottomColor: 'black' } }} /> */}
     </StackIdentification.Navigator>
 
   );
@@ -263,12 +256,23 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   value: {
+
     fontSize: 12,
     color: 'gray',
   },
+  headerStyle: {shadowColor: "#222",
+      shadowOffset: {
+        width: 0,
+        height: 3,
+      },
+      shadowOpacity: 0.27,
+      shadowRadius: 4.65,
+      
+      elevation: 6},
   itemButton: {
     backgroundColor: '#ffffff',
     padding: 8,
+    
     marginVertical: 0,
     marginHorizontal: 0,
     flexDirection: 'column',

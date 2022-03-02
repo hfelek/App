@@ -318,7 +318,7 @@ const DigitalInputScreen = ({ route, navigation }) => {
 
 
     return (
-        <StackDigitalInput.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerLeft: () => (navigateBackFunction(false)) }}>
+        <StackDigitalInput.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle:styles.headerStyle, headerLeft: () => (navigateBackFunction(false)) }}>
             <StackDigitalInput.Screen name='Digital Input Main' component={DigitalInputMainScreen} options={{ headerTitle: "Digital Input" }} />
             <StackDigitalInput.Screen name='Digital Input Function' component={DigitalInputFunctionScreen} />
 
@@ -425,7 +425,15 @@ const styles = StyleSheet.create({
         marginRight: 30,
         alignItems: 'stretch',
         justifyContent: "flex-start",
+    },  headerStyle: {shadowColor: "#222",
+    shadowOffset: {
+      width: 0,
+      height: 3,
     },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    
+    elevation: 6},
 });
 
 

@@ -54,29 +54,42 @@ DeviceScreen = () => {
     </View>
   );
   const ValuesTabBottom = () => (
-    <View style={{ height: 220, paddingTop: 8, width: 155, justifyContent: 'center' }}>
+    <View style={{ height: 220, paddingTop: 0, width: '70%', justifyContent: 'center',paddingLeft:'20%' }}>
 
       <TouchableOpacity style={{ paddingTop: 5 }}>
-        <View style={{ backgroundColor: '#808B97', borderRadius: 5 }}>
-          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Conductivity"].toFixed(2) + " " + conductivityParams.find(value => value.Enum == contextValues["Unit Conductivity"]).Tag}</Text>
-          {/* <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Conductivity"]}</Text> */}
+        <View style={{ backgroundColor: 'white', borderRadius: 15, flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
+          <Icon name='close-circle-sharp' size={30} color="red" rounded='true' />
+
+          <View style={{ flexDirection: 'column' }}>
+            <Text style={{ color: 'black' }}>Conductivity</Text>
+            <Text style={styles.sensorValuesText}>{contextValues["Conductivity"].toFixed(2) + " " + conductivityParams.find(value => value.Enum == contextValues["Unit Conductivity"]).Tag}</Text>
+            {/* <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Conductivity"]}</Text> */}
+          </View>
 
         </View>
       </TouchableOpacity>
 
       <TouchableOpacity style={{ paddingTop: 5 }}>
-        <View style={{ backgroundColor: '#808B97', borderRadius: 5 }}>
-          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Concentration"].toFixed(2) + " " + concentrationParams.find(value => value.Enum == contextValues["Unit Concentration"]).Tag}</Text>
-          {/* <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Concentration"]}</Text> */}
-
+      <View style={{ backgroundColor: 'white', borderRadius: 15, flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
+        <Icon name='checkmark-circle-sharp' size={30} color="green" rounded='true' />
+          
+          <View style={{ flexDirection: 'column' }}>
+            <Text style={{ color: 'black' }}>Concentration</Text>
+            <Text style={styles.sensorValuesText}>{contextValues["Concentration"].toFixed(2) + " " + concentrationParams.find(value => value.Enum == contextValues["Unit Concentration"]).Tag}</Text>
+            {/* <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Concentration"]}</Text> */}
+          </View>
         </View>
       </TouchableOpacity>
 
       <TouchableOpacity style={{ paddingTop: 5 }}>
-        <View style={{ backgroundColor: '#808B97', borderRadius: 5 }}>
-          <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Temperature"].toFixed(2) + " " + temperatureParams.find(value => value.Enum == contextValues["Unit Temperature"]).Tag}</Text>
-          {/* <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Temperature"]}</Text> */}
+      <View style={{ backgroundColor: 'white', borderRadius: 15, flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
+          <Icon name='checkmark-circle-sharp' size={30} color="green" rounded='true' />
 
+          <View style={{ flexDirection: 'column' }}>
+            <Text style={{ color: 'black' }}> Temperature</Text>
+            <Text style={styles.sensorValuesText}>{contextValues["Temperature"].toFixed(2) + " " + temperatureParams.find(value => value.Enum == contextValues["Unit Temperature"]).Tag}</Text>
+            {/* <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Temperature"]}</Text> */}
+          </View>
         </View>
       </TouchableOpacity>
 
@@ -105,11 +118,11 @@ DeviceScreen = () => {
         </View>}
       {/* Top Component of Settings Page */}
       {true &&
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#000000' }} >
+        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#000000' }} >
           <View style={{}}>
             <TableIndex />
           </View>
-          <View style={{ paddingTop: 5 }}>
+          <View style={{ flex: 3, paddingTop: 5, alignContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
             <ValuesTabBottom />
           </View>
 
@@ -120,22 +133,22 @@ DeviceScreen = () => {
       {true &&
         <SafeAreaView style={{ backgroundColor: "#ffffff" }} >
 
-          <View style={[styles.titleTab1, { paddingTop: 5 }]}>
-            <Text style={{ color: 'black', fontSize: 15 }}  >Alarm Status</Text>
+          <View style={[styles.titleTab1, { paddingTop: 0, paddingBottom: 15, borderBottomColor: '#D8E1E9', borderBottomWidth: StyleSheet.hairlineWidth }]}>
+            <Text style={styles.bottomHeaderTitle}  >Alarm Status</Text>
             <View style={{ backgroundColor: '#D8E1E9', flexDirection: 'row', justifyContent: 'space-between', alignContent: 'center' }}>
-              <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextValues["Status Alarm"] == false ? "No Alarm Detected" : "Alarm Detected"}</Text>
+              <Text style={styles.bottomTextValues}>{contextValues["Status Alarm"] == false ? "No Alarm Detected" : "Alarm Detected"}</Text>
               <Icon
-                name={contextValues["Status Alarm"] == false ? "checkmark-outline" : "alert-outline"}
-                size={20}
+                name={contextValues["Status Alarm"] == false ? "checkmark-outline" : "alert-sharp"}
+                size={18}
                 color={contextValues["Status Alarm"] == false ? "black" : "black"}
-                style={{ paddingBottom: 1, alignSelf: 'center', backgroundColor: contextValues["Status Alarm"] == false ? "green" : "red", width: 20, height: 20 }}
+                style={{ paddingRight: 5, alignContent: 'center', alignItems: 'center', paddingTop: 0, paddingBottom: 0, alignSelf: 'center', backgroundColor: contextValues["Status Alarm"] == false ? "green" : "red", width: 20, height: 20 }}
               />
             </View>
           </View>
-          <View style={styles.titleTab1}>
-            <Text style={{ color: 'black', fontSize: 15 }} >Active Configuration</Text>
+          <View style={[styles.titleTab1, { paddingBottom: 15, borderBottomColor: '#D8E1E9', borderBottomWidth: StyleSheet.hairlineWidth }]}>
+            <Text style={styles.bottomHeaderTitle} >Active Configuration</Text>
             <View style={{ backgroundColor: '#D8E1E9' }}>
-              <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{"Configuration " + (contextValues["Active Configuration"] + 1).toString()}</Text>
+              <Text style={styles.bottomTextValues}>{"Configuration " + (contextValues["Active Configuration"] + 1).toString()}</Text>
             </View>
           </View>
 
@@ -145,27 +158,27 @@ DeviceScreen = () => {
         <SafeAreaView style={{ backgroundColor: "#ffffff" }} >
 
           <View style={styles.titleTab1}>
-            <Text style={{ color: 'black', fontSize: 15 }} >Device Name</Text>
+            <Text style={styles.bottomHeaderTitle} >Device Name</Text>
             <View style={{ backgroundColor: '#D8E1E9' }}>
-              <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextConfiguration["1"]}</Text>
+              <Text style={styles.bottomTextValues}>{contextConfiguration["1"]}</Text>
             </View>
           </View>
           <View style={styles.titleTab1}>
-            <Text style={{ color: 'black', fontSize: 15 }} >Hardware Version</Text>
+            <Text style={styles.bottomHeaderTitle} >Hardware Version</Text>
             <View style={{ backgroundColor: '#D8E1E9' }}>
-              <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextConfiguration["5"]}</Text>
+              <Text style={styles.bottomTextValues}>{contextConfiguration["5"]}</Text>
             </View>
           </View>
           <View style={[styles.titleTab1, { paddingTop: 2 }]}>
-            <Text style={{ color: 'black', fontSize: 15 }}  >Firmware Version</Text>
+            <Text style={styles.bottomHeaderTitle}  >Firmware Version</Text>
             <View style={{ backgroundColor: '#D8E1E9' }}>
-              <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextConfiguration["6"]}</Text>
+              <Text style={styles.bottomTextValues}>{contextConfiguration["6"]}</Text>
             </View>
           </View>
           <View style={[styles.titleTab1, { paddingTop: 2 }]}>
-            <Text style={{ color: 'black', fontSize: 15 }}  >Product Serial Number</Text>
+            <Text style={styles.bottomHeaderTitle}  >Product Serial Number</Text>
             <View style={{ backgroundColor: '#D8E1E9' }}>
-              <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1 }}>{contextConfiguration["2"]}</Text>
+              <Text style={styles.bottomTextValues}>{contextConfiguration["2"]}</Text>
             </View>
           </View>
           {/* <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
@@ -185,7 +198,7 @@ DeviceScreen = () => {
 
         </SafeAreaView>
       }
-          {/* <View>
+      {/* <View>
             <Text>
               {JSON.stringify(contextConfiguration)}
             </Text>
@@ -217,10 +230,18 @@ const styles = StyleSheet.create({
     marginVertical: 0,
     marginHorizontal: 10
 
+  }, bottomHeaderTitle: {
+    fontFamily: "serif", fontWeight: '700', color: 'black', fontSize: 15
+  },
+  bottomTextValues: {
+    paddingLeft: 5,
+    color: 'black'
   },
   titleTab1: {
     backgroundColor: '#ffffff',
-
+    paddingBottom: 10,
+    borderBottomColor: '#D8E1E9',
+    borderBottomWidth: StyleSheet.hairlineWidth,
     fontSize: 17,
     color: '#000000',
     marginVertical: 0,
@@ -233,6 +254,14 @@ const styles = StyleSheet.create({
     marginVertical: 0,
     marginHorizontal: 10,
 
+  },
+  sensorValuesText: {
+    color: 'black',
+    fontWeight: '400',
+    paddingTop: 1,
+    paddingBottom: 1,
+    textAlign: 'center',
+    fontSize: 20
   },
   itemTab: {
     backgroundColor: '#ffffff',

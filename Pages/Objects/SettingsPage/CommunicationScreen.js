@@ -941,7 +941,7 @@ const CommunicationScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackCommunication.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerLeft: () => (navigateBackFunction(false)) }}>
+    <StackCommunication.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle:styles.headerStyle, headerLeft: () => (navigateBackFunction(false)) }}>
       <StackCommunication.Screen name='Communication Main' component={CommunicationMainScreen} options={{ headerTitle: "Communication" }} />
       <StackCommunication.Screen name='Bluetooth' component={BluetoothScreen} />
       <StackCommunication.Screen name='WiFi' component={WifiScreen} />
@@ -1019,9 +1019,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
+    width:50,
     marginRight: 3,
     borderRadius: 10,
+  },  headerStyle: {shadowColor: "#222",
+  shadowOffset: {
+    width: 0,
+    height: 3,
   },
+  shadowOpacity: 0.27,
+  shadowRadius: 4.65,
+  
+  elevation: 6},
 });
 
 

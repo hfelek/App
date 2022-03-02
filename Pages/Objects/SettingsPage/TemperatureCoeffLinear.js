@@ -237,7 +237,7 @@ const TemperatureCoeffLinearScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerLeft: () => (navigateBackFunction(false)) }}>
+    <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle:styles.headerStyle, headerLeft: () => (navigateBackFunction(false)) }}>
       {/* <StackConductivity.Screen name='Configuration Linear Coeff' component={ConfigurationNumScreen} options={{ headerTitle: "Linear Temperature Coefficient" }} /> */}
       <StackConductivity.Screen name='Linear Temperature Coefficient' component={TemperatureCoefficientScreen} initialParams={{ ConfigNum: ConfigNum }} />
       {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
@@ -288,6 +288,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
+    width:50,
     marginRight: 3,
     borderRadius: 10,
   },
@@ -322,6 +323,14 @@ const styles = StyleSheet.create({
     marginRight: 30,
     alignItems: 'stretch',
     justifyContent: "flex-start",
+  },  headerStyle: {shadowColor: "#222",
+  shadowOffset: {
+    width: 0,
+    height: 3,
   },
+  shadowOpacity: 0.27,
+  shadowRadius: 4.65,
+  
+  elevation: 6},
 });
 

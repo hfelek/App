@@ -60,7 +60,7 @@ function tableDataFunction(tempPoints, concPoints, context, configMenu) {
 
         }
         else {
-          rowData.push(context[configMenu.find(key => key.Tag == `Conductivity Point ${((i-1)*tempPoints)+j}`).Index].toFixed(2))
+          rowData.push(context[configMenu.find(key => key.Tag == `Conductivity Point ${((i - 1) * tempPoints) + j}`).Index].toFixed(2))
         }
       }
     }
@@ -129,7 +129,7 @@ const ConfigurationBar = ({ config, activeConfig }) => (
 
 )
 
-function calculatePayload(hookArray){
+function calculatePayload(hookArray) {
   let payload = ""
   const buf = Buffer.allocUnsafe(4);
   buf.writeInt32BE(hookArray.get('temp'), 0);
@@ -151,7 +151,7 @@ function calculatePayload(hookArray){
     for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
 
   }
-  
+
 
   for (let i = 0; i < hookArray.get('temp'); i++) {
     for (let k = 0; k < hookArray.get('conc'); k++) {
@@ -232,7 +232,7 @@ const element = (data, index, cellIndex, value, setValue) => {
   return (
     // <TouchableOpacity onPress={()=>{focused? setFocused(false):setFocused(true)}}>
 
-    <View style={[cellIndex == 0 ? styles.btn5 : styles.btn6, { borderColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? ((cellIndex == 0) ? "red" : "blue") : 'white' }]}>
+    <View style={[cellIndex == 0 ? styles.btn5 : styles.btn6, { borderColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? ((cellIndex == 0) ? "#F3C892" : "#D9D7F1") : 'white' }]}>
 
       <TextInput
         disabled={false}
@@ -240,11 +240,11 @@ const element = (data, index, cellIndex, value, setValue) => {
         value={value.get('array')[index][cellIndex]}
         keyboardType="numeric"
         maxLength={7}
-        underlineColor={(cellIndex == 0 || index == 0) ?(cellIndex == 0 ) ? 'red' : 'blue' : 'white'}
+        underlineColor={(cellIndex == 0 || index == 0) ? (cellIndex == 0) ? '#F3C892' : '#D9D7F1' : 'white'}
         selectionColor='#2a9df4'
         placeholder='0.0'
         activeUnderlineColor={(cellIndex == 0 || index == 0) ? 'black' : 'black'}
-        backgroundColor={(cellIndex == 0 || index == 0) ? ((cellIndex == 0) ? "red" : "blue") : 'white'}
+        backgroundColor={(cellIndex == 0 || index == 0) ? ((cellIndex == 0) ? "#F3C892" : "#D9D7F1") : 'white'}
         textAlign='center'
         scrollEnabled={false}
         onChangeText={(val) => setValue(ChangeText(val, index, cellIndex, value))}
@@ -263,7 +263,7 @@ const updateCell = (value, i, j, array, func) => {
 }
 const updateTemp = (tempVal, concVal, array, func, funcModal, context, configMenu) => {
   let newMap = new Map(array);
-  var arr = Array(tempVal + 1).fill().map(() => Array(concVal+ 1));
+  var arr = Array(tempVal + 1).fill().map(() => Array(concVal + 1));
 
 
 
@@ -311,14 +311,14 @@ function isItNumber(str) {
 }
 
 const TemperatureCoefficientScreen = ({ route, navigation }) => {
- const objOfPointsConcCond = {"Configuration 1" :83,"Configuration 2":133,"Configuration 3":183,"Configuration 4":233}
+  const objOfPointsConcCond = { "Configuration 1": 83, "Configuration 2": 133, "Configuration 3": 183, "Configuration 4": 233 }
   const context = useContext(ContextConfigurationValues)
   const { Tag } = route.params;
   const { ConfigNum } = route.params;
 
   const configMenu = MenuParams.find(key => key.Tag == ConfigNum).menu
   const map1 = new Map();
-  map1.set('temp', context[objOfPointsConcCond[ConfigNum].toString()]); map1.set('conc', context[(objOfPointsConcCond[ConfigNum]+1).toString()]); map1.set('array', tableDataFunction(map1.get('temp'), map1.get(('conc')), context, configMenu));
+  map1.set('temp', context[objOfPointsConcCond[ConfigNum].toString()]); map1.set('conc', context[(objOfPointsConcCond[ConfigNum] + 1).toString()]); map1.set('array', tableDataFunction(map1.get('temp'), map1.get(('conc')), context, configMenu));
   // const [temperaturePoints, setTemperaturePoints] = useState(4);
   // const [concentrationPoints, setConcentrationPoints] = useState(4)
   const [modalVisible, setModalVisible] = useState(false);
@@ -326,7 +326,35 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
   const [modalConcentrationPoints, setModalConcentrationPoints] = useState(map1.get('conc'));
   const [hookArray, setHookArray] = useState(map1);
   const widthArr = [150]
+  useEffect(() => {
 
+    if (true) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity 
+          
+            onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Custom Coefficients", "Set Parameters": {"${MenuParams.find(obj => obj.Tag == ConfigNum).Index}":"${calculatePayload(hookArray)}"}}`, context) }}
+            
+          >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+        headerLeft: () => (navigateBackFunction(true))
+
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+        headerLeft: () => (navigateBackFunction(false))
+
+      });
+    }
+  });
 
   return (
     <View >
@@ -392,27 +420,29 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
               <Pressable
                 style={{
                   borderRadius: 20,
-                  padding: 10,
-                  elevation: 2,
+                  width: 60,
+                  // alignContent:'center',
+                  // alignItems:'center',
+                  padding: 0,
+                  elevation: 0,
                   backgroundColor: '#7a42f4'
                 }}
                 onPress={() => updateTemp(modalTemperaturePoints, modalConcentrationPoints, hookArray, setHookArray, setModalVisible, context, configMenu)}
               >
-                <Text style={styles.textStyle}>Save</Text>
+                <Text style={{ textAlign: 'center', alignSelf: 'center', alignItems: 'center', paddingTop: 7 }}>Save</Text>
               </Pressable>
               <Pressable
                 onPress={() => { setModalVisible(false); }}
                 style={{
                   borderRadius: 20,
-                  padding: 10,
-                  elevation: 2,
+                  width: 40,
                   backgroundColor: '#808B97'
                 }}
 
               >
                 <Icon
                   name={"close"}
-
+                  style={{ alignSelf: 'center', paddingTop: 8 }}
                   size={20}
                   color="#000"
                 />
@@ -442,7 +472,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
                 <TableWrapper style={[styles.row5, { paddingTop: 0 }]}>
                   {
                     ["Temperature", "Concentration"].map((cellData, cellIndex) => (
-                      <Cell style={{ backgroundColor: cellIndex == 0 ? 'red' : 'blue', borderColor: cellIndex == 0 ? 'transparent' : 'transparent' }} key={cellIndex} data={(cellIndex == 0) ? <Text style={{ width: 149, height: 35, textAlign: 'center', borderLeftColor: 'transparent', paddingTop: 15, borderBottomColor: 'red', borderWidth: StyleSheet.hairlineWidth }}>Temperature</Text> : <Text style={{ width: 100 * hookArray.get('conc'), height: 35, borderBottomColor: 'black', fontSize: hookArray.get('conc') == 1 ? 10 : 15, textAlign: 'center', paddingTop: 5, borderWidth: StyleSheet.hairlineWidth }} > Concentration</Text>} />
+                      <Cell style={{ backgroundColor: cellIndex == 0 ? '#F3C892' : '#D9D7F1', borderColor: cellIndex == 0 ? 'transparent' : 'transparent' }} key={cellIndex} data={(cellIndex == 0) ? <Text style={{ fontWeight: '600', fontSize: 20, width: 149, height: 35, textAlign: 'center', borderLeftColor: 'transparent', paddingTop: 0, borderBottomColor: '#F3C892', borderWidth: StyleSheet.hairlineWidth }}>Temperature</Text> : <Text style={{ fontWeight: '600', fontSize: 40, width: 100 * hookArray.get('conc'), height: 35, borderBottomColor: 'black', fontSize: hookArray.get('conc') == 1 ? 10 : 20, textAlign: 'center', borderWidth: StyleSheet.hairlineWidth }} > Concentration (%)</Text>} />
                     ))
                   }
                 </TableWrapper>
@@ -483,7 +513,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
             </Table>
           </View>
         </ScrollView>
-        {true &&
+        {false &&
           <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
             <Button
               onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Custom Coefficients", "Set Parameters": {"${MenuParams.find(obj => obj.Tag == ConfigNum).Index}":"${calculatePayload(hookArray)}"}}`, context) }}
@@ -510,7 +540,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
 };
 const tableIndex = () => (
-  <Text style={{ width: 149, height: 35, borderWidth: StyleSheet.hairlineWidth, textAlign: 'center', paddingTop: 5, backgroundColor: 'red', borderColor: 'red' }}>Coefficients</Text>)
+  <Text style={{ width: 149, height: 35, borderWidth: StyleSheet.hairlineWidth, textAlign: 'center', fontWeight: '600', fontSize: 20, backgroundColor: '#F3C892', borderColor: '#F3C892' }}>(°C)</Text>)
 
 const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
   const { ConfigNum } = route.params
@@ -522,11 +552,11 @@ const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
   });
 
   return (
-    <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center',headerLeft: () => (navigateBackFunction(false)) }}>
+    <StackConductivity.Navigator screenOptions={{ headerShown: true, headerStyle:styles.headerStyle, headerTitleAlign: 'center', headerLeft: () => (navigateBackFunction(false)) }}>
       {/* <StackConductivity.Screen name='Configuration' component={ConfigurationNumScreen} options={{ headerTitle: "Custom Temperature Coefficient" }} /> */}
       {/* <StackConductivity.Screen name='Custom Configuration' component={CustomConfigurationScreen} initialParams={{ ConfigNum: ConfigNum }} /> */}
 
-      <StackConductivity.Screen name='Custom Temperature Coefficient' component={TemperatureCoefficientScreen} initialParams={{ ConfigNum: ConfigNum }} />
+      <StackConductivity.Screen name='Custom Temperature Coefficient' options={{headerTitle :'Custom Temp. Coefficients'}} component={TemperatureCoefficientScreen} initialParams={{ ConfigNum: ConfigNum }} />
       {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
 
     </StackConductivity.Navigator>
@@ -619,6 +649,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
+    width:50,
     marginRight: 3,
     borderRadius: 10,
   },
@@ -720,7 +751,16 @@ const styles = StyleSheet.create({
   },
   img: { width: 149, height: 35, borderRightWidth: 1 },
 
-  btnText5: { textAlign: 'center', color: '#000' }
+  btnText5: { textAlign: 'center', color: '#000' },
+  headerStyle: {shadowColor: "#222",
+  shadowOffset: {
+    width: 0,
+    height: 3,
+  },
+  shadowOpacity: 0.27,
+  shadowRadius: 4.65,
+  
+  elevation: 6},
 });
 
 

@@ -448,7 +448,7 @@ const OperationModeScreen = ({ route, navigation }) => {
 
 
     return (
-        <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center',headerLeft: () => (navigateBackFunction(false))    }}>
+        <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle:styles.headerStyle,headerLeft: () => (navigateBackFunction(false))    }}>
             <StackConductivity.Screen name='Operation Modes IO Main' component={OperationScreen} options={{ headerTitle: "Operation Modes IO" }} />
             <StackConductivity.Screen name='Operation Selection' component={OperationSelectionScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
             {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
@@ -564,5 +564,14 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         justifyContent: "flex-start",
     },
+    headerStyle: {shadowColor: "#222",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    
+    elevation: 6},
 });
 

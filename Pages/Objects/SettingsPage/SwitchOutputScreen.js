@@ -359,7 +359,7 @@ const SwitchOutputScreen = ({ route, navigation }) => {
 
 
     return (
-        <StackSwitchOutput.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center',headerLeft: () => (navigateBackFunction(false))    }}>
+        <StackSwitchOutput.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle:styles.headerStyle,headerLeft: () => (navigateBackFunction(false))    }}>
             <StackSwitchOutput.Screen name='Switch Output1' component={SwitchOutputMainScreen} options={{ headerTitle: "Switch Output Settings" }} />
             <StackSwitchOutput.Screen name='Switch Sub' component={SwitchOutputSubScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
             <StackSwitchOutput.Screen name='Switch Output Settings' component={SwitchOutputSettingsScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
@@ -423,7 +423,15 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 25,
         textAlign: 'center'
-    }
+    },  headerStyle: {shadowColor: "#222",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    
+    elevation: 6},
 });
 
 

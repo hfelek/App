@@ -189,7 +189,7 @@ const DisplayScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackDisplay.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center',headerLeft: () => (navigateBackFunction(false))  }}>
+    <StackDisplay.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle:styles.headerStyle,headerLeft: () => (navigateBackFunction(false))  }}>
       <StackDisplay.Screen name='Display Main' component={DisplayMainScreen} options={{ headerTitle: "Display" }} />
       <StackDisplay.Screen name='Backlight' component={BacklightScreen} />
     </StackDisplay.Navigator>
@@ -211,6 +211,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
+    width:50,
     marginRight: 3,
     borderRadius: 10,
 
@@ -248,7 +249,16 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 25,
     textAlign: 'center'
-  }
+  },  
+  headerStyle: {shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 1,
+  },
+  shadowOpacity: 0.18,
+  shadowRadius: 1.00,
+  
+  elevation: 2},
 });
 
 

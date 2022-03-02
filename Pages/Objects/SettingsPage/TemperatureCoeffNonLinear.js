@@ -16,6 +16,7 @@ import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import InputScrollView from 'react-native-input-scroll-view';
 
+import navigateBackFunction from "../../../Utilities/navigateBackFunction"
 
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
@@ -280,6 +281,34 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 // console.log(hookArray)
 console.log(payload)
 console.log(`{"Tag":"Temperature Coefficients","Set Parameters":{${payload}}}`)
+useEffect(() => {
+
+  if (true) {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+        onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100",`{"Tag":"Temperature Coefficients","Set Parameters":{${payload}}}`,context) }}
+
+        >
+          <View style={styles.buttonBar}>
+            <Text>Save</Text>
+          </View>
+        </TouchableOpacity>
+      ),
+      headerLeft: () => (navigateBackFunction(true))
+
+    });
+  }
+  else {
+    navigation.setOptions({
+      headerRight: () => (
+        <></>
+      ),
+      headerLeft: () => (navigateBackFunction(false))
+
+    });
+  }
+});
   return (
     <View style={[styles.container4, { alignItems: 'center' }]}>
       <ScrollView sckeyboardShouldPersistTaps="always" style={{ backgroundColor: 'white' }} horizontal={false} >
@@ -312,7 +341,7 @@ console.log(`{"Tag":"Temperature Coefficients","Set Parameters":{${payload}}}`)
             </Table>
           </View>
         </ScrollView>
-        {true &&
+        {false &&
           <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
             <Button
               onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100",`{"Tag":"Temperature Coefficients","Set Parameters":{${payload}}}`,context) }}
@@ -343,9 +372,9 @@ const TemperatureCoeffNonLinearScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackTempCoeffNonLinear.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+    <StackTempCoeffNonLinear.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle:styles.headerStyle }}>
       {/* <StackTempCoeffNonLinear.Screen name='Configuration' component={ConfigurationNumScreen} options={{ headerTitle: "Non-Linear Temperature Coefficient" }} /> */}
-      <StackTempCoeffNonLinear.Screen name='Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} options={({ route }) => ({ headerTitle: route.params.name })} initialParams={{ ConfigNum: ConfigNum }} />
+      <StackTempCoeffNonLinear.Screen name='Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} options={({ route }) => ({ headerTitle: 'Non-Linear Temp. Coefficients' })} initialParams={{ ConfigNum: ConfigNum }} />
       {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
 
 
@@ -394,6 +423,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
+    width:50,
     marginRight: 3,
     borderRadius: 10,
   },
@@ -450,6 +480,15 @@ const styles = StyleSheet.create({
   btn6: { width: 149, height: 10, backgroundColor: '#white', borderBottomColor: 'white' },
 
   img: { width: 149, height: 50, borderRightWidth: 1 },
+  headerStyle: {shadowColor: "#222",
+  shadowOffset: {
+    width: 0,
+    height: 3,
+  },
+  shadowOpacity: 0.27,
+  shadowRadius: 4.65,
+  
+  elevation: 6},
 
 });
 

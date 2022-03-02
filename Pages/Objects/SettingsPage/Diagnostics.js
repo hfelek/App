@@ -302,7 +302,7 @@ const DiagnosticsScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackDiagnostics.Navigator initialRouteName='Diagnostics Main' screenOptions={{ headerShown: true, headerTitleAlign: 'center',headerLeft: () => (navigateBackFunction(false))}}>
+    <StackDiagnostics.Navigator initialRouteName='Diagnostics Main' screenOptions={{ headerShown: true, headerStyle:styles.headerStyle, headerTitleAlign: 'center',headerLeft: () => (navigateBackFunction(false))}}>
       <StackDiagnostics.Screen name='Diagnostics Main' component={DiagnosticsMainScreen} options={{ headerTitle: 'Diagnostics' }} />
       <StackDiagnostics.Screen name='Simulation Process Variable' component={SimulationProcessVariableScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
       <StackDiagnostics.Screen name='Switchable Components' component={SwitchVariableScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
@@ -334,6 +334,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
+    width:50,
     marginRight: 3,
     borderRadius: 10,
 
@@ -363,5 +364,13 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 25,
     textAlign: 'center'
-  }
+  },  headerStyle: {shadowColor: "#222",
+  shadowOffset: {
+    width: 0,
+    height: 3,
+  },
+  shadowOpacity: 0.27,
+  shadowRadius: 4.65,
+  
+  elevation: 6},
 });

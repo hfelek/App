@@ -496,7 +496,7 @@ const ConductivityScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center',headerLeft: () => (navigateBackFunction(false))  }}>
+    <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle:styles.headerStyle,headerLeft: () => (navigateBackFunction(false))  }}>
       <StackConductivity.Screen name='Conductivity Main' component={ConductivityMainScreen} options={{ headerTitle: "Conductivity Input" }} />
       <StackConductivity.Screen name='Conductivity Range' component={RangeScreen} />
       <StackConductivity.Screen name='Temperature Compensation' component={TemperatureCompensationScreen} />
@@ -546,6 +546,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
+    width:50,
     marginRight: 3,
     borderRadius: 10,
   },
@@ -580,6 +581,14 @@ const styles = StyleSheet.create({
     marginRight: 30,
     alignItems: 'stretch',
     justifyContent: "flex-start",
+  },  headerStyle: {shadowColor: "#222",
+  shadowOffset: {
+    width: 0,
+    height: 3,
   },
+  shadowOpacity: 0.27,
+  shadowRadius: 4.65,
+  
+  elevation: 6},
 });
 

@@ -259,7 +259,7 @@ const TemperatureCoeffScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackTempCoeff.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+    <StackTempCoeff.Navigator screenOptions={{ headerShown: true, headerStyle:styles.headerStyle, headerTitleAlign: 'center' }}>
       <StackTempCoeff.Screen name='MainScreenTempCoeff' component={TempCoeffMainScreen} options={{ headerTitle: "Temperature Coefficients" }} />
       <StackTempCoeff.Screen name='Configuration' component={ConfigurationNumScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
       <StackTempCoeff.Screen name='Temperature Coefficient Non-Linear' component={TemperatureCoeffNonLinearScreen} options={({ route }) => ({ headerShown:false})}  />
@@ -306,6 +306,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
+    width:50,
     marginRight: 3,
     borderRadius: 10,
   },
@@ -346,5 +347,14 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: "flex-start",
   },
+  headerStyle: {shadowColor: "#222",
+  shadowOffset: {
+    width: 0,
+    height: 3,
+  },
+  shadowOpacity: 0.27,
+  shadowRadius: 4.65,
+  
+  elevation: 6},
 });
 
