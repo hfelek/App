@@ -16,6 +16,8 @@ import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
+import navigateBackFunction from "../../../Utilities/navigateBackFunction"
+
 let peripheralID = '0'
 
 
@@ -190,6 +192,7 @@ const ConductivityMainScreen = ({ navigation }) => {
 
 const CheckButtoned = (selectedValue, sentValue) => {
   if (selectedValue === sentValue) {
+    console.log("here")
     return (
 
       <View style={{
@@ -273,6 +276,7 @@ const RangeScreen = ({ route, navigation }) => {
             </View>
           </TouchableOpacity>
         ),
+        headerLeft: () => (navigateBackFunction(true))
       });
     }
     else {
@@ -280,6 +284,7 @@ const RangeScreen = ({ route, navigation }) => {
         headerRight: () => (
           <></>
         ),
+        headerLeft: () => (navigateBackFunction(false))
       });
     }
   });
@@ -305,7 +310,12 @@ const TemperatureCompensationScreen = ({ route, navigation }) => {
   const index = (MenuParams.filter(config=> config.Tag ==ConfigNum)[0].menu).filter(tag=>tag.Tag==Tag)[0].Index
   const possibleValues = (MenuParams.filter(config=> config.Tag ==ConfigNum)[0].menu).filter(tag=>tag.Tag==Tag)[0].PossibleValues
   const possibleValLenght = Object.keys(possibleValues).length
-  const [selection, setSelection] = React.useState(context[index]);
+  const initialValue = possibleValues.find(key => key.Enum == context[index]).Tag
+  const [selection, setSelection] = React.useState(initialValue);
+  console.log(context[index])
+  console.log(index)
+  console.log(initialValue)
+  
   function ItemSelectable(title) {
 
     return (
@@ -319,7 +329,7 @@ const TemperatureCompensationScreen = ({ route, navigation }) => {
   );
   useEffect(() => {
 
-    if (selection !=context[index] ) {
+    if (selection !=initialValue ) {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Conductivity Input", "Set Parameters": {"${index}":${possibleValues.filter(row => row.Tag == selection)[0].Enum}}}`, context) }}>
@@ -328,6 +338,7 @@ const TemperatureCompensationScreen = ({ route, navigation }) => {
             </View>
           </TouchableOpacity>
         ),
+        headerLeft: () => (navigateBackFunction(true))
       });
     }
     else {
@@ -335,6 +346,7 @@ const TemperatureCompensationScreen = ({ route, navigation }) => {
         headerRight: () => (
           <></>
         ),
+        headerLeft: () => (navigateBackFunction(false))
       });
     }
   });
@@ -375,6 +387,7 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
             </View>
           </TouchableOpacity>
         ),
+        headerLeft: () => (navigateBackFunction(true))
       });
     }
     else {
@@ -382,6 +395,7 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
         headerRight: () => (
           <></>
         ),
+        headerLeft: () => (navigateBackFunction(false))
       });
     }
 
@@ -436,6 +450,7 @@ const FilterCountConstantScreen = ({ route, navigation }) => {
             </View>
           </TouchableOpacity>
         ),
+        headerLeft: () => (navigateBackFunction(true))
       });
     }
     else {
@@ -443,6 +458,7 @@ const FilterCountConstantScreen = ({ route, navigation }) => {
         headerRight: () => (
           <></>
         ),
+        headerLeft: () => (navigateBackFunction(false))
       });
     }
     // });
@@ -480,7 +496,7 @@ const ConductivityScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+    <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center',headerLeft: () => (navigateBackFunction(false))  }}>
       <StackConductivity.Screen name='Conductivity Main' component={ConductivityMainScreen} options={{ headerTitle: "Conductivity Input" }} />
       <StackConductivity.Screen name='Conductivity Range' component={RangeScreen} />
       <StackConductivity.Screen name='Temperature Compensation' component={TemperatureCompensationScreen} />

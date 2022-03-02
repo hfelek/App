@@ -12,6 +12,8 @@ import BufferArray from '../../../Navigation/Functions/BufferArray';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
+import navigateBackFunction from "../../../Utilities/navigateBackFunction"
+
 function renderItem(item, navigation = null, context = null, parent) {
   return (Item(item.Tag, item.Value, navigation, context, parent))
 }
@@ -153,6 +155,8 @@ const DisplayScreen = ({ route, navigation }) => {
               </View>
             </TouchableOpacity>
           ),
+          headerLeft: () => (navigateBackFunction(true))
+
         });
       }
       else {
@@ -160,6 +164,8 @@ const DisplayScreen = ({ route, navigation }) => {
           headerRight: () => (
             <></>
           ),
+          headerLeft: () => (navigateBackFunction(false))
+
         });
       }
     });
@@ -183,7 +189,7 @@ const DisplayScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackDisplay.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+    <StackDisplay.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center',headerLeft: () => (navigateBackFunction(false))  }}>
       <StackDisplay.Screen name='Display Main' component={DisplayMainScreen} options={{ headerTitle: "Display" }} />
       <StackDisplay.Screen name='Backlight' component={BacklightScreen} />
     </StackDisplay.Navigator>

@@ -13,6 +13,7 @@ import { ContextConfigurationValues } from '../../../App';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import { ScrollView } from 'react-native-gesture-handler';
+import navigateBackFunction from "../../../Utilities/navigateBackFunction"
 
 
 let peripheralID = '0'
@@ -20,7 +21,7 @@ const ConfigurationParams = Paramsfiltered.filter(ConfigurationParams => Configu
 const MenuParams = ConfigurationParams.menu;
 const StackConfiguration = createStackNavigator();
 const possibleValuesActConfig = MenuParams.filter(row => row.Tag == "Active Configuration")[0].PossibleValues
-const possibleValuesRefTemp = MenuParams.filter(row => row.Tag == "Reference Temperature")[0].PossibleValues
+const possibleValuesRefTemp = MenuParams.filter(row => row.Tag == "Temperature Unit")[0].PossibleValues
 
 
 
@@ -159,9 +160,9 @@ function Item(title, value, navigation = null, context = null) {
 
         </TouchableOpacity>
       )
-    case 'Reference Temperature':
+    case 'Temperature Unit':
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Reference Temperature', { Tag: title, Value: value })}>
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Temperature Unit', { Tag: title, Value: value })}>
         <ItemValueBar item={title} value={possibleValuesRefTemp.filter(key=> key.Enum == context[MenuParams.filter(row => row.Tag == title)[0].Index])[0].Tag}/>
         </TouchableOpacity>
       )
@@ -197,10 +198,10 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
 
   let hexIndex
   switch (selection) {
-    case "°C":
+    case "Celcius (°C)":
       hexIndex = 0
       break;
-    case "°F":
+    case "Fahrenheit (°F)":
       hexIndex = 1
       break;
     default:
@@ -231,6 +232,8 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
             </View>
           </TouchableOpacity>
         ),
+        headerLeft: () => (navigateBackFunction(true))
+        
       });
     }
     else {
@@ -238,6 +241,8 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
         headerRight: () => (
           <></>
         ),
+        headerLeft: () => (navigateBackFunction(false))
+
       });
     }
   });
@@ -300,6 +305,8 @@ const ActiveConfigurationScreen = ({ route, navigation }) => {
             </View>
           </TouchableOpacity>
         ),
+        headerLeft: () => (navigateBackFunction(true))
+
       });
     }
     else {
@@ -307,6 +314,8 @@ const ActiveConfigurationScreen = ({ route, navigation }) => {
         headerRight: () => (
           <></>
         ),
+        headerLeft: () => (navigateBackFunction(false))
+
       });
     }
   });
@@ -352,10 +361,10 @@ const ConfigurationScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackConfiguration.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+    <StackConfiguration.Navigator screenOptions={{ headerShown: true,headerTitleAlign:'center',headerLeft: () => (navigateBackFunction(false))    }}>
       <StackConfiguration.Screen name='Configuration Main' component={ConfigurationMainScreen} options={{ headerTitle: "Setup Menu" }} />
       <StackConfiguration.Screen name='Active Configuration' component={ActiveConfigurationScreen} />
-      <StackConfiguration.Screen name='Reference Temperature' component={ReferenceTemperatureScreen} />
+      <StackConfiguration.Screen name='Temperature Unit' component={ReferenceTemperatureScreen} />
 
     </StackConfiguration.Navigator>
 

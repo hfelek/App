@@ -13,6 +13,8 @@ import { Picker } from '@react-native-picker/picker';
 import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
+import navigateBackFunction from "../../../Utilities/navigateBackFunction"
+
 const StackDigitalInput = createStackNavigator();
 
 const filtered = Values.filter(row => row.Tag == 'Digital Input')[0];
@@ -122,6 +124,36 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
     const [selectionDINHIGH, setSelectionDINHIGH] = React.useState(indexSelectionDINHIGH.PossibleValues.find(key=>key.Enum == context[indexSelectionDINHIGH.Index]).Tag);
     const [selectionDINLOW, setSelectionDINLOW] = React.useState(indexSelectionDINLOW.PossibleValues.find(key=>key.Enum == context[indexSelectionDINLOW.Index]).Tag);
 
+    useEffect(() => {
+
+        if (selection!=possibleValues.find(key=>key.Enum == context[indexSelection]).Tag || selectionDINHIGH != indexSelectionDINHIGH.PossibleValues.find(key=>key.Enum == context[indexSelectionDINHIGH.Index]).Tag ||selectionDINLOW != indexSelectionDINLOW.PossibleValues.find(key=>key.Enum == context[indexSelectionDINLOW.Index]).Tag )  {
+          navigation.setOptions({
+            headerRight: () => (
+              <TouchableOpacity
+              onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Digital Input", "Set Parameters": {"${indexSelection}":${possibleValues.find(key=>key.Tag==selection).Enum},"${indexSelectionDINHIGH.Index}":${indexSelectionDINHIGH.PossibleValues.find(key=>key.Tag==selectionDINHIGH).Enum},"${indexSelectionDINLOW.Index}":${indexSelectionDINLOW.PossibleValues.find(key=>key.Tag==selectionDINLOW).Enum}}}`, context) }}
+    
+              >
+                <View style={styles.buttonBar}>
+                  <Text>Save</Text>
+                </View>
+              </TouchableOpacity>
+            ),
+            headerLeft: () => (navigateBackFunction(true))
+            
+          });
+        }
+        else {
+          navigation.setOptions({
+            headerRight: () => (
+              <></>
+            ),
+            headerLeft: () => (navigateBackFunction(false))
+    
+          });
+        }
+      });
+
+      
     function ItemSelectable(title) {
 
         return (
@@ -188,12 +220,7 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
 
                             </Picker>
                         </View>
- 
-                            <Button
-                                onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Digital Input", "Set Parameters": {"${indexSelection}":${possibleValues.find(key=>key.Tag==selection).Enum},"${indexSelectionDINHIGH.Index}":${indexSelectionDINHIGH.PossibleValues.find(key=>key.Tag==selectionDINHIGH).Enum},"${indexSelectionDINLOW.Index}":${indexSelectionDINLOW.PossibleValues.find(key=>key.Tag==selectionDINLOW).Enum}}}`, context) }}
-                                title="Save"
-                                color="#841584"
-                            />
+{/* 9 */}
 
                     </View>
 
@@ -206,7 +233,7 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
                             }
             {
                               
-                                selection == "Status Control" &&(
+                                selection == "Status Control" && false &&(
                                 <Button
                                     onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Digital Input", "Set Parameters": {"${indexSelection}":${possibleValues.find(key=>key.Tag==selection).Enum}}}`, context) }}
                                     title="Save"
@@ -291,7 +318,7 @@ const DigitalInputScreen = ({ route, navigation }) => {
 
 
     return (
-        <StackDigitalInput.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+        <StackDigitalInput.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerLeft: () => (navigateBackFunction(false)) }}>
             <StackDigitalInput.Screen name='Digital Input Main' component={DigitalInputMainScreen} options={{ headerTitle: "Digital Input" }} />
             <StackDigitalInput.Screen name='Digital Input Function' component={DigitalInputFunctionScreen} />
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, StatusBar, TouchableOpacity, ScrollView } from 'react-native'
 // import Values from '../Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -14,6 +14,7 @@ import { RectButton } from 'react-native-gesture-handler';
 import { ContextConfigurationValues } from '../../../App';
 // import Slider from '@react-native-community/slider';
 //import MultiSlider from 'react-native-multi-slider';
+import navigateBackFunction from "../../../Utilities/navigateBackFunction"
 
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
@@ -28,37 +29,37 @@ const StackConductivity = createStackNavigator();
 function isItNumber(str) {
   return /^\-?[0-9]+(e[0-9]+)?(\.[0-9]+)?$/.test(str);
 }
-const ItemBar = ({item})=>(
+const ItemBar = ({ item }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-  <View style={{height:40 ,justifyContent:'center'}}> 
-    <Text style={styles.title}>{item}</Text>
+    <View style={{ height: 40, justifyContent: 'center' }}>
+      <Text style={styles.title}>{item}</Text>
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
   </View>
-  <View style={{ justifyContent: 'center' }}>
-    <Icon
-      name="chevron-forward-outline"
-      size={20}
-      color="#000"
-    />
-  </View>
-</View>
 )
-const ItemValueBar = ({item,value})=>(
+const ItemValueBar = ({ item, value }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-  <View style={{justifyContent:'center'}}> 
-    <Text style={styles.title}>{item}</Text>
-    <Text style={styles.value}>{value}</Text>
+    <View style={{ justifyContent: 'center' }}>
+      <Text style={styles.title}>{item}</Text>
+      <Text style={styles.value}>{value}</Text>
 
+    </View>
+    <View style={{ justifyContent: 'center' }}>
+      <Icon
+        name="chevron-forward-outline"
+        size={20}
+        color="#000"
+      />
+    </View>
   </View>
-  <View style={{ justifyContent: 'center' }}>
-    <Icon
-      name="chevron-forward-outline"
-      size={20}
-      color="#000"
-    />
-  </View>
-</View>
 )
 
 
@@ -70,27 +71,27 @@ function Item(title, value, navigation = null, context = null, parent = null) {
   switch (title) {
     case 'Configuration 1':
       return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Linear Temperature Coefficient', { Tag: title,  name: title, ConfigNum: parent })}>
-        <ItemValueBar item={title} value={value}/>
+        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
+          <ItemValueBar item={title} value={value} />
         </TouchableOpacity>
       )
     case 'Configuration 2':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
-        <ItemValueBar item={title} value={value}/>
+          <ItemValueBar item={title} value={value} />
 
         </TouchableOpacity>
       )
     case 'Configuration 3':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
-        <ItemValueBar item={title} value={value}/>
+          <ItemValueBar item={title} value={value} />
         </TouchableOpacity>
       )
     case 'Configuration 4':
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Linear Temperature Coefficient', { Tag: title, name: title, ConfigNum: parent })}>
-        <ItemValueBar item={title} value={value}/>
+          <ItemValueBar item={title} value={value} />
         </TouchableOpacity>
       )
     default:
@@ -158,43 +159,74 @@ function ConfigurationNumScreen({ route, navigation }) {
 
 
 const TemperatureCoefficientScreen = ({ route, navigation }) => {
-    const context = useContext(ContextConfigurationValues)
-    const  {ConfigNum} =   route.params;
-    const index = MenuParams.find(key=>key.Tag == ConfigNum).Index
+  const context = useContext(ContextConfigurationValues)
+  const { ConfigNum } = route.params;
+  const index = MenuParams.find(key => key.Tag == ConfigNum).Index
+  const [text, setText] = React.useState(context[index].toFixed(3));
 
-    const [text, setText] = React.useState(context[index].toFixed(3));
-    return (
-        <View>
-          <TextInput
-            label={"Set Your Linear Coefficient for " + ConfigNum + " in %/°C"}
-            value={text}
-            underlineColorAndroid="transparent"
-            keyboardType="numeric"
-         // activeUnderlineColor='#000'
-            error={false}
-            right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
-            onChangeText={text => setText(text)}
-            maxLength={8}
-          />
-          {/* <LenghtChecker lenght={32} /> */}
-          {text != context[index] && isItNumber(text) && text<100 &&
 
-            <Button
-              onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters":{"${index}":${text}}}`, context) }}
-              title="Save"
-              color="#841584"
-              accessibilityLabel="Learn more about this purple button"
-            />
-          }
-          {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
-          {/* <MaskedInput {...props} /> */}
-    
-        </View>
-      );
-  };
+  useEffect(() => {
+
+    if (text != context[index] && isItNumber(text) && text < 100) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters":{"${index}":${text}}}`, context) }}
+
+          >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+        headerLeft: () => (navigateBackFunction(true))
+
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+        headerLeft: () => (navigateBackFunction(false))
+
+      });
+    }
+  });
+
+
+  return (
+    <View>
+      <TextInput
+        label={"Set Your Linear Coefficient for " + ConfigNum + " in %/°C"}
+        value={text}
+        underlineColorAndroid="transparent"
+        keyboardType="numeric"
+        // activeUnderlineColor='#000'
+        error={false}
+        right={<TextInput.Icon name="close-circle-outline" onPress={text => setText("")} />}
+        onChangeText={text => setText(text)}
+        maxLength={8}
+      />
+      {/* <LenghtChecker lenght={32} /> */}
+      {text != context[index] && isItNumber(text) && text < 100 && false&&
+
+        <Button
+          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters":{"${index}":${text}}}`, context) }}
+          title="Save"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
+        />
+      }
+      {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
+      {/* <MaskedInput {...props} /> */}
+
+    </View>
+  );
+};
 
 const TemperatureCoeffLinearScreen = ({ route, navigation }) => {
-  const  {ConfigNum} =  route.params;
+  const { ConfigNum } = route.params;
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
     // Success code
 
@@ -205,9 +237,9 @@ const TemperatureCoeffLinearScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+    <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerLeft: () => (navigateBackFunction(false)) }}>
       {/* <StackConductivity.Screen name='Configuration Linear Coeff' component={ConfigurationNumScreen} options={{ headerTitle: "Linear Temperature Coefficient" }} /> */}
-      <StackConductivity.Screen name='Linear Temperature Coefficient' component={TemperatureCoefficientScreen} initialParams={{ ConfigNum: ConfigNum }}/>
+      <StackConductivity.Screen name='Linear Temperature Coefficient' component={TemperatureCoefficientScreen} initialParams={{ ConfigNum: ConfigNum }} />
       {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
 
 

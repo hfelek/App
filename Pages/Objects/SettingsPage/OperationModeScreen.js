@@ -17,6 +17,7 @@ import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGr
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 // import Slider from '@react-native-community/slider';
 //import MultiSlider from 'react-native-multi-slider';
+import navigateBackFunction from "../../../Utilities/navigateBackFunction"
 
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
@@ -183,7 +184,41 @@ const OperationSelectionScreen = ({ route, navigation }) => {
     const [selectionSwitchAssign, setSelectionSwitchAssign] = React.useState(menuSwitchAssign.PossibleValues.find(key => key.Enum == context[menuSwitchAssign.Index]).Tag)
     const [selectionSwitchFunction, setSelectionSwitchFunction] = React.useState(menuSwitchFunction.PossibleValues.find(key => key.Enum == context[menuSwitchFunction.Index]).Tag)
 
+    useEffect(() => {
 
+        if (context[menuSwitchAssign.Index]!=menuSwitchAssign.PossibleValues.find(key => key.Tag == selectionSwitchAssign).Enum ||
+         context[menuCurrentAssign.Index]!=menuCurrentAssign.PossibleValues.find(key => key.Tag == selectionCurrentAssign).Enum ||
+         context[menuSwitchOutputType.Index]!=menuSwitchOutputType.PossibleValues.find(key => key.Tag == selectionSwitchOutputType).Enum ||
+         context[menuSwitchFunction.Index]!=menuSwitchFunction.PossibleValues.find(key => key.Tag == selectionSwitchFunction).Enum ||
+         context[indexSelection]!=PossibleValues.find(key => key.Tag == selection).Enum
+
+         
+         )  {
+          navigation.setOptions({
+            headerRight: () => (
+              <TouchableOpacity
+              onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode", "Set Parameters": {"${indexSelection}":${PossibleValues.find(key => key.Tag == selection).Enum},"${menuSwitchAssign.Index}": ${menuSwitchAssign.PossibleValues.find(key => key.Tag == selectionSwitchAssign).Enum}, "${menuSwitchFunction.Index}": ${menuSwitchFunction.PossibleValues.find(key => key.Tag == selectionSwitchFunction).Enum} ,"${menuSwitchOutputType.Index}": ${menuSwitchOutputType.PossibleValues.find(key => key.Tag == selectionSwitchOutputType).Enum},"${menuCurrentAssign.Index}": ${menuCurrentAssign.PossibleValues.find(key => key.Tag == selectionCurrentAssign).Enum} }}`, context) }}
+    
+              >
+                <View style={styles.buttonBar}>
+                  <Text>Save</Text>
+                </View>
+              </TouchableOpacity>
+            ),
+            headerLeft: () => (navigateBackFunction(true))
+            
+          });
+        }
+        else {
+          navigation.setOptions({
+            headerRight: () => (
+              <></>
+            ),
+            headerLeft: () => (navigateBackFunction(false))
+    
+          });
+        }
+      });
 
     // console.log("PossibleValues")
     // console.log(PossibleValues)
@@ -211,8 +246,8 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                     }>
                     <Picker.Item label="Current Output" value="Current Output" />
                     <Picker.Item label="Switch Output" value="Switch Output" />
-                    {Tag == "Operation Mode IO 1" && <Picker.Item label="Digital Input" value="Digital Input" />}
-                    {Tag == "Operation Mode IO 2" && <Picker.Item label="IO-LINK" value="IO-LINK" />}
+                    {Tag == "Operation Mode IO 1" && <Picker.Item label="IO-LINK" value="IO-LINK" />}
+                    {Tag == "Operation Mode IO 2" && <Picker.Item label="Digital Input" value="Digital Input" />}
                     <Picker.Item label="Off" value="Off" />
                     {/* {pickerPossibleValues} */}
 
@@ -297,7 +332,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
 
                         {
 
-                            (true) && /////// Condition For Switch Output
+                            (false) && /////// Condition For Switch Output
 
                             <Button
                                 onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode", "Set Parameters": {"${indexSelection}":${PossibleValues.find(key => key.Tag == selection).Enum},"${menuSwitchAssign.Index}": ${menuSwitchAssign.PossibleValues.find(key => key.Tag == selectionSwitchAssign).Enum}, "${menuSwitchFunction.Index}": ${menuSwitchFunction.PossibleValues.find(key => key.Tag == selectionSwitchFunction).Enum} ,"${menuSwitchOutputType.Index}": ${menuSwitchOutputType.PossibleValues.find(key => key.Tag == selectionSwitchOutputType).Enum} }}`, context) }}
@@ -342,7 +377,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
 
                         {
 
-                            (true) && /////// Condition For Current Output
+                            (false) && /////// Condition For Current Output
 
                             <Button
                                 onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode","Set Parameters":{"${indexSelection}":${PossibleValues.find(key => key.Tag == selection).Enum},"${menuSwitchAssign.Index}":${menuCurrentAssign.PossibleValues.find(key => key.Tag == selectionCurrentAssign).Enum}}}`, context) }}
@@ -369,7 +404,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
 
 
             {
-                (selection == "IO-LINK") &&
+                (selection == "IO-LINK" &&false) &&
 
                 <Button
                     onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode","Set Parameters":{"${indexSelection}":${PossibleValues.find(key => key.Tag == selection).Enum}}}`, context) }}
@@ -378,7 +413,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                 />
             }
             {
-                (selection == "Off") &&
+                (selection == "Off" && false) &&
 
                 <Button
                     onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode","Set Parameters":{"${indexSelection}":${PossibleValues.find(key => key.Tag == selection).Enum}}}`, context) }}
@@ -387,7 +422,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                 />
             }
             {
-                (selection == "Digital Input") &&
+                (selection == "Digital Input" && false) &&
 
                 <Button
                     onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Operation Mode","Set Parameters":{"${indexSelection}":${PossibleValues.find(key => key.Tag == selection).Enum}}}`, context) }}
@@ -413,7 +448,7 @@ const OperationModeScreen = ({ route, navigation }) => {
 
 
     return (
-        <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+        <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center',headerLeft: () => (navigateBackFunction(false))    }}>
             <StackConductivity.Screen name='Operation Modes IO Main' component={OperationScreen} options={{ headerTitle: "Operation Modes IO" }} />
             <StackConductivity.Screen name='Operation Selection' component={OperationSelectionScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
             {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}

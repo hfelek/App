@@ -22,6 +22,8 @@ import BufferArray from '../../../Navigation/Functions/BufferArray';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
+import navigateBackFunction from "../../../Utilities/navigateBackFunction"
+
 let peripheralID = '0'
 
 const CalibrationParams = Paramsfiltered.filter(CalibrationParams => CalibrationParams.Tag === 'Calibration')[0];
@@ -173,10 +175,35 @@ const WriteScreen = ({ route, navigation }) => {
   const [text, setText] = React.useState(context[index].toFixed(3));
   var slug = Tag.split('/')[0];
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  // navigation.setOptions({ title: Tag });
-  // });
+    if (text != context[index] && isItNumber(text))  {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity
+          onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Calibration", "Set Parameters": {"${index}":${text}}}`, context) }}
+
+          >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+        headerLeft: () => (navigateBackFunction(true))
+        
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+        headerLeft: () => (navigateBackFunction(false))
+
+      });
+    }
+  });
+
   return (
     <View>
       <TextInput
@@ -202,7 +229,7 @@ const WriteScreen = ({ route, navigation }) => {
         onChangeText={text => setText(text)}
       />
       {/* <LenghtChecker lenght={32} /> */}
-      {text != context[index] && isItNumber(text) &&
+      {text != context[index] && isItNumber(text) && false &&
 
       <Button
         onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Calibration", "Set Parameters": {"${index}":${text}}}`, context) }}
@@ -300,7 +327,8 @@ const CalibrationScreen = ({ route, navigation }) => {
 
   return (
     <StackCalibration.Navigator
-      screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+      screenOptions={{ headerShown: true, headerTitleAlign: 'center' ,        headerLeft: () => (navigateBackFunction(false))
+    }}>
       <StackCalibration.Screen
         name="Calibration Main"
         component={CalibrationMainScreen}

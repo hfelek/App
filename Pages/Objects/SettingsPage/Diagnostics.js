@@ -10,6 +10,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import { ContextConfigurationValues } from '../../../App';
+import navigateBackFunction from "../../../Utilities/navigateBackFunction"
+
+
+
+
+
 let peripheralID = '0'
 
 let DiagnosticsParams = Paramsfiltered.find(DiagnosticsParams => DiagnosticsParams.Tag === "Diagnostics");
@@ -112,23 +118,23 @@ const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value
   ///If anything else is to be done, it will be done here!
 }
 function Item(title, value, navigation, context = context) {
-  if (TextComponents.includes(title)) {
-    return (
-      <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Simulation Process Variable', { Tag: title, Value: value, name: title })}>
-        <ItemValueBar item={title} value={context[MenuParams.filter(row => row.Tag == title)[0].Index]}/>
-      </TouchableOpacity>)
+  // if (TextComponents.includes(title)) {
+  //   return (
+  //     <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Simulation Process Variable', { Tag: title, Value: value, name: title })}>
+  //       <ItemValueBar item={title} value={context[MenuParams.filter(row => row.Tag == title)[0].Index]}/>
+  //     </TouchableOpacity>)
 
-  }
-  else if (SwitchComponents.includes(title)) {
-    var switchValues = (Values.filter(row => row.Tag == 'Diagnostics'))[0].menu.filter(row => row.Tag == title)[0]["Possible Values"];
-    return (
-      <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switchable Components', { Tag: title, Value: value, SwitchableValues: switchValues, name: title })}>
-              <ItemValueBar item={title} value={possibleValuesSimProcVar.filter(key=> key.Enum == context[MenuParams.filter(row => row.Tag == title)[0].Index])[0].Tag} />
-      </TouchableOpacity>
-      )
-  }
+  // }
+  // else if (SwitchComponents.includes(title)) {
+  //   var switchValues = (Values.filter(row => row.Tag == 'Diagnostics'))[0].menu.filter(row => row.Tag == title)[0]["Possible Values"];
+  //   return (
+  //     <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Switchable Components', { Tag: title, Value: value, SwitchableValues: switchValues, name: title })}>
+  //             <ItemValueBar item={title} value={possibleValuesSimProcVar.filter(key=> key.Enum == context[MenuParams.filter(row => row.Tag == title)[0].Index])[0].Tag} />
+  //     </TouchableOpacity>
+  //     )
+  // }
 
-  else if (ReadableComponents.includes(title)) {
+   if (ReadableComponents.includes(title)) {
     return (
       <View style={styles.item}>
 
@@ -296,7 +302,7 @@ const DiagnosticsScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackDiagnostics.Navigator initialRouteName='Diagnostics Main' screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+    <StackDiagnostics.Navigator initialRouteName='Diagnostics Main' screenOptions={{ headerShown: true, headerTitleAlign: 'center',headerLeft: () => (navigateBackFunction(false))}}>
       <StackDiagnostics.Screen name='Diagnostics Main' component={DiagnosticsMainScreen} options={{ headerTitle: 'Diagnostics' }} />
       <StackDiagnostics.Screen name='Simulation Process Variable' component={SimulationProcessVariableScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
       <StackDiagnostics.Screen name='Switchable Components' component={SwitchVariableScreen} options={({ route }) => ({ headerTitle: route.params.name })} />

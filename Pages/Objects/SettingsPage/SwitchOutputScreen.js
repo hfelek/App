@@ -12,6 +12,8 @@ import BufferArray from '../../../Navigation/Functions/BufferArray';
 import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
+import navigateBackFunction from "../../../Utilities/navigateBackFunction"
+
 let peripheralID = null
 
 function isItNumber(str) {
@@ -252,7 +254,35 @@ const SwitchOutputSettingsScreen = ({ route, navigation }) => {
     const { ConfigNum } = route.params
     const index = (MenuParams.filter(tag => tag.Tag == ConfigNum)[0].menu).filter(tag => tag.Tag == Tag)[0].Index
     const [text, setText] = React.useState(context[index].toFixed(3));
-
+    useEffect(() => {
+        console.log((text != context[index] && isItNumber(text) && text<100))
+        console.log("here")
+        if (text != context[index] && isItNumber(text) && text<100 )  {
+          navigation.setOptions({
+            headerRight: () => (
+              <TouchableOpacity
+              onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Switch Output", "Set Parameters": {"${index}":${text}}}`, context) }}
+    
+              >
+                <View style={styles.buttonBar}>
+                  <Text>Save</Text>
+                </View>
+              </TouchableOpacity>
+            ),
+            headerLeft: () => (navigateBackFunction(true))
+            
+          });
+        }
+        else {
+          navigation.setOptions({
+            headerRight: () => (
+              <></>
+            ),
+            headerLeft: () => (navigateBackFunction(false))
+    
+          });
+        }
+      });
     return (
         <View>
             <TextInput
@@ -270,7 +300,7 @@ const SwitchOutputSettingsScreen = ({ route, navigation }) => {
                 onChangeText={text => setText(text)}
             />
             {/* <LenghtChecker lenght={32} /> */}
-            {text != context[index] && isItNumber(text) && text<100 &&
+            {text != context[index] && isItNumber(text) && text<100 && false &&
                 <Button
                     onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Switch Output", "Set Parameters": {"${index}":${text}}}`, context) }}
                     title="Save"
@@ -329,7 +359,7 @@ const SwitchOutputScreen = ({ route, navigation }) => {
 
 
     return (
-        <StackSwitchOutput.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+        <StackSwitchOutput.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center',headerLeft: () => (navigateBackFunction(false))    }}>
             <StackSwitchOutput.Screen name='Switch Output1' component={SwitchOutputMainScreen} options={{ headerTitle: "Switch Output Settings" }} />
             <StackSwitchOutput.Screen name='Switch Sub' component={SwitchOutputSubScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
             <StackSwitchOutput.Screen name='Switch Output Settings' component={SwitchOutputSettingsScreen} options={({ route }) => ({ headerTitle: route.params.name })} />

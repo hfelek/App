@@ -12,6 +12,8 @@ import BufferArray from '../../../Navigation/Functions/BufferArray';
 import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
+import navigateBackFunction from "../../../Utilities/navigateBackFunction"
+
 let peripheralID = '0'
 const activeConfigurationMenu = Paramsfiltered.filter(SetupMenu => SetupMenu.Tag === "Setup Menu")[0].menu;
 const activeConfigurationIndex =activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].Index
@@ -253,7 +255,35 @@ const CurrentOutputSettingsScreen = ({ route, navigation }) => {
     const { ConfigNum } = route.params
     const index = (MenuParams.filter(tag => tag.Tag == ConfigNum)[0].menu).filter(tag => tag.Tag == Tag)[0].Index
     const [text, setText] = React.useState(context[index].toFixed(3));
+    useEffect(() => {
+        console.log((text != context[index] && isItNumber(text) && text<100))
+        console.log("here")
+        if (text != context[index] && isItNumber(text) && text<100 )  {
+          navigation.setOptions({
+            headerRight: () => (
+              <TouchableOpacity
+              onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${index}":${text}}}`, context) }}
     
+              >
+                <View style={styles.buttonBar}>
+                  <Text>Save</Text>
+                </View>
+              </TouchableOpacity>
+            ),
+            headerLeft: () => (navigateBackFunction(true))
+            
+          });
+        }
+        else {
+          navigation.setOptions({
+            headerRight: () => (
+              <></>
+            ),
+            headerLeft: () => (navigateBackFunction(false))
+    
+          });
+        }
+      });
 
     return (
         <View>
@@ -272,7 +302,7 @@ const CurrentOutputSettingsScreen = ({ route, navigation }) => {
                 onChangeText={text => setText(text)}
             />
             {/* <LenghtChecker lenght={32} /> */}
-            {text != context[index] && isItNumber(text) && text<100 &&
+            {text != context[index] && isItNumber(text) && text<100 && false &&
                 <Button
                     onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${index}":${text}}}`, context) }}
                     title="Save"
@@ -303,7 +333,7 @@ const CurrentOutputScreen = ({ route, navigation }) => {
 
 
     return (
-        <StackOutput1.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+        <StackOutput1.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center',headerLeft: () => (navigateBackFunction(false))}}>
             <StackOutput1.Screen name='Current Output1' component={CurrentOutputMainScreen} options={{ headerTitle: "Current Output Settings" }} />
             <StackOutput1.Screen name='Current Sub' component={CurrentOutputSubScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
             <StackOutput1.Screen name='Current Output Settings' component={CurrentOutputSettingsScreen} options={({ route }) => ({ headerTitle: route.params.name })} />

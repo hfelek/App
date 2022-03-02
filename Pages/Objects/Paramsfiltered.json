@@ -3,33 +3,33 @@
         "Icon": "create-outline",
         "Index": "501",
         "menu": [{
-                "Tag": "Product Name",
+                "Tag": "Device Name",
                 "Access": "R",
                 "Value": "ICT-200",
                 "Index": "1"
             },
             {
-                "Tag": "Product ID",
+                "Tag": "Order Code",
                 "Access": "R",
                 "Index": "2"
             },
             {
-                "Tag": "Product Text",
+                "Tag": "Serial Number",
                 "Access": "R",
                 "Index": "3"
             },
             {
                 "Tag": "Specific Application Tag",
-                "Access": "R/W",
+                "Access": "R",
                 "Index": "4"
             },
             {
-                "Tag": "Hardware Revision",
+                "Tag": "Hardware Version",
                 "Access": "R",
                 "Index": "5"
             },
             {
-                "Tag": "Firmware Revision",
+                "Tag": "Software Version",
                 "Access": "R",
                 "Index": "6"
             }
@@ -62,15 +62,15 @@
                 ]
             },
             {
-                "Tag": "Reference Temperature",
+                "Tag": "Temperature Unit",
                 "Access": "R/W",
                 "Index": "8",
                 "PossibleValues": [{
-                        "Tag": "°C",
+                        "Tag": "Celcius (°C)",
                         "Enum": 0
                     },
                     {
-                        "Tag": "°F",
+                        "Tag": "Fahrenheit (°F)",
                         "Enum": 1
                     }
                 ]
@@ -2282,7 +2282,7 @@
                         "Enum": "1"
                     },
                     {
-                        "Tag": "Digital Input",
+                        "Tag": "IO-LINK",
                         "Enum": "2"
                     },
                     {
@@ -2413,7 +2413,7 @@
                         "Enum": 1
                     },
                     {
-                        "Tag": "IO-LINK",
+                        "Tag": "Digital Input",
                         "Enum": 2
                     },
                     {

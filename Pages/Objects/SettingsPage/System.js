@@ -22,6 +22,8 @@ import BufferArray from '../../../Navigation/Functions/BufferArray';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
+import navigateBackFunction from "../../../Utilities/navigateBackFunction"
+
 let peripheralID = '0'
 const ItemBar = ({ item }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -241,10 +243,32 @@ const WriteScreen = ({ route, navigation }) => {
   const { Value } = route.params;
   const index = MenuParams.find(key => key.Tag == Tag).Index
   const [text, setText] = React.useState('');
-  // useEffect(() => {
+  useEffect(() => {
 
-  // navigation.setOptions({ title: Tag });
-  // });
+    if (text.length>8)  {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity
+          onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Calibration", "Set Parameters": {"${index}":"${text}"}}`, context) }}
+
+          >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+        
+      });
+    }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+
+      });
+    }
+  });
   return (
     <View>
       <TextInput
@@ -266,13 +290,13 @@ const WriteScreen = ({ route, navigation }) => {
       />
       {/* <LenghtChecker lenght={32} /> */}
 
-      <Button
+      {/* <Button
         onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Calibration", "Set Parameters": {"${index}":"${text}"}}`, context) }}
 
         title="Save"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
-      />
+      /> */}
       {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
     </View>
   );

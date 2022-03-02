@@ -709,7 +709,7 @@ ConnectionScreen = () => {
         keyExtractor={item => item.id}
       />
       {deviceConnected== true && <View>
-        <Text>{JSON.stringify(context)}</Text>
+        {/* <Text>{JSON.stringify(context)}</Text> */}
       </View>}
       {deviceConnected==false && <View style={styles.noDevice}>
         <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>

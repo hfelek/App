@@ -104,7 +104,7 @@ DeviceScreen = () => {
           <Icon name='warning-outline' size={100} color="#000" rounded='true' />
         </View>}
       {/* Top Component of Settings Page */}
-      {false &&
+      {true &&
         <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#000000' }} >
           <View style={{}}>
             <TableIndex />
@@ -117,7 +117,7 @@ DeviceScreen = () => {
       }
 
       {/* Bottom Componenent of Settings Page */}
-      {false &&
+      {true &&
         <SafeAreaView style={{ backgroundColor: "#ffffff" }} >
 
           <View style={[styles.titleTab1, { paddingTop: 5 }]}>
@@ -141,7 +141,7 @@ DeviceScreen = () => {
 
         </SafeAreaView>
       }
-      {false &&
+      {true &&
         <SafeAreaView style={{ backgroundColor: "#ffffff" }} >
 
           <View style={styles.titleTab1}>
@@ -185,11 +185,11 @@ DeviceScreen = () => {
 
         </SafeAreaView>
       }
-          <View>
+          {/* <View>
             <Text>
               {JSON.stringify(contextConfiguration)}
             </Text>
-          </View>
+          </View> */}
     </ScrollView>
   );
 }

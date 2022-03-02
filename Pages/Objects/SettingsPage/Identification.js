@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, Alert, StatusBar, TouchableOpacity } from 'react-native'
-import Icon from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
+import { Pressable, StyleSheet, Text, View, Button, SafeAreaView, FlatList, Alert, StatusBar, TouchableOpacity } from 'react-native'
 import Paramsfiltered from '../../Objects/Paramsfiltered.json';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
@@ -9,14 +9,55 @@ import { TextInput } from 'react-native-paper';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import { ContextConfigurationValues } from '../../../App';
-// import AwesomeAlert from 'react-native-awesome-alerts';
+import Icon from 'react-native-vector-icons/Ionicons';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import { ALERT_TYPE, Dialog, Root, Toast } from 'react-native-alert-notification';
+import navigateBackFunction from "../../../Utilities/navigateBackFunction"
 const StackIdentification = createStackNavigator();
 
 var filtered;
 var filteredAT;
 
+// const navigateBackFunction = (showWarning) => {
+//   const navigation = useNavigation();
+//   console.log(showWarning)
+//   if (true) {
+//     return(
+//     <TouchableOpacity onPress={() => Alert.alert("Settings Isn't Saved!", "Do you want to leave page?", [
+//       {
+//         text: 'No',
+//         style:'destructive',
+//         onPress: () => console.log("cancelled"),
+//       },
+//       { text: 'Yes', onPress: () => navigation.goBack() },
+//     ])}>
+//       <Icon
+//         name="arrow-back-outline"
+//         size={35}
 
+//         style={{ paddingLeft: 5 }}
+//         color="black"
+//       />
+//     </TouchableOpacity>)
+
+
+
+//   }
+//   else {
+//     return (
+//       <TouchableOpacity onPress={() => navigation.goBack()}>
+//         <Icon
+//           name="arrow-back-outline"
+//           size={35}
+
+//           style={{ paddingLeft: 5 }}
+//           color="black"
+//         />
+//       </TouchableOpacity>
+//     )
+//   }
+
+// }
 const IdentificationParams = Paramsfiltered.find(IdentificationParams => IdentificationParams.Tag === "Identification");
 const MenuParams = IdentificationParams.menu;
 
@@ -115,35 +156,35 @@ function IdentificationMainScreen({ navigation }) {
   </SafeAreaView>)
 }
 function Item(title, value, navigation = null, context = null) {
-  switch (title) {
-    case 'Specific Application Tag':
-      return (
-        <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Application Tag')}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+  // switch (title) {
+  //   case 'Specific Application Tag':
+  //     return (
+  //       <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Application Tag')}>
+  //         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-            <View>
-              <Text style={styles.title}>{title}</Text>
-              <Text style={styles.value}>{context[filteredAT = MenuParams.filter(row => row.Tag == 'Specific Application Tag')[0].Index]}</Text>
-            </View>
-            <View style={{ justifyContent: 'center' }}>
-              <Icon
-                name="chevron-forward-outline"
-                size={20}
-                color="#000"
-              />
-            </View>
-          </View>
-        </TouchableOpacity>
-      )
-    default:
-      return (
-        <View style={styles.itemButton}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.value}>{context[filteredAT = MenuParams.filter(row => row.Tag == title)[0].Index]}</Text>
-        </View>
+  //           <View>
+  //             <Text style={styles.title}>{title}</Text>
+  //             <Text style={styles.value}>{context[filteredAT = MenuParams.filter(row => row.Tag == 'Specific Application Tag')[0].Index]}</Text>
+  //           </View>
+  //           <View style={{ justifyContent: 'center' }}>
+  //             <Icon
+  //               name="chevron-forward-outline"
+  //               size={20}
+  //               color="#000"
+  //             />
+  //           </View>
+  //         </View>
+  //       </TouchableOpacity>
+  //     )
+  // default:
+  return (
+    <View style={styles.itemButton}>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.value}>{context[filteredAT = MenuParams.filter(row => row.Tag == title)[0].Index]}</Text>
+    </View>
 
-      )
-  };
+  )
+  // };
 }
 const renderItem = ({ item, navigation, context = null }) => (
   Item(item.Tag, item.Value, navigation, context = context)
@@ -180,8 +221,18 @@ const IdentificationScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackIdentification.Navigator screenOptions={{ headerShown: false, headerTitleAlign: 'center' }}>
-      <StackIdentification.Screen name='Identification Main' component={IdentificationMainScreen} options={{ headerTitle: "Identification", headerStyle: { shadowColor: 'black' } }} />
+    <StackIdentification.Navigator screenOptions={{
+      headerShown: true, headerTitleAlign: 'center', headerRight: () => (<Pressable onPress={() => navigation.goBack(SettingsMain)}>
+        <Icon
+          name="arrow-back-outline"
+          size={15}
+          color="#fff"
+        />
+      </Pressable>), headerStyle: { borderBottomColor: 'orange', borderBottomWidth: 5 }
+    }}>
+      <StackIdentification.Screen name='Identification Main' component={IdentificationMainScreen} options={{
+        headerLeft: () => (navigateBackFunction(false)), headerTitle: "Identification", headerBackTitleVisible: false, headerStyle: { shadowColor: 'black', shadowOffset: 5, shadowRadius: 20 }
+      }} />
       <StackIdentification.Screen name='Application Tag' component={ApplicationTagScreen} options={{ headerStyle: { borderBottomWidth: 1, borderBottomColor: 'black' } }} />
     </StackIdentification.Navigator>
 

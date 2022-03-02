@@ -31,12 +31,11 @@ const MainMenu = Values.find(item => item.Tag === "Temperature Coefficients").Su
 const CustomCoeffParams = MainMenu.find(item => item.Tag === "Temperature Coefficient Custom");
 const MenuParams = CustomCoeffParams.menu;
 
-import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
 import { ContextConfigurationValues } from '../../../App';
-import { useLayoutEffect } from 'react';
-import convertString from 'convert-string';
-import { purpleA100 } from 'react-native-paper/lib/typescript/styles/colors';
+
+import navigateBackFunction from "../../../Utilities/navigateBackFunction"
+
 function tableDataFunction(tempPoints, concPoints, context, configMenu) {
 
 
@@ -523,7 +522,7 @@ const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
   });
 
   return (
-    <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center' }}>
+    <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center',headerLeft: () => (navigateBackFunction(false)) }}>
       {/* <StackConductivity.Screen name='Configuration' component={ConfigurationNumScreen} options={{ headerTitle: "Custom Temperature Coefficient" }} /> */}
       {/* <StackConductivity.Screen name='Custom Configuration' component={CustomConfigurationScreen} initialParams={{ ConfigNum: ConfigNum }} /> */}
 
