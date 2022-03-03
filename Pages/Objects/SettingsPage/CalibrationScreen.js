@@ -173,11 +173,13 @@ const WriteScreen = ({ route, navigation }) => {
   const { Value } = route.params;
   const index =ConductivityRangesParam.find(key => key.Tag == Tag).Index
   const [text, setText] = React.useState(context[index].toFixed(3));
-  var slug = Tag.split('/')[0];
-
+  const slug = Tag.split('/cm ')[1];
+  const upperBound = slug=='Mounting Factor' ? 1.1 : null;
+  const lowerBound = slug=='Mounting Factor' ? 0.9 : null;
   useEffect(() => {
 
-    if (text != context[index] && isItNumber(text))  {
+
+    if (text != context[index] && isItNumber(text) && (upperBound!=null ?upperBound>=text : true ) && (lowerBound!=null ?lowerBound<=text : true ))  {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity

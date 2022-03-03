@@ -54,8 +54,8 @@ DeviceScreen = () => {
     </View>
   );
   const ValuesTabBottom = () => (
-    <View style={{ height: 220, paddingTop: 0, width: '70%', justifyContent: 'center',paddingLeft:'20%' }}>
-
+    <View style={{ height: 220, paddingTop: 0, width: '70%', justifyContent: 'center',paddingLeft:'0%',alignContent:'center',alignItems:'center' }}>
+        <View style={{alignContent:'flex-start'}}>
       <TouchableOpacity style={{ paddingTop: 5 }}>
         <View style={{ backgroundColor: 'white', borderRadius: 15, flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
           <Icon name='close-circle-sharp' size={30} color="red" rounded='true' />
@@ -94,6 +94,7 @@ DeviceScreen = () => {
       </TouchableOpacity>
 
 
+      </View>
     </View>
   );
 
@@ -231,7 +232,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10
 
   }, bottomHeaderTitle: {
-    fontFamily: "serif", fontWeight: '700', color: 'black', fontSize: 15
+     fontWeight: '500', color: 'black', fontSize: 15
   },
   bottomTextValues: {
     paddingLeft: 5,
