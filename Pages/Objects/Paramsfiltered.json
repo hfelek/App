@@ -2664,27 +2664,27 @@
                 "Tag": "Configuration 1",
                 "Index": "500",
                 "menu": [{
-                        "Tag": "Conductivity - ON-Value Set Point",
+                        "Tag": "Conductivity On Value Point",
                         "Index": "317"
                     },
                     {
-                        "Tag": "Conductivity - OFF-Value Set Point",
+                        "Tag": "Conductivity Off Value Point",
                         "Index": "318"
                     },
                     {
-                        "Tag": "Concentration - ON-Value Set Point",
+                        "Tag": "Concentration On Value Point",
                         "Index": "319"
                     },
                     {
-                        "Tag": "Concentration - OFF-Value Set Point",
+                        "Tag": "Concentration Off Value Point",
                         "Index": "320"
                     },
                     {
-                        "Tag": "Temperature - ON-Value Set Point",
+                        "Tag": "Temperature On Value Point",
                         "Index": "321"
                     },
                     {
-                        "Tag": "Temperature - OFF-Value Set Point",
+                        "Tag": "Temperature Off Value Point",
                         "Index": "322"
                     }
                 ]
@@ -2693,27 +2693,27 @@
                 "Tag": "Configuration 2",
                 "Index": "500",
                 "menu": [{
-                        "Tag": "Conductivity - ON-Value Set Point",
+                        "Tag": "Conductivity On Value Point",
                         "Index": "323"
                     },
                     {
-                        "Tag": "Conductivity - OFF-Value Set Point",
+                        "Tag": "Conductivity Off Value Point",
                         "Index": "324"
                     },
                     {
-                        "Tag": "Concentration - ON-Value Set Point",
+                        "Tag": "Concentration On Value Point",
                         "Index": "325"
                     },
                     {
-                        "Tag": "Concentration - OFF-Value Set Point",
+                        "Tag": "Concentration Off Value Point",
                         "Index": "326"
                     },
                     {
-                        "Tag": "Temperature - ON-Value Set Point",
+                        "Tag": "Temperature On Value Point",
                         "Index": "327"
                     },
                     {
-                        "Tag": "Temperature - OFF-Value Set Point",
+                        "Tag": "Temperature Off Value Point",
                         "Index": "328"
                     }
                 ]
@@ -2722,27 +2722,27 @@
                 "Tag": "Configuration 3",
                 "Index": "500",
                 "menu": [{
-                        "Tag": "Conductivity - ON-Value Set Point",
+                        "Tag": "Conductivity On Value Point",
                         "Index": "329"
                     },
                     {
-                        "Tag": "Conductivity - OFF-Value Set Point",
+                        "Tag": "Conductivity Off Value Point",
                         "Index": "330"
                     },
                     {
-                        "Tag": "Concentration - ON-Value Set Point",
+                        "Tag": "Concentration On Value Point",
                         "Index": "331"
                     },
                     {
-                        "Tag": "Concentration - OFF-Value Set Point",
+                        "Tag": "Concentration Off Value Point",
                         "Index": "332"
                     },
                     {
-                        "Tag": "Temperature - ON-Value Set Point",
+                        "Tag": "Temperature On Value Point",
                         "Index": "33"
                     },
                     {
-                        "Tag": "Temperature - OFF-Value Set Point",
+                        "Tag": "Temperature Off Value Point",
                         "Index": "334"
                     }
                 ]
@@ -2751,27 +2751,27 @@
                 "Tag": "Configuration 4",
                 "Index": "500",
                 "menu": [{
-                        "Tag": "Conductivity - ON-Value Set Point",
+                        "Tag": "Conductivity On Value Point",
                         "Index": "335"
                     },
                     {
-                        "Tag": "Conductivity - OFF-Value Set Point",
+                        "Tag": "Conductivity Off Value Point",
                         "Index": "336"
                     },
                     {
-                        "Tag": "Concentration - ON-Value Set Point",
+                        "Tag": "Concentration On Value Point",
                         "Index": "337"
                     },
                     {
-                        "Tag": "Concentration - OFF-Value Set Point",
+                        "Tag": "Concentration Off Value Point",
                         "Index": "338"
                     },
                     {
-                        "Tag": "Temperature - ON-Value Set Point",
+                        "Tag": "Temperature On Value Point",
                         "Index": "339"
                     },
                     {
-                        "Tag": "Temperature - OFF-Value Set Point",
+                        "Tag": "Temperature Off Value Point",
                         "Index": "340"
                     }
                 ]

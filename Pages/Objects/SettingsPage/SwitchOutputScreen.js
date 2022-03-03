@@ -122,7 +122,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
                     <ConfigurationBar activeConfig={activeConfigEnum} config={"Configuration 4"} />
                 </TouchableOpacity>
             )
-        case 'Conductivity - ON-Value Set Point':
+        case 'Conductivity On Value Point':
             index = (MenuParams.filter(config => config.Tag == parent)[0].menu).filter(tag => tag.Tag == title)[0].Index
 
             return (
@@ -135,7 +135,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
                     <ItemValueBar item={title} value={context[index]} />
                 </TouchableOpacity>
             )
-        case 'Conductivity - OFF-Value Set Point':
+        case 'Conductivity Off Value Point':
             index = (MenuParams.filter(config => config.Tag == parent)[0].menu).filter(tag => tag.Tag == title)[0].Index
 
             return (
@@ -149,7 +149,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
             )
 
 
-        case 'Concentration - ON-Value Set Point':
+        case 'Concentration On Value Point':
             index = (MenuParams.filter(config => config.Tag == parent)[0].menu).filter(tag => tag.Tag == title)[0].Index
 
             return (
@@ -161,7 +161,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
                     <ItemValueBar item={title} value={context[index]} />
                 </TouchableOpacity>
             )
-        case 'Concentration - OFF-Value Set Point':
+        case 'Concentration Off Value Point':
             index = (MenuParams.filter(config => config.Tag == parent)[0].menu).filter(tag => tag.Tag == title)[0].Index
 
             return (
@@ -174,7 +174,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
                 </TouchableOpacity>
             )
 
-        case 'Temperature - ON-Value Set Point':
+        case 'Temperature On Value Point':
             index = (MenuParams.filter(config => config.Tag == parent)[0].menu).filter(tag => tag.Tag == title)[0].Index
 
             return (
@@ -186,7 +186,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
                     <ItemValueBar item={title} value={context[index]} />
                 </TouchableOpacity>
             )
-        case 'Temperature - OFF-Value Set Point':
+        case 'Temperature Off Value Point':
             index = (MenuParams.filter(config => config.Tag == parent)[0].menu).filter(tag => tag.Tag == title)[0].Index
 
             return (
@@ -257,7 +257,7 @@ const SwitchOutputSettingsScreen = ({ route, navigation }) => {
     useEffect(() => {
         console.log((text != context[index] && isItNumber(text) && text<100))
         console.log("here")
-        if (text != context[index] && isItNumber(text) && text<100 )  {
+        if (text != context[index] && isItNumber(text) && text<=100 && text>=0 )  {
           navigation.setOptions({
             headerRight: () => (
               <TouchableOpacity
@@ -415,6 +415,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#9A348E",
         padding: 8,
+        width:50,
+        fontSize:15,
         marginRight: 3,
         borderRadius: 10,
     },

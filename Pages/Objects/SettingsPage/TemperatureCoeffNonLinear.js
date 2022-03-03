@@ -179,7 +179,6 @@ const element = (data, index, cellIndex, value, setValue) => {
         placeholder=""
         keyboardType="numeric"
         maxLength={7}
-        underlineColorAndroid="red"
         activeUnderlineColor='#fff'
         selectionColor='black'
         underlineColor='#fff'

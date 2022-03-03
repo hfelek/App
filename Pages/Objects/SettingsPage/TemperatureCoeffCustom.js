@@ -650,6 +650,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#9A348E",
     padding: 8,
     width:50,
+    fontSize:15,
     marginRight: 3,
     borderRadius: 10,
   },

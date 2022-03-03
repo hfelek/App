@@ -256,7 +256,7 @@ const CurrentOutputSettingsScreen = ({ route, navigation }) => {
     const index = (MenuParams.filter(tag => tag.Tag == ConfigNum)[0].menu).filter(tag => tag.Tag == Tag)[0].Index
     const [text, setText] = React.useState(context[index].toFixed(3));
     useEffect(() => {
-        console.log((text != context[index] && isItNumber(text) && text<100))
+        console.log((text != context[index] && isItNumber(text) && text<=100 && text>=0 ))
         console.log("here")
         if (text != context[index] && isItNumber(text) && text<100 )  {
           navigation.setOptions({

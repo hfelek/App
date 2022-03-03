@@ -167,7 +167,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
   useEffect(() => {
 
-    if (text != context[index] && isItNumber(text) && text < 100) {
+    if (text != context[index] && isItNumber(text) && text <= 5.4 && text >=0) {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
