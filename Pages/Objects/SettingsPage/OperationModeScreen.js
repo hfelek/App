@@ -323,7 +323,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                                     setSelectionSwitchOutputType(itemValue)
                                 }>
                                 <Picker.Item label="P-Switching" value="P-Switching" />
-                                <Picker.Item label="N-Switching" value="N-Switching" />
+                                {Tag == "Operation Mode IO 1" &&<Picker.Item label="N-Switching" value="N-Switching" />}
                                 <Picker.Item label="Push-Pull" value="Push-Pull" />
                                 {/* {pickerPossibleValues} */}
 
@@ -495,6 +495,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#9A348E",
         padding: 8,
+        width:70,
         marginRight: 3,
         borderRadius: 10,
     },

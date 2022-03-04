@@ -26,9 +26,9 @@ const renderItem = ({ item, navigation, context = null }) => (
 const renderItem1 = ({ item }) => (
   Item(item.Tag)
 );
-let CommunicationParams = Paramsfiltered.filter(CommunicationParams => CommunicationParams.Tag === "Communication")[0];
+let CommunicationParams = Paramsfiltered.filter(CommunicationParams => CommunicationParams.Tag === "Wireless Communication")[0];
 let MenuParams = CommunicationParams.menu;
-const menuCommunication = Values.find(key => key.Tag == "Communication")
+const menuCommunication = Values.find(key => key.Tag == "Wireless Communication")
 const menuBLE = menuCommunication.menu.find(key => key.Tag == "Bluetooth")
 const menuWiFi = menuCommunication.menu.find(key => key.Tag == "WiFi")
 const menuComType = menuCommunication.menu.find(key => key.Tag == "Communication Type")
@@ -131,7 +131,7 @@ const CommunicationTypeScreen = ({ route, navigation }) => {
       navigation.setOptions({
         headerRight: () => (
           // Burada Peripheral ID ve UUIDler daha object oriented yapılacak.
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":${possibleValues.find(key => key.Tag == selection).Enum}}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Wireless Communication", "Set Parameters": {"${index}":${possibleValues.find(key => key.Tag == selection).Enum}}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -497,7 +497,7 @@ const BluetoothFunctionScreen = ({ route, navigation }) => {
     if (selection != possibleValues.find(key => key.Enum == context[index]).Tag) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":${possibleValues.find(key => key.Tag == selection).Enum}}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Wireless Communication", "Set Parameters": {"${index}":${possibleValues.find(key => key.Tag == selection).Enum}}}`, context) }}>
 
             <View style={styles.buttonBar}>
               <Text>Save</Text>
@@ -563,7 +563,7 @@ const IPV4 = ({ route, navigation }) => {
         headerRight: () => (
           <TouchableOpacity
             onPress={() => {
-              HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":${possibleValues.find(key => key.Tag == selection).Enum}}}`, context)
+              HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Wireless Communication", "Set Parameters": {"${index}":${possibleValues.find(key => key.Tag == selection).Enum}}}`, context)
             }
             }>
             <View style={styles.buttonBar}>
@@ -585,7 +585,7 @@ const IPV4 = ({ route, navigation }) => {
                   if (IPHANDLER(routerAdress)) {
                     if (IPCOMPARATOR(IPAdress, subnetAdress, routerAdress)) {
 
-                      HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters":{"${indexIP}":"${IPAdress}","${indexSubnet}":"${subnetAdress}","${indexRouter}":"${routerAdress}","${index}":${possibleValues.find(key => key.Tag == selection).Enum}}}`, context)
+                      HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Wireless Communication", "Set Parameters":{"${indexIP}":"${IPAdress}","${indexSubnet}":"${subnetAdress}","${indexRouter}":"${routerAdress}","${index}":${possibleValues.find(key => key.Tag == selection).Enum}}}`, context)
                     }
                   }
                 }
@@ -710,7 +710,7 @@ const WiFiFunctionScreen = ({ route, navigation }) => {
       navigation.setOptions({
         headerRight: () => (
           // <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${possibleValues.filter(row => row.Tag == selection)[0].Enum}"}}`, context) }}>
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":${possibleValues.find(key => key.Tag == selection).Enum}}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Wireless Communication", "Set Parameters": {"${index}":${possibleValues.find(key => key.Tag == selection).Enum}}}`, context) }}>
 
             <View style={styles.buttonBar}>
               <Text>Save</Text>
@@ -767,7 +767,7 @@ const SSIDScreen = ({ route, navigation }) => {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
-          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${text}"}}`, context) }}
+          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Wireless Communication", "Set Parameters": {"${index}":"${text}"}}`, context) }}
 
           >
             <View style={styles.buttonBar}>
@@ -806,7 +806,7 @@ const SSIDScreen = ({ route, navigation }) => {
       {/* <LenghtChecker lenght={32} /> */}
       {context[index] != text && false &&
         <Button
-          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${text}"}}`, context) }}
+          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Wireless Communication", "Set Parameters": {"${index}":"${text}"}}`, context) }}
           title="Save"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
@@ -845,7 +845,7 @@ const PasswordScreen = ({ route, navigation }) => {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
-          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${text}"}}`, context) }} title="Save"
+          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Wireless Communication", "Set Parameters": {"${index}":"${text}"}}`, context) }} title="Save"
 
           >
             <View style={styles.buttonBar}>
@@ -942,7 +942,7 @@ const CommunicationScreen = ({ route, navigation }) => {
 
   return (
     <StackCommunication.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle:styles.headerStyle, headerLeft: () => (navigateBackFunction(false)) }}>
-      <StackCommunication.Screen name='Communication Main' component={CommunicationMainScreen} options={{ headerTitle: "Communication" }} />
+      <StackCommunication.Screen name='Communication Main' component={CommunicationMainScreen} options={{ headerTitle: "Wireless Communication" }} />
       <StackCommunication.Screen name='Bluetooth' component={BluetoothScreen} />
       <StackCommunication.Screen name='WiFi' component={WifiScreen} />
       <StackCommunication.Screen name='Communication Type' component={CommunicationTypeScreen} />
@@ -1019,7 +1019,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
-    width:50,
+    width:70,
     marginRight: 3,
     borderRadius: 10,
   },  headerStyle: {shadowColor: "#222",

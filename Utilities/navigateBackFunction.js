@@ -7,7 +7,7 @@ const navigateBackFunction = (showWarning) => {
     console.log(showWarning)
     if (showWarning) {
       return(
-      <TouchableOpacity onPress={() => Alert.alert("Settings  Saved!", "Do you want to leave page?", [
+      <TouchableOpacity onPress={() => Alert.alert("Configuration is not saved!", "Do you want to leave the page?", [
         {
           text: 'No',
           onPress: () => console.log("cancelled"),

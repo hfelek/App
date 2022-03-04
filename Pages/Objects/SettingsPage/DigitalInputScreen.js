@@ -174,8 +174,8 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
             <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection("Configuration Control") }}>
                 {CheckButtoned(selection, "Configuration Control")}
             </TouchableOpacity>
-            <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection("Status Control") }}>
-                {CheckButtoned(selection, "Status Control")}
+            <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection("Off") }}>
+                {CheckButtoned(selection, "Off")}
             </TouchableOpacity>
             
             {
@@ -229,11 +229,11 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
 
                 )
 
-                //   Status Control Seçiliyken Renderlanacak
+                //  Off  // Status Control Seçiliyken Renderlanacak
                             }
             {
                               
-                                selection == "Status Control" && false &&(
+                                selection == "Off" && false &&(
                                 <Button
                                     onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Digital Input", "Set Parameters": {"${indexSelection}":${possibleValues.find(key=>key.Tag==selection).Enum}}}`, context) }}
                                     title="Save"
@@ -363,6 +363,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#9A348E",
         padding: 8,
+        width:70,
         marginRight: 3,
         borderRadius: 10,
     },

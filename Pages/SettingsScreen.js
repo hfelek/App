@@ -44,7 +44,7 @@ import CalibrationScreen from './Objects/SettingsPage/CalibrationScreen'
 import TemperatureCoeffScreen from './Objects/SettingsPage/TemperatureCoefficientsScreen'
 import { ContextConfigurationValues } from '../App';
 import { useState } from 'react';
-let peripheralID = null
+let peripheralID = false
 
 
 
@@ -83,12 +83,21 @@ const SettingsMainScreen = ({ navigation, route }) => {
         <Text style={styles.title}>{"     " + item.Tag}</Text>
       </TouchableOpacity>)
   }
+
+  if (peripheralID==false && false){
+ return(
+  <SafeAreaView style={styles.container}>
+  <View style={styles.noDevice}>
+    <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
+    <Icon name='warning-outline' size={100} color="#000" rounded='true' />
+  </View>
+  </SafeAreaView>)
+  }
+  else{
   return (
+
     <SafeAreaView style={styles.container}>
-      {false && <View style={styles.noDevice}>
-        <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
-        <Icon name='warning-outline' size={100} color="#000" rounded='true' />
-      </View>}
+
       {true && <FlatList
         initialNumToRender={Paramsfiltered.length}
         data={Paramsfiltered}
@@ -98,15 +107,7 @@ const SettingsMainScreen = ({ navigation, route }) => {
       // navigation={navigation}
       />}
     </SafeAreaView>)
-  // useEffect(() => {
-  //   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
-  //     // Success code
-  //     if (peripheralsArray != null) {
-  //       setDeviceConnected(true)
-  //     }
-  //   },1000)
-
-  // })
+  }
 }
 const SettingsScreen = ({ navigation, route }) => {
 
@@ -123,7 +124,14 @@ const SettingsScreen = ({ navigation, route }) => {
   // else {
 
   //   // //console.log(JSON.stringify(a, null, 4));
+  BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+    // Success code
 
+    peripheralID = peripheralsArray[0].id
+  }).catch(() => {
+    console.log("Couldnt Find A peripheral");
+    // expected output: "Success!"
+  });
 
   return (
 
@@ -140,7 +148,7 @@ const SettingsScreen = ({ navigation, route }) => {
       <StackSettings.Screen name='Conductivity Input' component={ConductivityScreen} />
 
       <StackSettings.Screen name='Display' component={DisplayScreen} />
-      <StackSettings.Screen name='Communication' component={CommunicationScreen} />
+      <StackSettings.Screen name='Wireless Communication' component={CommunicationScreen} />
       <StackSettings.Screen name='Current Output' component={CurrentOutputScreen} />
       <StackSettings.Screen name='System' component={SystemScreen} />
       <StackSettings.Screen name='Calibration' component={CalibrationScreen} />
@@ -189,8 +197,8 @@ const styles = StyleSheet.create({
   },
   noDevice: {
     // backgroundColor:'rgba(255,255,255,0.26)',
-    marginTop: '0%',
     margin: '10%',
+    alignContent: 'center',
     borderRadius: 3,
     width: '80%',
     height: '35%',

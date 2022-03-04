@@ -384,7 +384,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
-    width:50,
+    width:70,
     marginRight: 3,
     borderRadius: 10,
   },  headerStyle: {shadowColor: "#222",

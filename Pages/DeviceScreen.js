@@ -7,11 +7,14 @@ import { ContextConfigurationValues, ContextSensorValues } from '../App'
 import Icon from 'react-native-vector-icons/Ionicons';
 import HandleWriteCommandGroup from '../Utilities/BLEFunctions.js/HandleGroup';
 import HandleWriteCommandGroupContext from '../Utilities/BLEFunctions.js/HandleGroupContext';
+import BleManager from 'react-native-ble-manager';
 
 let IdentificationParams;
 let MenuParams;
 var filtered;
 var filteredAT;
+let peripheralID = false
+
 const conductivityParams = [{ "Tag": "μS/Cm", "Enum": 0 }, { "Tag": "mS/Cm", "Enum": 1 }];
 const concentrationParams = [{ "Tag": "%", "Enum": 0 }, { "Tag": "Baume", "Enum": 1 }];
 const temperatureParams = [{ "Tag": "°C", "Enum": 0 }, { "Tag": "°F", "Enum": 1 }];
@@ -25,7 +28,14 @@ DeviceScreen = () => {
   const contextConfiguration = useContext(ContextConfigurationValues)
   const contextValues = useContext(ContextSensorValues)
   // const bottomValues = [{ "Tag": "Conductivity", "Value": `${contextValues["Process"]}` }, { "Tag": "Concentration", "Value": `${contextValues["Value"]["60"]}` }, { "Tag": "Temperature", "Value": `${contextValues["Value"]["61"]}` }]
+  BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+    // Success code
 
+    peripheralID = peripheralsArray[0].id
+  }).catch(() => {
+    console.log("Couldnt Find A peripheral");
+    // expected output: "Success!"
+  });
   const Item = ({ item }) => (
     <View style={styles.itemTab} >
       <Text style={[styles.titleTab, { textAlign: 'center' }]}>{item.Tag}</Text>
@@ -105,18 +115,24 @@ DeviceScreen = () => {
 
   IdentificationParams = Values.find(IdentificationParams => IdentificationParams.Tag === "Identification");
   MenuParams = IdentificationParams.menu;
+  if (peripheralID==false && false){
+    return(
+      <SafeAreaView style={styles.containerNoDevice}>
 
+      <View style={styles.noDevice}>
+        <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
+        <Icon name='warning-outline' size={100} color="#000" rounded='true' />
+      </View>
+      </SafeAreaView>)
+  }
+  else{
 
   return (
-
+   
 
 
     <ScrollView style={[styles.container, { flexDirection: 'column', alignContent: 'center', flex: 1, backgroundColor: '#ffffff' }]}>
-      {false &&
-        <View style={styles.noDevice}>
-          <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
-          <Icon name='warning-outline' size={100} color="#000" rounded='true' />
-        </View>}
+
       {/* Top Component of Settings Page */}
       {true &&
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#000000' }} >
@@ -205,7 +221,7 @@ DeviceScreen = () => {
             </Text>
           </View> */}
     </ScrollView>
-  );
+  )}
 }
 
 const styles = StyleSheet.create({
@@ -214,6 +230,12 @@ const styles = StyleSheet.create({
     // alignSelf:'center',
     // marginTop: StatusBar.currentHeight || 0,
     marginTop: 0,
+  },
+  containerNoDevice:{
+    flex: 1,
+    justifyContent: "center", // 
+    padding: 0,
+    paddingTop: 0,
   },
   item: {
     backgroundColor: '#415172',

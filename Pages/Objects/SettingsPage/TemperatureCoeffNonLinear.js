@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, Image, StatusBar, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native'
+import { StyleSheet, Text, View, Button,Alert, SafeAreaView, FlatList, Image, StatusBar, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper';
 import Values from '../Paramsfiltered.json';
@@ -25,6 +25,117 @@ const MainMenu = Values.find(item => item.Tag === "Temperature Coefficients").Su
 let nonLinearCoeffParams = MainMenu.find(item => item.Tag === "Temperature Coefficient Non-Linear");
 let MenuParams = nonLinearCoeffParams.menu;
 const StackTempCoeffNonLinear = createStackNavigator();
+function isItNumber(str) {
+  return /^\-?[0-9]+(e[0-9]+)?(\.[0-9]+)?$/.test(str);
+}
+function isTableValuesValid(array){
+  
+  for (var i = 1; i < array.length; i++) {
+    var row = array[i];
+    for (var k = 0; k < row.length; k++) {
+
+        if (k==0) {
+          if (row[k] > 140 || row[k] < -20 || !isItNumber(row[k])) {
+            console.log(row[k])
+            return false
+            }
+        }
+        else if (k == 1) {
+            if (row[k] > 5.4 || row[k] < 0 || !isItNumber(row[k])) {
+              console.log("----------")
+
+              console.log(array[i][k] <= 0)
+              console.log("----------")
+
+              console.log(row[k])
+              console.log(i)
+              console.log("here")
+              return false
+            }
+        }
+
+    }
+
+
+
+}
+return true
+}
+function calculatePayload(hookArray, valueMenu) {
+  var payload = ""
+  for (let i = 0; i < 2; i++) {
+    for (let k = 1; k < 7; k++) {
+      i == 0 ? payload += `"${valueMenu.find(key => key.Tag == `Temperature Point ${k}`).Index}":${hookArray[k][i]},` : payload += `"${valueMenu.find(key => key.Tag == `Temperature Coefficient ${k}`).Index}":${hookArray[k][i]}, `
+    }
+  }
+  payload = payload.slice(0, -2); //// payloaddaki virgül atılıyor.
+  console.log(payload)
+  return payload
+}
+
+function createTableMap({ temperatureArray, concentrationArray }) {
+  console.log("----------Temperature Array-----------")
+  console.log(temperatureArray)
+  console.log("----------Concentration Array---------")
+
+  console.log(concentrationArray)
+  const tableData = [];
+  for (let i = 0; i < temperatureArray.length + 1; i += 1) {
+    const rowData = []
+    for (let j = 0; j < 2; j += 1) {
+      if (i == 0) {
+        if (j == 0) {
+          rowData.push("Empty")
+        }
+        else {
+          rowData.push(concentrationArray[j - 1])
+        }
+
+      }
+      else {
+
+        if (j == 0) {
+          rowData.push(temperatureArray[i - 1])
+
+        }
+        else {
+          rowData.push(concentrationArray[i - 1])
+          console.log("-------------------------")
+
+        }
+      }
+    }
+
+
+    tableData.push(rowData);
+  }
+  console.log(tableData)
+  return tableData
+}
+
+
+
+
+function initialCoefficients(valueMenu, context) {
+  var concentrationArray = []
+  var temperatureArray = []
+  for (let i = 1; i < 7; i++) {
+    concentrationArray[i - 1] = context[valueMenu.find(key => key.Tag == `Temperature Coefficient ${i}`).Index].toFixed(4)
+
+  }
+  for (let i = 1; i < 7; i++) {
+    temperatureArray[i - 1] = context[valueMenu.find(key => key.Tag == `Temperature Point ${i}`).Index].toFixed(4)
+
+  }
+  return ({ temperatureArray, concentrationArray })
+}
+
+
+
+
+
+
+
 
 const ItemBar = ({ item }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -41,6 +152,9 @@ const ItemBar = ({ item }) => (
     </View>
   </View>
 )
+
+
+
 const ItemValueBar = ({ item, value }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
@@ -180,7 +294,7 @@ const element = (data, index, cellIndex, value, setValue) => {
         keyboardType="numeric"
         maxLength={7}
         activeUnderlineColor='#fff'
-        selectionColor='black'
+         selectionColor='gray'
         underlineColor='#fff'
         backgroundColor='#fff'
         scrollEnabled={false}
@@ -209,105 +323,49 @@ const tableIndex = (text) => (
 
 )
 const TemperatureCoefficientScreen = ({ route, navigation }) => {
-  const context = useContext(ContextConfigurationValues)
   const { Tag } = route.params;
   const { ConfigNum } = route.params;
   const valueMenu = MenuParams.find(key => key.Tag == ConfigNum).menu
-  // console.log(ConfigNum)
-  const temperaturePoints = 6
-  const concentrationPoints = 1
-  let concentrationArray = []
-  let temperatureArray = []
-  for (let i = 1; i < 7; i++) {
-    concentrationArray[i - 1] = context[valueMenu.find(key => key.Tag == `Temperature Coefficient ${i}`).Index].toFixed(4)
 
-  }
-  for (let i = 1; i < 7; i++) {
-    temperatureArray[i - 1] = context[valueMenu.find(key => key.Tag == `Temperature Point ${i}`).Index].toFixed(4)
 
-  }
+  const context = useContext(ContextConfigurationValues)
+  const [hookArray, setHookArray] = react.useState(createTableMap(initialCoefficients(valueMenu, context)));
 
-  // const concentrationArray = ["0", "10", "20", "30", "40", "50"]
-
-  // const temperatureArray = ["-20", "5", "30", "40", "50", "60"]
-  // const tableHead = []; tableHead[0] = "Configuration Points"
   const widthArr = [150]
-  for (let i = 1; i < concentrationPoints + 1; i++) {
+  for (let i = 1; i < 2 + 1; i++) {
     widthArr[i] = 150
   }
 
+  useEffect(() => {
 
+    if (true) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={() => { isTableValuesValid(hookArray)==false ?  Alert.alert('Invalid Input', 'Parameters must be set regarding valid intervals!', [{
+              text: 'Ok',
+          }]) :HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Temperature Coefficients","Set Parameters":{${calculatePayload(hookArray, valueMenu)}}}`, context) }}
 
-  const tableData = [];
-  for (let i = 0; i < temperaturePoints + 1; i += 1) {
-    const rowData = []
-    for (let j = 0; j < concentrationPoints + 1; j += 1) {
-      if (i == 0) {
-        if (j == 0) {
-          rowData.push("Empty")
-        }
-        else {
-          rowData.push(concentrationArray[j - 1])
-        }
+          >
+            <View style={styles.buttonBar}>
+              <Text>Save</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+        headerLeft: () => (navigateBackFunction(true))
 
-      }
-      else {
-
-        if (j == 0) {
-          rowData.push(temperatureArray[i - 1])
-
-        }
-        else {
-          rowData.push(concentrationArray[i - 1])
-          console.log("-------------------------")
-
-        }
-      }
+      });
     }
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+        headerLeft: () => (navigateBackFunction(false))
 
-
-    tableData.push(rowData);
-  }
-  const [hookArray, setHookArray] = react.useState(tableData);
-  let payload = ""
-
-  for (let i = 0; i < 2; i++) {
-    for (let k = 1; k < 7; k++) {
-     i==0 ? payload+=`"${valueMenu.find(key => key.Tag == `Temperature Point ${k}`).Index}":${hookArray[k][i]},` :payload+=`"${valueMenu.find(key => key.Tag == `Temperature Coefficient ${k}`).Index}":${hookArray[k][i]}, `
-  }
-  }
-  payload = payload.slice(0, -2); //// payloaddaki virgül atılıyor.
-// console.log(hookArray)
-console.log(payload)
-console.log(`{"Tag":"Temperature Coefficients","Set Parameters":{${payload}}}`)
-useEffect(() => {
-
-  if (true) {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-        onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100",`{"Tag":"Temperature Coefficients","Set Parameters":{${payload}}}`,context) }}
-
-        >
-          <View style={styles.buttonBar}>
-            <Text>Save</Text>
-          </View>
-        </TouchableOpacity>
-      ),
-      headerLeft: () => (navigateBackFunction(true))
-
-    });
-  }
-  else {
-    navigation.setOptions({
-      headerRight: () => (
-        <></>
-      ),
-      headerLeft: () => (navigateBackFunction(false))
-
-    });
-  }
-});
+      });
+    }
+  },[hookArray]);
   return (
     <View style={[styles.container4, { alignItems: 'center' }]}>
       <ScrollView sckeyboardShouldPersistTaps="always" style={{ backgroundColor: 'white' }} horizontal={false} >
@@ -319,7 +377,7 @@ useEffect(() => {
             </Table> */}
             <Table borderStyle={{ borderWidth: 1, borderTopWidth: 1, paddingTop: 50, borderColor: '#000000' }}>
               {
-                tableData.map((rowData, index) => (
+                hookArray.map((rowData, index) => (
                   <TableWrapper key={index} style={[styles.row5, { paddingTop: 1 }]}>
                     {
                       rowData.map((cellData, cellIndex) => (
@@ -343,7 +401,7 @@ useEffect(() => {
         {false &&
           <View style={{ alignContent: 'stretch', paddingTop: 3 }}>
             <Button
-              onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100",`{"Tag":"Temperature Coefficients","Set Parameters":{${payload}}}`,context) }}
+              onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Temperature Coefficients","Set Parameters":{${calculatePayload(hookArray, valueMenu)}}}`, context) }}
               title="Save"
               color="#841584"
             />
@@ -371,7 +429,7 @@ const TemperatureCoeffNonLinearScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackTempCoeffNonLinear.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle:styles.headerStyle }}>
+    <StackTempCoeffNonLinear.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle: styles.headerStyle }}>
       {/* <StackTempCoeffNonLinear.Screen name='Configuration' component={ConfigurationNumScreen} options={{ headerTitle: "Non-Linear Temperature Coefficient" }} /> */}
       <StackTempCoeffNonLinear.Screen name='Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} options={({ route }) => ({ headerTitle: 'Non-Linear Temp. Coefficients' })} initialParams={{ ConfigNum: ConfigNum }} />
       {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
@@ -422,7 +480,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
-    width:50,
+    width: 70,
     marginRight: 3,
     borderRadius: 10,
   },
@@ -479,15 +537,17 @@ const styles = StyleSheet.create({
   btn6: { width: 149, height: 10, backgroundColor: '#white', borderBottomColor: 'white' },
 
   img: { width: 149, height: 50, borderRightWidth: 1 },
-  headerStyle: {shadowColor: "#222",
-  shadowOffset: {
-    width: 0,
-    height: 3,
+  headerStyle: {
+    shadowColor: "#222",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+
+    elevation: 6
   },
-  shadowOpacity: 0.27,
-  shadowRadius: 4.65,
-  
-  elevation: 6},
 
 });
 
