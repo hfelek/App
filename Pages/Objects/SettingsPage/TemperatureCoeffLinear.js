@@ -11,7 +11,7 @@ import { Slider } from "@miblanchard/react-native-slider";
 import ScrollViewNativeComponent from 'react-native/Libraries/Components/ScrollView/ScrollViewNativeComponent';
 import { color, or, round } from 'react-native-reanimated';
 import { RectButton } from 'react-native-gesture-handler';
-import { ContextConfigurationValues } from '../../../App';
+import { ContextConfigurationValues, ContextSensorValues } from '../../../Src/contextConfiguration'
 // import Slider from '@react-native-community/slider';
 //import MultiSlider from 'react-native-multi-slider';
 import navigateBackFunction from "../../../Utilities/navigateBackFunction"

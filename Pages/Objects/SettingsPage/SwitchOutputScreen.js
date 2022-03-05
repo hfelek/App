@@ -9,7 +9,7 @@ import react from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
-import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
+import { ContextConfigurationValues, ContextSensorValues } from '../../../Src/contextConfiguration'
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import navigateBackFunction from "../../../Utilities/navigateBackFunction"

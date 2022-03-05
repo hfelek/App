@@ -8,7 +8,7 @@ import { TextInput } from 'react-native-paper';
 // import react from 'react';
 import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
-import { ContextConfigurationValues } from '../../../App';
+import { ContextConfigurationValues, ContextSensorValues } from '../../../Src/contextConfiguration'
 import Icon from 'react-native-vector-icons/Ionicons';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { ALERT_TYPE, Dialog, Root, Toast } from 'react-native-alert-notification';

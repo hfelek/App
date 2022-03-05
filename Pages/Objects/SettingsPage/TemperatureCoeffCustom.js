@@ -32,7 +32,7 @@ const CustomCoeffParams = MainMenu.find(item => item.Tag === "Temperature Coeffi
 const MenuParams = CustomCoeffParams.menu;
 
 import BleManager from 'react-native-ble-manager';
-import { ContextConfigurationValues } from '../../../App';
+import { ContextConfigurationValues, ContextSensorValues } from '../../../Src/contextConfiguration'
 
 import navigateBackFunction from "../../../Utilities/navigateBackFunction"
 

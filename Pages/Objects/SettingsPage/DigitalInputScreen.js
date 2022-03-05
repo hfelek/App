@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 let peripheralID = '0'
 import BleManager from 'react-native-ble-manager';
 import { Picker } from '@react-native-picker/picker';
-import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
+import { ContextConfigurationValues, ContextSensorValues } from '../../../Src/contextConfiguration'
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import navigateBackFunction from "../../../Utilities/navigateBackFunction"

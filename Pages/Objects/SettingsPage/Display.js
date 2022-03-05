@@ -11,7 +11,7 @@ import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
-import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
+import { ContextConfigurationValues, ContextSensorValues } from '../../../Src/contextConfiguration'
 import navigateBackFunction from "../../../Utilities/navigateBackFunction"
 
 function renderItem(item, navigation = null, context = null, parent) {

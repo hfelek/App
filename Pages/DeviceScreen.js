@@ -3,7 +3,7 @@ import react from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Settings, Image, Dimensions, TouchableOpacity, TouchableHighlight, ScrollView, Button } from 'react-native';
 import Values from './Objects/Paramsfiltered.json';
 import { List } from 'react-native-paper';
-import { ContextConfigurationValues, ContextSensorValues } from '../App'
+import { ContextConfigurationValues, ContextSensorValues } from "../Src/contextConfiguration";
 import Icon from 'react-native-vector-icons/Ionicons';
 import HandleWriteCommandGroup from '../Utilities/BLEFunctions.js/HandleGroup';
 import HandleWriteCommandGroupContext from '../Utilities/BLEFunctions.js/HandleGroupContext';
@@ -27,6 +27,8 @@ const TableIndex = () => (
 DeviceScreen = () => {
   const contextConfiguration = useContext(ContextConfigurationValues)
   const contextValues = useContext(ContextSensorValues)
+  console.log("here")
+  console.log(contextValues)
   // const bottomValues = [{ "Tag": "Conductivity", "Value": `${contextValues["Process"]}` }, { "Tag": "Concentration", "Value": `${contextValues["Value"]["60"]}` }, { "Tag": "Temperature", "Value": `${contextValues["Value"]["61"]}` }]
   BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
     // Success code

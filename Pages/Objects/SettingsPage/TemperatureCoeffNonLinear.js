@@ -12,7 +12,7 @@ import { color, or, round } from 'react-native-reanimated';
 import { RectButton } from 'react-native-gesture-handler';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
-import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
+import { ContextConfigurationValues, ContextSensorValues } from '../../../Src/contextConfiguration'
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import InputScrollView from 'react-native-input-scroll-view';
 

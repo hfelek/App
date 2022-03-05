@@ -13,7 +13,7 @@ import { color, or, round } from 'react-native-reanimated';
 import { RectButton } from 'react-native-gesture-handler';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
-import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
+import { ContextConfigurationValues, ContextSensorValues } from '../../../Src/contextConfiguration'
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
 import navigateBackFunction from "../../../Utilities/navigateBackFunction"

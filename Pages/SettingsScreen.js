@@ -42,7 +42,7 @@ import SwitchOutputScreeen from './Objects/SettingsPage/SwitchOutputScreen'
 import DigitalInputScreen from './Objects/SettingsPage/DigitalInputScreen'
 import CalibrationScreen from './Objects/SettingsPage/CalibrationScreen'
 import TemperatureCoeffScreen from './Objects/SettingsPage/TemperatureCoefficientsScreen'
-import { ContextConfigurationValues } from '../App';
+import { ContextConfigurationValues, ContextSensorValues } from "../Src/contextConfiguration";
 import { useState } from 'react';
 let peripheralID = false
 

@@ -10,7 +10,7 @@ import react from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BleManager from 'react-native-ble-manager';
 import ConnectionScreen from '../../ConnectionScreen';
-import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
+import { ContextConfigurationValues, ContextSensorValues } from '../../../Src/contextConfiguration'
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 const Buffer = require('buffer/').Buffer;
 import { useNavigation } from '@react-navigation/native';
@@ -887,7 +887,7 @@ const PasswordScreen = ({ route, navigation }) => {
       {/* <LenghtChecker lenght={32} /> */}
       {text.length > 8 && false &&
         <Button
-          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${text}"}}`, context) }} title="Save"
+          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${text}"}}`, context) }} 
           title="Save"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"

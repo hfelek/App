@@ -12,7 +12,7 @@ import ScrollViewNativeComponent from 'react-native/Libraries/Components/ScrollV
 import { color, or, round } from 'react-native-reanimated';
 import { RectButton } from 'react-native-gesture-handler';
 import { Picker } from '@react-native-picker/picker';
-import { ContextConfigurationValues, ContextSensorValues } from '../../../App';
+import { ContextConfigurationValues, ContextSensorValues } from '../../../Src/contextConfiguration'
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 // import Slider from '@react-native-community/slider';

@@ -12,7 +12,7 @@ import React, {
   useContext
 } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { ContextConfigurationValues, ContextSensorValues } from '../App';
+import { ContextConfigurationValues, ContextSensorValues } from "../Src/contextConfiguration";
 
 import {
   SafeAreaView,
@@ -708,8 +708,9 @@ ConnectionScreen = () => {
         renderItem={({ item }) => renderItem(item)}
         keyExtractor={item => item.id}
       />
-      {deviceConnected== true && <View>
-        {/* <Text>{JSON.stringify(context)}</Text> */}
+      { false && <View>
+        <Text>{JSON.stringify(context)}</Text>
+        
       </View>}
       {deviceConnected==false && <View style={styles.noDevice}>
         <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
