@@ -182,7 +182,9 @@ const OperationSelectionScreen = ({ route, navigation }) => {
     const [selectionCurrentAssign, setSelectionCurrentAssign] = React.useState(menuCurrentAssign.PossibleValues.find(key => key.Enum == context[menuCurrentAssign.Index]).Tag)
     const [selectionSwitchOutputType, setSelectionSwitchOutputType] = React.useState(menuSwitchOutputType.PossibleValues.find(key => key.Enum == context[menuSwitchOutputType.Index]).Tag)
     const [selectionSwitchAssign, setSelectionSwitchAssign] = React.useState(menuSwitchAssign.PossibleValues.find(key => key.Enum == context[menuSwitchAssign.Index]).Tag)
+    console.log("I am here")
     const [selectionSwitchFunction, setSelectionSwitchFunction] = React.useState(menuSwitchFunction.PossibleValues.find(key => key.Enum == context[menuSwitchFunction.Index]).Tag)
+    console.log("I am here")
 
     useEffect(() => {
 
@@ -402,7 +404,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
 
 
 
-
+{/* 
             {
                 (selection == "IO-LINK" &&false) &&
 
@@ -429,7 +431,7 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                     title="Save"
                     color="#841584"
                 />
-            }
+            } */}
 
         </ScrollView>
     );
