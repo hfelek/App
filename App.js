@@ -22,7 +22,7 @@ import {ValuesProvider} from './Src/contextConfiguration.js';
 import ActionBarImage from './Src/EliarIconImage.js';
 import BleManager from 'react-native-ble-manager';
 
-
+import SplashScreen from 'react-native-splash-screen'
 
 
 // export const ContextAppState = React.createContext(null);
@@ -54,7 +54,7 @@ const App = ({ route, Navigator }) => {
 
 
   return (
-    <ValuesProvider>
+    <ValuesProvider >
       <NavigationContainer >
         <Tab.Navigator screenOptions={({ route }) => ({ tabBarIcon: ({ color }) => screenOptions({ route, color }) })} initialRouteName="Connection"  >
           <Tab.Screen name="Connection" component={ConnectionScreen} options={styles.tabScreenOptions} />
