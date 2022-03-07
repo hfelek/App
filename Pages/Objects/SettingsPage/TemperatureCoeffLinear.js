@@ -198,7 +198,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
   return (
     <View>
       <TextInput
-        label={"Set Your Linear Coefficient for " + ConfigNum + " in %/°C"}
+        label={"Set Linear Coeff. for " + ConfigNum + " in %/°C"}
         value={text}
         underlineColorAndroid="transparent"
         keyboardType="numeric"
@@ -239,7 +239,7 @@ const TemperatureCoeffLinearScreen = ({ route, navigation }) => {
   return (
     <StackConductivity.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle:styles.headerStyle, headerLeft: () => (navigateBackFunction(false)) }}>
       {/* <StackConductivity.Screen name='Configuration Linear Coeff' component={ConfigurationNumScreen} options={{ headerTitle: "Linear Temperature Coefficient" }} /> */}
-      <StackConductivity.Screen name='Linear Temperature Coefficient' component={TemperatureCoefficientScreen} initialParams={{ ConfigNum: ConfigNum }} />
+      <StackConductivity.Screen name='Linear Temperature Coefficient' component={TemperatureCoefficientScreen} initialParams={{ ConfigNum: ConfigNum }}  options={{headerTitle:'Linear Coefficient'}}/>
       {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
 
 

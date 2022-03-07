@@ -70,7 +70,7 @@ DeviceScreen = () => {
         <View style={{alignContent:'flex-start'}}>
       <TouchableOpacity style={{ paddingTop: 5 }}>
         <View style={{ backgroundColor: 'white', borderRadius: 15, flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
-          <Icon name='close-circle-sharp' size={30} color="red" rounded='true' />
+          {/* <Icon name='close-circle-sharp' size={30} color="red" rounded='true' /> */}
 
           <View style={{ flexDirection: 'column' }}>
             <Text style={{ color: 'black' }}>Conductivity</Text>
@@ -83,7 +83,7 @@ DeviceScreen = () => {
 
       <TouchableOpacity style={{ paddingTop: 5 }}>
       <View style={{ backgroundColor: 'white', borderRadius: 15, flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
-        <Icon name='checkmark-circle-sharp' size={30} color="green" rounded='true' />
+        {/* <Icon name='checkmark-circle-sharp' size={30} color="green" rounded='true' /> */}
           
           <View style={{ flexDirection: 'column' }}>
             <Text style={{ color: 'black' }}>Concentration</Text>
@@ -95,7 +95,7 @@ DeviceScreen = () => {
 
       <TouchableOpacity style={{ paddingTop: 5 }}>
       <View style={{ backgroundColor: 'white', borderRadius: 15, flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
-          <Icon name='checkmark-circle-sharp' size={30} color="green" rounded='true' />
+          {/* <Icon name='checkmark-circle-sharp' size={30} color="green" rounded='true' /> */}
 
           <View style={{ flexDirection: 'column' }}>
             <Text style={{ color: 'black' }}> Temperature</Text>

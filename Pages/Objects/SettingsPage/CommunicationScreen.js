@@ -796,6 +796,7 @@ const SSIDScreen = ({ route, navigation }) => {
         label={"Set Your WiFi " + Tag}
         value={text}
         selectionColor='#000'
+        maxLength={32}
         underlineColor='#000'
         activeOutlineColor='#000'
         outlineColor='#000'          // activeUnderlineColor='#000'

@@ -311,29 +311,31 @@ function isItNumber(str) {
 }
 function isTableValuesValid(valuesMap) {
     const array = valuesMap.get('array');
-    // const temp = valuesMap.get('temp');
-    // const conc = valuesMap.get('conc');
-    console.log("in function")
-    console.log(array)
-    console.log(temp)
-    console.log(conc)
-    console.log(array.length)
+    const temp = parseInt(valuesMap.get('temp'));
+    const conc = parseInt(valuesMap.get('conc'));
+    var tempArray = []
+    var concArray = []
+    var coefficients = [...Array(temp)].map(e => Array(conc).fill(0));
 
     for (var i = 0; i < array.length; i++) {
         var row = array[i];
         for (var k = 0; k < row.length; k++) {
 
             if (i == 0 && k >= 1) {
-                if (row[k] > 100 || !isItNumber(row[k])) {
+                concArray[k - 1] = parseFloat(row[k]);
+                if (row[k] > 100 || row[k] < 0 || !isItNumber(row[k])) {
                     return false
                 }
             }
-            else if (k == 0 && i != 0) {
-                if (array[i][k] > 140 || array[i][k] < -20 || !isItNumber(row[k])) {
+            else if (k == 0 && i >= 1) {
+                tempArray[i - 1] = parseFloat(row[k]);
+
+                if (row[k] > 140 || row[k] < -20 || !isItNumber(row[k])) {
                     return false
                 }
             }
-            else if (k >= 1 && i >= 0) {
+            else if (k >= 1 && i >= 1) {
+                coefficients[i - 1][k - 1] = parseFloat(array[i][k]);
                 if (array[i][k] > 2000 || !isItNumber(array[i][k])) {
                     return false
                 }
@@ -343,7 +345,70 @@ function isTableValuesValid(valuesMap) {
 
 
     }
-    return true
+
+
+
+
+
+
+
+
+
+
+    let orientationIncrease = null;
+    for (var i = 0; i < tempArray.length - 1; i++) {     ///Temp  Comparison
+        if (i == 0) {
+            if (tempArray[i] == tempArray[i + 1]) { return false }
+            tempArray[i] > tempArray[i + 1] ? orientationIncrease = false : orientationIncrease = true;
+        }
+        else {
+
+            if ((tempArray[i] > tempArray[i + 1]) == orientationIncrease || tempArray[i] == tempArray[i + 1]){
+                console.log("not here")
+                return false
+            }
+        }
+    }
+
+console.log("Temp Coefficients are OK")
+
+for (var i = 0; i < tempArray.length - 1; i++) {     ///Temp  Comparison
+    if (i == 0) {
+        if (concArray[i] == concArray[i + 1]) { return false }
+        concArray[i] > concArray[i + 1] ? orientationIncrease = false : orientationIncrease = true;
+    }
+    else {
+
+
+        if ((concArray[i] > concArray[i + 1]) == orientationIncrease || concArray[i] == concArray[i + 1]){
+            return false
+        }
+    }
+}
+console.log("Conc Coefficients are OK")
+for (var k = 0; k < coefficients.length; k++) {
+    var oneLine = coefficients[k];
+    orientationIncrease = null;
+    for (var i = 0; i < oneLine.length - 1; i++) {     ///Temp  Comparison
+        if (i == 0) {
+            if (oneLine[i] == oneLine[i + 1]) { return false }
+            oneLine[i] > oneLine[i + 1] ? orientationIncrease = false : orientationIncrease = true;
+        }
+        else {
+
+
+            if ((oneLine[i] > oneLine[i + 1]) == orientationIncrease || oneLine[i] == oneLine[i + 1]){
+                return false
+            }
+        }
+    }
+}
+console.log("Table Coefficients are OK")
+
+console.log(tempArray)
+console.log(concArray)
+console.log(coefficients)
+return true
 }
 
 
@@ -467,7 +532,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
                                     // alignItems:'center',
                                     padding: 0,
                                     elevation: 0,
-                                    backgroundColor: '#7a42f4'
+                                    backgroundColor: '#841584'
                                 }}
                                 onPress={() => updateTemp(modalTemperaturePoints, modalConcentrationPoints, hookArray, setHookArray, setModalVisible, context, configMenu)}
                             >
@@ -598,7 +663,7 @@ const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
             {/* <StackConductivity.Screen name='Configuration' component={ConfigurationNumScreen} options={{ headerTitle: "Custom Temperature Coefficient" }} /> */}
             {/* <StackConductivity.Screen name='Custom Configuration' component={CustomConfigurationScreen} initialParams={{ ConfigNum: ConfigNum }} /> */}
 
-            <StackConductivity.Screen name='Custom Temperature Coefficient' options={{ headerTitle: 'Custom Temp. Coefficients' }} component={TemperatureCoefficientScreen} initialParams={{ ConfigNum: ConfigNum }} />
+            <StackConductivity.Screen name='Custom Temperature Coefficient' options={{ headerTitle: 'Custom Coefficients' }} component={TemperatureCoefficientScreen} initialParams={{ ConfigNum: ConfigNum }} />
             {/* <StackConductivity.Screen name=' Non-Linear Temperature Coefficient' component={TemperatureCoefficientScreen} /> */}
 
         </StackConductivity.Navigator>

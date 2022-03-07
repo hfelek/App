@@ -114,6 +114,7 @@ ConnectionScreen = () => {
   //console.log("I am in Connection Screen")
 
   const startScan = () => {
+     peripherals.clear(); // Her scan başladığında scan edilmiş cihazlar listesi sıfırlanıyor.
     if (!isScanning) {
       BleManager.scan([], 2, true).then((results) => {
         //console.log('Scanning...');
@@ -156,21 +157,21 @@ ConnectionScreen = () => {
   let a = ""
 
   const handleDiscoverPeripheral = (peripheral) => {
-    //console.log(typeof (peripheral))
-    if (peripheral.name == 'ELIAR-ICT-2-V2') {
-      //console.log(peripheral.advertising.manufacturerData.bytes)
-      const buffer = Buffer.from(peripheral.advertising.manufacturerData.bytes);
-      const data1 = buffer.toString();
-      if (a != data1) {
-        a = data1
-        //console.log(data1)
-        //console.log("//console.log(a) ")
+    console.log(peripheral)
+    // if (peripheral.name == 'ELIAR-ICT-2-V2') {
+    //   //console.log(peripheral.advertising.manufacturerData.bytes)
+    //   const buffer = Buffer.from(peripheral.advertising.manufacturerData.bytes);
+    //   const data1 = buffer.toString();
+    //   if (a != data1) {
+    //     a = data1
+    //     //console.log(data1)
+    //     //console.log("//console.log(a) ")
 
 
-      }
-    }
-    if (peripheral.name) {
-      if (peripheral.name.search("Eliar") != -1 || peripheral.name.search("ELIAR") != -1) {
+    //   }
+    // }
+    if (peripheral.advertising.localName) {
+      if (peripheral.advertising.localName.search("Eliar") != -1 || peripheral.advertising.localName.search("ELIAR") != -1) {
         peripherals.set(peripheral.id, peripheral);
         setList(Array.from(peripherals.values()));
       }
@@ -285,7 +286,7 @@ ConnectionScreen = () => {
         }
 
       }
-       else if (configurationCharacteristics.find(obj => obj.ServiceUUID == service).Characteristics.find(obj => obj.CharacteristicsUUID == characteristic).DataType == "Object") { //Type is Object
+      else if (configurationCharacteristics.find(obj => obj.ServiceUUID == service).Characteristics.find(obj => obj.CharacteristicsUUID == characteristic).DataType == "Object") { //Type is Object
         const data = bytesToString(value);
         context.setValueTotal(JSON.parse(data))
 
@@ -310,10 +311,27 @@ ConnectionScreen = () => {
           .catch((error) => {
             // Failure code
             console.log(error);
-          });;
+          });
 
 
       } else {
+        if (connectedPeripheral != null) { //////// Herh
+          console.log("Connection to another  Peripheral Will Be made")
+          await BleManager.disconnect(connectedPeripheral, false).then(() => {
+            // Success code
+            console.log(connectedPeripheral)
+            console.log("Disconnected (I am in Callback)");
+            setConnectedPeripheral(null)
+            BleManager.checkState();
+
+          })
+            .catch((error) => {
+              // Failure code
+              console.log(error);
+            });
+
+
+        }
         await BleManager.connect(peripheral.id).then(() => {
           let p = peripherals.get(peripheral.id);
           //console.log(peripheral.id)
@@ -342,7 +360,7 @@ ConnectionScreen = () => {
           //console.log(deviceConnected);
 
         }).catch((error) => {
-          //console.log('Connection error', error);
+          console.log('Connection error', error);
         });
 
 
@@ -581,11 +599,14 @@ ConnectionScreen = () => {
   useEffect(() => {
     BleManager.start({ showAlert: false });
     console.log("i am here")
-    const subscriptionDiscoverPeripheral = bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', handleDiscoverPeripheral);
+    const subscriptionDiscoverPeripheral = bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', (args) => {
+      // peripherals.clear();
+      handleDiscoverPeripheral(args);
+    });
     const subscriptionStopScan = bleManagerEmitter.addListener('BleManagerStopScan', handleStopScan);
     const subscriptionDisconnectPeripheral = bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', handleDisconnectedPeripheral);
     bleManagerEmitter.addListener("BleManagerDidUpdateState", (args) => {
-        
+
       handleDidUpdateState(args)
     });    // const subscriptionDidUpdateValueForCharacterisctic = bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', ({ value, peripheral, characteristic, service }) => {
     //   handleUpdateValueForCharacteristic(value, peripheral, characteristic, service, context);
@@ -661,7 +682,7 @@ ConnectionScreen = () => {
             source={require("../Media/ICT200-C50.png")}
             style={[styles.imgSensor, { flex: 1 }]}
           />
-          <Text style={{ flex: 1, fontSize: 20, textAlign: 'center', color: '#333333', paddingTop: 25 }}>{item.name}</Text>
+          <Text style={{ flex: 1, fontSize: 20, textAlign: 'center', color: '#333333', paddingTop: 25 }}>{item.advertising.localName}</Text>
           <View style={{ flex: 1, alignItems: 'center', paddingBottom: 20 }}>
             <SignalLevelIndicator signalStrength={item.rssi} />
 
@@ -689,30 +710,37 @@ ConnectionScreen = () => {
     <SafeAreaView style={{}}>
       <StatusBar barStyle="dark-content" />
 
-        <View style={styles.body}>
+      <View style={styles.body}>
 
-          <View style={{ margin: 10, }}>
-
-            <Button
-              color={'#7209B7'}
-              title={'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}
-              onPress={() => startScan()}
-            />
-          </View>
-
-
-        </View>
+        {/* <View style={{ margin: 10, }}> */}
+           <Button
+            disabled={isScanning}
+            color={'#7209B7'}
+            title={'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}
+            onPress={() =>  startScan()}
+          />
+    
+        {/* </View> */}
+        {/* <TouchableOpacity
+            style={{ backgroundColor: 'purple', alignSelf: 'stretch',width:'100%',height:50,alignContent:'center',alignItems:'center', }}
+            
+            onPress={() => startScan()}
+            disabled={isScanning}
+          >
+            <Text style={{ color:'#000',textAlign: 'center',fontSize:18,alignContent:'center',alignSelf:'center',alignItems:'center' }}>{'Scan Bluetooth (' + (isScanning ? 'On' : 'Off') + ')'}</Text>
+          </TouchableOpacity> */}
+      </View>
 
       <FlatList
         data={list}
         renderItem={({ item }) => renderItem(item)}
         keyExtractor={item => item.id}
       />
-      { false && <View>
+      {false && <View>
         <Text>{JSON.stringify(context)}</Text>
-        
+
       </View>}
-      {deviceConnected==false && <View style={styles.noDevice}>
+      {deviceConnected == false && <View style={styles.noDevice}>
         <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
         <Icon name='warning-outline' size={100} color="#000" rounded='true' />
       </View>}
@@ -730,6 +758,7 @@ const styles = StyleSheet.create({
     right: 0,
   },
   body: {
+    paddingTop:0,
     backgroundColor: Colors.white,
   },
   sectionContainer: {
