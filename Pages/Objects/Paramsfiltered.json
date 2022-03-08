@@ -2692,7 +2692,7 @@
                         "Enum": 1
                     },
                     {
-                        "Tag": "IO-LINK",
+                        "Tag": "Digital Input",
                         "Enum": 2
                     },
                     {
