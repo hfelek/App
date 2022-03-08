@@ -256,13 +256,13 @@ const CurrentOutputSettingsScreen = ({ route, navigation }) => {
     const index = (MenuParams.filter(tag => tag.Tag == ConfigNum)[0].menu).filter(tag => tag.Tag == Tag)[0].Index
     const [text, setText] = React.useState(context[index].toFixed(3));
     useEffect(() => {
-        console.log((text != context[index] && isItNumber(text) && text<=100 && text>=0 ))
+        console.log((Math.abs(text -context[index])>=0.001 && isItNumber(text) && text<=100 && text>=0 ))
         console.log("here")
-        if (text != context[index] && isItNumber(text) && text<100 )  {
+        if (Math.abs(text - context[index])>=0.001 && isItNumber(text) && text>0 &&text<100 )  {
           navigation.setOptions({
             headerRight: () => (
               <TouchableOpacity
-              onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${index}":${text}}}`, context) }}
+              onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${index}":${(Math.round(parseFloat(text)*1000))/1000}}}`, context) }}
     
               >
                 <View style={styles.buttonBar}>
@@ -302,12 +302,7 @@ const CurrentOutputSettingsScreen = ({ route, navigation }) => {
                 onChangeText={text => setText(text)}
             />
             {/* <LenghtChecker lenght={32} /> */}
-            {text != context[index] && isItNumber(text) && text<100 && false &&
-                <Button
-                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Current Output", "Set Parameters": {"${index}":${text}}}`, context) }}
-                    title="Save"
-                    color="#841584"
-                />}
+
             {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
 
         </View>

@@ -179,11 +179,11 @@ const WriteScreen = ({ route, navigation }) => {
   useEffect(() => {
 
 
-    if (text != context[index] && isItNumber(text) && (upperBound!=null ?upperBound>=text : true ) && (lowerBound!=null ?lowerBound<=text : true ))  {
+    if (Math.abs(text - context[index]) >= 0.001 && isItNumber(text) && (upperBound!=null ?upperBound>=text : true ) && (lowerBound!=null ?lowerBound<=text : true ))  {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
-          onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Calibration", "Set Parameters": {"${index}":${text}}}`, context) }}
+          onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Calibration", "Set Parameters": {"${index}":${Math.round(parseFloat(text)*1000)/1000}}}`, context) }}
 
           >
             <View style={styles.buttonBar}>

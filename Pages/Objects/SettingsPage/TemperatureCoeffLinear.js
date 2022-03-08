@@ -209,10 +209,10 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
         maxLength={8}
       />
       {/* <LenghtChecker lenght={32} /> */}
-      {text != context[index] && isItNumber(text) && text < 100 && false&&
+      {text != context[index] && isItNumber(text) && text <= 5.4 && false&&
 
         <Button
-          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters":{"${index}":${text}}}`, context) }}
+          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters":{"${index}":${Math.round(parseFloat(text)*1000)/1000}}}`, context) }}
           title="Save"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"

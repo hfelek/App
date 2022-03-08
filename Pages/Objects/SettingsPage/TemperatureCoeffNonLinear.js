@@ -97,7 +97,7 @@ function calculatePayload(hookArray, valueMenu) {
   var payload = ""
   for (let i = 0; i < 2; i++) {
     for (let k = 1; k < 7; k++) {
-      i == 0 ? payload += `"${valueMenu.find(key => key.Tag == `Temperature Point ${k}`).Index}":${hookArray[k][i]},` : payload += `"${valueMenu.find(key => key.Tag == `Temperature Coefficient ${k}`).Index}":${hookArray[k][i]}, `
+      i == 0 ? payload += `"${valueMenu.find(key => key.Tag == `Temperature Point ${k}`).Index}":${Math.round(1000*hookArray[k][i])/1000},` : payload += `"${valueMenu.find(key => key.Tag == `Temperature Coefficient ${k}`).Index}":${Math.round(1000*hookArray[k][i])/1000}, `
     }
   }
   payload = payload.slice(0, -2); //// payloaddaki virgül atılıyor.
@@ -313,7 +313,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
   }
   useEffect(() => {
 
-    if (true) {
+    if (initialVal != hookArray) {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
@@ -335,15 +335,15 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
       });
     }
-    // else {
-    //   navigation.setOptions({
-    //     headerRight: () => (
-    //       <></>
-    //     ),
-    //     headerLeft: () => (navigateBackFunction(false))
+    else {
+      navigation.setOptions({
+        headerRight: () => (
+          <></>
+        ),
+        headerLeft: () => (navigateBackFunction(false))
 
-    //   });
-    // }
+      });
+    }
   });
 
 

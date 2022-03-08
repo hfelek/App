@@ -378,10 +378,10 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
   const limitsC = [possibleValues.filter(row => row.Tag == '°C')[0].RangeLower, possibleValues.filter(row => row.Tag == '°C')[0].RangeUpper]
   function callBackSlider() {
 
-    if ((temperatureC != context[index])) {
+    if (Math.abs(temperatureC - context[index])>=0.01) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":${temperatureC}}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":${(Math.round(parseFloat(temperatureC)*1000))/1000}}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>

@@ -283,6 +283,8 @@ const SwitchOutputSettingsScreen = ({ route, navigation }) => {
           });
         }
       });
+      console.log("diff")
+      console.log(Math.abs(text-context[index]))
     return (
         <View>
             <TextInput
@@ -300,9 +302,9 @@ const SwitchOutputSettingsScreen = ({ route, navigation }) => {
                 onChangeText={text => setText(text)}
             />
             {/* <LenghtChecker lenght={32} /> */}
-            {text != context[index] && isItNumber(text) && text<100 && false &&
+            {Math.abs(text - context[index])>=0.001 && isItNumber(text) && text<100 && false &&
                 <Button
-                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Switch Output", "Set Parameters": {"${index}":${text}}}`, context) }}
+                    onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Switch Output", "Set Parameters": {"${index}":${(Math.round(parseFloat(text)*1000))/1000}}}`, context) }}
                     title="Save"
                     color="#841584"
                 />}

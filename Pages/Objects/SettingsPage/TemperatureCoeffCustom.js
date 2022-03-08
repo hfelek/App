@@ -49,18 +49,18 @@ function tableDataFunction(tempPoints, concPoints, context, configMenu) {
                     rowData.push("Empty")
                 }
                 else {
-                    rowData.push(context[configMenu.find(key => key.Tag == `Temperature Coefficient ${j}`).Index].toFixed(2))
+                    rowData.push(context[configMenu.find(key => key.Tag == `Temperature Coefficient ${j}`).Index].toFixed(3))
                 }
 
             }
             else {
 
                 if (j == 0) {
-                    rowData.push(context[configMenu.find(key => key.Tag == `Temperature Point ${i}`).Index].toFixed(2))
+                    rowData.push(context[configMenu.find(key => key.Tag == `Temperature Point ${i}`).Index].toFixed(3))
 
                 }
                 else {
-                    rowData.push(context[configMenu.find(key => key.Tag == `Conductivity Point ${((i - 1) * tempPoints) + j}`).Index].toFixed(2))
+                    rowData.push(context[configMenu.find(key => key.Tag == `Conductivity Point ${((i - 1) * tempPoints) + j}`).Index].toFixed(3))
                 }
             }
         }
@@ -140,14 +140,14 @@ function calculatePayload(hookArray) {
 
 
     for (let i = 0; i < hookArray.get('temp'); i++) {
-        buf.writeFloatBE(hookArray.get('array')[i + 1][0], 0);
+        buf.writeFloatBE(parseFloat(((hookArray.get('array')[i + 1][0])*1000)/1000), 0);
         for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
     }
 
 
     for (let i = 0; i < hookArray.get('conc'); i++) {
         // const buf = Buffer.allocUnsafe(4);
-        buf.writeFloatBE(hookArray.get('array')[0][i + 1], 0);
+        buf.writeFloatBE(parseFloat(((hookArray.get('array')[0][i + 1])*1000)/1000), 0);
         for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
 
     }
@@ -156,7 +156,7 @@ function calculatePayload(hookArray) {
     for (let i = 0; i < hookArray.get('temp'); i++) {
         for (let k = 0; k < hookArray.get('conc'); k++) {
             const buf = Buffer.allocUnsafe(4);
-            buf.writeFloatBE(hookArray.get('array')[i + 1][k + 1], 0);
+            buf.writeFloatBE(parseFloat(((hookArray.get('array')[i + 1][k + 1])*1000)/1000), 0);
             for (const x of buf.toJSON().data) { payload = payload + x.toString(16).padStart(2, 0); }
 
         }
@@ -239,7 +239,7 @@ const element = (data, index, cellIndex, value, setValue) => {
                 style={[styles.input1]}
                 value={value.get('array')[index][cellIndex]}
                 keyboardType="numeric"
-                maxLength={7}
+                maxLength={8}
                 underlineColor={(cellIndex == 0 || index == 0) ? (cellIndex == 0) ? '#F3C892' : '#D9D7F1' : 'white'}
                 selectionColor='#2a9df4'
                 placeholder='0.0'
@@ -430,7 +430,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
     const widthArr = [150]
     useEffect(() => {
 
-        if (true) {
+        if (map1 != hookArray) {
             navigation.setOptions({
                 headerRight: () => (
                     <TouchableOpacity
