@@ -6,7 +6,6 @@
     <item
         android:width="200dp"
         android:height="200dp"
-        android:layout_marginTop="24dp"
 
         android:drawable="@drawable/media_eliar"
         android:gravity="center" />

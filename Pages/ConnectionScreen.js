@@ -630,6 +630,16 @@ ConnectionScreen = () => {
           });
         }
       });
+
+      BleManager.enableBluetooth()
+      .then(() => {
+        // Success code
+        console.log("The bluetooth is already enabled or the user confirm");
+      })
+      .catch((error) => {
+        // Failure code
+        console.log("The user refuse to enable bluetooth");
+      });
     }
 
     return (() => {
