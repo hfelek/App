@@ -6091,10 +6091,10 @@
   "resolved" "https://registry.npmjs.org/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz"
   "version" "0.3.1"
 
-"react-native-splash-screen@^3.3.0":
-  "integrity" "sha512-rGjt6HkoSXxMqH4SQUJ1gnPQlPJV8+J47+4yhgTIan4bVvAwJhEeJH7wWt9hXSdH4+VfwTS0GTaflj1Tw83IhA=="
-  "resolved" "https://registry.npmjs.org/react-native-splash-screen/-/react-native-splash-screen-3.3.0.tgz"
-  "version" "3.3.0"
+"react-native-splash-screen@^3.0.6":
+  "integrity" "sha512-yaTnGAHRyhduLSfD85gP3Vsf0BRePHW3aNNtDXbkbUhwIIeafu2cJH86U/qKFuKLMYLnFOXteOkP80gaYVGAYg=="
+  "resolved" "https://registry.npmjs.org/react-native-splash-screen/-/react-native-splash-screen-3.0.6.tgz"
+  "version" "3.0.6"
 
 "react-native-table-component@^1.2.1":
   "integrity" "sha512-sapwO0bONfQtpWg3GVMwP5D3lGEJlxPB3c7fb0soXBynvCa+SBktacVZ9OmYJnIbRJ3uW5pS4tzNc8GmE+UScw=="
@@ -6120,7 +6120,7 @@
   "resolved" "https://registry.npmjs.org/react-native-wifi-reborn/-/react-native-wifi-reborn-4.4.1.tgz"
   "version" "4.4.1"
 
-"react-native@*", "react-native@>=0.13", "react-native@>=0.28.0", "react-native@>=0.36.0", "react-native@>=0.42.0", "react-native@>=0.55.0", "react-native@>=0.57", "react-native@>=0.57.0", "react-native@>=0.59", "react-native@>=0.62.0", "react-native@0.66.3":
+"react-native@*", "react-native@>=0.13", "react-native@>=0.28.0", "react-native@>=0.36.0", "react-native@>=0.42.0", "react-native@>=0.47.0", "react-native@>=0.55.0", "react-native@>=0.57", "react-native@>=0.59", "react-native@>=0.62.0", "react-native@0.66.3":
   "integrity" "sha512-B/dQpuvta9YvF5MihDWefoGlTvxzUHK5X5RjdrXHAu/ihTehJXxEA+m6z/tufp1ZUMDjU+tMZK6gnehzCuYfzw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.66.3.tgz"
   "version" "0.66.3"

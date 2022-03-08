@@ -51,11 +51,16 @@ const screenOptions = ({ route, color }) => {
 const Tab = createBottomTabNavigator();
 
 const App = ({ route, Navigator }) => {
-
+  React.useEffect(() => {
+    SplashScreen.hide();
+  },[]);
 
   return (
     <ValuesProvider >
       <NavigationContainer >
+        <StatusBar
+        barStyle="light-content"
+        backgroundColor={"#ffffff"}/>
         <Tab.Navigator screenOptions={({ route }) => ({ tabBarIcon: ({ color }) => screenOptions({ route, color }) })} initialRouteName="Connection"  >
           <Tab.Screen name="Connection" component={ConnectionScreen} options={styles.tabScreenOptions} />
           <Tab.Screen name="Device" component={DeviceScreen} options={styles.tabScreenOptions} />
