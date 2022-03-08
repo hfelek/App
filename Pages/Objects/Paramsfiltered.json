@@ -77,7 +77,6 @@
             }
         ]
     },
-
     {
         "Tag": "Conductivity Input",
         "Icon": "ios-barcode-sharp",
@@ -2218,7 +2217,6 @@
             }
         ]
     },
-
     {
         "Tag": "Current Output",
         "Index": "500",
@@ -2553,20 +2551,20 @@
                 "Tag": "Operation Mode IO 1",
                 "Index": "283",
                 "PossibleValues": [{
-                        "Tag": "Current Output",
+                        "Tag": "Off",
                         "Enum": "0"
                     },
                     {
-                        "Tag": "Switch Output",
-                        "Enum": "1"
-                    },
-                    {
-                        "Tag": "IO-LINK",
+                        "Tag": "Current Output",
                         "Enum": "2"
                     },
                     {
-                        "Tag": "Off",
+                        "Tag": "Switch Output",
                         "Enum": "3"
+                    },
+                    {
+                        "Tag": "IO-LINK",
+                        "Enum": "1"
                     }
                 ],
                 "subMenu": [{
@@ -2577,19 +2575,19 @@
                             "Index": "284",
                             "PossibleValues": [{
                                     "Tag": "Off",
-                                    "Enum": 0
+                                    "Enum": "3"
                                 },
                                 {
                                     "Tag": "Conductivity",
-                                    "Enum": 1
+                                    "Enum": "0"
                                 },
                                 {
                                     "Tag": "Concentration",
-                                    "Enum": 2
+                                    "Enum": "1"
                                 },
                                 {
                                     "Tag": "Temperature",
-                                    "Enum": 3
+                                    "Enum": "2"
                                 }
                             ]
                         }]
@@ -2619,19 +2617,19 @@
                                 "Index": "286",
                                 "PossibleValues": [{
                                         "Tag": "Off",
-                                        "Enum": "0"
+                                        "Enum": "3"
                                     },
                                     {
                                         "Tag": "Conductivity",
-                                        "Enum": "1"
+                                        "Enum": "0"
                                     },
                                     {
                                         "Tag": "Concentration",
-                                        "Enum": "2"
+                                        "Enum": "1"
                                     },
                                     {
                                         "Tag": "Temperature",
-                                        "Enum": "3"
+                                        "Enum": "2"
                                     }
                                 ]
                             },
@@ -2640,39 +2638,35 @@
                                 "Index": "287",
                                 "PossibleValues": [{
                                         "Tag": "Alarm",
-                                        "Enum": "0"
-                                    },
-                                    {
-                                        "Tag": "Off",
                                         "Enum": "1"
                                     },
                                     {
-                                        "Tag": "On",
-                                        "Enum": "2"
+                                        "Tag": "Off",
+                                        "Enum": "0"
                                     },
                                     {
                                         "Tag": "Limit Conductivity",
-                                        "Enum": "3"
+                                        "Enum": "2"
                                     },
                                     {
                                         "Tag": "Limit Concentration",
-                                        "Enum": "4"
+                                        "Enum": "3"
                                     },
                                     {
                                         "Tag": "Limit Temperature",
-                                        "Enum": "5"
+                                        "Enum": "4"
                                     },
                                     {
                                         "Tag": "Window Conductivity",
-                                        "Enum": "6"
+                                        "Enum": "5"
                                     },
                                     {
                                         "Tag": "Window Concentration",
-                                        "Enum": "7"
+                                        "Enum": "6"
                                     },
                                     {
                                         "Tag": "Window Temperature",
-                                        "Enum": "8"
+                                        "Enum": "7"
                                     }
                                 ]
                             }
@@ -2684,20 +2678,20 @@
                 "Tag": "Operation Mode IO 2",
                 "Index": "288",
                 "PossibleValues": [{
+                        "Tag": "Off",
+                        "Enum": "0"
+                    },
+                    {
                         "Tag": "Current Output",
-                        "Enum": 0
+                        "Enum": "1"
                     },
                     {
                         "Tag": "Switch Output",
-                        "Enum": 1
+                        "Enum": "2"
                     },
                     {
                         "Tag": "Digital Input",
-                        "Enum": 2
-                    },
-                    {
-                        "Tag": "Off",
-                        "Enum": 3
+                        "Enum": "3"
                     }
                 ],
                 "subMenu": [{
@@ -2708,19 +2702,19 @@
                             "Index": "289",
                             "PossibleValues": [{
                                     "Tag": "Off",
-                                    "Enum": "0"
+                                    "Enum": "3"
                                 },
                                 {
                                     "Tag": "Conductivity",
-                                    "Enum": "1"
+                                    "Enum": "0"
                                 },
                                 {
                                     "Tag": "Concentration",
-                                    "Enum": "2"
+                                    "Enum": "1"
                                 },
                                 {
                                     "Tag": "Temperature",
-                                    "Enum": "3"
+                                    "Enum": "2"
                                 }
                             ]
                         }]
@@ -2736,12 +2730,8 @@
                                         "Enum": "0"
                                     },
                                     {
-                                        "Tag": "N-Switching",
-                                        "Enum": "1"
-                                    },
-                                    {
                                         "Tag": "Push-Pull",
-                                        "Enum": "2"
+                                        "Enum": "1"
                                     }
                                 ]
                             },
@@ -2750,19 +2740,19 @@
                                 "Index": "291",
                                 "PossibleValues": [{
                                         "Tag": "Off",
-                                        "Enum": "0"
+                                        "Enum": "3"
                                     },
                                     {
                                         "Tag": "Conductivity",
-                                        "Enum": "1"
+                                        "Enum": "0"
                                     },
                                     {
                                         "Tag": "Concentration",
-                                        "Enum": "2"
+                                        "Enum": "1"
                                     },
                                     {
                                         "Tag": "Temperature",
-                                        "Enum": "3"
+                                        "Enum": "2"
                                     }
                                 ]
                             },
@@ -2771,39 +2761,35 @@
                                 "Index": "292",
                                 "PossibleValues": [{
                                         "Tag": "Alarm",
-                                        "Enum": "0"
-                                    },
-                                    {
-                                        "Tag": "Off",
                                         "Enum": "1"
                                     },
                                     {
-                                        "Tag": "On",
-                                        "Enum": "2"
+                                        "Tag": "Off",
+                                        "Enum": "0"
                                     },
                                     {
                                         "Tag": "Limit Conductivity",
-                                        "Enum": "3"
+                                        "Enum": "2"
                                     },
                                     {
                                         "Tag": "Limit Concentration",
-                                        "Enum": "4"
+                                        "Enum": "3"
                                     },
                                     {
                                         "Tag": "Limit Temperature",
-                                        "Enum": "5"
+                                        "Enum": "4"
                                     },
                                     {
                                         "Tag": "Window Conductivity",
-                                        "Enum": "6"
+                                        "Enum": "5"
                                     },
                                     {
                                         "Tag": "Window Concentration",
-                                        "Enum": "7"
+                                        "Enum": "6"
                                     },
                                     {
                                         "Tag": "Window Temperature",
-                                        "Enum": "8"
+                                        "Enum": "7"
                                     }
                                 ]
                             }
@@ -3091,7 +3077,8 @@
                 "Index": "377"
             }
         ]
-    }, {
+    },
+    {
         "Tag": "Diagnostics",
         "Icon": "map-outline",
         "Index": "503",
