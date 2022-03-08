@@ -303,7 +303,6 @@ const OperationSelectionScreen = ({ route, navigation }) => {
                                 }>
                                 <Picker.Item label="Alarm" value="Alarm" />
                                 <Picker.Item label="Off" value="Off" />
-                                <Picker.Item label="On" value="On" />
                                 <Picker.Item label="Limit Conductivity" value="Limit Conductivity" />
                                 <Picker.Item label="Limit Concentration" value="Limit Concentration" />
                                 <Picker.Item label="Limit Temperature" value="Limit Temperature" />
