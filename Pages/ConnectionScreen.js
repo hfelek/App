@@ -114,7 +114,8 @@ ConnectionScreen = () => {
   //console.log("I am in Connection Screen")
 
   const startScan = () => {
-     peripherals.clear(); // Her scan başladığında scan edilmiş cihazlar listesi sıfırlanıyor.
+     peripherals.clear();
+     setList([]) // Her scan başladığında scan edilmiş cihazlar listesi sıfırlanıyor.
     if (!isScanning) {
       BleManager.scan([], 2, true).then((results) => {
         //console.log('Scanning...');
@@ -731,16 +732,13 @@ ConnectionScreen = () => {
           </TouchableOpacity> */}
       </View>
 
-      <FlatList
+      <FlatList 
         data={list}
         renderItem={({ item }) => renderItem(item)}
         keyExtractor={item => item.id}
       />
-      {false && <View>
-        <Text>{JSON.stringify(context)}</Text>
-
-      </View>}
-      {deviceConnected == false && <View style={styles.noDevice}>
+      {/* No Device Connected Yazısı Eklenebilir. Şuanki Durumda Scan Tuşuna basılınca cihaz listesi resetlendiği için yazı anlık olarak gidip geliyor */}
+      {deviceConnected == false && list.length==0 && false &&<View style={styles.noDevice}> 
         <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
         <Icon name='warning-outline' size={100} color="#000" rounded='true' />
       </View>}
