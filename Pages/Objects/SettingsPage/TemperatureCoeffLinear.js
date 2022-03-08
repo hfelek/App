@@ -167,11 +167,11 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
   useEffect(() => {
 
-    if (text != context[index] && isItNumber(text) && text <= 5.4 && text >=0) {
+    if (Math.abs(text - context[index])>=0.001 && isItNumber(text) && text <= 5.4 && text >=0) {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
-            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters":{"${index}":${text}}}`, context) }}
+            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters":{"${index}":${Math.round(parseFloat(text)*1000)/1000}}}`, context) }}
 
           >
             <View style={styles.buttonBar}>

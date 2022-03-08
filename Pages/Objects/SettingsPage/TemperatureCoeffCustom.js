@@ -405,9 +405,7 @@ for (var k = 0; k < coefficients.length; k++) {
 }
 console.log("Table Coefficients are OK")
 
-console.log(tempArray)
-console.log(concArray)
-console.log(coefficients)
+
 return true
 }
 
@@ -427,10 +425,13 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
     const [modalTemperaturePoints, setModalTemperaturePoints] = useState(map1.get('temp'));
     const [modalConcentrationPoints, setModalConcentrationPoints] = useState(map1.get('conc'));
     const [hookArray, setHookArray] = useState(map1);
+    console.log(calculatePayload(map1))
+    console.log(calculatePayload(hookArray))
+
     const widthArr = [150]
     useEffect(() => {
 
-        if (map1 != hookArray) {
+        if (calculatePayload(map1)!= calculatePayload(hookArray)) {
             navigation.setOptions({
                 headerRight: () => (
                     <TouchableOpacity
