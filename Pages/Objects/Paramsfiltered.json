@@ -2682,22 +2682,22 @@
             },
             {
                 "Tag": "Operation Mode IO 2",
-                "Index": "283",
+                "Index": "288",
                 "PossibleValues": [{
                         "Tag": "Current Output",
-                        "Enum": "0"
+                        "Enum": 0
                     },
                     {
                         "Tag": "Switch Output",
-                        "Enum": "1"
+                        "Enum": 1
                     },
                     {
                         "Tag": "IO-LINK",
-                        "Enum": "2"
+                        "Enum": 2
                     },
                     {
                         "Tag": "Off",
-                        "Enum": "3"
+                        "Enum": 3
                     }
                 ],
                 "subMenu": [{
@@ -2705,22 +2705,22 @@
                         "Index": "500",
                         "menu": [{
                             "Tag": "Output-Assign",
-                            "Index": "284",
+                            "Index": "289",
                             "PossibleValues": [{
                                     "Tag": "Off",
-                                    "Enum": 0
+                                    "Enum": "0"
                                 },
                                 {
                                     "Tag": "Conductivity",
-                                    "Enum": 1
+                                    "Enum": "1"
                                 },
                                 {
                                     "Tag": "Concentration",
-                                    "Enum": 2
+                                    "Enum": "2"
                                 },
                                 {
                                     "Tag": "Temperature",
-                                    "Enum": 3
+                                    "Enum": "3"
                                 }
                             ]
                         }]
@@ -2730,22 +2730,24 @@
                         "Index": "500",
                         "menu": [{
                                 "Tag": "Output Type",
-
-                                "Index": "285",
+                                "Index": "290",
                                 "PossibleValues": [{
                                         "Tag": "P-Switching",
                                         "Enum": "0"
                                     },
-
+                                    {
+                                        "Tag": "N-Switching",
+                                        "Enum": "1"
+                                    },
                                     {
                                         "Tag": "Push-Pull",
-                                        "Enum": "1"
+                                        "Enum": "2"
                                     }
                                 ]
                             },
                             {
                                 "Tag": "Output-Assign",
-                                "Index": "286",
+                                "Index": "291",
                                 "PossibleValues": [{
                                         "Tag": "Off",
                                         "Enum": "0"
@@ -2766,7 +2768,7 @@
                             },
                             {
                                 "Tag": "Function",
-                                "Index": "287",
+                                "Index": "292",
                                 "PossibleValues": [{
                                         "Tag": "Alarm",
                                         "Enum": "0"
