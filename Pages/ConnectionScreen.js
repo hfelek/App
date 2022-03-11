@@ -44,6 +44,12 @@ import { Buffer } from 'buffer';
 import HandleWriteCommandGroup from '../Utilities/BLEFunctions.js/HandleGroup';
 import HandleWriteCommandGroupContext from '../Utilities/BLEFunctions.js/HandleGroupContext';
 import { stringify } from 'querystring';
+// import { cpSync } from 'fs';
+function toHexString(byteArray) {
+  return Array.from(byteArray, function(byte) {
+    return ('0' + (byte & 0xFF).toString(16)).slice(-2);
+  }).join('')
+}
 function hexStringToByte(str) {
   if (!str) {
     return new Uint8Array();
@@ -158,7 +164,7 @@ ConnectionScreen = () => {
   let a = ""
 
   const handleDiscoverPeripheral = (peripheral) => {
-    console.log(peripheral)
+    // console.log(peripheral)
     // if (peripheral.name == 'ELIAR-ICT-2-V2') {
     //   //console.log(peripheral.advertising.manufacturerData.bytes)
     //   const buffer = Buffer.from(peripheral.advertising.manufacturerData.bytes);
@@ -171,8 +177,70 @@ ConnectionScreen = () => {
 
     //   }
     // }
-    if (peripheral.advertising.localName) {
-      if (peripheral.advertising.localName.search("Eliar") != -1 || peripheral.advertising.localName.search("ELIAR") != -1) {
+    // if (peripheral.advertising.localName) {
+    //   if (peripheral.advertising.localName.search("Eliar") != -1 || peripheral.advertising.localName.search("ELIAR") != -1) {
+    //     console.log(peripheral)
+    //     peripherals.set(peripheral.id, peripheral);
+    //     setList(Array.from(peripherals.values()));
+    //   }
+    // }
+
+    if (peripheral.name) {
+      if (peripheral.name.search("Eliar") != -1 || peripheral.name.search("ELIAR") != -1) {
+       if (peripheral.name == "EliarDeneme"){
+        // console.log(peripheral)
+        console.log(peripheral.name)
+        console.log(peripheral)
+        console.log(peripheral.advertising.manufacturerData)
+        const dataString =toHexString(peripheral.advertising.manufacturerData.bytes)
+        console.log(toHexString(peripheral.advertising.manufacturerData.bytes))
+        console.log(dataString.length)
+        let atDataLenght=true
+        let dataLenght=0
+        let atEndofData=false
+        let payload=""
+        let advObject={}
+        for(var i =0;i<Math.round(dataString.length/2);i++){
+          const subString=dataString[i*2+0]+dataString[i*2+1]
+          if(atDataLenght){
+            dataLenght= hexStringToByte(subString)
+            if(dataLenght==0){  ///noDataLeft
+              break;
+            }
+            console.log(dataLenght)
+            atDataLenght=false
+          }
+          else{
+             payload+=subString;
+             dataLenght = dataLenght-1
+          }
+
+          if(dataLenght==0){
+            atDataLenght=true
+            atEndofData=true
+          }
+          if(atEndofData){
+            console.log("End of Data")
+            console.log("Index:")
+            console.log(typeof(payload[0]+payload[1]))
+            console.log(payload[0]+payload[1])
+            // console.log(payload)
+            advObject[payload[0]+payload[1]]=payload.substring(2);
+            atEndofData=false
+            payload=""
+          }
+
+          
+        }
+        console.log("Out of the Loop")
+        console.log(advObject)
+        // console.log(toHexString(per))
+      
+      }
+        // for (var i = 0; i < 200; i++) {
+        //   numArrBuff[i] = parseInt(stringMsg.substring(i * 2, (i * 2) + 2), 16)
+        // }
+        // console.log("02010803FF31321109454C4941522D49435441726475696E6F020A03051220004000")
         peripherals.set(peripheral.id, peripheral);
         setList(Array.from(peripherals.values()));
       }
@@ -186,6 +254,7 @@ ConnectionScreen = () => {
     if (service == processDataCharacteristics.find(obj => obj.ServiceUUID).ServiceUUID) {
       // console.log("byteValue: ")
       // console.log(value);
+      console.log("Process Datadan Veri Geldi!")
       const bufferSensorValues = Buffer.from(value);
       let objectToBeSet = {}
       objectToBeSet["Status Alarm"] = bufferSensorValues.readUInt8(0) == 0 ? false : true;
@@ -289,6 +358,7 @@ ConnectionScreen = () => {
       }
       else if (configurationCharacteristics.find(obj => obj.ServiceUUID == service).Characteristics.find(obj => obj.CharacteristicsUUID == characteristic).DataType == "Object") { //Type is Object
         const data = bytesToString(value);
+        console.log(data)
         context.setValueTotal(JSON.parse(data))
 
 
@@ -604,9 +674,10 @@ ConnectionScreen = () => {
       // peripherals.clear();
       handleDiscoverPeripheral(args);
     });
+    
     const subscriptionStopScan = bleManagerEmitter.addListener('BleManagerStopScan', handleStopScan);
     const subscriptionDisconnectPeripheral = bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', handleDisconnectedPeripheral);
-    bleManagerEmitter.addListener("BleManagerDidUpdateState", (args) => {
+    const subscriptionDidUpdateState = bleManagerEmitter.addListener("BleManagerDidUpdateState", (args) => {
 
       handleDidUpdateState(args)
     });    // const subscriptionDidUpdateValueForCharacterisctic = bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', ({ value, peripheral, characteristic, service }) => {
@@ -693,7 +764,9 @@ ConnectionScreen = () => {
             source={require("../Media/ICT200-C50.png")}
             style={[styles.imgSensor, { flex: 1 }]}
           />
-          <Text style={{ flex: 1, fontSize: 20, textAlign: 'center', color: '#333333', paddingTop: 25 }}>{item.advertising.localName}</Text>
+          {/* <Text style={{ flex: 1, fontSize: 20, textAlign: 'center', color: '#333333', paddingTop: 25 }}>{item.advertising.localName}</Text> */}
+          <Text style={{ flex: 1, fontSize: 20, textAlign: 'center', color: '#333333', paddingTop: 25 }}>{item.name}</Text>
+
           <View style={{ flex: 1, alignItems: 'center', paddingBottom: 20 }}>
             <SignalLevelIndicator signalStrength={item.rssi} />
 
@@ -752,6 +825,7 @@ ConnectionScreen = () => {
         <Text style={{ alignContent: 'center', padding: 25 }}>No device connected</Text>
         <Icon name='warning-outline' size={100} color="#000" rounded='true' />
       </View>}
+      {/* {<Text>{JSON.stringify(context)}</Text>} */}
     </SafeAreaView>
   );
 
