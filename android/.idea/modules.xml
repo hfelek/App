@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/NavigationBar.iml" filepath="$PROJECT_DIR$/.idea/modules/NavigationBar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/NavigationBar.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/NavigationBar.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1763282731/NavigationBar.react-native-background-task.iml" filepath="$PROJECT_DIR$/.idea/modules/-1763282731/NavigationBar.react-native-background-task.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/518054092/NavigationBar.react-native-ble-manager.iml" filepath="$PROJECT_DIR$/.idea/modules/518054092/NavigationBar.react-native-ble-manager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-602473573/NavigationBar.react-native-ble-plx.iml" filepath="$PROJECT_DIR$/.idea/modules/-602473573/NavigationBar.react-native-ble-plx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1908540928/NavigationBar.react-native-community_masked-view.iml" filepath="$PROJECT_DIR$/.idea/modules/1908540928/NavigationBar.react-native-community_masked-view.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/620265175/NavigationBar.react-native-gesture-handler.iml" filepath="$PROJECT_DIR$/.idea/modules/620265175/NavigationBar.react-native-gesture-handler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/682418862/NavigationBar.react-native-picker_picker.iml" filepath="$PROJECT_DIR$/.idea/modules/682418862/NavigationBar.react-native-picker_picker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1490029339/NavigationBar.react-native-reanimated.iml" filepath="$PROJECT_DIR$/.idea/modules/-1490029339/NavigationBar.react-native-reanimated.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-274252416/NavigationBar.react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/-274252416/NavigationBar.react-native-safe-area-context.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1271496088/NavigationBar.react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/1271496088/NavigationBar.react-native-screens.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-20088093/NavigationBar.react-native-splash-screen.iml" filepath="$PROJECT_DIR$/.idea/modules/-20088093/NavigationBar.react-native-splash-screen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/998170719/NavigationBar.react-native-vector-icons.iml" filepath="$PROJECT_DIR$/.idea/modules/998170719/NavigationBar.react-native-vector-icons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-893127611/NavigationBar.react-native-wifi-reborn.iml" filepath="$PROJECT_DIR$/.idea/modules/-893127611/NavigationBar.react-native-wifi-reborn.iml" />
+    </modules>
+  </component>
+</project>

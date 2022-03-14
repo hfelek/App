@@ -23,12 +23,12 @@ DerivedData
 
 # Android/IntelliJ
 #
-build/
-.idea
-.gradle
-local.properties
-*.iml
-*.hprof
+# build/   Burayı Commentledim 14.03.2022
+# .idea
+# .gradle
+# local.properties
+# *.iml
+# *.hprof
 
 # node.js
 #
@@ -57,4 +57,4 @@ buck-out/
 *.jsbundle
 
 # CocoaPods
-/ios/Pods/
+# /ios/Pods/ Burayı Commentledim 14.03.2022
