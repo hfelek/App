@@ -174,8 +174,8 @@ const WriteScreen = ({ route, navigation }) => {
   const index =ConductivityRangesParam.find(key => key.Tag == Tag).Index
   const [text, setText] = React.useState(context[index].toFixed(3));
   const slug = Tag.split('/cm ')[1];
-  const upperBound = slug=='Mounting Factor' ? 1.1 : null;
-  const lowerBound = slug=='Mounting Factor' ? 0.9 : null;
+  const upperBound = slug=='Mounting Factor' ? 1.2 : null;
+  const lowerBound = slug=='Mounting Factor' ? 0.8 : null;
   useEffect(() => {
 
 

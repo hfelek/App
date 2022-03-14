@@ -119,80 +119,84 @@
                         "Access": "R/W",
                         "Index": "16",
                         "PossibleValues": [{
-                                "Tag": "Linear",
+                                "Tag": "No Compensation",
                                 "Enum": 0
                             },
                             {
-                                "Tag": "Non-Linear",
+                                "Tag": "Linear",
                                 "Enum": 1
                             },
                             {
-                                "Tag": "Custom",
+                                "Tag": "Non-Linear",
                                 "Enum": 2
                             },
                             {
-                                "Tag": "NaCl 0...25%",
+                                "Tag": "Custom",
                                 "Enum": 3
                             },
                             {
-                                "Tag": "NaCl 0...25°B",
+                                "Tag": "NaCl 0...25%",
                                 "Enum": 4
                             },
                             {
-                                "Tag": "NaOH 0...15%",
+                                "Tag": "NaCl 0...25°B",
                                 "Enum": 5
                             },
                             {
-                                "Tag": "NaOH 0...20°B",
+                                "Tag": "NaOH 0...15%",
                                 "Enum": 6
                             },
                             {
-                                "Tag": "NaOH 20...50%",
+                                "Tag": "NaOH 0...20°B",
                                 "Enum": 7
                             },
                             {
-                                "Tag": "NaOH 25...50°B",
+                                "Tag": "NaOH 20...50%",
                                 "Enum": 8
                             },
                             {
-                                "Tag": "NA2SO4 0...40%",
+                                "Tag": "NaOH 25...50°B",
                                 "Enum": 9
                             },
                             {
-                                "Tag": "HNO3 0...25%",
+                                "Tag": "NA2SO4 0...40%",
                                 "Enum": 10
                             },
                             {
-                                "Tag": "HNO3 36...82%",
+                                "Tag": "HNO3 0...25%",
                                 "Enum": 11
                             },
                             {
-                                "Tag": "H2SO4 0...28%",
+                                "Tag": "HNO3 36...82%",
                                 "Enum": 12
                             },
                             {
-                                "Tag": "H2SO4 36...85%",
+                                "Tag": "H2SO4 0...28%",
                                 "Enum": 13
                             },
                             {
-                                "Tag": "H2SO4 92...99%",
+                                "Tag": "H2SO4 36...85%",
                                 "Enum": 14
                             },
                             {
-                                "Tag": "HCl 0...18%",
+                                "Tag": "H2SO4 92...99%",
                                 "Enum": 15
                             },
                             {
-                                "Tag": "HCl 22...44%",
+                                "Tag": "HCl 0...18%",
                                 "Enum": 16
                             },
                             {
-                                "Tag": "MgCl2 0...18%",
+                                "Tag": "HCl 22...44%",
                                 "Enum": 17
                             },
                             {
-                                "Tag": "MgCl2 19...25%",
+                                "Tag": "MgCl2 0...18%",
                                 "Enum": 18
+                            },
+                            {
+                                "Tag": "MgCl2 19...25%",
+                                "Enum": 19
                             }
                         ]
                     },
@@ -255,80 +259,84 @@
                         "Access": "R/W",
                         "Index": "20",
                         "PossibleValues": [{
-                                "Tag": "Linear",
+                                "Tag": "No Compensation",
                                 "Enum": 0
                             },
                             {
-                                "Tag": "Non-Linear",
+                                "Tag": "Linear",
                                 "Enum": 1
                             },
                             {
-                                "Tag": "Custom",
+                                "Tag": "Non-Linear",
                                 "Enum": 2
                             },
                             {
-                                "Tag": "NaCl 0...25%",
+                                "Tag": "Custom",
                                 "Enum": 3
                             },
                             {
-                                "Tag": "NaCl 0...25°B",
+                                "Tag": "NaCl 0...25%",
                                 "Enum": 4
                             },
                             {
-                                "Tag": "NaOH 0...15%",
+                                "Tag": "NaCl 0...25°B",
                                 "Enum": 5
                             },
                             {
-                                "Tag": "NaOH 0...20°B",
+                                "Tag": "NaOH 0...15%",
                                 "Enum": 6
                             },
                             {
-                                "Tag": "NaOH 20...50%",
+                                "Tag": "NaOH 0...20°B",
                                 "Enum": 7
                             },
                             {
-                                "Tag": "NaOH 25...50°B",
+                                "Tag": "NaOH 20...50%",
                                 "Enum": 8
                             },
                             {
-                                "Tag": "NA2SO4 0...40%",
+                                "Tag": "NaOH 25...50°B",
                                 "Enum": 9
                             },
                             {
-                                "Tag": "HNO3 0...25%",
+                                "Tag": "NA2SO4 0...40%",
                                 "Enum": 10
                             },
                             {
-                                "Tag": "HNO3 36...82%",
+                                "Tag": "HNO3 0...25%",
                                 "Enum": 11
                             },
                             {
-                                "Tag": "H2SO4 0...28%",
+                                "Tag": "HNO3 36...82%",
                                 "Enum": 12
                             },
                             {
-                                "Tag": "H2SO4 36...85%",
+                                "Tag": "H2SO4 0...28%",
                                 "Enum": 13
                             },
                             {
-                                "Tag": "H2SO4 92...99%",
+                                "Tag": "H2SO4 36...85%",
                                 "Enum": 14
                             },
                             {
-                                "Tag": "HCl 0...18%",
+                                "Tag": "H2SO4 92...99%",
                                 "Enum": 15
                             },
                             {
-                                "Tag": "HCl 22...44%",
+                                "Tag": "HCl 0...18%",
                                 "Enum": 16
                             },
                             {
-                                "Tag": "MgCl2 0...18%",
+                                "Tag": "HCl 22...44%",
                                 "Enum": 17
                             },
                             {
-                                "Tag": "MgCl2 19...25%",
+                                "Tag": "MgCl2 0...18%",
                                 "Enum": 18
+                            },
+                            {
+                                "Tag": "MgCl2 19...25%",
+                                "Enum": 19
                             }
                         ]
                     },
@@ -392,80 +400,84 @@
                         "Access": "R/W",
                         "Index": "24",
                         "PossibleValues": [{
-                                "Tag": "Linear",
+                                "Tag": "No Compensation",
                                 "Enum": 0
                             },
                             {
-                                "Tag": "Non-Linear",
+                                "Tag": "Linear",
                                 "Enum": 1
                             },
                             {
-                                "Tag": "Custom",
+                                "Tag": "Non-Linear",
                                 "Enum": 2
                             },
                             {
-                                "Tag": "NaCl 0...25%",
+                                "Tag": "Custom",
                                 "Enum": 3
                             },
                             {
-                                "Tag": "NaCl 0...25°B",
+                                "Tag": "NaCl 0...25%",
                                 "Enum": 4
                             },
                             {
-                                "Tag": "NaOH 0...15%",
+                                "Tag": "NaCl 0...25°B",
                                 "Enum": 5
                             },
                             {
-                                "Tag": "NaOH 0...20°B",
+                                "Tag": "NaOH 0...15%",
                                 "Enum": 6
                             },
                             {
-                                "Tag": "NaOH 20...50%",
+                                "Tag": "NaOH 0...20°B",
                                 "Enum": 7
                             },
                             {
-                                "Tag": "NaOH 25...50°B",
+                                "Tag": "NaOH 20...50%",
                                 "Enum": 8
                             },
                             {
-                                "Tag": "NA2SO4 0...40%",
+                                "Tag": "NaOH 25...50°B",
                                 "Enum": 9
                             },
                             {
-                                "Tag": "HNO3 0...25%",
+                                "Tag": "NA2SO4 0...40%",
                                 "Enum": 10
                             },
                             {
-                                "Tag": "HNO3 36...82%",
+                                "Tag": "HNO3 0...25%",
                                 "Enum": 11
                             },
                             {
-                                "Tag": "H2SO4 0...28%",
+                                "Tag": "HNO3 36...82%",
                                 "Enum": 12
                             },
                             {
-                                "Tag": "H2SO4 36...85%",
+                                "Tag": "H2SO4 0...28%",
                                 "Enum": 13
                             },
                             {
-                                "Tag": "H2SO4 92...99%",
+                                "Tag": "H2SO4 36...85%",
                                 "Enum": 14
                             },
                             {
-                                "Tag": "HCl 0...18%",
+                                "Tag": "H2SO4 92...99%",
                                 "Enum": 15
                             },
                             {
-                                "Tag": "HCl 22...44%",
+                                "Tag": "HCl 0...18%",
                                 "Enum": 16
                             },
                             {
-                                "Tag": "MgCl2 0...18%",
+                                "Tag": "HCl 22...44%",
                                 "Enum": 17
                             },
                             {
-                                "Tag": "MgCl2 19...25%",
+                                "Tag": "MgCl2 0...18%",
                                 "Enum": 18
+                            },
+                            {
+                                "Tag": "MgCl2 19...25%",
+                                "Enum": 19
                             }
                         ]
                     },
@@ -530,80 +542,84 @@
                         "Value": "Non-Linear",
                         "Index": "28",
                         "PossibleValues": [{
-                                "Tag": "Linear",
+                                "Tag": "No Compensation",
                                 "Enum": 0
                             },
                             {
-                                "Tag": "Non-Linear",
+                                "Tag": "Linear",
                                 "Enum": 1
                             },
                             {
-                                "Tag": "Custom",
+                                "Tag": "Non-Linear",
                                 "Enum": 2
                             },
                             {
-                                "Tag": "NaCl 0...25%",
+                                "Tag": "Custom",
                                 "Enum": 3
                             },
                             {
-                                "Tag": "NaCl 0...25°B",
+                                "Tag": "NaCl 0...25%",
                                 "Enum": 4
                             },
                             {
-                                "Tag": "NaOH 0...15%",
+                                "Tag": "NaCl 0...25°B",
                                 "Enum": 5
                             },
                             {
-                                "Tag": "NaOH 0...20°B",
+                                "Tag": "NaOH 0...15%",
                                 "Enum": 6
                             },
                             {
-                                "Tag": "NaOH 20...50%",
+                                "Tag": "NaOH 0...20°B",
                                 "Enum": 7
                             },
                             {
-                                "Tag": "NaOH 25...50°B",
+                                "Tag": "NaOH 20...50%",
                                 "Enum": 8
                             },
                             {
-                                "Tag": "NA2SO4 0...40%",
+                                "Tag": "NaOH 25...50°B",
                                 "Enum": 9
                             },
                             {
-                                "Tag": "HNO3 0...25%",
+                                "Tag": "NA2SO4 0...40%",
                                 "Enum": 10
                             },
                             {
-                                "Tag": "HNO3 36...82%",
+                                "Tag": "HNO3 0...25%",
                                 "Enum": 11
                             },
                             {
-                                "Tag": "H2SO4 0...28%",
+                                "Tag": "HNO3 36...82%",
                                 "Enum": 12
                             },
                             {
-                                "Tag": "H2SO4 36...85%",
+                                "Tag": "H2SO4 0...28%",
                                 "Enum": 13
                             },
                             {
-                                "Tag": "H2SO4 92...99%",
+                                "Tag": "H2SO4 36...85%",
                                 "Enum": 14
                             },
                             {
-                                "Tag": "HCl 0...18%",
+                                "Tag": "H2SO4 92...99%",
                                 "Enum": 15
                             },
                             {
-                                "Tag": "HCl 22...44%",
+                                "Tag": "HCl 0...18%",
                                 "Enum": 16
                             },
                             {
-                                "Tag": "MgCl2 0...18%",
+                                "Tag": "HCl 22...44%",
                                 "Enum": 17
                             },
                             {
-                                "Tag": "MgCl2 19...25%",
+                                "Tag": "MgCl2 0...18%",
                                 "Enum": 18
+                            },
+                            {
+                                "Tag": "MgCl2 19...25%",
+                                "Enum": 19
                             }
                         ]
                     },
@@ -2964,8 +2980,8 @@
                 "menu": [{
                         "Tag": "0 to 2000 mS/cm Mounting Factor",
                         "Index": "358",
-                        "MaxValue": 0.9,
-                        "MinValue": 1.1
+                        "MaxValue": 0.8,
+                        "MinValue": 1.2
                     },
                     {
                         "Tag": "0 to 2000 mS/cm Zero Point",
@@ -2976,8 +2992,8 @@
                     {
                         "Tag": "0 to 1000 mS/cm Mounting Factor",
                         "Index": "360",
-                        "MaxValue": 0.9,
-                        "MinValue": 1.1
+                        "MaxValue": 0.8,
+                        "MinValue": 1.2
                     },
                     {
                         "Tag": "0 to 1000 mS/cm Zero Point",
@@ -2988,8 +3004,8 @@
                     {
                         "Tag": "0 to 500 mS/cm Mounting Factor",
                         "Index": "362",
-                        "MaxValue": 0.9,
-                        "MinValue": 1.1
+                        "MaxValue": 0.8,
+                        "MinValue": 1.2
                     },
                     {
                         "Tag": "0 to 500 mS/cm Zero Point",
@@ -3000,8 +3016,8 @@
                     {
                         "Tag": "0 to 200 mS/cm Mounting Factor",
                         "Index": "364",
-                        "MaxValue": 0.9,
-                        "MinValue": 1.1
+                        "MaxValue": 0.8,
+                        "MinValue": 1.2
                     },
                     {
                         "Tag": "0 to 200 mS/cm Zero Point",
@@ -3012,8 +3028,8 @@
                     {
                         "Tag": "0 to 20 mS/cm Mounting Factor",
                         "Index": "366",
-                        "MaxValue": 0.9,
-                        "MinValue": 1.1
+                        "MaxValue": 0.8,
+                        "MinValue": 1.2
                     },
                     {
                         "Tag": "0 to 20 mS/cm Zero Point",
@@ -3024,8 +3040,8 @@
                     {
                         "Tag": "0 to 2000 µS/cm Mounting Factor",
                         "Index": "368",
-                        "MaxValue": 0.9,
-                        "MinValue": 1.1
+                        "MaxValue": 0.8,
+                        "MinValue": 1.2
                     },
                     {
                         "Tag": "0 to 2000 µS/cm Zero Point",

@@ -874,6 +874,7 @@ const PasswordScreen = ({ route, navigation }) => {
       <TextInput
         label={"Set Your WiFi " + Tag}
         value={text}
+        maxLength={64}
         // selectionColor='#000'
         underlineColor='#000'
         activeOutlineColor='#000'

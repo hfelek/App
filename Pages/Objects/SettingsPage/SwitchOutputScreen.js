@@ -132,7 +132,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
                     ConfigNum: parent
                 })}>
 
-                    <ItemValueBar item={title} value={context[index]} />
+<ItemValueBar item={title} value={(context[index].toFixed(1))} />
                 </TouchableOpacity>
             )
         case 'Conductivity Off Value Point':
@@ -144,7 +144,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <ItemValueBar item={title} value={context[index]} />
+                      <ItemValueBar item={title} value={(context[index].toFixed(1))} />
                 </TouchableOpacity>
             )
 
@@ -158,7 +158,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <ItemValueBar item={title} value={context[index]} />
+                      <ItemValueBar item={title} value={(context[index].toFixed(1))} />
                 </TouchableOpacity>
             )
         case 'Concentration Off Value Point':
@@ -170,7 +170,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <ItemValueBar item={title} value={context[index]} />
+                      <ItemValueBar item={title} value={(context[index].toFixed(1))} />
                 </TouchableOpacity>
             )
 
@@ -183,7 +183,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <ItemValueBar item={title} value={context[index]} />
+                      <ItemValueBar item={title} value={(context[index].toFixed(1))} />
                 </TouchableOpacity>
             )
         case 'Temperature Off Value Point':
@@ -195,7 +195,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
                     name: title,
                     ConfigNum: parent
                 })}>
-                    <ItemValueBar item={title} value={context[index]} />
+                      <ItemValueBar item={title} value={(context[index].toFixed(1))} />
                 </TouchableOpacity>
             )
         default:
@@ -253,15 +253,15 @@ const SwitchOutputSettingsScreen = ({ route, navigation }) => {
     const { Tag } = route.params
     const { ConfigNum } = route.params
     const index = (MenuParams.filter(tag => tag.Tag == ConfigNum)[0].menu).filter(tag => tag.Tag == Tag)[0].Index
-    const [text, setText] = React.useState(context[index].toFixed(3));
+    const [text, setText] = React.useState(context[index].toFixed(1));
     useEffect(() => {
         console.log((text != context[index] && isItNumber(text) && text<100))
         console.log("here")
-        if (text != context[index] && isItNumber(text) && text<=100 && text>=0 )  {
+        if (Math.abs(text - context[index])>=0.1 && isItNumber(text) && text<=100 && text>=0 )  {
           navigation.setOptions({
             headerRight: () => (
               <TouchableOpacity
-              onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Switch Output", "Set Parameters": {"${index}":${text}}}`, context) }}
+              onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Switch Output", "Set Parameters": {"${index}":${(Math.round(parseFloat(text)*10))/10}}}`, context) }}
     
               >
                 <View style={styles.buttonBar}>
