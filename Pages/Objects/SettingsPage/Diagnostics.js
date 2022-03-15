@@ -63,6 +63,16 @@ const ItemValueBar = ({ item, value }) => (
     </View>
   </View>
 )
+const ItemValueBarRead = ({ item, value }) => (
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+    <View style={{ justifyContent: 'center' }}>
+      <Text style={styles.title}>{item}</Text>
+      <Text style={styles.value}>{value}</Text>
+
+    </View>
+  </View>
+)
 const CheckButtoned = (selectedValue, sentValue) => {
   if (selectedValue === sentValue) {
     return (
@@ -136,10 +146,8 @@ function Item(title, value, navigation, context = context) {
 
    if (ReadableComponents.includes(title)) {
     return (
-      <View style={styles.item}>
-
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.value}> {context[MenuParams.filter(row => row.Tag == title)[0].Index]} </Text>
+      <View style={styles.itemButton}>
+          <ItemValueBarRead item={title} value={context[MenuParams.filter(row => row.Tag == title)[0].Index]} />
       </View>
 
     )

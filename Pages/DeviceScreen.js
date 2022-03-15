@@ -98,7 +98,7 @@ DeviceScreen = () => {
             {/* <Icon name='checkmark-circle-sharp' size={30} color="green" rounded='true' /> */}
 
             <View style={{ flexDirection: 'column' }}>
-              <Text style={{ color: 'black' }}> Temperature</Text>
+              <Text style={{ color: 'black' }}>Temperature</Text>
               <Text style={styles.sensorValuesText}>{contextValues["Temperature"].toFixed(2) + " " + temperatureParams.find(value => value.Enum == contextValues["Unit Temperature"]).Tag}</Text>
               {/* <Text style={{ color: 'black', paddingTop: 1, paddingBottom: 1, textAlign: 'center' }}>{contextValues["Temperature"]}</Text> */}
             </View>

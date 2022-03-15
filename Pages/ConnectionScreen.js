@@ -72,32 +72,32 @@ function hexStringToByte(str) {
 }
 const processDataCharacteristics = [
   {
-    "ServiceUUID": "a65373b2-6942-11ec-90d6-024200110000",
+    "ServiceUUID": "A65373B2-6942-11EC-90D6-024200110000",
     "Characteristics": [
-      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200110100" }]
+      { "CharacteristicsUUID": "A65373B2-6942-11EC-90D6-024200110100" }]
   }
 ]
 const configurationCharacteristics = [
   {
-    "ServiceUUID": "a65373b2-6942-11ec-90d6-024200130000",
+    "ServiceUUID": "A65373B2-6942-11EC-90D6-024200130000",
     "Characteristics": [
-      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130100", "DataType": "Object" },
-      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130200", "DataType": "Object" },
-      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130300", "DataType": "Object" },
-      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130400", "DataType": "Object" },
-      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130500", "DataType": "Object" },
-      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200130600", "DataType": "Object" },
+      { "CharacteristicsUUID": "A65373B2-6942-11EC-90D6-024200130100", "DataType": "Object" },
+      { "CharacteristicsUUID": "A65373B2-6942-11EC-90D6-024200130200", "DataType": "Object" },
+      { "CharacteristicsUUID": "A65373B2-6942-11EC-90D6-024200130300", "DataType": "Object" },
+      { "CharacteristicsUUID": "A65373B2-6942-11EC-90D6-024200130400", "DataType": "Object" },
+      { "CharacteristicsUUID": "A65373B2-6942-11EC-90D6-024200130500", "DataType": "Object" },
+      { "CharacteristicsUUID": "A65373B2-6942-11EC-90D6-024200130600", "DataType": "Object" },
     ]
   },
   {
-    "ServiceUUID": "a65373b2-6942-11ec-90d6-024200140000",
+    "ServiceUUID": "A65373B2-6942-11EC-90D6-024200140000",
     "Characteristics": [
-      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200140700", "DataType": "Object" },
-      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200140800", "DataType": "Float" }, //Config 1 Custom Paramters
-      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200140900", "DataType": "Float" },//Config 2 Custom Paramters
-      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200141000", "DataType": "Float" },//Config 3 Custom Paramters
-      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200141100", "DataType": "Float" },//Config 4 Custom Paramters
-      { "CharacteristicsUUID": "a65373b2-6942-11ec-90d6-024200141200", "DataType": "Object" }
+      { "CharacteristicsUUID": "A65373B2-6942-11EC-90D6-024200140700", "DataType": "Object" },
+      { "CharacteristicsUUID": "A65373B2-6942-11EC-90D6-024200140800", "DataType": "Float" }, //Config 1 Custom Paramters
+      { "CharacteristicsUUID": "A65373B2-6942-11EC-90D6-024200140900", "DataType": "Float" },//Config 2 Custom Paramters
+      { "CharacteristicsUUID": "A65373B2-6942-11EC-90D6-024200141000", "DataType": "Float" },//Config 3 Custom Paramters
+      { "CharacteristicsUUID": "A65373B2-6942-11EC-90D6-024200141100", "DataType": "Float" },//Config 4 Custom Paramters
+      { "CharacteristicsUUID": "A65373B2-6942-11EC-90D6-024200141200", "DataType": "Object" }
 
     ]
   }
@@ -290,13 +290,13 @@ ConnectionScreen = () => {
         console.log("Configuration Has Been Notified From Characteristic:")
         console.log(characteristic)      
         let index = "501"
-        if (characteristic == "a65373b2-6942-11ec-90d6-024200140800") {
+        if (characteristic == "A65373B2-6942-11EC-90D6-024200140800") {
           index = "501"
-        } else if (characteristic == "a65373b2-6942-11ec-90d6-024200140900") {
+        } else if (characteristic == "A65373B2-6942-11EC-90D6-024200140900") {
           index = "502"
-        } else if (characteristic == "a65373b2-6942-11ec-90d6-024200141000") {
+        } else if (characteristic == "A65373B2-6942-11EC-90D6-024200141000") {
           index = "503"
-        } else if (characteristic == "a65373b2-6942-11ec-90d6-024200141100") {
+        } else if (characteristic == "A65373B2-6942-11EC-90D6-024200141100") {
           index = "504"
         }
         const stringMsg = JSON.parse(bytesToString(value))[index]
@@ -313,7 +313,7 @@ ConnectionScreen = () => {
         // console.log(buf)
         let obj = {};
         switch (characteristic) {
-          case "a65373b2-6942-11ec-90d6-024200140800":
+          case "A65373B2-6942-11EC-90D6-024200140800":
             for (let index = 0; index < 50; index++) {
               if (index == 0 || index == 1) {
                 obj[index + 83] = buf.readInt32BE(0 + 4 * index);
@@ -325,7 +325,7 @@ ConnectionScreen = () => {
             // console.log(obj);
             context.setValueTotal(obj);
             break;
-          case "a65373b2-6942-11ec-90d6-024200140900":
+          case "A65373B2-6942-11EC-90D6-024200140900":
             for (let index = 0; index < 50; index++) {
               if (index == 0 || index == 1) {
                 obj[index + 133] = buf.readInt32BE(0 + 4 * index);
@@ -338,7 +338,7 @@ ConnectionScreen = () => {
             // console.log(obj)
             context.setValueTotal(obj);
             break;
-          case "a65373b2-6942-11ec-90d6-024200141000":
+          case "A65373B2-6942-11EC-90D6-024200141000":
 
             for (let index = 0; index < 50; index++) {
               if (index == 0 || index == 1) {
@@ -351,7 +351,7 @@ ConnectionScreen = () => {
             // console.log(obj)
             context.setValueTotal(obj);
             break;
-          case "a65373b2-6942-11ec-90d6-024200141100":
+          case "A65373B2-6942-11EC-90D6-024200141100":
 
             for (let index = 0; index < 50; index++) {
               if (index == 0 || index == 1) {
@@ -462,7 +462,7 @@ ConnectionScreen = () => {
         // }
         // ,200)
         // setTimeout(() => {
-        //  BleManager.startNotification(peripheral.id,"a65373b2-6942-11ec-90d6-024200110000","a65373b2-6942-11ec-90d6-024200110100").then((peripheralInfo) => {
+        //  BleManager.startNotification(peripheral.id,"A65373B2-6942-11EC-90D6-024200110000","A65373B2-6942-11EC-90D6-024200110100").then((peripheralInfo) => {
 
         //   });
 
@@ -517,10 +517,10 @@ ConnectionScreen = () => {
 
 
 
-  //   await BleManager.read("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200130000", "a65373b2-6942-11ec-90d6-024200130300").then((readData) => {
+  //   await BleManager.read("24:0A:C4:09:69:62", "A65373B2-6942-11EC-90D6-024200130000", "A65373B2-6942-11EC-90D6-024200130300").then((readData) => {
   //     // console.log("I am in Function of Characteristic 3")
   //     if (true) {
-  //       handleUpdateValueForCharacteristic(readData, "24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200130300", "a65373b2-6942-11ec-90d6-024200130000", context)
+  //       handleUpdateValueForCharacteristic(readData, "24:0A:C4:09:69:62", "A65373B2-6942-11EC-90D6-024200130300", "A65373B2-6942-11EC-90D6-024200130000", context)
   //     }
   //     // console.log("CONTEXT ==>")
   //     // console.log(JSON.stringify(context))
@@ -529,10 +529,10 @@ ConnectionScreen = () => {
   //   });
 
   //   console.log("i am here in between calls")
-  //   await BleManager.read("24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200130000", "a65373b2-6942-11ec-90d6-024200130200").then((readData) => {
+  //   await BleManager.read("24:0A:C4:09:69:62", "A65373B2-6942-11EC-90D6-024200130000", "A65373B2-6942-11EC-90D6-024200130200").then((readData) => {
   //     if (true) {
 
-  //       handleUpdateValueForCharacteristic(readData, "24:0A:C4:09:69:62", "a65373b2-6942-11ec-90d6-024200130200", "a65373b2-6942-11ec-90d6-024200130000", context)
+  //       handleUpdateValueForCharacteristic(readData, "24:0A:C4:09:69:62", "A65373B2-6942-11EC-90D6-024200130200", "A65373B2-6942-11EC-90D6-024200130000", context)
   //     }
 
   //   }).catch((error) => {
@@ -551,7 +551,7 @@ ConnectionScreen = () => {
 
   //   // })
 
-  //   // BleManager.startNotification(peripheralInfo.id, "a65373b2-6942-11ec-90d6-024200110000", "a65373b2-6942-11ec-90d6-024200110100").then(() => {
+  //   // BleManager.startNotification(peripheralInfo.id, "A65373B2-6942-11EC-90D6-024200110000", "A65373B2-6942-11EC-90D6-024200110100").then(() => {
   //   //   //console.log('Read Data');
 
   //   // }).catch((error) => {
@@ -593,6 +593,9 @@ ConnectionScreen = () => {
               console.log(peripheral.id)
               console.log(error);
             });
+        }
+        else if (Platform.OS == 'ios'){
+          setNotification(peripheral)
         }
 
         // }, 200);

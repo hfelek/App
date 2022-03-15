@@ -148,7 +148,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
       );
       break;
     default:
-      if(title.includes("mS/cm")){
+      if(title.includes("/cm")){
       return (
         <TouchableOpacity
           style={styles.itemButton}
@@ -174,8 +174,12 @@ const WriteScreen = ({ route, navigation }) => {
   const index =ConductivityRangesParam.find(key => key.Tag == Tag).Index
   const [text, setText] = React.useState(context[index].toFixed(3));
   const slug = Tag.split('/cm ')[1];
-  const upperBound = slug=='Mounting Factor' ? 1.2 : null;
-  const lowerBound = slug=='Mounting Factor' ? 0.8 : null;
+  const num = Tag.split('to ')[1].split(" ")[0]/10;
+  console.log(num)
+  console.log(slug)
+  console.log("slug")
+  const upperBound = slug=='Mounting Factor' ? 1.2 : num;
+  const lowerBound = slug=='Mounting Factor' ? 0.8 : 0;
   useEffect(() => {
 
 
@@ -184,7 +188,6 @@ const WriteScreen = ({ route, navigation }) => {
         headerRight: () => (
           <TouchableOpacity
           onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Calibration", "Set Parameters": {"${index}":${Math.round(parseFloat(text)*1000)/1000}}}`, context) }}
-
           >
             <View style={styles.buttonBar}>
               <Text>Save</Text>

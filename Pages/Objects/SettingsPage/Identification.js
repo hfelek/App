@@ -93,7 +93,16 @@ const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value
 
   ///If anything else is to be done, it will be done here!
 }
+const ItemValueBarRead = ({ item, value }) => (
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
+    <View style={{ justifyContent: 'center' }}>
+      <Text style={styles.title}>{item}</Text>
+      <Text style={styles.value}>{value}</Text>
+
+    </View>
+  </View>
+)
 
 const ApplicationTagScreen = () => {
   const contextConfigurationValues = useContext(ContextConfigurationValues)
@@ -178,10 +187,12 @@ function Item(title, value, navigation = null, context = null) {
   //     )
   // default:
   return (
+
+
     <View style={styles.itemButton}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.value}>{context[filteredAT = MenuParams.filter(row => row.Tag == title)[0].Index]}</Text>
+      <ItemValueBarRead item={title} value={context[filteredAT = MenuParams.filter(row => row.Tag == title)[0].Index]} />
     </View>
+
 
   )
   // };
@@ -221,10 +232,10 @@ const IdentificationScreen = ({ route, navigation }) => {
 
   return (
     <StackIdentification.Navigator screenOptions={{
-      headerShown: true, headerTitleAlign: 'center', headerStyle:styles.headerStyle , headerLeft: () => (navigateBackFunction(false))
+      headerShown: true, headerTitleAlign: 'center', headerStyle: styles.headerStyle, headerLeft: () => (navigateBackFunction(false))
     }}>
       <StackIdentification.Screen name='Identification Main' component={IdentificationMainScreen} options={{
-        headerTitle: "Identification", 
+        headerTitle: "Identification",
       }} />
       {/* <StackIdentification.Screen name='Application Tag' component={ApplicationTagScreen} options={{ headerStyle: { borderBottomWidth: 1, borderBottomColor: 'black' } }} /> */}
     </StackIdentification.Navigator>
@@ -260,19 +271,21 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'gray',
   },
-  headerStyle: {shadowColor: "#222",
-      shadowOffset: {
-        width: 0,
-        height: 3,
-      },
-      shadowOpacity: 0.27,
-      shadowRadius: 4.65,
-      
-      elevation: 6},
+  headerStyle: {
+    shadowColor: "#222",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+
+    elevation: 6
+  },
   itemButton: {
     backgroundColor: '#ffffff',
     padding: 8,
-    
+
     marginVertical: 0,
     marginHorizontal: 0,
     flexDirection: 'column',
