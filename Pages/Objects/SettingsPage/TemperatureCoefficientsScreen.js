@@ -23,6 +23,9 @@ import BleManager from 'react-native-ble-manager';
 import TemperatureCoeffNonLinearScreen from './TemperatureCoeffNonLinear'
 import TemperatureCoeffLinearScreen from './TemperatureCoeffLinear'
 import TemperatureCoeffCustomScreen from './TemperatureCoeffCustom'
+import navigateBackFunction from "../../../Utilities/navigateBackFunction"
+import { ItemValueBarShow,ItemBar,ItemBarShow,ItemValueBar,ConfigurationBar } from '../../../Utilities/ItemValueBarStyles';
+
 let peripheralID = '0'
 const activeConfigurationMenu = Paramsfiltered.filter(SetupMenu => SetupMenu.Tag === "Setup Menu")[0].menu;
 const activeConfigurationIndex = activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].Index
@@ -35,56 +38,7 @@ let SubMenuParams = TempCoeffParams.SubMenu
 const StackTempCoeff = createStackNavigator();
 
 var filtered = Values.filter(row => row.Tag == 'Temperature Coefficients');
-const ItemBar = ({ item }) => (
-  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-    <View style={{ height: 40, justifyContent: 'center' }}>
-      <Text style={styles.title}>{item}</Text>
-    </View>
-    <View style={{ justifyContent: 'center' }}>
-      <Icon
-        name="chevron-forward-outline"
-        size={20}
-        color="#000"
-      />
-    </View>
-  </View>
-)
-const ItemValueBar = ({ item, value }) => (
-  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-    <View style={{ justifyContent: 'center' }}>
-      <Text style={styles.title}>{item}</Text>
-      <Text style={styles.value}>{value}</Text>
-
-    </View>
-    <View style={{ justifyContent: 'center' }}>
-      <Icon
-        name="chevron-forward-outline"
-        size={20}
-        color="#000"
-      />
-    </View>
-  </View>
-)
-const ConfigurationBar = ({ config, activeConfig }) => (
-  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-    <View style={{ justifyContent: 'center', height: 40 }}>
-      <Text style={styles.title}>{config}</Text>
-      {config == activeConfig && <Text style={{ fontSize: 12, color: 'black' }}>{"Active"}</Text>}
-
-    </View>
-    <View style={{ justifyContent: 'center' }}>
-      <Icon
-        name="chevron-forward-outline"
-        size={20}
-        color="#000"
-      />
-    </View>
-  </View>
-
-)
 function renderItem(item, navigation = null, context = null, parent) {
   return (Item(item.Tag, item.Value, navigation, context, parent))
 }
@@ -259,7 +213,7 @@ const TemperatureCoeffScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackTempCoeff.Navigator screenOptions={{ headerShown: true, headerStyle:styles.headerStyle, headerTitleAlign: 'center' }}>
+    <StackTempCoeff.Navigator screenOptions={{ headerShown: true, headerStyle:styles.headerStyle, headerTitleAlign: 'center', headerLeft: () => (navigateBackFunction(false)) }}>
       <StackTempCoeff.Screen name='MainScreenTempCoeff' component={TempCoeffMainScreen} options={{ headerTitle: "Temperature Coefficients" }} />
       <StackTempCoeff.Screen name='Configuration' component={ConfigurationNumScreen} options={({ route }) => ({ headerTitle: route.params.name })} />
       <StackTempCoeff.Screen name='Temperature Coefficient Non-Linear' component={TemperatureCoeffNonLinearScreen} options={({ route }) => ({ headerShown:false,headerTitle:'Non-Linear Coefficients'})}  />

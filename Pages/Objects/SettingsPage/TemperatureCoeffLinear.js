@@ -29,38 +29,6 @@ const StackConductivity = createStackNavigator();
 function isItNumber(str) {
   return /^\-?[0-9]+(e[0-9]+)?(\.[0-9]+)?$/.test(str);
 }
-const ItemBar = ({ item }) => (
-  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-    <View style={{ height: 40, justifyContent: 'center' }}>
-      <Text style={styles.title}>{item}</Text>
-    </View>
-    <View style={{ justifyContent: 'center' }}>
-      <Icon
-        name="chevron-forward-outline"
-        size={20}
-        color="#000"
-      />
-    </View>
-  </View>
-)
-const ItemValueBar = ({ item, value }) => (
-  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-    <View style={{ justifyContent: 'center' }}>
-      <Text style={styles.title}>{item}</Text>
-      <Text style={styles.value}>{value}</Text>
-
-    </View>
-    <View style={{ justifyContent: 'center' }}>
-      <Icon
-        name="chevron-forward-outline"
-        size={20}
-        color="#000"
-      />
-    </View>
-  </View>
-)
 
 
 function renderItem(item, navigation = null, context = null, parent) {

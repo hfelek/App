@@ -70,38 +70,7 @@ function tableDataFunction(tempPoints, concPoints, context, configMenu) {
 
     return tableData;
 }
-const ItemBar = ({ item }) => (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-        <View style={{ height: 40, justifyContent: 'center' }}>
-            <Text style={styles.title}>{item}</Text>
-        </View>
-        <View style={{ justifyContent: 'center' }}>
-            <Icon
-                name="chevron-forward-outline"
-                size={20}
-                color="#000"
-            />
-        </View>
-    </View>
-)
-const ItemValueBar = ({ item, value }) => (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-        <View style={{ justifyContent: 'center' }}>
-            <Text style={styles.title}>{item}</Text>
-            <Text style={styles.value}>{value}</Text>
-
-        </View>
-        <View style={{ justifyContent: 'center' }}>
-            <Icon
-                name="chevron-forward-outline"
-                size={20}
-                color="#000"
-            />
-        </View>
-    </View>
-)
 let peripheralID = '0'
 
 const StackConductivity = createStackNavigator();
@@ -110,24 +79,7 @@ const StackConductivity = createStackNavigator();
 // function renderItem(item, navigation = null, context = null, parent) {
 //   return (Item(item.Tag, item.Value, navigation, context, parent))
 // }
-const ConfigurationBar = ({ config, activeConfig }) => (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-        <View style={{ justifyContent: 'center', height: 40 }}>
-            <Text style={styles.title}>{config}</Text>
-            {config == activeConfig && <Text style={{ fontSize: 12, color: 'black' }}>{"Active"}</Text>}
-
-        </View>
-        <View style={{ justifyContent: 'center' }}>
-            <Icon
-                name="chevron-forward-outline"
-                size={20}
-                color="#000"
-            />
-        </View>
-    </View>
-
-)
 
 function calculatePayload(hookArray) {
     let payload = ""

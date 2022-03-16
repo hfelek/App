@@ -19,7 +19,7 @@ import { sub } from 'react-native-reanimated';
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import navigateBackFunction from "../../../Utilities/navigateBackFunction"
-
+import { ItemValueBar, ItemBar } from '../../../Utilities/ItemValueBarStyles';
 const renderItem = ({ item, navigation, context = null }) => (
   Item(item.Tag, item.Value, navigation, context)
 );
@@ -36,38 +36,38 @@ const menuComType = menuCommunication.menu.find(key => key.Tag == "Communication
 const WiFiFunctionEnums = { "WiFi Fucntion": "CC", "WiFi Mode": "CD", "SSID": "CE", "Password": "CF", "IP Adress": "D1", "Subnet Adress": "D2", "Router Adress": "D3", "Configure IPv4": "D0" }
 
 
-const ItemBar = ({ item }) => (
-  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+// const ItemBar = ({ item }) => (
+//   <View style={{height:45, flexDirection: 'row', justifyContent: 'space-between' }}>
 
-    <View style={{ height: 40, justifyContent: 'center' }}>
-      <Text style={styles.title}>{item}</Text>
-    </View>
-    <View style={{ justifyContent: 'center' }}>
-      <Icon
-        name="chevron-forward-outline"
-        size={20}
-        color="#000"
-      />
-    </View>
-  </View>
-)
-const ItemValueBar = ({ item, value }) => (
-  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+//     <View style={{  justifyContent: 'center' }}>
+//       <Text style={styles.title}>{item}</Text>
+//     </View>
+//     <View style={{ justifyContent: 'center' }}>
+//       <Icon
+//         name="chevron-forward-outline"
+//         size={20}
+//         color="#000"
+//       />
+//     </View>
+//   </View>
+// )
+// const ItemValueBar = ({ item, value }) => (
+//   <View style={{ height:45,flexDirection: 'row', justifyContent: 'space-between' }}>
 
-    <View style={{ justifyContent: 'center' }}>
-      <Text style={styles.title}>{item}</Text>
-      <Text style={styles.value}>{value}</Text>
+//     <View style={{ justifyContent: 'center' }}>
+//       <Text style={styles.title}>{item}</Text>
+//       <Text style={styles.value}>{value}</Text>
 
-    </View>
-    <View style={{ justifyContent: 'center' }}>
-      <Icon
-        name="chevron-forward-outline"
-        size={20}
-        color="#000"
-      />
-    </View>
-  </View>
-)
+//     </View>
+//     <View style={{ justifyContent: 'center' }}>
+//       <Icon
+//         name="chevron-forward-outline"
+//         size={20}
+//         color="#000"
+//       />
+//     </View>
+//   </View>
+
 
 const CheckButtoned = (selectedValue, sentValue) => {
   if (selectedValue === sentValue) {
@@ -192,6 +192,13 @@ function Item(title, value, navigation = null, context = null) {
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Communication Type', { Tag: title })}>
           <ItemValueBar item={title} value={menuComType.PossibleValues.find(key => key.Enum == context[menuComType.Index]).Tag} />
+        </TouchableOpacity>
+      )
+    case 'Bluetooth Complete Local Name':
+      menu = menuBLE.menu.find(key => key.Tag == title)
+      return (
+        <TouchableOpacity style={styles.itemButton}>
+          <ItemValueBar item={title} value={"ICT_BLE 2021"} />
         </TouchableOpacity>
       )
     case 'Bluetooth Function':
@@ -763,11 +770,11 @@ const SSIDScreen = ({ route, navigation }) => {
   const [text, setText] = React.useState(context[index]);
   useEffect(() => {
 
-    if (context[index] != text)  {
+    if (context[index] != text) {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
-          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Wireless Communication", "Set Parameters": {"${index}":"${text}"}}`, context) }}
+            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Wireless Communication", "Set Parameters": {"${index}":"${text}"}}`, context) }}
 
           >
             <View style={styles.buttonBar}>
@@ -842,11 +849,11 @@ const PasswordScreen = ({ route, navigation }) => {
   const [text, setText] = React.useState("");
   useEffect(() => {
 
-    if (text.length > 8)  {
+    if (text.length > 8) {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
-          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Wireless Communication", "Set Parameters": {"${index}":"${text}"}}`, context) }} title="Save"
+            onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Wireless Communication", "Set Parameters": {"${index}":"${text}"}}`, context) }} title="Save"
 
           >
             <View style={styles.buttonBar}>
@@ -889,7 +896,7 @@ const PasswordScreen = ({ route, navigation }) => {
       {/* <LenghtChecker lenght={32} /> */}
       {text.length > 8 && false &&
         <Button
-          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${text}"}}`, context) }} 
+          onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":"${text}"}}`, context) }}
           title="Save"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
@@ -943,7 +950,7 @@ const CommunicationScreen = ({ route, navigation }) => {
 
 
   return (
-    <StackCommunication.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle:styles.headerStyle, headerLeft: () => (navigateBackFunction(false)) }}>
+    <StackCommunication.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle: styles.headerStyle, headerLeft: () => (navigateBackFunction(false)) }}>
       <StackCommunication.Screen name='Communication Main' component={CommunicationMainScreen} options={{ headerTitle: "Wireless Communication" }} />
       <StackCommunication.Screen name='Bluetooth' component={BluetoothScreen} />
       <StackCommunication.Screen name='WiFi' component={WifiScreen} />
@@ -1021,18 +1028,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#9A348E",
     padding: 8,
-    width:70,
+    width: 70,
     marginRight: 3,
     borderRadius: 10,
-  },  headerStyle: {shadowColor: "#222",
-  shadowOffset: {
-    width: 0,
-    height: 3,
+  }, headerStyle: {
+    shadowColor: "#222",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+
+    elevation: 6
   },
-  shadowOpacity: 0.27,
-  shadowRadius: 4.65,
-  
-  elevation: 6},
 });
 
 

@@ -13,6 +13,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { ALERT_TYPE, Dialog, Root, Toast } from 'react-native-alert-notification';
 import navigateBackFunction from "../../../Utilities/navigateBackFunction"
+import { ItemValueBarShow } from '../../../Utilities/ItemValueBarStyles';
 const StackIdentification = createStackNavigator();
 
 var filtered;
@@ -93,16 +94,7 @@ const HandleWriteCommand = (peripheralId, serviceUUID, characteristicUUID, value
 
   ///If anything else is to be done, it will be done here!
 }
-const ItemValueBarRead = ({ item, value }) => (
-  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-    <View style={{ justifyContent: 'center' }}>
-      <Text style={styles.title}>{item}</Text>
-      <Text style={styles.value}>{value}</Text>
-
-    </View>
-  </View>
-)
 
 const ApplicationTagScreen = () => {
   const contextConfigurationValues = useContext(ContextConfigurationValues)
@@ -190,7 +182,7 @@ function Item(title, value, navigation = null, context = null) {
 
 
     <View style={styles.itemButton}>
-      <ItemValueBarRead item={title} value={context[filteredAT = MenuParams.filter(row => row.Tag == title)[0].Index]} />
+      <ItemValueBarShow item={title} value={context[filteredAT = MenuParams.filter(row => row.Tag == title)[0].Index]} />
     </View>
 
 
@@ -283,9 +275,9 @@ const styles = StyleSheet.create({
     elevation: 6
   },
   itemButton: {
+    
     backgroundColor: '#ffffff',
     padding: 8,
-
     marginVertical: 0,
     marginHorizontal: 0,
     flexDirection: 'column',

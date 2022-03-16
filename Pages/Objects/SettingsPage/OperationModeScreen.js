@@ -18,6 +18,7 @@ import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 // import Slider from '@react-native-community/slider';
 //import MultiSlider from 'react-native-multi-slider';
 import navigateBackFunction from "../../../Utilities/navigateBackFunction"
+import { ItemValueBarShow, ItemBar, ItemBarShow, ItemValueBar, ConfigurationBar } from '../../../Utilities/ItemValueBarStyles';
 
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
@@ -40,38 +41,6 @@ let MenuParams = OperationModeParams.menu;
 
 
 const StackConductivity = createStackNavigator();
-const ItemBar = ({ item }) => (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-        <View style={{ height: 40, justifyContent: 'center' }}>
-            <Text style={styles.title}>{item}</Text>
-        </View>
-        <View style={{ justifyContent: 'center' }}>
-            <Icon
-                name="chevron-forward-outline"
-                size={20}
-                color="#000"
-            />
-        </View>
-    </View>
-)
-const ItemValueBar = ({ item, value }) => (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-        <View style={{ justifyContent: 'center' }}>
-            <Text style={styles.title}>{item}</Text>
-            <Text style={styles.value}>{value}</Text>
-
-        </View>
-        <View style={{ justifyContent: 'center' }}>
-            <Icon
-                name="chevron-forward-outline"
-                size={20}
-                color="#000"
-            />
-        </View>
-    </View>
-)
 
 
 

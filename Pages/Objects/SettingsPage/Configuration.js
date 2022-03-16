@@ -14,7 +14,7 @@ import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGr
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import { ScrollView } from 'react-native-gesture-handler';
 import navigateBackFunction from "../../../Utilities/navigateBackFunction"
-
+import { ItemValueBarShow,ItemBar,ItemBarShow,ItemValueBar } from '../../../Utilities/ItemValueBarStyles';
 
 let peripheralID = '0'
 const ConfigurationParams = Paramsfiltered.filter(ConfigurationParams => ConfigurationParams.Tag === "Setup Menu")[0];
@@ -70,38 +70,7 @@ const CheckButtoned = (selectedValue, sentValue) => {
     )
   }
 }
-const ItemBar = ({item})=>(
-  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-  <View style={{height:40 ,justifyContent:'center'}}> 
-    <Text style={styles.title}>{item}</Text>
-  </View>
-  <View style={{ justifyContent: 'center' }}>
-    <Icon
-      name="chevron-forward-outline"
-      size={20}
-      color="#000"
-    />
-  </View>
-</View>
-)
-const ItemValueBar = ({item,value})=>(
-  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-  <View style={{justifyContent:'center'}}> 
-    <Text style={styles.title}>{item}</Text>
-    <Text style={styles.value}>{value}</Text>
-
-  </View>
-  <View style={{ justifyContent: 'center' }}>
-    <Icon
-      name="chevron-forward-outline"
-      size={20}
-      color="#000"
-    />
-  </View>
-</View>
-)
 // const ReferenceTemperatureScreen = ({ route, navigation }) => {
 //   const context = useContext(ContextConfigurationValues)
 //   const index=MenuParams.filter(row => row.Tag == "Reference Temperature")[0].Index
@@ -157,7 +126,6 @@ function Item(title, value, navigation = null, context = null) {
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Active Configuration', { Tag: title, Value: value })}>
         <ItemValueBar item={title} value={possibleValuesActConfig.filter(key=> key.Enum == context[MenuParams.filter(row => row.Tag == title)[0].Index])[0].Tag}/>
-
         </TouchableOpacity>
       )
     case 'Temperature Unit':

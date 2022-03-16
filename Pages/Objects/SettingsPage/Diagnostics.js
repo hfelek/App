@@ -11,6 +11,7 @@ import BleManager from 'react-native-ble-manager';
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import { ContextConfigurationValues, ContextSensorValues } from '../../../Src/contextConfiguration'
 import navigateBackFunction from "../../../Utilities/navigateBackFunction"
+import { ItemValueBarShow } from '../../../Utilities/ItemValueBarStyles';
 
 
 
@@ -147,7 +148,7 @@ function Item(title, value, navigation, context = context) {
    if (ReadableComponents.includes(title)) {
     return (
       <View style={styles.itemButton}>
-          <ItemValueBarRead item={title} value={context[MenuParams.filter(row => row.Tag == title)[0].Index]} />
+          <ItemValueBarShow item={title} value={context[MenuParams.filter(row => row.Tag == title)[0].Index]} />
       </View>
 
     )

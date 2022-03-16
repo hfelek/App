@@ -13,7 +13,7 @@ import { ContextConfigurationValues, ContextSensorValues } from '../../../Src/co
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import navigateBackFunction from "../../../Utilities/navigateBackFunction"
-
+import { ItemValueBarShow,ItemBar,ItemBarShow,ItemValueBar,ConfigurationBar } from '../../../Utilities/ItemValueBarStyles';
 let peripheralID = '0'
 const activeConfigurationMenu = Paramsfiltered.filter(SetupMenu => SetupMenu.Tag === "Setup Menu")[0].menu;
 const activeConfigurationIndex =activeConfigurationMenu.filter(tag => tag.Tag === "Active Configuration")[0].Index
@@ -24,57 +24,9 @@ const StackOutput1 = createStackNavigator();
 function isItNumber(str) {
     return /^\-?[0-9]+(e[0-9]+)?(\.[0-9]+)?$/.test(str);
   }
-const ConfigurationBar = ({ config, activeConfig }) => (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-  
-      <View style={{ justifyContent: 'center',height:40 }}>
-        <Text style={styles.title}>{config}</Text>
-       { config==activeConfig && <Text style={{fontSize:12,color:'black'}}>{"Active"}</Text>}
-  
-      </View>
-      <View style={{ justifyContent: 'center' }}>
-        <Icon
-          name="chevron-forward-outline"
-          size={20}
-          color="#000"
-        />
-      </View>
-    </View>
-  
-    )
 
-const ItemBar = ({ item }) => (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-        <View style={{ height: 40, justifyContent: 'center' }}>
-            <Text style={styles.title}>{item}</Text>
-        </View>
-        <View style={{ justifyContent: 'center' }}>
-            <Icon
-                name="chevron-forward-outline"
-                size={20}
-                color="#000"
-            />
-        </View>
-    </View>
-)
-const ItemValueBar = ({ item, value }) => (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-        <View style={{ justifyContent: 'center' }}>
-            <Text style={styles.title}>{item}</Text>
-            <Text style={styles.value}>{value}</Text>
-
-        </View>
-        <View style={{ justifyContent: 'center' }}>
-            <Icon
-                name="chevron-forward-outline"
-                size={20}
-                color="#000"
-            />
-        </View>
-    </View>
-)
 
 var filtered = Values.filter(row => row.Tag == 'Current Output');
 var filteredAT = filtered.filter(row => row.Tag == 'Switch Output');

@@ -14,34 +14,18 @@ import { ContextConfigurationValues, ContextSensorValues } from '../../../Src/co
 import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGroup'
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import navigateBackFunction from "../../../Utilities/navigateBackFunction"
-
+import { ItemValueBarShow, ItemBar, ItemBarShow, ItemValueBar, ConfigurationBar } from '../../../Utilities/ItemValueBarStyles';
 const StackDigitalInput = createStackNavigator();
 
 const filtered = Values.filter(row => row.Tag == 'Digital Input')[0];
 const MenuParams = filtered.menu;
-const menuDIStatus = MenuParams.find(key=>key.Tag=="Digital Input Status")
-const menuDIFunction = MenuParams.find(key=>key.Tag=="Digital Input Function")
+const menuDIStatus = MenuParams.find(key => key.Tag == "Digital Input Status")
+const menuDIFunction = MenuParams.find(key => key.Tag == "Digital Input Function")
 
 function renderItem(item, navigation = null, context = null, parent) {
     return (Item(item.Tag, item.Value, navigation, context, parent))
 }
-const ItemValueBar = ({ item, value }) => (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-        <View style={{ justifyContent: 'center' }}>
-            <Text style={styles.title}>{item}</Text>
-            <Text style={styles.value}>{value}</Text>
-
-        </View>
-        <View style={{ justifyContent: 'center' }}>
-            <Icon
-                name="chevron-forward-outline"
-                size={20}
-                color="#000"
-            />
-        </View>
-    </View>
-)
 const CheckButtoned = (selectedValue, sentValue) => {
     if (selectedValue === sentValue) {
         return (
@@ -77,18 +61,17 @@ function Item(title, value, navigation = null, context = null, parent = null) {
         case 'Digital Input Function':
             return (
                 <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Digital Input Function')}>
-                      <ItemValueBar item={title} value={menuDIFunction.PossibleValues.find(key=>key.Enum==context[menuDIFunction.Index]).Tag} />
+                    <ItemValueBar item={title} value={menuDIFunction.PossibleValues.find(key => key.Enum == context[menuDIFunction.Index]).Tag} />
                 </TouchableOpacity>
             )
 
         case 'Digital Input Status':
-                return (
-                    <View style={styles.itemButton}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.value}>{menuDIStatus.PossibleValues.find(key=>key.Enum==context[menuDIStatus.Index]).Tag}</Text>
-                  </View>
-                )
-    
+            return (
+                <View style={styles.itemButton}>
+                    <ItemValueBarShow item={title} value={menuDIStatus.PossibleValues.find(key => key.Enum == context[menuDIStatus.Index]).Tag} />
+                </View>
+            )
+
         default:
             return (
                 <View style={styles.item}>
@@ -102,14 +85,14 @@ function Item(title, value, navigation = null, context = null, parent = null) {
 
 const DigitalInputMainScreen = ({ navigation }) => {
     const context = useContext(ContextConfigurationValues);
-    return(
-    <SafeAreaView style={styles.container}>
-        <FlatList
-            data={MenuParams}
-            renderItem={({ item, index, separators }) => (renderItem(item, navigation,context, item.Tag))}
-            keyExtractor={item => item.Tag}
-        />
-    </SafeAreaView>)
+    return (
+        <SafeAreaView style={styles.container}>
+            <FlatList
+                data={MenuParams}
+                renderItem={({ item, index, separators }) => (renderItem(item, navigation, context, item.Tag))}
+                keyExtractor={item => item.Tag}
+            />
+        </SafeAreaView>)
 }
 
 const DigitalInputFunctionScreen = ({ route, navigation }) => {
@@ -117,43 +100,43 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
     const val = MenuParams.filter(row => row.Tag == 'Digital Input Function');
     const possibleValues = val[0].PossibleValues;
     const indexSelection = val[0].Index
-    const subConfigurationMenu=val[0].SubMenu.find(key=>key.Tag == "Configuration Control")
-    const indexSelectionDINHIGH=subConfigurationMenu.menu.find(key=>key.Tag=="D-IN State:High") /////////Burası Genel Objeden Çekilmiyior Şuanda
-    const indexSelectionDINLOW=subConfigurationMenu.menu.find(key=>key.Tag=="D-IN State:Low")
-    const [selection, setSelection] = React.useState(possibleValues.find(key=>key.Enum == context[indexSelection]).Tag); /////Digital InPut Function Selection
-    const [selectionDINHIGH, setSelectionDINHIGH] = React.useState(indexSelectionDINHIGH.PossibleValues.find(key=>key.Enum == context[indexSelectionDINHIGH.Index]).Tag);
-    const [selectionDINLOW, setSelectionDINLOW] = React.useState(indexSelectionDINLOW.PossibleValues.find(key=>key.Enum == context[indexSelectionDINLOW.Index]).Tag);
+    const subConfigurationMenu = val[0].SubMenu.find(key => key.Tag == "Configuration Control")
+    const indexSelectionDINHIGH = subConfigurationMenu.menu.find(key => key.Tag == "D-IN State:High") /////////Burası Genel Objeden Çekilmiyior Şuanda
+    const indexSelectionDINLOW = subConfigurationMenu.menu.find(key => key.Tag == "D-IN State:Low")
+    const [selection, setSelection] = React.useState(possibleValues.find(key => key.Enum == context[indexSelection]).Tag); /////Digital InPut Function Selection
+    const [selectionDINHIGH, setSelectionDINHIGH] = React.useState(indexSelectionDINHIGH.PossibleValues.find(key => key.Enum == context[indexSelectionDINHIGH.Index]).Tag);
+    const [selectionDINLOW, setSelectionDINLOW] = React.useState(indexSelectionDINLOW.PossibleValues.find(key => key.Enum == context[indexSelectionDINLOW.Index]).Tag);
 
     useEffect(() => {
 
-        if (selection!=possibleValues.find(key=>key.Enum == context[indexSelection]).Tag || selectionDINHIGH != indexSelectionDINHIGH.PossibleValues.find(key=>key.Enum == context[indexSelectionDINHIGH.Index]).Tag ||selectionDINLOW != indexSelectionDINLOW.PossibleValues.find(key=>key.Enum == context[indexSelectionDINLOW.Index]).Tag )  {
-          navigation.setOptions({
-            headerRight: () => (
-              <TouchableOpacity
-              onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Digital Input", "Set Parameters": {"${indexSelection}":${possibleValues.find(key=>key.Tag==selection).Enum},"${indexSelectionDINHIGH.Index}":${indexSelectionDINHIGH.PossibleValues.find(key=>key.Tag==selectionDINHIGH).Enum},"${indexSelectionDINLOW.Index}":${indexSelectionDINLOW.PossibleValues.find(key=>key.Tag==selectionDINLOW).Enum}}}`, context) }}
-    
-              >
-                <View style={styles.buttonBar}>
-                  <Text>Save</Text>
-                </View>
-              </TouchableOpacity>
-            ),
-            headerLeft: () => (navigateBackFunction(true))
-            
-          });
+        if (selection != possibleValues.find(key => key.Enum == context[indexSelection]).Tag || selectionDINHIGH != indexSelectionDINHIGH.PossibleValues.find(key => key.Enum == context[indexSelectionDINHIGH.Index]).Tag || selectionDINLOW != indexSelectionDINLOW.PossibleValues.find(key => key.Enum == context[indexSelectionDINLOW.Index]).Tag) {
+            navigation.setOptions({
+                headerRight: () => (
+                    <TouchableOpacity
+                        onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Digital Input", "Set Parameters": {"${indexSelection}":${possibleValues.find(key => key.Tag == selection).Enum},"${indexSelectionDINHIGH.Index}":${indexSelectionDINHIGH.PossibleValues.find(key => key.Tag == selectionDINHIGH).Enum},"${indexSelectionDINLOW.Index}":${indexSelectionDINLOW.PossibleValues.find(key => key.Tag == selectionDINLOW).Enum}}}`, context) }}
+
+                    >
+                        <View style={styles.buttonBar}>
+                            <Text>Save</Text>
+                        </View>
+                    </TouchableOpacity>
+                ),
+                headerLeft: () => (navigateBackFunction(true))
+
+            });
         }
         else {
-          navigation.setOptions({
-            headerRight: () => (
-              <></>
-            ),
-            headerLeft: () => (navigateBackFunction(false))
-    
-          });
-        }
-      });
+            navigation.setOptions({
+                headerRight: () => (
+                    <></>
+                ),
+                headerLeft: () => (navigateBackFunction(false))
 
-      
+            });
+        }
+    });
+
+
     function ItemSelectable(title) {
 
         return (
@@ -177,10 +160,10 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
             <TouchableOpacity style={styles.itemButton} onPress={() => { setSelection("Off") }}>
                 {CheckButtoned(selection, "Off")}
             </TouchableOpacity>
-            
+
             {
                 selection == "Configuration Control" && (
-                    <View style={[styles.container1, {  alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
+                    <View style={[styles.container1, { alignItems: 'stretch', backgroundColor: "#ffffff" }]}>
                         <View style={[styles.pickerText, { paddingTop: 15, alignItems: "center" }]} >
                             <Text style={[styles.title]}>{"Choose Digital Input Assign for D-IN STATE:LOW"}</Text>
                         </View>
@@ -220,7 +203,7 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
 
                             </Picker>
                         </View>
-{/* 9 */}
+                        {/* 9 */}
 
                     </View>
 
@@ -230,16 +213,16 @@ const DigitalInputFunctionScreen = ({ route, navigation }) => {
                 )
 
                 //  Off  // Status Control Seçiliyken Renderlanacak
-                            }
+            }
             {
-                              
-                                selection == "Off" && false &&(
-                                <Button
-                                    onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Digital Input", "Set Parameters": {"${indexSelection}":${possibleValues.find(key=>key.Tag==selection).Enum}}}`, context) }}
-                                    title="Save"
-                                    color="#841584"
-                                />)
-                        
+
+                selection == "Off" && false && (
+                    <Button
+                        onPress={() => { HandleWriteCommandGroup(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Digital Input", "Set Parameters": {"${indexSelection}":${possibleValues.find(key => key.Tag == selection).Enum}}}`, context) }}
+                        title="Save"
+                        color="#841584"
+                    />)
+
             }
         </ScrollView>
     );
@@ -318,7 +301,7 @@ const DigitalInputScreen = ({ route, navigation }) => {
 
 
     return (
-        <StackDigitalInput.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle:styles.headerStyle, headerLeft: () => (navigateBackFunction(false)) }}>
+        <StackDigitalInput.Navigator screenOptions={{ headerShown: true, headerTitleAlign: 'center', headerStyle: styles.headerStyle, headerLeft: () => (navigateBackFunction(false)) }}>
             <StackDigitalInput.Screen name='Digital Input Main' component={DigitalInputMainScreen} options={{ headerTitle: "Digital Input" }} />
             <StackDigitalInput.Screen name='Digital Input Function' component={DigitalInputFunctionScreen} />
 
@@ -353,7 +336,7 @@ const styles = StyleSheet.create({
     },
     picker: {
         // flex: 1,
-        backgroundColor:'#D8D8D8',
+        backgroundColor: '#D8D8D8',
         alignItems: "center",
         borderBottomColor: 'black',
         borderBottomWidth: StyleSheet.hairlineWidth,
@@ -363,7 +346,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#9A348E",
         padding: 8,
-        width:70,
+        width: 70,
         marginRight: 3,
         borderRadius: 10,
     },
@@ -384,8 +367,8 @@ const styles = StyleSheet.create({
     pickerText: {
         backgroundColor: '#ffffff',
         padding: 8,
-        paddingLeft:25,
-        paddingRight:25,
+        paddingLeft: 25,
+        paddingRight: 25,
 
         marginVertical: 0,
         marginHorizontal: 0,
@@ -426,15 +409,17 @@ const styles = StyleSheet.create({
         marginRight: 30,
         alignItems: 'stretch',
         justifyContent: "flex-start",
-    },  headerStyle: {shadowColor: "#222",
-    shadowOffset: {
-      width: 0,
-      height: 3,
+    }, headerStyle: {
+        shadowColor: "#222",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.27,
+        shadowRadius: 4.65,
+
+        elevation: 6
     },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
-    
-    elevation: 6},
 });
 
 

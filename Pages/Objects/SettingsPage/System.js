@@ -23,40 +23,9 @@ import HandleWriteCommandGroup from '../../../Utilities/BLEFunctions.js/HandleGr
 import HandleWriteCommand from '../../../Utilities/BLEFunctions.js/HandleSingle'
 import { ContextConfigurationValues, ContextSensorValues } from '../../../Src/contextConfiguration'
 import navigateBackFunction from "../../../Utilities/navigateBackFunction"
+import { ItemValueBarShow, ItemBar, ItemBarShow, ItemValueBar, ConfigurationBar } from '../../../Utilities/ItemValueBarStyles';
 
 let peripheralID = '0'
-const ItemBar = ({ item }) => (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-        <View style={{ height: 40, justifyContent: 'center' }}>
-            <Text style={styles.title}>{item}</Text>
-        </View>
-        <View style={{ justifyContent: 'center' }}>
-            <Icon
-                name="chevron-forward-outline"
-                size={20}
-                color="#000"
-            />
-        </View>
-    </View>
-)
-const ItemValueBar = ({ item, value }) => (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-        <View style={{ justifyContent: 'center' }}>
-            <Text style={styles.title}>{item}</Text>
-            <Text style={styles.value}>{value}</Text>
-
-        </View>
-        <View style={{ justifyContent: 'center' }}>
-            <Icon
-                name="chevron-forward-outline"
-                size={20}
-                color="#000"
-            />
-        </View>
-    </View>
-)
 
 const SystemParams = Paramsfiltered.find(
     SystemParams => SystemParams.Tag === 'System',
@@ -338,7 +307,7 @@ const SystemScreen = ({ route, navigation }) => {
 
     return (
         <StackSystem.Navigator
-            screenOptions={{ headerShown: true, headerStyle: styles.headerStyle, headerTitleAlign: 'center' }}>
+            screenOptions={{ headerShown: true, headerStyle: styles.headerStyle, headerTitleAlign: 'center',headerLeft: () => (navigateBackFunction(false)) }}>
             <StackSystem.Screen
                 name="System Main"
                 component={SystemMainScreen}

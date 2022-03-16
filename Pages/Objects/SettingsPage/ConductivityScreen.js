@@ -17,6 +17,7 @@ import { ContextConfigurationValues, ContextSensorValues } from '../../../Src/co
 import BufferArray from '../../../Navigation/Functions/BufferArray';
 import BleManager from 'react-native-ble-manager';
 import navigateBackFunction from "../../../Utilities/navigateBackFunction"
+import { ItemValueBarShow,ItemBar,ItemBarShow,ItemValueBar,ConfigurationBar } from '../../../Utilities/ItemValueBarStyles';
 
 let peripheralID = '0'
 
@@ -37,56 +38,8 @@ const StackConductivity = createStackNavigator();
 
 var filtered = Values.filter(row => row.Tag == 'Conductivity Input');
 var filteredAT = filtered.filter(row => row.Tag == 'Range');
-const ItemBar = ({ item }) => (
-  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-    <View style={{ height: 40, justifyContent: 'center' }}>
-      <Text style={styles.title}>{item}</Text>
-    </View>
-    <View style={{ justifyContent: 'center' }}>
-      <Icon
-        name="chevron-forward-outline"
-        size={20}
-        color="#000"
-      />
-    </View>
-  </View>
-)
-const ItemValueBar = ({ item, value }) => (
-  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-    <View style={{ justifyContent: 'center' }}>
-      <Text style={styles.title}>{item}</Text>
-      <Text style={styles.value}>{value}</Text>
-
-    </View>
-    <View style={{ justifyContent: 'center' }}>
-      <Icon
-        name="chevron-forward-outline"
-        size={20}
-        color="#000"
-      />
-    </View>
-  </View>
-)
-const ConfigurationBar = ({ config, activeConfig }) => (
-  <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-
-    <View style={{ justifyContent: 'center',height:40 }}>
-      <Text style={styles.title}>{config}</Text>
-     { config==activeConfig && <Text style={{fontSize:12,color:'black'}}>{"Active"}</Text>}
-
-    </View>
-    <View style={{ justifyContent: 'center' }}>
-      <Icon
-        name="chevron-forward-outline"
-        size={20}
-        color="#000"
-      />
-    </View>
-  </View>
-
-  )
 function renderItem(item, navigation = null, context = null, parent) {
   return (Item(item.Tag, item.Value, navigation, context, parent))
 }
@@ -149,7 +102,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
 
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Reference Temperature', { Tag: title, ConfigNum: parent })}>
-          <ItemValueBar item={title} value={context[index]} />
+          <ItemValueBar item={title} value={(context[index]).toFixed(2)} />
 
         </TouchableOpacity>
       )
@@ -160,7 +113,7 @@ function Item(title, value, navigation = null, context = null, parent = null) {
 
       return (
         <TouchableOpacity style={styles.itemButton} onPress={() => navigation.navigate('Filter Time Constant', { Tag: title, ConfigNum: parent })}>
-          <ItemValueBar item={title} value={context[index]} />
+          <ItemValueBar item={title} value={(context[index]).toFixed(2)} />
         </TouchableOpacity>
       )
     default:
@@ -374,14 +327,14 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
 
   const possibleValues = subval.PossibleValues;
 
-  const [temperatureC, setTemperatureC] = React.useState(context[index]);
+  const [temperatureC, setTemperatureC] = React.useState((context[index]).toFixed(2));
   const limitsC = [possibleValues.filter(row => row.Tag == '°C')[0].RangeLower, possibleValues.filter(row => row.Tag == '°C')[0].RangeUpper]
   function callBackSlider() {
 
     if (Math.abs(temperatureC - context[index])>=0.01) {
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":${(Math.round(parseFloat(temperatureC)*1000))/1000}}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Communication", "Set Parameters": {"${index}":${(Math.round(parseFloat(temperatureC)*100))/100}}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -404,14 +357,20 @@ const ReferenceTemperatureScreen = ({ route, navigation }) => {
 
     <View style={styles.containerSlider}>
 
-      <Slider
-        value={temperatureC}
-        onValueChange={value => setTemperatureC(value[0].toFixed(1))}
-        minimumValue={limitsC[0]}
-        maximumValue={limitsC[1]}
-        onSlidingComplete={() => callBackSlider()}
-      />
-      <Text style={{ fontSize: 25, color: 'black', textAlign: 'center', alignContent: "center" }}> Value : {temperatureC} °C</Text>
+<TextInput
+                label={"Set " + " as a Percentage of Full-Scale"}
+                value={temperatureC}
+                // selectionColor='#000'
+                // underlineColor='#000'
+                // activeOutlineColor='#000'
+                // outlineColor='#000'
+                keyboardType='numeric'
+                maxLength={8}
+                // activeUnderlineColor='#000'
+                error={false}
+                right={<TextInput.Icon name="close-circle-outline" onPress={text => setTemperatureC("")} />}
+                onChangeText={text => setTemperatureC(text)}
+            />
 
 
     </View>
@@ -437,14 +396,14 @@ const FilterCountConstantScreen = ({ route, navigation }) => {
 
   const possibleValues = subval.PossibleValues;
   const limitsFFC = [possibleValues.RangeLower, possibleValues.RangeUpper]
-  const [filterCC, setFilterCC] = React.useState(context[index]);
+  const [filterCC, setFilterCC] = React.useState((context[index]).toFixed(2));
   function callBackSlider() {
     // useEffect(() =>{
     if ((context[index] != filterCC)) {
 
       navigation.setOptions({
         headerRight: () => (
-          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Conductivity Input", "Set Parameters": {"${index}":${filterCC}}}`, context) }}>
+          <TouchableOpacity onPress={() => { HandleWriteCommand(peripheralID, "a65373b2-6942-11ec-90d6-024200120000", "a65373b2-6942-11ec-90d6-024200120100", `{"Tag":"Conductivity Input", "Set Parameters": {"${index}":${(Math.round(parseFloat(filterCC)*100))/100}}}`, context) }}>
             <View style={styles.buttonBar}>
               <Text>Save</Text>
             </View>
@@ -465,17 +424,29 @@ const FilterCountConstantScreen = ({ route, navigation }) => {
 
   }
   return (
+// Burası Commentlenebilir.
+    <View style={styles.containerSlider}> 
 
-    <View style={styles.containerSlider}>
+<View>
+            <TextInput
+                label={"Set " + " as a Percentage of Full-Scale"}
+                value={filterCC}
+                // selectionColor='#000'
+                // underlineColor='#000'
+                // activeOutlineColor='#000'
+                // outlineColor='#000'
+                keyboardType='numeric'
+                maxLength={8}
+                // activeUnderlineColor='#000'
+                error={false}
+                right={<TextInput.Icon name="close-circle-outline" onPress={text => setFilterCC("")} />}
+                onChangeText={text => setFilterCC(text)}
+            />
+            {/* <LenghtChecker lenght={32} /> */}
 
-      <Slider
-        value={filterCC}
-        onValueChange={value => setFilterCC(value[0].toFixed(0))}
-        minimumValue={limitsFFC[0]}
-        maximumValue={limitsFFC[1]}
-        onSlidingComplete={() => callBackSlider()}
-      />
-      <Text style={{ fontSize: 25, color: 'black', textAlign: 'center', alignContent: "center" }}>Value: {filterCC}</Text>
+            {/* TODOACTION :: Burada (LenghtChecker )Lenghting çekildği yeri storedan referanslayarak çek*/}
+
+        </View>
     </View>
 
 
