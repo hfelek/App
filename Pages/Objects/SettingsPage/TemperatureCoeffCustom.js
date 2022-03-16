@@ -232,19 +232,20 @@ const element = (data, index, cellIndex, value, setValue) => {
     return (
         // <TouchableOpacity onPress={()=>{focused? setFocused(false):setFocused(true)}}>
 
-        <View style={[cellIndex == 0 ? styles.btn5 : styles.btn6, { borderColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? ((cellIndex == 0) ? "#F3C892" : "#D9D7F1") : 'white' }]}>
+        <View style={[cellIndex == 0 ? styles.btn5 : styles.btn6, { borderColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignItems: 'center', alignContent: "center", backgroundColor: (cellIndex == 0 || index == 0) ? ((cellIndex == 0) ? "#53565A" : "#757876") : 'white' }]}>
 
             <TextInput
                 disabled={false}
-                style={[styles.input1]}
+                style={styles.input1}
                 value={value.get('array')[index][cellIndex]}
                 keyboardType="numeric"
                 maxLength={8}
-                underlineColor={(cellIndex == 0 || index == 0) ? (cellIndex == 0) ? '#F3C892' : '#D9D7F1' : 'white'}
+                theme={{colors:{text:(cellIndex == 0 || index == 0) ? ((cellIndex == 0) ? "white" : "white") : 'black'}}}
+                underlineColor={(cellIndex == 0 || index == 0) ? (cellIndex == 0) ? '#53565A' : '#757876' : 'white'}
                 selectionColor='#2a9df4'
                 placeholder='0.0'
                 activeUnderlineColor={(cellIndex == 0 || index == 0) ? 'black' : 'black'}
-                backgroundColor={(cellIndex == 0 || index == 0) ? ((cellIndex == 0) ? "#F3C892" : "#D9D7F1") : 'white'}
+                backgroundColor={(cellIndex == 0 || index == 0) ? ((cellIndex == 0) ? "#53565A" : "#757876") : 'white'}
                 textAlign='center'
                 scrollEnabled={false}
                 onChangeText={(val) => setValue(ChangeText(val, index, cellIndex, value))}
@@ -580,7 +581,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
                                 <TableWrapper style={[styles.row5, { paddingTop: 0 }]}>
                                     {
                                         ["Temperature", "Concentration"].map((cellData, cellIndex) => (
-                                            <Cell style={{ backgroundColor: cellIndex == 0 ? '#F3C892' : '#D9D7F1', borderColor: cellIndex == 0 ? 'transparent' : 'transparent' }} key={cellIndex} data={(cellIndex == 0) ? <Text style={{ fontWeight: '600', fontSize: 20, width: 149, height: 35, textAlign: 'center', borderLeftColor: 'transparent', paddingTop: 0, borderBottomColor: '#F3C892', borderWidth: StyleSheet.hairlineWidth }}>Temperature</Text> : <Text style={{ fontWeight: '600', fontSize: 40, width: 100 * hookArray.get('conc'), height: 35, borderBottomColor: 'black', fontSize: hookArray.get('conc') == 1 ? 10 : 20, textAlign: 'center', borderWidth: StyleSheet.hairlineWidth }} > Concentration (%)</Text>} />
+                                            <Cell style={{ backgroundColor: cellIndex == 0 ? '#53565A' : '#757876', borderColor: cellIndex == 0 ? 'transparent' : 'transparent' }} key={cellIndex} data={(cellIndex == 0) ? <Text style={{ fontWeight: '600', fontSize: 20, width: 149, height: 35, textAlign: 'center', borderLeftColor: 'transparent',color:'white', paddingTop: 0, borderBottomColor: '#53565A', borderWidth: StyleSheet.hairlineWidth }}>Temperature</Text> : <Text style={{ fontWeight: '600', fontSize: 40, width: 100 * hookArray.get('conc'), height: 35, borderBottomColor: 'black', fontSize: hookArray.get('conc') == 1 ? 10 : 20, textAlign: 'center',color:'white', borderWidth: StyleSheet.hairlineWidth }} > Concentration (%)</Text>} />
                                         ))
                                     }
                                 </TableWrapper>
@@ -648,7 +649,7 @@ const TemperatureCoefficientScreen = ({ route, navigation }) => {
 
 };
 const tableIndex = () => (
-    <Text style={{ width: 149, height: 35, borderWidth: StyleSheet.hairlineWidth, textAlign: 'center', fontWeight: '600', fontSize: 20, backgroundColor: '#F3C892', borderColor: '#F3C892' }}>(°C)</Text>)
+    <Text style={{ width: 149, height: 35, borderWidth: StyleSheet.hairlineWidth, textAlign: 'center', fontWeight: '600', fontSize: 20, backgroundColor: '#53565A',color:'white', borderColor: '#53565A' }}>(°C)</Text>)
 
 const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
     const { ConfigNum } = route.params
@@ -671,7 +672,6 @@ const TemperatureCoeffCustomScreen = ({ route, navigation }) => {
 
     );
 }
-
 
 
 
